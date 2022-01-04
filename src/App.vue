@@ -1,21 +1,19 @@
 <template>
-<div data-app>
-    <DragAndDropFile/>
-</div>
+    <div data-app="data-app">
+        <router-view/>
+    </div>
 </template>
 
 <script>
-import DragAndDropFile from './views/DragAndDropFile.vue';
+    //import DragAndDropFile from './views/DragAndDropFile.vue';
 
-export default {
-  name: 'App',
+    export default {
+        name: 'App',
 
-  components: {
-    DragAndDropFile
-  },
+        components: {},
 
-  data: () => ({
-    //
-  }),
-};
+        data: () => ({
+            //
+        })
+    };
 </script>

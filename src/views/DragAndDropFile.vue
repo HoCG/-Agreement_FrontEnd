@@ -17,16 +17,38 @@
                 </v-list-item>
             </v-list-item-group>
         </v-list>
-        <div id="drawerScrollBox" class="pdfViewer">
+        <div v-if="fileUploadCheck" id="drawerScrollBox" class="pdfViewer">
             <div id="drawer">
                 <pdf
                     v-for="i in numPages"
                     :key="i"
                     :page="i"
                     style="width: 70%"
-                    src="https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"></pdf>
+                    :src="src"></pdf>
             </div>
         </div>
+        <template v-else>
+            <div class="container">
+                <div
+                    class="file-upload-container"
+                    @dragenter="onDragenter"
+                    @dragover="onDragover"
+                    @dragleave="onDragleave"
+                    @drop="onDrop"
+                    @click="onClick">
+                    <div class="file-upload" :class="isDragged ? 'dragged' : ''">
+                        Drag & Drop Files
+                    </div>
+                </div>
+                <!-- 파일 업로드 -->
+                <input
+                    type="file"
+                    ref="fileInput"
+                    class="file-upload-input"
+                    @change="onFileChange"
+                    multiple="multiple">
+            </div>
+        </template>
         <div id="deleteArea" class="justify-center">
             <v-icon size="100">mdi-delete</v-icon>
         </div>
@@ -36,7 +58,9 @@
 <script>
     import pdf from 'vue-pdf';
     import SignDialog from '../components/SignDialog.vue';
-    let loadingTask = pdf.createLoadingTask("https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf");
+    let loadingTask = pdf.createLoadingTask(
+        "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
+    );
     export default {
         components: {
             pdf,
@@ -44,16 +68,13 @@
         },
         data() {
             return {
+                fileUploadCheck: false,
+                isDragged: "",
                 src: loadingTask,
                 numPages: undefined,
                 itemLength: 0,
                 selectedID: "",
                 imageID: "",
-                distX: "",
-                distY: "",
-                posX: "",
-                posY: "",
-                TestIMG: require("../assets/logo.png"),
                 selectedItem: 1,
                 selectedItemText: "",
                 items: [
@@ -71,30 +92,95 @@
             }
         },
         mounted() {
+            /*
             this
                 .src
                 .promise
                 .then(pdf => {
                     this.numPages = pdf.numPages;
                 });
+            */
         },
         methods: {
+            onClick() {
+                this
+                    .$refs
+                    .fileInput
+                    .click()
+            },
+            onDragenter() {
+                // class 넣기
+                this.isDragged = true;
+            },
+            onDragleave() {
+                // class 삭제
+                this.isDragged = false;
+            },
+            onDragover(event) {
+                // 드롭을 허용하도록 prevetDefault() 호출
+                event.preventDefault()
+            },
+            onDrop(event) {
+                // 기본 액션을 막음 (링크 열기같은 것들)
+                event.preventDefault()
+                this.isDragged = false
+                const files = event.dataTransfer.files;
+                this.addFiles(files);
+            },
+            onFileChange(event) {
+                const files = event.target.files;
+                this.addFiles(files);
+            },
+            async addFiles (files) {
+                console.log(files);
+                if(files[0].name.includes(".pdf")){
+                    const src = await this.readFiles(files[0])
+                    console.log(files[0])
+                    console.log(src)
+                    this.fileUploadCheck = true;
+                    this.src = src;
+                    this.src = pdf.createLoadingTask(src);
+                    this.src.promise.then(pdf => {
+                        this.numPages = pdf.numPages;
+                    });
+                }
+                else{
+                    alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
+                }
+            },
+            async readFiles (files) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader()
+                    reader.onload = async (e) => {
+                        resolve(e.target.result) 
+                    }
+                        reader.readAsDataURL(files)
+                });
+            },
             makeElement(itemText, event) {
                 console.log(itemText);
                 if (itemText === "서명") { //싸인하는거라면
+                    const NewElementDiv = document.createElement("div");
                     const NewElement = document.createElement("img");
                     const ThisWindow = document.getElementById("drawer");
                     NewElement.setAttribute("class", "myImage");
+                    NewElementDiv.setAttribute("class", "myImageArea");
                     this.itemLength = this.itemLength + 2;
+                    NewElementDiv.setAttribute("id", "myImageArea" + String(this.itemLength));
                     NewElement.setAttribute("id", "myImage" + String(this.itemLength));
                     this.imageID = "myImage" + String(this.itemLength);
                     //console.log(event.clientX);
-                    let offsetX = event.pageX - ThisWindow.getBoundingClientRect().left + 200;
-                    let offsetY = event.pageY - ThisWindow.getBoundingClientRect().top;
-                    NewElement.style.top = offsetY + "px";
-                    NewElement.style.left = offsetX + "px";
-                    this.makingDragEvent(NewElement);
-                    ThisWindow.append(NewElement);
+                    let offsetX = ThisWindow
+                        .getBoundingClientRect()
+                        .left + 20;
+                    let offsetY = event.pageY - ThisWindow
+                        .getBoundingClientRect()
+                        .top;
+                    NewElementDiv.style.top = offsetY + "px";
+                    NewElementDiv.style.left = offsetX + "px";
+                    this.makingDragEvent(NewElementDiv);
+                    NewElementDiv.append(NewElement);
+                    ThisWindow.append(NewElementDiv);
                     this.openDialog(this.imageID);
                 } else { //그게아니라 텍스트라면
                     const NewElementDiv = document.createElement("div");
@@ -103,8 +189,12 @@
                     const ThisWindow = document.getElementById("drawer");
                     this.itemLength = this.itemLength + 2;
                     NewElementDiv.setAttribute("id", "mytextArea" + String(this.itemLength));
-                    let offsetX = event.pageX - ThisWindow.getBoundingClientRect().left + 200;
-                    let offsetY = event.pageY - ThisWindow.getBoundingClientRect().top;
+                    let offsetX = ThisWindow
+                        .getBoundingClientRect()
+                        .left + 20;
+                    let offsetY = event.pageY - ThisWindow
+                        .getBoundingClientRect()
+                        .top;
                     NewElementDiv.style.top = offsetY + "px";
                     NewElementDiv.style.left = offsetX + "px";
                     this.makingDragEvent(NewElementDiv);
@@ -135,8 +225,12 @@
                             .height / 2 + 'px';
                     }
                     function onMouseMove(event) {
-                        let offsetX = event.pageX - ThisWindow.getBoundingClientRect().left;
-                        let offsetY = event.pageY - ThisWindow.getBoundingClientRect().top;
+                        let offsetX = event.pageX - ThisWindow
+                            .getBoundingClientRect()
+                            .left;
+                        let offsetY = event.pageY - ThisWindow
+                            .getBoundingClientRect()
+                            .top;
                         moveAt(offsetX, offsetY);
                     }
                     function onMouseUp(event) {
@@ -180,20 +274,62 @@
         }
     }
 </script>
-<style>
+<style lang="scss">
+    .container {
+        margin-top: 7%;
+        float: left;
+        min-height: 300px;
+        width: 70%;
+    }
+    .file-upload {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border: transparent;
+        border-radius: 20px;
+        font-size: 10;
+        font-weight: 700;
+        cursor: pointer;
+        &.dragged {
+            border: 1px dashed powderblue;
+            opacity: 0.6;
+        }
+        &-container {
+            height: 300px;
+            padding: 20px;
+            margin: 0 auto;
+            box-shadow: 0 0.625rem 1.25rem #0000001a;
+            border: 3px dashed #4c384a;
+            border-radius: 20px;
+        }
+        &-input {
+            display: none;
+        }
+    }
     .listTool {
+        width: 25%;
+        height: 100%;
         float: left;
     }
     .pdfViewer {
         overflow: scroll;
         height: 60%;
     }
-    .myImage {
+    .myImageArea {
+        align-items: center;
+        box-shadow: 5px 5px 5px;
         border-radius: 8px;
-        border-color: white;
+        border: 3px solid  #4c384a;
         position: absolute;
         width: 100px;
         height: 100px;
+    }
+    .myImage {
+        width: 96px;
+        height: 96px;
+        position: absolute;
     }
     #deleteArea {
         text-align: center;
@@ -219,13 +355,16 @@
         height: 1000px;
     }
     .mytextArea {
+        align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
+        display: flex;
         font-size: large;
         text-align: center;
         justify-content: center;
         border-radius: 8px;
         background-color: #C5CAE9;
+        border: 3px solid  #4c384a;
         position: absolute;
         width: 100px;
         height: 100px;
@@ -236,5 +375,6 @@
         font-size: large;
         text-align: center;
         width: 100px;
+        height: 30px;
     }
 </style>
