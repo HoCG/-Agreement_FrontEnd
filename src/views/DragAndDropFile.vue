@@ -1,57 +1,51 @@
 <template>
-    <v-card class="mainCard">
-        <v-list class="listTool" dense="dense" width="400">
-            <v-subheader>REPORTS</v-subheader>
-            <v-list-item-group v-model="selectedItem" color="primary">
-                <!--클릭이벤트 여러개 주기 참고문헌 https://webruden.tistory.com/365-->
-                <v-list-item
-                    @click="makeElement(item.text, $event)"
-                    v-for="(item, i) in items"
-                    :key="i">
-                    <v-list-item-icon>
-                        <v-icon v-text="item.icon"></v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title v-text="item.text"></v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list-item-group>
-        </v-list>
-        <div v-if="fileUploadCheck" id="drawerScrollBox" class="pdfViewer">
-            <div id="drawer">
-                <pdf
-                    v-for="i in numPages"
-                    :key="i"
-                    :page="i"
-                    style="width: 70%"
-                    :src="src"></pdf>
-            </div>
-        </div>
-        <template v-else>
-            <div class="container">
-                <div
-                    class="file-upload-container"
-                    @dragenter="onDragenter"
-                    @dragover="onDragover"
-                    @dragleave="onDragleave"
-                    @drop="onDrop"
-                    @click="onClick">
-                    <div class="file-upload" :class="isDragged ? 'dragged' : ''">
-                        Drag & Drop Files
+    <v-card class="mainCard overflow-hidden">
+        <v-app-bar
+            absolute="absolute"
+            color="white"
+            elevate-on-scroll="elevate-on-scroll"
+            scroll-target="#scrolling-techniques-7">
+            <v-btn 
+                @click="makeElement(item.text, $event)"
+                v-for="(item, i) in items"
+                :key="i">
+                <v-icon v-text="item.icon"></v-icon>
+            </v-btn>
+        </v-app-bar>
+        <v-sheet id="scrolling-techniques-7" class="overflow-y-auto" max-height="600">
+            <v-container style="height: 600px;">
+                <div v-if="fileUploadCheck" id="drawerScrollBox" class="pdfViewer">
+                    <div id="drawer">
+                        <pdf v-for="i in numPages" :key="i" :page="i" style="width: 70%" :src="src"></pdf>
+                    </div>
+                    <div id="deleteArea" class="justify-center">
+                        <v-icon size="100">mdi-delete</v-icon>
                     </div>
                 </div>
-                <!-- 파일 업로드 -->
-                <input
-                    type="file"
-                    ref="fileInput"
-                    class="file-upload-input"
-                    @change="onFileChange"
-                    multiple="multiple">
-            </div>
-        </template>
-        <div id="deleteArea" class="justify-center">
-            <v-icon size="100">mdi-delete</v-icon>
-        </div>
+                <template v-else>
+                    <div class="container">
+                        <div
+                            class="file-upload-container"
+                            @dragenter="onDragenter"
+                            @dragover="onDragover"
+                            @dragleave="onDragleave"
+                            @drop="onDrop"
+                            @click="onClick">
+                            <div class="file-upload" :class="isDragged ? 'dragged' : ''">
+                                Drag & Drop Files
+                            </div>
+                        </div>
+                        <!-- 파일 업로드 -->
+                        <input
+                            type="file"
+                            ref="fileInput"
+                            class="file-upload-input"
+                            @change="onFileChange"
+                            multiple="multiple">
+                    </div>
+                </template>
+            </v-container>
+        </v-sheet>
         <SignDialog :dialog="true"/>
     </v-card>
 </template>
@@ -91,16 +85,6 @@
                 ]
             }
         },
-        mounted() {
-            /*
-            this
-                .src
-                .promise
-                .then(pdf => {
-                    this.numPages = pdf.numPages;
-                });
-            */
-        },
         methods: {
             onClick() {
                 this
@@ -131,30 +115,32 @@
                 const files = event.target.files;
                 this.addFiles(files);
             },
-            async addFiles (files) {
+            async addFiles(files) {
                 console.log(files);
-                if(files[0].name.includes(".pdf")){
+                if (files[0].name.includes(".pdf")) {
                     const src = await this.readFiles(files[0])
                     console.log(files[0])
                     console.log(src)
                     this.fileUploadCheck = true;
                     this.src = src;
                     this.src = pdf.createLoadingTask(src);
-                    this.src.promise.then(pdf => {
-                        this.numPages = pdf.numPages;
-                    });
-                }
-                else{
+                    this
+                        .src
+                        .promise
+                        .then(pdf => {
+                            this.numPages = pdf.numPages;
+                        });
+                } else {
                     alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
                 }
             },
-            async readFiles (files) {
+            async readFiles(files) {
                 return new Promise((resolve) => {
                     const reader = new FileReader()
                     reader.onload = async (e) => {
-                        resolve(e.target.result) 
+                        resolve(e.target.result)
                     }
-                        reader.readAsDataURL(files)
+                    reader.readAsDataURL(files)
                 });
             },
             makeElement(itemText, event) {
@@ -175,7 +161,10 @@
                         .left + 20;
                     let offsetY = event.pageY - ThisWindow
                         .getBoundingClientRect()
-                        .top;
+                        .top + 100;
+                    console.log(event.pageY, ThisWindow
+                        .getBoundingClientRect()
+                        .top)
                     NewElementDiv.style.top = offsetY + "px";
                     NewElementDiv.style.left = offsetX + "px";
                     this.makingDragEvent(NewElementDiv);
@@ -194,7 +183,7 @@
                         .left + 20;
                     let offsetY = event.pageY - ThisWindow
                         .getBoundingClientRect()
-                        .top;
+                        .top + 100;
                     NewElementDiv.style.top = offsetY + "px";
                     NewElementDiv.style.left = offsetX + "px";
                     this.makingDragEvent(NewElementDiv);
@@ -270,7 +259,6 @@
                     .$store
                     .commit('OPEN_DIALOG', imageID)
             }
-
         }
     }
 </script>
@@ -321,7 +309,7 @@
         align-items: center;
         box-shadow: 5px 5px 5px;
         border-radius: 8px;
-        border: 3px solid  #4c384a;
+        border: 3px solid #4c384a;
         position: absolute;
         width: 100px;
         height: 100px;
@@ -364,7 +352,7 @@
         justify-content: center;
         border-radius: 8px;
         background-color: #C5CAE9;
-        border: 3px solid  #4c384a;
+        border: 3px solid #4c384a;
         position: absolute;
         width: 100px;
         height: 100px;

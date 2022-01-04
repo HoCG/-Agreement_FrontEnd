@@ -16,7 +16,10 @@ const routes = [
     }, {
         path: '/UserPage',
         component: () => import ('./views/DragAndDropFile.vue')
-    }
+    }, {
+      path: '/WriterPage',
+      component: () => import ('./views/WritersViewer.vue')
+  }
 ]
 
 const router = new VueRouter({routes});

@@ -7,7 +7,7 @@
             <v-btn color="BtnColor1" @click="goUserPage" class="goPageBtn" width="300px" height="300px">
                 <p class="btnText">작성자</p>
             </v-btn>
-            <v-btn color="BtnColor2" class="goPageBtn" width="300px" height="300px">
+            <v-btn color="BtnColor2" @click="goWriterPage" class="goPageBtn" width="300px" height="300px">
                 <p class="btnText">제출자</p>
             </v-btn>
             <v-spacer></v-spacer>
@@ -33,11 +33,20 @@
                     text.innerHTML += txt;
                     this.TextCounter++;
                 }
+                else{
+                    this.TextCounter = 0;
+                }
             },
             goUserPage(){
                 this
                     .$router
                     .push({path: '/UserPage'})
+                    .catch(() => {})
+            },
+            goWriterPage(){             
+                this
+                    .$router
+                    .push({path: '/WriterPage'})
                     .catch(() => {})
             }
         }
