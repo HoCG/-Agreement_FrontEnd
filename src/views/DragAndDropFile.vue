@@ -17,7 +17,7 @@
                 </v-list-item>
             </v-list-item-group>
         </v-list>
-        <div class="pdfViewer">
+        <div id="drawerScrollBox" class="pdfViewer">
             <div id="drawer">
                 <pdf
                     v-for="i in numPages"
@@ -36,9 +36,7 @@
 <script>
     import pdf from 'vue-pdf';
     import SignDialog from '../components/SignDialog.vue';
-    var loadingTask = pdf.createLoadingTask(
-        "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
-    );
+    let loadingTask = pdf.createLoadingTask("https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf");
     export default {
         components: {
             pdf,
@@ -85,32 +83,35 @@
                 console.log(itemText);
                 if (itemText === "서명") { //싸인하는거라면
                     const NewElement = document.createElement("img");
+                    const ThisWindow = document.getElementById("drawer");
                     NewElement.setAttribute("class", "myImage");
                     this.itemLength = this.itemLength + 2;
                     NewElement.setAttribute("id", "myImage" + String(this.itemLength));
                     this.imageID = "myImage" + String(this.itemLength);
                     //console.log(event.clientX);
-                    NewElement.style.top = event.clientY + "px";
-                    NewElement.style.left = event.clientX + "px";
+                    let offsetX = event.pageX - ThisWindow.getBoundingClientRect().left + 200;
+                    let offsetY = event.pageY - ThisWindow.getBoundingClientRect().top;
+                    NewElement.style.top = offsetY + "px";
+                    NewElement.style.left = offsetX + "px";
                     this.makingDragEvent(NewElement);
-                    const ThisWindow = document.getElementById("drawer");
                     ThisWindow.append(NewElement);
                     this.openDialog(this.imageID);
                 } else { //그게아니라 텍스트라면
                     const NewElementDiv = document.createElement("div");
                     const NewElement = document.createElement("input");
                     NewElementDiv.setAttribute("class", "mytextArea");
+                    const ThisWindow = document.getElementById("drawer");
                     this.itemLength = this.itemLength + 2;
                     NewElementDiv.setAttribute("id", "mytextArea" + String(this.itemLength));
-                    NewElementDiv.style.top = event.clientY + "px";
-                    NewElementDiv.style.left = event.clientX + "px";
+                    let offsetX = event.pageX - ThisWindow.getBoundingClientRect().left + 200;
+                    let offsetY = event.pageY - ThisWindow.getBoundingClientRect().top;
+                    NewElementDiv.style.top = offsetY + "px";
+                    NewElementDiv.style.left = offsetX + "px";
                     this.makingDragEvent(NewElementDiv);
-                    const ThisWindow = document.getElementById("drawer");
                     NewElement.style.zIndex = 5;
                     NewElement.setAttribute("class", "mytext");
                     NewElement.setAttribute("id", "mytext" + String(this.itemLength));
                     NewElementDiv.append(NewElement);
-                    //console.log(event.clientX);
                     ThisWindow.append(NewElementDiv);
                 }
             },
@@ -119,29 +120,24 @@
                 console.log(this.selectedItemText);
             },
             makingDragEvent(getElement) {
-                getElement.onmousedown = function (event) {
-                    let shiftX = event.clientX - getElement
-                        .getBoundingClientRect()
-                        .left;
-                    let shiftY = event.clientY - getElement
-                        .getBoundingClientRect()
-                        .top;
+                getElement.onmousedown = function () {
                     getElement.style.position = 'absolute';
                     getElement.style.zIndex = 6;
-                    document
-                        .body
-                        .append(getElement);
-
-                    moveAt(event.pageX, event.pageY);
+                    const ThisWindow = document.getElementById("drawer");
+                    ThisWindow.append(getElement);
                     // 초기 이동을 고려한 좌표 (pageX, pageY)에서 공을 이동합니다.
-                    function moveAt(pageX, pageY) {
-                        getElement.style.left = pageX - shiftX + 'px';
-                        getElement.style.top = pageY - shiftY + 'px';
+                    function moveAt(offsetX, offsetY) {
+                        getElement.style.left = offsetX - getElement
+                            .getBoundingClientRect()
+                            .width / 2 + 'px';
+                        getElement.style.top = offsetY - getElement
+                            .getBoundingClientRect()
+                            .height / 2 + 'px';
                     }
-
                     function onMouseMove(event) {
-                        moveAt(event.pageX, event.pageY);
-                        //지우는 이벤트
+                        let offsetX = event.pageX - ThisWindow.getBoundingClientRect().left;
+                        let offsetY = event.pageY - ThisWindow.getBoundingClientRect().top;
+                        moveAt(offsetX, offsetY);
                     }
                     function onMouseUp(event) {
                         this.selectedID = getElement.getAttribute("id");
@@ -154,8 +150,6 @@
                         if ((deleteAreaLeft < event.pageX && event.pageX < deleteAreaWidth + deleteAreaLeft) && (deleteAreaTop < event.pageY && event.pageY < deleteAreaTop + deleteAreaHeight)) {
                             getElement.remove();
                         }
-                        const ThisWindow = document.getElementById("drawer");
-                        ThisWindow.append(getElement);
                         getElement.removeEventListener('mousemove', onMouseMove);
                     }
                     // mousemove로 공을 움직입니다.
@@ -182,15 +176,15 @@
                     .$store
                     .commit('OPEN_DIALOG', imageID)
             }
+
         }
     }
 </script>
 <style>
-    .listTool{
+    .listTool {
         float: left;
     }
     .pdfViewer {
-
         overflow: scroll;
         height: 60%;
     }
