@@ -1,6 +1,7 @@
 <template>
     <v-card justify-center="justify-center" class="StartView">
         <h1 id="textTitleEffect">
+            Welcome To Our Project.
         </h1>
         <v-layout class="btnLayout" justify-center="justify-center">
             <v-spacer></v-spacer>
@@ -17,7 +18,9 @@
 <script>
     export default {
         mounted() {
+            /*
             setInterval(this.typing, 200);
+            */
         },
         data() {
             return {
@@ -25,6 +28,7 @@
             }
         },
         methods: {
+            /*
             typing(){
                 const content = "Welcome To Our Project.";
                 const text = document.getElementById("textTitleEffect");
@@ -33,10 +37,8 @@
                     text.innerHTML += txt;
                     this.TextCounter++;
                 }
-                else{
-                    this.TextCounter = 0;
-                }
             },
+            */
             goUserPage(){
                 this
                     .$router
@@ -61,7 +63,7 @@
         width: 100%;
         height: 100%;
     }
-    h1 { 
+    #textTitleEffect { 
         text-align: center;
         font-size: 60px;
         background: linear-gradient(to right top, #861657, #ffa69e);

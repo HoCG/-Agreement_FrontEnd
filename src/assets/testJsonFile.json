@@ -5,34 +5,54 @@
             "text": "황호세"
         }
     ],
-    "objects": [
+    "documentInfo": [
+        {
+            "title": "인터넷에서 불러온 pdf"
+        }
+    ],
+    "object": [
         {
             "id": 1,
+            "htmlID": 1,
             "text": "",
-            "x": 400,
+            "width": 400,
+            "height": 100,
+            "x": 800,
             "y": 100
         },
         {
             "id": 1,
+            "htmlID": 2,
             "text": "",
+            "width": 400,
+            "height": 100,
             "x": 400,
             "y": 200
         },
         {
             "id": 2,
+            "htmlID": 3,
             "image": "",
+            "width": 400,
+            "height": 100,
             "x": 400,
             "y": 500
         },
         {
             "id": 2,
+            "htmlID": 4,
             "image": "",
+            "width": 400,
+            "height": 100,
             "x": 400,
             "y": 1000
         },
         {
             "id": 2,
+            "htmlID": 5,
             "image": "",
+            "width": 400,
+            "height": 100,
             "x": 400,
             "y": 2000
         }

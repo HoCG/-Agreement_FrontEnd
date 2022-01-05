@@ -1,51 +1,48 @@
 <template>
     <v-card class="mainCard overflow-hidden">
-        <v-app-bar
-            absolute="absolute"
-            color="white"
-            elevate-on-scroll="elevate-on-scroll"
-            scroll-target="#scrolling-techniques-7">
-            <v-btn 
-                @click="makeElement(item.text, $event)"
-                v-for="(item, i) in items"
-                :key="i">
-                <v-icon v-text="item.icon"></v-icon>
-            </v-btn>
-        </v-app-bar>
-        <v-sheet id="scrolling-techniques-7" class="overflow-y-auto" max-height="600">
-            <v-container style="height: 600px;">
-                <div v-if="fileUploadCheck" id="drawerScrollBox" class="pdfViewer">
-                    <div id="drawer">
-                        <pdf v-for="i in numPages" :key="i" :page="i" style="width: 70%" :src="src"></pdf>
-                    </div>
-                    <div id="deleteArea" class="justify-center">
-                        <v-icon size="100">mdi-delete</v-icon>
-                    </div>
+        <header>
+            <div class="navigation">
+                <v-spacer></v-spacer>
+                <v-btn
+                    @click="makeElement(item.text, $event)"
+                    v-for="(item, i) in items"
+                    :key="i">
+                    <v-icon v-text="item.icon"></v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+            </div>
+        </header>
+        <div class="sideBar">
+            <h1>Test</h1>
+        </div>
+        <div class="section">
+            <div v-if="fileUploadCheck" id="drawerScrollBox" class="pdfViewer">
+                <div id="drawer">
+                    <pdf v-for="i in numPages" :key="i" :page="i" style="width: 100%" :src="src"></pdf>
                 </div>
-                <template v-else>
-                    <div class="container">
-                        <div
-                            class="file-upload-container"
-                            @dragenter="onDragenter"
-                            @dragover="onDragover"
-                            @dragleave="onDragleave"
-                            @drop="onDrop"
-                            @click="onClick">
-                            <div class="file-upload" :class="isDragged ? 'dragged' : ''">
-                                Drag & Drop Files
-                            </div>
-                        </div>
-                        <!-- 파일 업로드 -->
-                        <input
-                            type="file"
-                            ref="fileInput"
-                            class="file-upload-input"
-                            @change="onFileChange"
-                            multiple="multiple">
-                    </div>
-                </template>
-            </v-container>
-        </v-sheet>
+                <div id="deleteArea" class="justify-center">
+                    <v-icon size="100">mdi-delete</v-icon>
+                </div>
+            </div>
+            <div v-else class="container">
+                <div
+                    class="file-upload-container"
+                    @dragenter="onDragenter"
+                    @dragover="onDragover"
+                    @dragleave="onDragleave"
+                    @drop="onDrop"
+                    @click="onClick">
+                    <h3 class="file-upload-text">Drag & Drop Files</h3>
+                </div>
+                <!-- 파일 업로드 -->
+                <input
+                    type="file"
+                    ref="fileInput"
+                    class="file-upload-input"
+                    @change="onFileChange"
+                    multiple="multiple">
+                </div>
+        </div>
         <SignDialog :dialog="true"/>
     </v-card>
 </template>
@@ -156,18 +153,18 @@
                     NewElement.setAttribute("id", "myImage" + String(this.itemLength));
                     this.imageID = "myImage" + String(this.itemLength);
                     //console.log(event.clientX);
-                    let offsetX = ThisWindow
+                    let offsetX = event.pageX;/* 기존 div내부에 pdf를 두는 형태를 취했을때: ThisWindow
                         .getBoundingClientRect()
                         .left + 20;
-                    let offsetY = event.pageY - ThisWindow
+                        */
+                    let offsetY = event.pageY + 100;/*기존 div내부에 pdf를 두는 형태를 취했을때: event.pageY - ThisWindow
                         .getBoundingClientRect()
                         .top + 100;
-                    console.log(event.pageY, ThisWindow
-                        .getBoundingClientRect()
-                        .top)
+                        */
                     NewElementDiv.style.top = offsetY + "px";
                     NewElementDiv.style.left = offsetX + "px";
                     this.makingDragEvent(NewElementDiv);
+                    NewElement.style.zIndex = 5;
                     NewElementDiv.append(NewElement);
                     ThisWindow.append(NewElementDiv);
                     this.openDialog(this.imageID);
@@ -178,12 +175,14 @@
                     const ThisWindow = document.getElementById("drawer");
                     this.itemLength = this.itemLength + 2;
                     NewElementDiv.setAttribute("id", "mytextArea" + String(this.itemLength));
-                    let offsetX = ThisWindow
+                    let offsetX = event.pageX;/*ThisWindow
                         .getBoundingClientRect()
                         .left + 20;
-                    let offsetY = event.pageY - ThisWindow
+                        */
+                    let offsetY = event.pageY + 100;/*- ThisWindow
                         .getBoundingClientRect()
                         .top + 100;
+                        */
                     NewElementDiv.style.top = offsetY + "px";
                     NewElementDiv.style.left = offsetX + "px";
                     this.makingDragEvent(NewElementDiv);
@@ -214,7 +213,8 @@
                             .height / 2 + 'px';
                     }
                     function onMouseMove(event) {
-                        let offsetX = event.pageX - ThisWindow
+                        let offsetX = event.pageX
+                         - ThisWindow
                             .getBoundingClientRect()
                             .left;
                         let offsetY = event.pageY - ThisWindow
@@ -250,31 +250,70 @@
                 getElement.ondragstart = function () {
                     return false;
                 }
+                /*
                 getElement.dblclick = function () {
                     this.openDialog(this.imageID);
                 };
-            },
+                */
+            }
+            /*
             openDialog(imageID) {
                 this
                     .$store
                     .commit('OPEN_DIALOG', imageID)
             }
+            */
         }
     }
 </script>
 <style lang="scss">
+    .mainCard {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    .section{
+        margin-top: 80px;
+        margin-left: 15%;
+        width: 85%;
+    }
+    .sideBar {
+        top: 80px;
+        width: 15%;
+        height: 100%;
+        z-index: 1999;
+        position: fixed;
+        background-color: wheat;
+    }
+    header {
+        width: 100%;
+        height: 80px;
+        background-size: cover;
+        position: fixed;
+        background-color: wheat;
+        z-index: 2000;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+    .navigation {
+        width: 100%;
+        padding: 18px 0;
+        text-align: center;
+    }
     .container {
-        margin-top: 7%;
-        float: left;
-        min-height: 300px;
+        float: right;
+        left: 200px;
+        text-align: center;
+        justify-content: center;
+        min-height: 500px;
         width: 70%;
     }
     .file-upload {
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 100%;
+        width: 70%;
+        height: 500px;
+        float: right;
+        text-align: center;
         border: transparent;
         border-radius: 20px;
         font-size: 10;
@@ -285,8 +324,11 @@
             opacity: 0.6;
         }
         &-container {
-            height: 300px;
+            text-align: center;
+            justify-content: center;
             padding: 20px;
+            width: 100%;
+            height: 500px;
             margin: 0 auto;
             box-shadow: 0 0.625rem 1.25rem #0000001a;
             border: 3px dashed #4c384a;
@@ -295,52 +337,24 @@
         &-input {
             display: none;
         }
-    }
-    .listTool {
-        width: 25%;
-        height: 100%;
-        float: left;
+        &-text {
+            margin-top: 250px;
+        }
     }
     .pdfViewer {
-        overflow: scroll;
-        height: 60%;
+        height: 100%;
+        width: 80%;
     }
-    .myImageArea {
+    #drawer {
+        position: relative;
         align-items: center;
-        box-shadow: 5px 5px 5px;
-        border-radius: 8px;
-        border: 3px solid #4c384a;
-        position: absolute;
-        width: 100px;
-        height: 100px;
-    }
-    .myImage {
-        width: 96px;
-        height: 96px;
-        position: absolute;
+        text-align: center;
+        justify-content: center;
     }
     #deleteArea {
         text-align: center;
         width: 100px;
         height: 100px;
-    }
-    html {
-        width: 100%;
-        height: 100%;
-    }
-
-    body {
-        width: 100%;
-        height: 100%;
-    }
-
-    #drawer {
-        position: relative;
-    }
-    .mainCard {
-        position: relative;
-        width: 100%;
-        height: 1000px;
     }
     .mytextArea {
         align-items: center;
@@ -352,7 +366,6 @@
         justify-content: center;
         border-radius: 8px;
         background-color: #C5CAE9;
-        border: 3px solid #4c384a;
         position: absolute;
         width: 100px;
         height: 100px;
@@ -364,5 +377,20 @@
         text-align: center;
         width: 100px;
         height: 30px;
+    }
+    .myImageArea {
+        align-items: center;
+        box-shadow: 5px 5px 5px;
+        border-radius: 8px;
+        border: 3px solid #4c384a;
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        resize: both;
+    }
+    .myImage {
+        width: 96px;
+        height: 96px;
+        position: absolute;
     }
 </style>
