@@ -10,7 +10,7 @@
                 <v-icon color="yellow" size="30px">mdi-star</v-icon>
             </span>
             <br/>
-            <canvas class="drawCanvas" id="drawCanvas" width="300" height="300"></canvas>
+            <canvas class="drawCanvas" id="drawCanvas"></canvas>
             <br/>
             <v-btn class="btnMargin btnSetting" @click="toDataURL()">저장</v-btn>
             <v-btn class="btnMargin btnSetting" @click="onClear()">지우기</v-btn>
@@ -30,6 +30,9 @@
         },
         updated() {
             let canvas = document.getElementById('drawCanvas');
+            //canvas.setAttribute("width", parseInt(this.$store.state.DialogData.ImageWidth) + "px")
+            canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) + "px";
+            canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) + "px";
             this.InitEvent(canvas);
         },
         methods: {
@@ -120,6 +123,11 @@
                 };
             },
             InitEvent(canvas) {
+                //이표현말고 아래 setAtt
+                //canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) + "px";
+                //canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) + "px";
+                canvas.setAttribute("width", parseInt(this.$store.state.DialogData.ImageWidth) + "px");
+                canvas.setAttribute("height", parseInt(this.$store.state.DialogData.ImageHeight) + "px");
                 if (!canvas) {
                     alert("캔버스 객체를 찾을 수 없음");
                     return;

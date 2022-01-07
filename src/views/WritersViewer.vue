@@ -99,31 +99,33 @@
                 const ImgObject = document.createElement("img");
                 const ThisWindow = document.getElementById("drawer");
                 ImgObjectDiv.setAttribute("class", "imgObjectDiv");
-                ImgObjectDiv.setAttribute("id", "ImgBox" + object.htmlID)
+                //ImgObjectDiv.setAttribute("id", "ImgBox" + object.htmlID);
                 ImgObjectDiv.style.position = "absolute";
                 ImgObjectDiv.style.width = object.width + "px";
                 ImgObjectDiv.style.height = object.height + "px";
                 ImgObjectDiv.style.top = object.y + "px";
                 ImgObjectDiv.style.left = object.x + "px";
-                ImgObjectDiv.style.zIndex = 9;
+               // ImgObjectDiv.style.zIndex = 9;
                 ImgObject.setAttribute("class", "imgObject");
+                ImgObject.setAttribute("id", "ImgBox" + object.htmlID);
+                ImgObject.style.zIndex = 9;
                 let self = this;
                 ImgObjectDiv.addEventListener('click', 
                     function (event) {
                         self
                             .$store
-                            .commit('OPEN_DIALOG', String("ImgBox" + object.htmlID))
+                            .commit('OPEN_DIALOG', String("ImgBox" + object.htmlID));
+                        self
+                            .$store
+                            .commit('GET_WIDTH', object.width);
+                        self
+                            .$store
+                            .commit('GET_HEIGHT', object.height);
                         event.preventDefault();
                     }
                 );
                 ImgObjectDiv.append(ImgObject);
                 ThisWindow.append(ImgObjectDiv);
-            },
-            openDialog(event, imageID) {
-                this
-                    .$store
-                    .commit('OPEN_DIALOG', imageID)
-                event.preventDefault();
             }
         }
     }
