@@ -11,30 +11,11 @@
                     <p>긴 글</p>
                 </button>
                 <button @click="makeObject(CheckBoxObjectName, $event)" class="objectBtnStyle">
-                    <svg
-                        width="19"
-                        height="19"
-                        viewBox="0 0 19 19"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M15.9286 18.5H3.07143C1.65127 18.5 0.5 17.3487 0.5 15.9286V3.07143C0.5 1.65127 1.65127 0.5 3.07143 0.5H15.9286C17.3487 0.5 18.5 1.65127 18.5 3.07143V15.9286C18.5 17.3487 17.3487 18.5 15.9286 18.5ZM3.07143 3.07143V15.9286H15.9286V3.07143H3.07143ZM8.21429 13.8226L4.74286 10.4193L6.54286 8.58071L8.21429 10.2149L12.4571 6.01443L14.2571 7.84271L8.21429 13.8213V13.8226Z"
-                            fill="#5C5C5C"/>
-                    </svg>
+                    <CheckBoxSVG/>
                     <p>체크박스</p>
                 </button>
                 <button @click="makeObject(SignObjectName, $event)" class="objectBtnStyle">
-                    <svg
-                        width="31"
-                        height="23"
-                        viewBox="0 0 31 23"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M1 21.5C11.9023 15.2071 20.664 -2.24755 11.7925 2.22375C2.92095 6.69505 3.03083 20.0923 8.3751 20.5064C13.7194 20.9204 26.3135 6.32027 19.2068 10.3141C15.4996 12.3974 12.1708 19.9458 16.4255 20.5064C18.5851 20.7909 21.6702 20.0817 30 15.5905"
-                            stroke="#5C5C5C"
-                            stroke-width="2"/>
-                    </svg>
+                    <SignSVG/>
                     <p>서명</p>
                 </button>
             </div>
@@ -81,17 +62,10 @@
                         <br/>
                         <br/>
                         <li v-if="this.CheckBoxObjectCheck">
-                            <svg
-                                width="19"
-                                height="19"
-                                viewBox="0 0 19 19"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M15.9286 18.5H3.07143C1.65127 18.5 0.5 17.3487 0.5 15.9286V3.07143C0.5 1.65127 1.65127 0.5 3.07143 0.5H15.9286C17.3487 0.5 18.5 1.65127 18.5 3.07143V15.9286C18.5 17.3487 17.3487 18.5 15.9286 18.5ZM3.07143 3.07143V15.9286H15.9286V3.07143H3.07143ZM8.21429 13.8226L4.74286 10.4193L6.54286 8.58071L8.21429 10.2149L12.4571 6.01443L14.2571 7.84271L8.21429 13.8213V13.8226Z"
-                                    fill="#5C5C5C"/>
-                            </svg>
-                            ({{this.CheckBoxObjectArray.length}})
+                            <div style="width:100%; height: 28px;">
+                                <CheckBoxSVG style="float: left" height="15%"/>
+                                <div style="float: left">({{this.CheckBoxObjectArray.length}})</div>
+                            </div>
                             <ol v-for="CheckBoxObject in CheckBoxObjectArray" :key="CheckBoxObject.id">
                                 {{
                                     CheckBoxObject.title
@@ -102,18 +76,10 @@
                         <br/>
                         <br/>
                         <li v-if="this.SignObjectCheck">
-                            <svg
-                                width="31"
-                                height="23"
-                                viewBox="0 0 31 23"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M1 21.5C11.9023 15.2071 20.664 -2.24755 11.7925 2.22375C2.92095 6.69505 3.03083 20.0923 8.3751 20.5064C13.7194 20.9204 26.3135 6.32027 19.2068 10.3141C15.4996 12.3974 12.1708 19.9458 16.4255 20.5064C18.5851 20.7909 21.6702 20.0817 30 15.5905"
-                                    stroke="#5C5C5C"
-                                    stroke-width="2"/>
-                            </svg>
-                            ({{this.SignObjectArray.length}})
+                            <div style="width:100%; height: 28px;">
+                                <SignSVG style="float: left" height="15%"/>
+                                <div style="float: left">({{this.SignObjectArray.length}})</div>
+                            </div>
                             <ol v-for="SignObject in SignObjectArray" :key="SignObject.id">
                                 {{
                                     SignObject.title
@@ -123,25 +89,33 @@
                     </ul>
                 </div>
             </div>
-            <div v-else class="ShowDocumentInfo"></div>
+            <div v-else class="ShowDocumentInfo">
+                <DocumentInfoSideBar/>
+            </div>
         </div>
         <PDFUploader/>
         <SignDialog :dialog="true"/>
     </v-card>
 </template>
 <script>
-    import PDFUploader from '../components/PDFComponent.vue'
-    import ShortTextSVG from '../components/ShortTextSvg.vue'
-    import LongTextSVG from '../components/LongTextSvg.vue'
+    import PDFUploader from '../components/PDFComponent.vue';
+    import ShortTextSVG from '../components/ShortTextSvg.vue';
+    import LongTextSVG from '../components/LongTextSvg.vue';
     import SignDialog from '../components/SignDialog.vue';
+    import CheckBoxSVG from '../components/CheckBoxSVG.vue';
+    import SignSVG from '../components/SignSVG.vue';
+    import DocumentInfoSideBar from '../components/DocumentInfoSideBar.vue'
     export default {
         components: {
+            DocumentInfoSideBar,
+            CheckBoxSVG,
+            SignSVG,
             SignDialog,
             ShortTextSVG,
             LongTextSVG,
             PDFUploader
         },
-        beforeDestroy(){
+        beforeDestroy() {
             this.$store.state.PDFInfo.PDFTitle = "";
         },
         mounted() {
@@ -178,7 +152,7 @@
         },
         methods: {
             //오브젝트를 형성하는 과정.
-            makeObject(objectInfo, event) {
+            makeObject(objectID, event) {
                 //forTest
                 console.log(this.$store.state.PDFInfo.PDFPageInfo);
                 for (let i = 1; i <= this.$store.state.PDFInfo.PDFPageInfo; i++) {
@@ -200,7 +174,7 @@
                 ElementTitle.style.height = "25px";
                 ElementTitle.style.bottom = "100%";
                 ElementTitle.style.position = "absolute";
-                NewElementDiv.setAttribute("class", objectInfo);
+                NewElementDiv.setAttribute("class", objectID);
                 NewElementDiv.setAttribute("width", 100);
                 NewElementDiv.setAttribute("height", 100);
                 let offsetX = event.pageX - ThisWindow
@@ -212,73 +186,13 @@
                 );
                 NewElementDiv.style.left = offsetX + "px";
                 NewElementDiv.style.top = offsetY + "px";
-                //데이터 넣는 부분
-                let pushObject = {
-                    id: "",
-                    title: "",
-                    width: "",
-                    height: "",
-                    x: "",
-                    y: ""
-                }
-                pushObject.width = 100;
-                pushObject.height = 100;
-                pushObject.x = offsetX;
-                pushObject.y = offsetY;
-                //어떤 오브젝트인지를 검출해냅니다.
-                if (objectInfo === "ShortTextObjectArea") {
-                    ElementTitle.setAttribute("data-content", "짧은 글_" + String(this.STextObjectID));
-                    NewElementDiv.setAttribute("id", objectInfo + String(this.STextObjectID));
-                    pushObject.id = objectInfo + String(this.STextObjectID);
-                    pushObject.title = "짧은 글_" + String(this.STextObjectID);
-                    this
-                        .STextObjectArray
-                        .push(pushObject);
-                    this.STextObjectCheck = true;
-                    console.log(this.STextObjectArray);
-                    this.STextObjectID++;
-                } else if (objectInfo === "LongTextObjectArea") {
-                    ElementTitle.setAttribute("data-content", "긴 글_" + String(this.LTextObjectID));
-                    NewElementDiv.setAttribute("id", objectInfo + String(this.LTextObjectID));
-                    pushObject.id = objectInfo + String(this.LTextObjectID);
-                    pushObject.title = "긴 글_" + String(this.LTextObjectID)
-                    this
-                        .LTextObjectArray
-                        .push(pushObject);
-                    this.LTextObjectCheck = true;
-                    console.log(this.LTextObjectArray);
-                    this.LTextObjectID++;
-                } else if (objectInfo === "CheckBoxObjectArea") {
-                    ElementTitle.setAttribute(
-                        "data-content",
-                        "체크박스" + String(this.CheckBoxObjectID)
-                    );
-                    NewElementDiv.setAttribute("id", objectInfo + String(this.CheckBoxObjectID));
-                    pushObject.id = objectInfo + String(this.CheckBoxObjectID);
-                    pushObject.title = "체크박스_" + String(this.CheckBoxObjectID);
-                    this
-                        .CheckBoxObjectArray
-                        .push(pushObject);
-                    this.CheckBoxObjectCheck = true;
-                    console.log(this.CheckBoxObjectArray);
-                    this.CheckBoxObjectID++;
-                } else if (objectInfo === "SignObjectArea") {
-                    ElementTitle.setAttribute("data-content", "사인" + String(this.SignObjectID));
-                    NewElementDiv.setAttribute("id", objectInfo + String(this.SignObjectID));
-                    pushObject.id = objectInfo + String(this.SignObjectID);
-                    pushObject.title = "사인_" + String(this.SignObjectID);
-                    this
-                        .SignObjectArray
-                        .push(pushObject);
-                    this.SignObjectCheck = true;
-                    console.log(this.SignObjectArray);
-                    this.SignObjectID++;
-                }
+                this.pushObjectInArray(offsetX, offsetY, objectID, ElementTitle, NewElementDiv);
                 //이벤트 넣기 this.makingDragEvent(NewElementDiv);
                 this.makingFirstClickObject(NewElementDiv);
                 NewElementDiv.append(ElementTitle);
                 ThisWindow.append(NewElementDiv);
             },
+            //아직 완성못한 함수
             checkWhere_Object_Into_PDFPage(getElement) {
                 let PageY = [];
                 let Y_Num = 0;
@@ -314,8 +228,14 @@
                     let computed_Object_Style = window.getComputedStyle(getElement);
                     appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
                     if (currentY >= appendY1 && currentY <= appendY2) {
-                        getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
-                        getElement_in_Array.y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
+                        getElement.style.top = currentY - appendY1 - parseInt(
+                            computed_Object_Style.height,
+                            10
+                        ) / 2 + "px";
+                        getElement_in_Array.y = currentY - appendY1 - parseInt(
+                            computed_Object_Style.height,
+                            10
+                        ) / 2;
                         getElement_in_Array.x = currentX
                         PDF_Pages.append(getElement);
                         break;
@@ -370,10 +290,10 @@
                     getElement.style.zIndex = 4;
                     //오브젝트를 해당위치에 PDFPage에 둔다.
                     self.appendIntoPDFPage(getElement, currentX, currentY);
-                    //드래그 이벤트를 준다.
-                    self.makingDragEvent(getElement);
                     //사이즈 재조정 이벤트를 준다.
                     self.makingResizeEvent(getElement);
+                    //드래그 이벤트를 준다.
+                    self.makingDragEvent(getElement);
                 });
                 getElement.addEventListener('mouseout', onMouseMove);
             },
@@ -382,7 +302,9 @@
                 let currentX = 0;
                 let currentY = 0;
                 let self = this;
+                //self.showObjectMenu(); getElement.removeEventListener('mousemove')
                 getElement.onmousedown = function (event) {
+                    event.stopPropagation();
                     self.DragDetailEvent(currentX, currentY, getElement, event)
                 };
                 getElement.ondragstart = function () {
@@ -393,7 +315,7 @@
                 getElement.style.position = 'absolute';
                 let self = this;
                 getElement.style.zIndex = 4;
-                let ElementID = getElement.getAttribute("id")
+                let ElementID = getElement.getAttribute("id");
                 let WantDeleteBtn = document.getElementById(ElementID + "Btn");
                 if (WantDeleteBtn !== null) {
                     WantDeleteBtn.remove();
@@ -422,7 +344,12 @@
                     //버튼을 삭제했다가 다시 그려주는 형태 >> div를 따라다니는 버튼의 형태를 잡아주기 위해서.
                     DeleteBtn = document.createElement("button");
                     DeleteBtn.setAttribute("id", ElementID + "Btn");
-                    self.DeleteBtnStyleSetting(DeleteBtn, computed_Object_Style, currentX, currentY);
+                    self.DeleteBtnStyleSetting(
+                        DeleteBtn,
+                        computed_Object_Style,
+                        currentX,
+                        currentY
+                    );
                     let selfSecond = self;
                     DeleteBtn.addEventListener("click", function () {
                         getElement.remove();
@@ -457,7 +384,6 @@
                     }
                     moveAt(currentX, currentY);
                 }
-                function showObjectMenu() {}
                 // mousemove로 오브젝트를 움직입니다.
                 getElement.addEventListener('mousemove', onMouseMove);
                 // 오브젝트를 드롭하고, 불필요한 핸들러를 제거합니다.
@@ -466,28 +392,109 @@
                     self.appendIntoPDFPage(getElement, currentX, currentY);
                 });
                 //클릭시에 간단하게 메뉴들이 나올수 있는 이벤트를 만들어야 합니다.
-                getElement.addEventListener('click', showObjectMenu);
             },
-            popObjectInArray(ElementID){
+            //완성시켜야하는 함수. 클릭시에 오브젝트 스타일 선택 메뉴가 나오도록.
+            showObjectMenu() {},
+            //배열내에 해당 오브젝트를 제거.
+            popObjectInArray(ElementID) {
                 if (ElementID.includes("ShortTextObjectArea")) {
-                    this.STextObjectArray = this.STextObjectArray.filter(e => e.id !== ElementID);
+                    this.STextObjectArray = this
+                        .STextObjectArray
+                        .filter(e => e.id !== ElementID);
                 } else if (ElementID.includes("LongTextObjectArea")) {
-                    this.LTextObjectArray = this.LTextObjectArray.filter(e => e.id !== ElementID);
+                    this.LTextObjectArray = this
+                        .LTextObjectArray
+                        .filter(e => e.id !== ElementID);
                 } else if (ElementID.includes("CheckBoxObjectArea")) {
-                    this.CheckBoxObjectArray = this.CheckBoxObjectArray.filter(e => e.id !== ElementID);
+                    this.CheckBoxObjectArray = this
+                        .CheckBoxObjectArray
+                        .filter(e => e.id !== ElementID);
                 } else if (ElementID.includes("SignObjectArea")) {
-                    this.SignObjectArray = this.SignObjectArray.filter(e => e.id !== ElementID);
+                    this.SignObjectArray = this
+                        .SignObjectArray
+                        .filter(e => e.id !== ElementID);
                 }
             },
-            findObjectInArray(ElementID){
+            findObjectInArray(ElementID) {
                 if (ElementID.includes("ShortTextObjectArea")) {
-                    return this.STextObjectArray.find(object => object.id === ElementID);
+                    return this
+                        .STextObjectArray
+                        .find(object => object.id === ElementID);
                 } else if (ElementID.includes("LongTextObjectArea")) {
-                    return this.LTextObjectArray.find(object => object.id === ElementID);
+                    return this
+                        .LTextObjectArray
+                        .find(object => object.id === ElementID);
                 } else if (ElementID.includes("CheckBoxObjectArea")) {
-                    return this.CheckBoxObjectArray.find(object => object.id === ElementID);
+                    return this
+                        .CheckBoxObjectArray
+                        .find(object => object.id === ElementID);
                 } else if (ElementID.includes("SignObjectArea")) {
-                    return this.SignObjectArray.find(object => object.id === ElementID);
+                    return this
+                        .SignObjectArray
+                        .find(object => object.id === ElementID);
+                }
+            },
+            pushObjectInArray(offsetX, offsetY, objectID, ElementTitle, NewElementDiv) {
+                let pushObject = {
+                    id: "",
+                    title: "",
+                    width: "",
+                    height: "",
+                    x: "",
+                    y: ""
+                }
+                pushObject.width = 100;
+                pushObject.height = 100;
+                pushObject.x = offsetX;
+                pushObject.y = offsetY;
+                //어떤 오브젝트인지를 검출해냅니다.
+                if (objectID === "ShortTextObjectArea") {
+                    ElementTitle.setAttribute("data-content", "짧은 글_" + String(this.STextObjectID));
+                    NewElementDiv.setAttribute("id", objectID + String(this.STextObjectID));
+                    pushObject.id = objectID + String(this.STextObjectID);
+                    pushObject.title = "짧은 글_" + String(this.STextObjectID);
+                    this
+                        .STextObjectArray
+                        .push(pushObject);
+                    this.STextObjectCheck = true;
+                    console.log(this.STextObjectArray);
+                    this.STextObjectID++;
+                } else if (objectID === "LongTextObjectArea") {
+                    ElementTitle.setAttribute("data-content", "긴 글_" + String(this.LTextObjectID));
+                    NewElementDiv.setAttribute("id", objectID + String(this.LTextObjectID));
+                    pushObject.id = objectID + String(this.LTextObjectID);
+                    pushObject.title = "긴 글_" + String(this.LTextObjectID)
+                    this
+                        .LTextObjectArray
+                        .push(pushObject);
+                    this.LTextObjectCheck = true;
+                    console.log(this.LTextObjectArray);
+                    this.LTextObjectID++;
+                } else if (objectID === "CheckBoxObjectArea") {
+                    ElementTitle.setAttribute(
+                        "data-content",
+                        "체크박스" + String(this.CheckBoxObjectID)
+                    );
+                    NewElementDiv.setAttribute("id", objectID + String(this.CheckBoxObjectID));
+                    pushObject.id = objectID + String(this.CheckBoxObjectID);
+                    pushObject.title = "체크박스_" + String(this.CheckBoxObjectID);
+                    this
+                        .CheckBoxObjectArray
+                        .push(pushObject);
+                    this.CheckBoxObjectCheck = true;
+                    console.log(this.CheckBoxObjectArray);
+                    this.CheckBoxObjectID++;
+                } else if (objectID === "SignObjectArea") {
+                    ElementTitle.setAttribute("data-content", "사인" + String(this.SignObjectID));
+                    NewElementDiv.setAttribute("id", objectID + String(this.SignObjectID));
+                    pushObject.id = objectID + String(this.SignObjectID);
+                    pushObject.title = "사인_" + String(this.SignObjectID);
+                    this
+                        .SignObjectArray
+                        .push(pushObject);
+                    this.SignObjectCheck = true;
+                    console.log(this.SignObjectArray);
+                    this.SignObjectID++;
                 }
             },
             DeleteBtnStyleSetting(DeleteBtn, computed_Object_Style, currentX, currentY) {
@@ -501,6 +508,7 @@
             },
             //크기조절 메소드.
             makingResizeEvent(getElement) {
+                let ElementID = getElement.getAttribute("id");
                 let resizer_R = document.createElement("div");
                 resizer_R.setAttribute("class", "resizer resizer-r");
                 let resizer_B = document.createElement("div");
@@ -515,12 +523,21 @@
                 // The dimension of the element
                 let w = 0;
                 let h = 0;
+
+                //
+                //let top = 0;
+                let left = 0;
                 const mouseDownHandler = function (e) {
+                    e.stopPropagation();
                     // Get the current mouse position
                     x = e.clientX;
                     y = e.clientY;
-
-                    // Calculate the dimension of element
+                    let Element_DeleteBtn = document.getElementById(ElementID + "Btn");
+                    if(Element_DeleteBtn !== null){
+                        let DeleteBtnstyle = window.getComputedStyle(Element_DeleteBtn);
+                        left = parseInt(DeleteBtnstyle.left, 10);
+                        console.log(parseInt(DeleteBtnstyle.left, 10));
+                    }
                     const styles = window.getComputedStyle(getElement);
                     w = parseInt(styles.width, 10);
                     h = parseInt(styles.height, 10);
@@ -534,10 +551,13 @@
                     // How far the mouse has been moved
                     const dx = e.clientX - x;
                     const dy = e.clientY - y;
-
+                    let Element_DeleteBtn = document.getElementById(ElementID + "Btn");
                     // Adjust the dimension of element
                     getElement.style.width = `${w + dx}px`;
                     getElement.style.height = `${h + dy}px`;
+                    if(Element_DeleteBtn !== null){
+                        Element_DeleteBtn.style.left = `${left + dx}px`;
+                    }
                 };
 
                 const mouseUpHandler = function () {
@@ -571,6 +591,7 @@
     }
     /* Placed at the right side */
     .resizer-r {
+        z-index: 2000;
         position: absolute;
         cursor: col-resize;
         height: 100%;
@@ -580,6 +601,7 @@
     }
     /* Placed at the bottom side */
     .resizer-b {
+        z-index: 2000;
         position: absolute;
         bottom: 0;
         cursor: row-resize;
@@ -612,7 +634,7 @@
         position: fixed;
         background-color: white;
     }
-    .ShowObjectInfo{
+    .ShowObjectInfo {
         height: 80%;
         overflow-y: scroll;
     }

@@ -1,5 +1,5 @@
-<template class="LongTextSVGdiv">
-    <div class="LongTextSVGdiv">
+<template>
+    <div>
         <svg
             width="15"
             height="21"
@@ -55,8 +55,3 @@
         </svg>
     </div>
 </template>
-<style>
-    .LongTextSVGdiv{
-        width: 50px;
-    }
-</style>

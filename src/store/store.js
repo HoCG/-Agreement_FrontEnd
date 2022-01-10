@@ -2,6 +2,8 @@ import Vuex from 'vuex';
 import Vue from 'vue';
 import DialogData from './modules/DialogData';
 import PDFInfo from './modules/PDFInfo';
+import Alert from './modules/Alert';
+import admin from './users/admin';
 import CheckBoxObject from './objects/CheckBoxObject';
 import LongTextObject from './objects/LongTextObject';
 import ShortTextObject from './objects/ShortTextObject';
@@ -14,6 +16,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
+        Alert,
+        admin,
         LongTextObject,
         ShortTextObject,
         SignObject,

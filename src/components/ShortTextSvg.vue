@@ -1,5 +1,5 @@
-<template class="ShortTextSVGdiv">
-    <div class="ShortTextSVGdiv">
+<template>
+    <div>
         <svg
             width="15"
             height="21"
@@ -41,8 +41,3 @@
         </svg>
     </div>
 </template>
-<style>
-    .ShortTextSVGdiv{
-        width: 50px;
-    }
-</style>

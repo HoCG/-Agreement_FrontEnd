@@ -18,9 +18,12 @@
 <script>
     export default {
         mounted() {
-            /*
-            setInterval(this.typing, 200);
-            */
+            if(!this.$store.state.admin.LoginMode){
+                this
+                    .$router
+                    .push({path: '/LoginPage'})
+                    .catch(() => {})
+            }
         },
         data() {
             return {
