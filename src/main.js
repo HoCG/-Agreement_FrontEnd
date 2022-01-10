@@ -15,7 +15,7 @@ const routes = [
         component: () => import ('./views/StartViewer.vue')
     }, {
         path: '/UserPage',
-        component: () => import ('./views/DragAndDropFile.vue')
+        component: () => import ('./views/UserViewer.vue')
     }, {
       path: '/WriterPage',
       component: () => import ('./views/WritersViewer.vue')
