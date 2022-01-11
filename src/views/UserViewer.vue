@@ -94,14 +94,13 @@
             </div>
         </div>
         <PDFUploader/>
-        <SignDialog :dialog="true"/>
     </v-card>
 </template>
 <script>
+    //import SignObject from '../objects/SignObject.vue'
     import PDFUploader from '../components/PDFComponent.vue';
     import ShortTextSVG from '../components/ShortTextSvg.vue';
     import LongTextSVG from '../components/LongTextSvg.vue';
-    import SignDialog from '../components/SignDialog.vue';
     import CheckBoxSVG from '../components/CheckBoxSVG.vue';
     import SignSVG from '../components/SignSVG.vue';
     import DocumentInfoSideBar from '../components/DocumentInfoSideBar.vue'
@@ -110,10 +109,10 @@
             DocumentInfoSideBar,
             CheckBoxSVG,
             SignSVG,
-            SignDialog,
             ShortTextSVG,
             LongTextSVG,
-            PDFUploader
+            PDFUploader,
+            //SignObject
         },
         beforeDestroy() {
             this.$store.state.PDFInfo.PDFTitle = "";
@@ -163,17 +162,32 @@
                     console.log(computed_PDF_Page_Style.height)
                 }
                 //MainSource
+                let checkBoxSVG = "";
                 const NewElementDiv = document.createElement("div");
                 const ThisWindow = document.getElementById("drawer");
                 const headerWindow = document.getElementsByTagName("header")[0];
                 const ElementTitle = document.createElement("p");
                 let computedheaderStyle = window.getComputedStyle(headerWindow);
-                ElementTitle.setAttribute("id", "textForm");
-                ElementTitle.style.zIndex = 10;
-                ElementTitle.style.width = "100%";
-                ElementTitle.style.height = "25px";
-                ElementTitle.style.bottom = "100%";
-                ElementTitle.style.position = "absolute";
+                if(objectID.includes("SignObjectArea")){
+                    ElementTitle.setAttribute("id", "textForm");
+                    ElementTitle.style.zIndex = 10;
+                    ElementTitle.style.width = "100%";
+                    ElementTitle.style.height = "25px";
+                    ElementTitle.style.bottom = "100%";
+                    ElementTitle.style.position = "absolute";
+                    NewElementDiv.append("(인)");
+                }
+                else if(!objectID.includes("CheckBoxObjectArea")){
+                    ElementTitle.setAttribute("id", "textForm");
+                    ElementTitle.style.zIndex = 10;
+                    ElementTitle.style.width = "100%";
+                    ElementTitle.style.height = "25px";
+                    ElementTitle.style.bottom = "100%";
+                    ElementTitle.style.position = "absolute";
+                }
+                else{
+                    checkBoxSVG = '<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.9286 18.5H3.07143C1.65127 18.5 0.5 17.3487 0.5 15.9286V3.07143C0.5 1.65127 1.65127 0.5 3.07143 0.5H15.9286C17.3487 0.5 18.5 1.65127 18.5 3.07143V15.9286C18.5 17.3487 17.3487 18.5 15.9286 18.5ZM3.07143 3.07143V15.9286H15.9286V3.07143H3.07143Z" fill="#5C5C5C"/></svg>'
+                }
                 NewElementDiv.setAttribute("class", objectID);
                 NewElementDiv.setAttribute("width", 100);
                 NewElementDiv.setAttribute("height", 100);
@@ -190,6 +204,12 @@
                 //이벤트 넣기 this.makingDragEvent(NewElementDiv);
                 this.makingFirstClickObject(NewElementDiv);
                 NewElementDiv.append(ElementTitle);
+                if(!objectID.includes("CheckBoxObjectArea")){
+                    NewElementDiv.append(ElementTitle);
+                }
+                else{
+                    NewElementDiv.innerHTML = checkBoxSVG;
+                }
                 ThisWindow.append(NewElementDiv);
             },
             //아직 완성못한 함수
@@ -236,7 +256,7 @@
                             computed_Object_Style.height,
                             10
                         ) / 2;
-                        getElement_in_Array.x = currentX
+                        getElement_in_Array.x = currentX;
                         PDF_Pages.append(getElement);
                         break;
                     } else {
@@ -292,7 +312,14 @@
                     //오브젝트를 해당위치에 PDFPage에 둔다.
                     self.appendIntoPDFPage(getElement, currentX, currentY + parseInt(computedheaderStyle.height, 10));
                     //사이즈 재조정 이벤트를 준다.
-                    self.makingResizeEvent(getElement);
+                    if(getElement.getAttribute("id").includes("ShortTextObjectArea")){
+                        self.makingResizeEvent_OnlyX(getElement);
+                        console.log("success")
+                    }
+                    else if(getElement.getAttribute("id").includes("LongTextObjectArea") 
+                    || getElement.getAttribute("id").includes("SignObjectArea")){
+                        self.makingResizeEvent(getElement);
+                    }
                     //드래그 이벤트를 준다.
                     self.makingDragEvent(getElement);
                 });
@@ -498,13 +525,18 @@
                 }
             },
             DeleteBtnStyleSetting(DeleteBtn, computed_Object_Style, currentX, currentY) {
-                DeleteBtn.style.width = "50px";
-                DeleteBtn.style.height = "50px";
+                let stringHTML = '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+                '<path d="M9.51123 0.185547L5.37049 4.32629L1.22975 0.185547L0.185303 1.22999L4.32604 5.37073L0.185303 9.51147L1.229'+
+                '75 10.5559L5.37049 6.41518L9.51123 10.5559L10.5557 9.51147L6.41493 5.37073L10.5557 1.22999L9.51123 0.185547Z" fill="white"/></svg>';
+                DeleteBtn.style.width = "20px";
+                DeleteBtn.style.height = "20px";
+                DeleteBtn.style.borderRadius = "50%"
                 DeleteBtn.style.left = currentX + parseInt(computed_Object_Style.width, 10) / 2 + "px";
                 DeleteBtn.style.top = currentY - parseInt(computed_Object_Style.height, 10) / 2 + "px";
                 DeleteBtn.style.zIndex = 4;
-                DeleteBtn.style.backgroundColor = "red"
+                DeleteBtn.style.backgroundColor = "#767676"
                 DeleteBtn.style.position = "absolute";
+                DeleteBtn.innerHTML = stringHTML;
             },
             //크기조절 메소드.
             makingResizeEvent(getElement) {
@@ -544,6 +576,7 @@
 
                     // Attach the listeners to `document`
                     document.addEventListener('mousemove', mouseMoveHandler);
+                    document.addEventListener('mouseout', mouseMoveHandler);
                     document.addEventListener('mouseup', mouseUpHandler);
                 };
 
@@ -555,6 +588,64 @@
                     // Adjust the dimension of element
                     getElement.style.width = `${w + dx}px`;
                     getElement.style.height = `${h + dy}px`;
+                    if (Element_DeleteBtn !== null) {
+                        Element_DeleteBtn.style.left = `${left + dx}px`;
+                    }
+                };
+
+                const mouseUpHandler = function () {
+                    // Remove the handlers of `mousemove` and `mouseup`
+                    document.removeEventListener('mousemove', mouseMoveHandler);
+                    document.removeEventListener('mouseout', mouseMoveHandler);
+                    document.removeEventListener('mouseup', mouseUpHandler);
+                };
+
+                // Query all resizers
+                const resizers = getElement.querySelectorAll('.resizer');
+
+                // Loop over them
+                []
+                    .forEach
+                    .call(resizers, function (resizer) {
+                        resizer.addEventListener('mousedown', mouseDownHandler);
+                    });
+            },
+            makingResizeEvent_OnlyX(getElement) {
+                let ElementID = getElement.getAttribute("id");
+                let resizer_R = document.createElement("div");
+                resizer_R.setAttribute("class", "resizer resizer-r");
+                //getElement.style.position = "relative";
+                getElement.append(resizer_R);
+                // The current position of mouse
+                let x = 0;
+
+                // The dimension of the element
+                let w = 0;
+                //
+                //let top = 0;
+                let left = 0;
+                const mouseDownHandler = function (e) {
+                    e.stopPropagation();
+                    // Get the current mouse position
+                    x = e.clientX;
+                    let Element_DeleteBtn = document.getElementById(ElementID + "Btn");
+                    if (Element_DeleteBtn !== null) {
+                        let DeleteBtnstyle = window.getComputedStyle(Element_DeleteBtn);
+                        left = parseInt(DeleteBtnstyle.left, 10);
+                    }
+                    const styles = window.getComputedStyle(getElement);
+                    w = parseInt(styles.width, 10);
+                    // Attach the listeners to `document`
+                    document.addEventListener('mousemove', mouseMoveHandler);
+                    document.addEventListener('mouseup', mouseUpHandler);
+                };
+
+                const mouseMoveHandler = function (e) {
+                    // How far the mouse has been moved
+                    const dx = e.clientX - x;
+                    let Element_DeleteBtn = document.getElementById(ElementID + "Btn");
+                    // Adjust the dimension of element
+                    getElement.style.width = `${w + dx}px`;
                     if (Element_DeleteBtn !== null) {
                         Element_DeleteBtn.style.left = `${left + dx}px`;
                     }
@@ -679,7 +770,7 @@
         background-color: #DADADA;
         position: absolute;
         width: 100px;
-        height: 100px;
+        height: 30px;
     }
     .LongTextObjectArea {
         align-items: center;
@@ -706,8 +797,8 @@
         border-radius: 8px;
         background-color: #DADADA;
         position: absolute;
-        width: 100px;
-        height: 100px;
+        width: 30px;
+        height: 30px;
     }
     .SignObjectArea {
         align-items: center;

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar color="#5C5C5C" app="app" height="50%">
+        <v-app-bar class="AppBarSet" color="#5C5C5C" app="app" height="50%">
             <div class="d-flex align-center">
                 <h2 class="appbarColor">서비스 로고</h2>
             </div>
@@ -33,6 +33,9 @@
     };
 </script>
 <style>
+    .AppBarSet{
+        z-index: 3000;
+    }
     .LogoutBtn  {
         font-size: 40px;
         color: white;

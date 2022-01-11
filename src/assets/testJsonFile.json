@@ -12,25 +12,28 @@
     ],
     "object": [
         {
+            "title": "짧은 글",
             "id": 1,
             "htmlID": 1,
             "text": "",
-            "width": 400,
-            "height": 100,
+            "width": 300,
+            "height": 30,
             "x": 800,
             "y": 100
         },
         {
-            "id": 1,
+            "title": "짧은 글",
+            "id": 2,
             "htmlID": 2,
             "text": "",
             "width": 400,
-            "height": 100,
+            "height": 30,
             "x": 400,
             "y": 200
         },
         {
-            "id": 2,
+            "title": "사인",
+            "id": 3,
             "htmlID": 3,
             "image": "",
             "width": 400,
@@ -39,7 +42,8 @@
             "y": 500
         },
         {
-            "id": 2,
+            "title": "사인",
+            "id": 4,
             "htmlID": 4,
             "image": "",
             "width": 400,
@@ -48,13 +52,34 @@
             "y": 1000
         },
         {
-            "id": 2,
+            "title": "사인",
+            "id": 5,
             "htmlID": 5,
             "image": "",
             "width": 400,
-            "height": 100,
+            "height": 30,
             "x": 400,
-            "y": 2000
+            "y": 1850
+        },
+        {
+            "title": "체크박스",
+            "id": 6,
+            "htmlID": 6,
+            "image": "",
+            "width": 30,
+            "height": 30,
+            "x": 1100,
+            "y": 1500
+        },
+        {
+            "title": "긴글",
+            "id": 7,
+            "htmlID": 7,
+            "image": "",
+            "width": 400,
+            "height": 300,
+            "x": 1000,
+            "y": 1500
         }
     ]
 }

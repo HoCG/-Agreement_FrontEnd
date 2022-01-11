@@ -1,18 +1,82 @@
 <template>
     <v-card class="WritersArea">
-        <div class="TitleDiv">
-            <h1>
-                제목:
-                {{this.documentTitle}}
-            </h1>
+        <div class="UserHeader">
+            <div class="navigation"></div>
+        </div>
+        <div class="sideBar">
+            <div class="ShowObjectInfo">
+                <div class="objectInfo">
+                    <h3 class="objectInfoText">오브젝트 리스트</h3>
+                </div>
+                <div class="objectList">
+                    <ul>
+                        <li>
+                            <div style="width:100%; height: 28px;">
+                                <ShortTextSVG style="float: left" height="15%"/>
+                                <div style="float: left">({{this.STextObjectArray.length}})</div>
+                            </div>
+                            <ol
+                                style="width:100%;"
+                                v-for="STextObject in STextObjectArray"
+                                :key="STextObject.id">
+                                {{
+                                    STextObject.title
+                                }}
+                            </ol>
+                        </li>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <li>
+                            <div style="width:100%; height: 28px;">
+                                <LongTextSVG style="float: left" height="15%"/>
+                                <div style="float: left">({{this.LTextObjectArray.length}})</div>
+                            </div>
+                            <ol
+                                style="width:100%;"
+                                v-for="LTextObject in LTextObjectArray"
+                                :key="LTextObject.id">
+                                {{
+                                    LTextObject.title
+                                }}
+                            </ol>
+                        </li>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <li>
+                            <div style="width:100%; height: 28px;">
+                                <CheckBoxSVG style="float: left" height="15%"/>
+                                <div style="float: left">({{this.CheckBoxObjectArray.length}})</div>
+                            </div>
+                            <ol v-for="CheckBoxObject in CheckBoxObjectArray" :key="CheckBoxObject.id">
+                                {{
+                                    CheckBoxObject.title
+                                }}
+                            </ol>
+                        </li>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <li>
+                            <div style="width:100%; height: 28px;">
+                                <SignSVG style="float: left" height="15%"/>
+                                <div style="float: left">({{this.SignObjectArray.length}})</div>
+                            </div>
+                            <ol v-for="SignObject in SignObjectArray" :key="SignObject.id">
+                                {{
+                                    SignObject.title
+                                }}
+                            </ol>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="drawerScrollBox" class="pdfViewer">
             <div id="drawer">
                 <pdf v-for="i in numPages" :key="i" :page="i" :src="src"></pdf>
             </div>
-        </div>
-        <div class="checkLayout">
-            <button class="checkBtn">제출</button>
         </div>
         <SignDialog :dialog="true"/>
     </v-card>
@@ -21,35 +85,66 @@
     import pdf from 'vue-pdf';
     import SignDialog from '../components/SignDialog.vue';
     import JsonFile from '../assets/testJsonFile.json';
+    /*
     let loadingTask = pdf.createLoadingTask(
         "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
     );
+    */
+    import ShortTextSVG from '../components/ShortTextSvg.vue';
+    import LongTextSVG from '../components/LongTextSvg.vue';
+    import CheckBoxSVG from '../components/CheckBoxSVG.vue';
+    import SignSVG from '../components/SignSVG.vue';
     export default {
         mounted() {
+            this.src = pdf.createLoadingTask(this.pdfLink);
             this
                 .src
                 .promise
                 .then(pdf => {
                     this.numPages = pdf.numPages;
                 });
+            //this.Loading(this.pdfLink);
+            this.initWritersView(JsonFile);
             console.log(JsonFile);
             //this.documentTitle = JsonFile.documentInfo[0].title;
         },
-        updated() {
-            this.initWritersView(JsonFile);
-        },
         components: {
+            CheckBoxSVG,
+            SignSVG,
             SignDialog,
+            ShortTextSVG,
+            LongTextSVG,
             pdf
         },
         data() {
             return {
-                //useForJsonFile
-                documentTitle: JsonFile
-                    .documentInfo[0]
-                    .title,
+                //useForJsonFile 오브젝트 관련 데이터 짧은글
+                pdfLink: require('../assets/샘플문서_2. 돌봄교실 응급처치 동의서 및 비상연락처.pdf'),
+                STextObjectName: "ShortTextObjectArea",
+                STextObjectArray: [],
+                STextObjectCheck: false,
+                STextObjectID: 1,
+
+                //긴글
+                LTextObjectName: "LongTextObjectArea",
+                LTextObjectArray: [],
+                LTextObjectCheck: false,
+                LTextObjectID: 1,
+
+                //체크박스
+                CheckBoxObjectName: "CheckBoxObjectArea",
+                CheckBoxObjectArray: [],
+                CheckBoxObjectCheck: false,
+                CheckBoxObjectID: 1,
+
+                //싸인
+                SignObjectName: "SignObjectArea",
+                SignObjectArray: [],
+                SignObjectCheck: false,
+                SignObjectID: 1,
+
                 isDragged: "",
-                src: loadingTask,
+                src: "",
                 numPages: undefined,
                 itemLength: 0,
                 selectedID: "",
@@ -73,95 +168,260 @@
         methods: {
             initWritersView(JsonFile) {
                 for (let i = 0; i < JsonFile.object.length; i++) {
-                    if (JsonFile.object[i].id === 1) {
-                        this.drawingTextObject(JsonFile.object[i]);
-                        console.log(JsonFile.object[i])
-                    } else if (JsonFile.object[i].id === 2) {
-                        this.drawingImgObject(JsonFile.object[i]);
+                    if (JsonFile.object[i].title.includes("짧은 글")) {
+                        this.makeShortTextObject(JsonFile.object[i]);
+                        this
+                            .STextObjectArray
+                            .push(JsonFile.object[i]);
+                        //console.log(this.STextObjectArray);
+                    } else if (JsonFile.object[i].title.includes("사인")) {
+                        this.makeImgObject(JsonFile.object[i]);
+                        this
+                            .SignObjectArray
+                            .push(JsonFile.object[i]);
+                    } else if (JsonFile.object[i].title.includes("체크박스")) {
+                        this.makeCheckBoxObject(JsonFile.object[i]);
+                        this
+                            .SignObjectArray
+                            .push(JsonFile.object[i]);
+                    } else if (JsonFile.object[i].title.includes("긴 글")) {
+                        this.makeLongTextObject(JsonFile.object[i]);
+                        this
+                            .SignObjectArray
+                            .push(JsonFile.object[i]);
                     }
                 }
             },
-            drawingTextObject(object) {
-                const TextObjectDiv = document.createElement("div");
+            makeCheckBoxObject(object){
+                const CheckBoxObjectDiv = document.createElement("div");
                 //const TextObject = document.createElement("input");
                 const ThisWindow = document.getElementById("drawer");
-                TextObjectDiv.setAttribute("class", "textObjectDiv");
-                TextObjectDiv.style.position = "absolute";
-                TextObjectDiv.style.width = object.width + "px";
-                TextObjectDiv.style.height = object.height + "px";
-                TextObjectDiv.style.top = object.y + "px";
-                TextObjectDiv.style.left = object.x + "px";
+                CheckBoxObjectDiv.setAttribute("class", "CheckBoxObjectArea");
+                CheckBoxObjectDiv.style.position = "absolute";
+                CheckBoxObjectDiv.style.width = object.width + "px";
+                CheckBoxObjectDiv.style.height = object.height + "px";
+                CheckBoxObjectDiv.style.top = object.y + "px";
+                CheckBoxObjectDiv.style.left = object.x + "px";
+                //<input type="checkbox" name="xxx" value="yyy" checked>
+                let checkBox = document.createElement("input");
+                checkBox.style.width = "70%";
+                checkBox.style.height = "70%";
+                checkBox.type = "checkbox"
                 //TextObject.setAttribute("class", "textObjectDiv");
-                ThisWindow.append(TextObjectDiv);
+                CheckBoxObjectDiv.append(checkBox);
+                ThisWindow.append(CheckBoxObjectDiv);
             },
-            drawingImgObject(object) {
+            makeLongTextObject(object){
+                const LongTextObjectDiv = document.createElement("div");
+                //const TextObject = document.createElement("input");
+                const ThisWindow = document.getElementById("drawer");
+                LongTextObjectDiv.setAttribute("class", "LongTextObjectArea");
+                LongTextObjectDiv.style.position = "absolute";
+                LongTextObjectDiv.style.width = object.width + "px";
+                LongTextObjectDiv.style.height = object.height + "px";
+                LongTextObjectDiv.style.top = object.y + "px";
+                LongTextObjectDiv.style.left = object.x + "px";
+                //TextObject.setAttribute("class", "textObjectDiv");
+                ThisWindow.append(LongTextObjectDiv);
+            },
+            makeShortTextObject(object) {
+                const ShortTextObjectDiv = document.createElement("div");
+                //const TextObject = document.createElement("input");
+                const ThisWindow = document.getElementById("drawer");
+                ShortTextObjectDiv.setAttribute("class", "ShortTextObjectArea");
+                ShortTextObjectDiv.style.position = "absolute";
+                ShortTextObjectDiv.style.width = object.width + "px";
+                ShortTextObjectDiv.style.height = object.height + "px";
+                ShortTextObjectDiv.style.top = object.y + "px";
+                ShortTextObjectDiv.style.left = object.x + "px";
+                //TextObject.setAttribute("class", "textObjectDiv");
+                ThisWindow.append(ShortTextObjectDiv);
+            },
+            makeImgObject(object) {
                 const ImgObjectDiv = document.createElement("div");
                 const ImgObject = document.createElement("img");
                 const ThisWindow = document.getElementById("drawer");
-                ImgObjectDiv.setAttribute("class", "imgObjectDiv");
+                const ImgText = document.createElement("p");
+                ImgObjectDiv.setAttribute("class", "SignObjectArea");
                 //ImgObjectDiv.setAttribute("id", "ImgBox" + object.htmlID);
                 ImgObjectDiv.style.position = "absolute";
                 ImgObjectDiv.style.width = object.width + "px";
                 ImgObjectDiv.style.height = object.height + "px";
                 ImgObjectDiv.style.top = object.y + "px";
                 ImgObjectDiv.style.left = object.x + "px";
-               // ImgObjectDiv.style.zIndex = 9;
+                ImgText.innerHTML = "(인)"
+                // ImgObjectDiv.style.zIndex = 9;
                 ImgObject.setAttribute("class", "imgObject");
-                ImgObject.setAttribute("id", "ImgBox" + object.htmlID);
-                ImgObject.style.zIndex = 9;
+                ImgObject.setAttribute("id", "ImgBox" + object.id);
+                ImgText.setAttribute("id", "SignObjectAreaText" + "ImgBox" + object.id);
+                ImgObject.style.zIndex = 4;
                 let self = this;
-                ImgObjectDiv.addEventListener('click', 
-                    function (event) {
-                        self
-                            .$store
-                            .commit('OPEN_DIALOG', String("ImgBox" + object.htmlID));
-                        self
-                            .$store
-                            .commit('GET_WIDTH', object.width);
-                        self
-                            .$store
-                            .commit('GET_HEIGHT', object.height);
-                        event.preventDefault();
-                    }
-                );
+                ImgObjectDiv.addEventListener('click', function (event) {
+                    self
+                        .$store
+                        .commit('OPEN_DIALOG', String("ImgBox" + object.id));
+                    self
+                        .$store
+                        .commit('GET_WIDTH', object.width);
+                    self
+                        .$store
+                        .commit('GET_HEIGHT', object.height);
+                    event.preventDefault();
+                });
+                ImgObjectDiv.append(ImgText);
                 ImgObjectDiv.append(ImgObject);
                 ThisWindow.append(ImgObjectDiv);
+            },
+            Loading(files) {
+                this.addFiles(files)
+            },
+            async addFiles(files) {
+                console.log(files);
+                this
+                    .$store
+                    .commit("SET_DOCUMENT_TITLE", files[0].name);
+                if (files[0].name.includes(".pdf")) {
+                    const src = await this.readFiles(files[0])
+                    console.log(files[0])
+                    console.log(src)
+                    this.fileUploadCheck = true;
+                    this
+                        .$store
+                        .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
+                    this.src = src;
+                    this.src = pdf.createLoadingTask(src);
+                    this
+                        .src
+                        .promise
+                        .then(pdf => {
+                            this.numPages = pdf.numPages;
+                            this
+                                .$store
+                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
+                        });
+                } else {
+                    alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
+                }
+            },
+            async readFiles(files) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader()
+                    reader.onload = async (e) => {
+                        resolve(e.target.result)
+                    }
+                    reader.readAsDataURL(files)
+                });
             }
         }
     }
 </script>
 <style>
-    .imgObjectDiv {
-        background-color: burlywood;
-        z-index: 9;
+    header{
+        z-index: 3000 !important;
     }
-    .textObjectDiv {
-        background-color: blue;
+    ul {
+        list-style: none;
+    }
+    .sideBar {
+        top: 20%;
+        width: 15%;
+        height: 100%;
+        z-index: 4;
+        position: fixed;
+        background-color: white;
+    }
+    .ShowObjectInfo {
+        height: 80%;
+        overflow-y: scroll;
+    }
+    .objectInfo {
+        position: relative;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        height: 10%;
+        background-color: #767676;
+        color: white;
+    }
+    .objectInfoText {
+        position: relative;
+        top: 50%;
+    }
+    .UserHeader {
+        width: 100%;
+        height: 15%;
+        position: fixed;
+        background-color: white;
+        z-index: 10;
+        left: 0;
+        right: 0;
+        top: 50px;
+    }
+    .navigation {
+        position: relative;
+        text-align: center;
+        top: 25%;
+        height: 60%;
+    }
+    .ShortTextObjectArea {
+        z-index: 6;
+        align-items: center;
+        box-shadow: 5px 5px 5px;
+        font-weight: 800;
+        display: flex;
+        font-size: large;
+        text-align: center;
+        justify-content: center;
+        border-radius: 8px;
+        background-color: #DADADA;
+        position: absolute;
+    }
+    .LongTextObjectArea {
+        z-index: 6;
+        align-items: center;
+        box-shadow: 5px 5px 5px;
+        font-weight: 800;
+        display: flex;
+        font-size: large;
+        text-align: center;
+        justify-content: center;
+        border-radius: 8px;
+        background-color: #DADADA;
+        position: absolute;
+    }
+    .CheckBoxObjectArea {
+        z-index: 6;
+        align-items: center;
+        box-shadow: 5px 5px 5px;
+        font-weight: 800;
+        display: flex;
+        font-size: large;
+        text-align: center;
+        justify-content: center;
+        border-radius: 8px;
+        background-color: #DADADA;
+        position: absolute;
+    }
+    .SignObjectArea {
+        z-index: 6;
+        align-items: center;
+        box-shadow: 5px 5px 5px;
+        font-weight: 800;
+        display: flex;
+        font-size: large;
+        text-align: center;
+        justify-content: center;
+        border-radius: 8px;
+        background-color: #DADADA;
+        position: absolute;
     }
     .WritersArea {
         text-align: center;
         align-items: center;
     }
-    .TitleDiv {
-        text-align: center;
-    }
     .pdfViewer {
+        z-index: 2;
         width: 70%;
         margin-left: 15%;
-    }
-    .checkLayout {
-        margin-top: 5%;
-        margin-bottom: 5%;
-        width: 100%;
-        text-align: center;
-        align-items: center;
-    }
-    .checkBtn {
-        font-size: 30;
-        font-weight: 800;
-        width: 200px;
-        height: 50px;
-        border-radius: 8px;
-        border: 3px solid #4c384a;
     }
 </style>
