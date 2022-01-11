@@ -4,6 +4,7 @@ import DialogData from './modules/DialogData';
 import PDFInfo from './modules/PDFInfo';
 import Alert from './modules/Alert';
 import admin from './users/admin';
+import DocumentSideBarData from './modules/DocumentSideBarData';
 import CheckBoxObject from './objects/CheckBoxObject';
 import LongTextObject from './objects/LongTextObject';
 import ShortTextObject from './objects/ShortTextObject';
@@ -16,6 +17,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
+        DocumentSideBarData,
         Alert,
         admin,
         LongTextObject,

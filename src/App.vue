@@ -1,16 +1,13 @@
 <template>
     <v-app>
-        <v-app-bar app="app" height="50%">
+        <v-app-bar color="#5C5C5C" app="app" height="50%">
             <div class="d-flex align-center">
-                <h2>서비스 로고</h2>
+                <h2 class="appbarColor">서비스 로고</h2>
             </div>
             <v-spacer></v-spacer>
-            <h2>
-                {{
-                    this.$store.state.PDFInfo.PDFTitle
-                }}
-            </h2>
+            <input v-model="this.$store.state.PDFInfo.PDFTitle" class="appbarColor">
             <v-spacer></v-spacer>
+            <button v-if="this.$store.state.admin.LoginMode" @click="Logout" class="appbarColor" id="LogoutBtn">로그아웃</button>
         </v-app-bar>
         <v-main>
             <router-view/>
@@ -19,13 +16,29 @@
 </template>
 
 <script>
-    //import DragAndDropFile from './views/DragAndDropFile.vue';
-
     export default {
         name: 'App',
         components: {},
         data: () => ({
             //
-        })
+        }),
+        methods:{
+            Logout(){
+                this
+                    .$router
+                    .push({path: '/LoginPage'})
+                    .catch(() => {})
+            }
+        }
     };
 </script>
+<style>
+    .LogoutBtn  {
+        font-size: 40px;
+        color: white;
+    }
+    .appbarColor {
+        font-size: 30px;
+        color: white;
+    }
+</style>

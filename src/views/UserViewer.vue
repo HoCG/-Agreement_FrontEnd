@@ -257,22 +257,22 @@
                 let computedheaderStyle = window.getComputedStyle(headerWindow);
                 let self = this;
                 function moveAt(currentX, currentY) {
-                    getElement.style.left = currentX - getElement
-                        .getBoundingClientRect()
-                        .width / 2 + 'px';
-                    getElement.style.top = currentY - getElement
-                        .getBoundingClientRect()
-                        .height / 2 + 'px';
+                    getElement.style.left = currentX + 'px';
+                    getElement.style.top = currentY + 'px';
                 }
                 function onMouseMove(event) {
                     currentX = event.pageX - ThisWindow
                         .getBoundingClientRect()
-                        .left;
+                        .left - getElement
+                        .getBoundingClientRect()
+                        .width + 10;
                     //패딩값만큼 빼고 계산하는 로직을 추가했다.
                     currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
                         computedheaderStyle.height,
                         10
-                    );
+                    ) - getElement
+                        .getBoundingClientRect()
+                        .height + 10;
                     // 페이지 영역에 있는지 확인하는 함수이지만... 잘동작하지 않으므로 일단 보류.
                     // self.checkWhere_Object_Into_PDFPage(getElement);
                     if (currentX < 0) {
@@ -284,18 +284,18 @@
                     moveAt(currentX, currentY);
                 }
                 getElement.addEventListener('mousemove', onMouseMove);
+                getElement.addEventListener('mouseout', onMouseMove);
                 getElement.addEventListener('click', function () {
                     getElement.removeEventListener('mousemove', onMouseMove);
                     getElement.removeEventListener('mouseout', onMouseMove);
                     getElement.style.zIndex = 4;
                     //오브젝트를 해당위치에 PDFPage에 둔다.
-                    self.appendIntoPDFPage(getElement, currentX, currentY);
+                    self.appendIntoPDFPage(getElement, currentX, currentY + parseInt(computedheaderStyle.height, 10));
                     //사이즈 재조정 이벤트를 준다.
                     self.makingResizeEvent(getElement);
                     //드래그 이벤트를 준다.
                     self.makingDragEvent(getElement);
                 });
-                getElement.addEventListener('mouseout', onMouseMove);
             },
             //오브젝트 배치이후 드래그시에 활성화되는 이벤트.
             makingDragEvent(getElement) {
@@ -305,7 +305,7 @@
                 //self.showObjectMenu(); getElement.removeEventListener('mousemove')
                 getElement.onmousedown = function (event) {
                     event.stopPropagation();
-                    self.DragDetailEvent(currentX, currentY, getElement, event)
+                    self.DragDetailEvent(currentX, currentY, getElement, event);
                 };
                 getElement.ondragstart = function () {
                     return false;
@@ -533,7 +533,7 @@
                     x = e.clientX;
                     y = e.clientY;
                     let Element_DeleteBtn = document.getElementById(ElementID + "Btn");
-                    if(Element_DeleteBtn !== null){
+                    if (Element_DeleteBtn !== null) {
                         let DeleteBtnstyle = window.getComputedStyle(Element_DeleteBtn);
                         left = parseInt(DeleteBtnstyle.left, 10);
                         console.log(parseInt(DeleteBtnstyle.left, 10));
@@ -555,7 +555,7 @@
                     // Adjust the dimension of element
                     getElement.style.width = `${w + dx}px`;
                     getElement.style.height = `${h + dy}px`;
-                    if(Element_DeleteBtn !== null){
+                    if (Element_DeleteBtn !== null) {
                         Element_DeleteBtn.style.left = `${left + dx}px`;
                     }
                 };
@@ -666,60 +666,6 @@
         text-align: center;
         top: 25%;
         height: 60%;
-    }
-    .FileUploadArea {
-        float: right;
-        left: 200px;
-        text-align: center;
-        justify-content: center;
-        min-height: 500px;
-        width: 100%;
-    }
-    .file-upload {
-        width: 70%;
-        height: 500px;
-        float: right;
-        text-align: center;
-        border: transparent;
-        border-radius: 20px;
-        font-size: 10;
-        font-weight: 700;
-        cursor: pointer;
-        &.dragged {
-            border: 1px dashed powderblue;
-            opacity: 0.6;
-        }
-        &-container {
-            text-align: center;
-            justify-content: center;
-            padding: 20px;
-            width: 100%;
-            height: 500px;
-            margin: 0 auto;
-            box-shadow: 0 0.625rem 1.25rem #0000001a;
-            border: 3px dashed #4c384a;
-            border-radius: 20px;
-        }
-        &-input {
-            display: none;
-        }
-        &-text {
-            position: relative;
-            top: 50%;
-        }
-    }
-    .pdfViewer {
-        margin-left: 10%;
-        text-align: center;
-        height: 100%;
-        width: 80%;
-    }
-    #drawer {
-        position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        overflow: hidden;
     }
     .ShortTextObjectArea {
         align-items: center;

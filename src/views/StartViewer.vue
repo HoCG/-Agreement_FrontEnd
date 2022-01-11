@@ -22,7 +22,7 @@
                 this
                     .$router
                     .push({path: '/LoginPage'})
-                    .catch(() => {})
+                    .catch(() => {});
             }
         },
         data() {
@@ -49,6 +49,7 @@
                     .catch(() => {})
             },
             goWriterPage(){             
+                this.$store.commit("LOGOFF_USER");
                 this
                     .$router
                     .push({path: '/WriterPage'})

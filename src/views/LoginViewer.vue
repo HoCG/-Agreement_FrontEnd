@@ -1,62 +1,18 @@
 <!--로그인 페이지-->
-<template>
-    <v-list justify-center="justify-center">
-        <v-toolbar
-            class="LoginToolbar"
-            justify-center="justify-center"
-            dark="dark"
-            color="mainColor">
-            <v-spacer></v-spacer>
-            <h2 class="fontSetting">
-                로그인 해주세요.
-            </h2>
-            <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-layout justify-center="justify-center">
-            <v-spacer></v-spacer>
-            <v-form>
-                <div class="LoginTextForm">
-                    <v-text-field
-                        prepend-icon="mdi-account"
-                        name="login"
-                        label="Login"
-                        type="text"
-                        v-model="admin.id"></v-text-field>
-                    <v-text-field
-                        prepend-icon="mdi-lock"
-                        id="password"
-                        name="password"
-                        label="Password"
-                        v-model="admin.password"
-                        type="password"></v-text-field>
-                </div>
-            </v-form>
-            <v-spacer></v-spacer>
-        </v-layout>
-        <v-layout justify-center="justify-center">
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="mainColor" @click="findAdmin">
-                   <h3 lass="BtnTextSetting">
-                       로그인
-                    </h3>
-                </v-btn>
-                <v-btn color="mainColor">
-                    <router-link to="/CreateAdminPage" class="link">
-                        <h3 class="fontSetting">
-                            회원가입
-                        </h3>
-                    </router-link>
-                </v-btn>
-                <v-btn color="mainColor" @click="backStartPage">
-                    <h3 class="BtnTextSetting">
-                        뒤로가기
-                    </h3>
-                </v-btn>
-            </v-card-actions>
-        </v-layout>
-        <Alert :dialog="true" />
-    </v-list>
+<template >
+    <div class="backGroundInLogin">
+        <div class="LoginRow">
+            <input id="InputID" placeholder="ID" type="text" v-model="admin.id"/>
+            <input
+                id="InputPassword"
+                placeholder="비밀번호"
+                v-model="admin.password"
+                type="password"/>
+            <p class="MessageForm">{{this.Message}}</p>
+            <button @click="findAdmin" class="LoginBtn">로그인</button>
+            <Alert :dialog="true"/>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -67,7 +23,7 @@
                 this.pushUserData();
             }
         },
-        components:{
+        components: {
             Alert
         },
         computed: {
@@ -76,10 +32,7 @@
             }
         },
         data() {
-            return {
-                email: null, 
-                password: null, 
-                validationErrors: []};
+            return {email: null, password: null, validationErrors: [], Message: ""};
         },
         methods: {
             pushUserData() {
@@ -111,16 +64,16 @@
                     .$store
                     .commit('FIND_USER', this.admin);
                 if (this.$store.state.admin.AllClear) {
-                    this
+                    this.Message = this
                         .$store
                         .commit('CURRENT_USER_SETTING', this.admin);
                     this
                         .$store
                         .commit("OPEN_ALERT_PAGE_OVER_MODE", "로그인 성공!");
-                    } else if (this.$store.state.admin.ID_or_PasswordError) {
-                    this.$store.commit("OPEN_ALERT", "비밀번호가 틀렸습니다. 다시 입력해주세요.");
+                } else if (this.$store.state.admin.ID_or_PasswordError) {
+                    this.Message = "비밀번호가 일치하지 않습니다. 다시 입력해주세요."
                 } else {
-                    this.$store.commit("OPEN_ALERT", "아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.");
+                    this.Message = "아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요."
                 }
             },
             backStartPage() {
@@ -132,12 +85,122 @@
     };
 </script>
 <style>
-    .BtnTextSetting {
-        border: 900;
+    .MessageForm {
+        position: static;
+        width: 255px;
+        height: 18px;
+        left: 4px;
+        top: 0;
+        font-family: Noto Sans KR;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 17px;
+        display: flex;
+        align-items: center;
+
+        /* Red_01 Alert */
+
+        color: #FF0000;
+
+        /* Inside auto layout */
+        flex: none;
+        order: 0;
+        align-self: stretch;
+        flex-grow: 1;
+        margin: 0 10px;
     }
-    .LoginTextForm {
-        margin-top: 5%;
-        width: 700px;
+    .LoginBtn {
+        /* Auto layout */
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 15px;
+
+        position: static;
+        width: 263px;
+        height: 50px;
+        left: 20px;
+        top: 150px;
+
+        /* gray_03 */
+
+        background: #DADADA;
+        font-family: Noto Sans CJK KR;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 24px;
+
+        /* gray_01 */
+
+        color: #FFFFFF;
+        /* Inside auto layout */
+
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+        margin: 20px 0;
+    }
+    .backGroundInLogin {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #F3F3F3;
+    }
+    #InputID {
+        padding-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 15px;
+        position: static;
+        width: 263px;
+        height: 50px;
+        background: #FFFFFF;
+        border: 1px solid #9F9F9F;
+        box-sizing: border-box;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        margin: 5px 0;
+    }
+    #InputPassword {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 15px;
+        position: static;
+        width: 263px;
+        height: 50px;
+        border: 1px solid #9F9F9F;
+        box-sizing: border-box;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        margin: 5px 0;
+    }
+    .LoginRow {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: absolute;
+        width: 303px;
+        height: 240px;
+        left: 40%;
+        top: 40%;
+        background: #FFFFFF;
+        border-radius: 15px;
+    }
+    .BtnTextSetting {
+        color: white;
+        border: 900;
     }
     .LoginToolbar {
         text-align: center !important;
@@ -145,9 +208,6 @@
     .fontSetting {
         color: black;
         border: 900;
-    }
-    .LoginForm {
-        width: 500px;
     }
     .link {
         width: 100% !important;
