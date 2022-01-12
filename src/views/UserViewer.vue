@@ -94,6 +94,8 @@
             </div>
         </div>
         <PDFUploader/>
+        <!--id반영이 제대로 안되는 버그-->
+        <!--<SignObject v-for="SignObject in SignObjectArray" :key="SignObject.id" v-bind:getData="SignObject"/>-->
     </v-card>
 </template>
 <script>
@@ -285,14 +287,9 @@
                         .getBoundingClientRect()
                         .left - getElement
                         .getBoundingClientRect()
-                        .width + 10;
+                        .width/2;
                     //패딩값만큼 빼고 계산하는 로직을 추가했다.
-                    currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
-                        computedheaderStyle.height,
-                        10
-                    ) - getElement
-                        .getBoundingClientRect()
-                        .height + 10;
+                    currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(computedheaderStyle.height, 10) - getElement.getBoundingClientRect().height/2;
                     // 페이지 영역에 있는지 확인하는 함수이지만... 잘동작하지 않으므로 일단 보류.
                     // self.checkWhere_Object_Into_PDFPage(getElement);
                     if (currentX < 0) {

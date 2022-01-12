@@ -31,17 +31,6 @@
             }
         },
         methods: {
-            /*
-            typing(){
-                const content = "Welcome To Our Project.";
-                const text = document.getElementById("textTitleEffect");
-                if (this.TextCounter < content.length) {
-                    let txt = content.charAt(this.TextCounter);
-                    text.innerHTML += txt;
-                    this.TextCounter++;
-                }
-            },
-            */
             goUserPage(){
                 this
                     .$router

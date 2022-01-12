@@ -1,10 +1,8 @@
 <template>
-    <div v-bind:id="'SignObjectArea'+getData.id" class="SignObjectArea">
+    <div v-bind:id="getData.id" class="ShortTextObjectArea">
         <p id="textForm">
-            "사인"{{getData.id}}
+            "짧은 글_"{{getData.id}}
         </p>
-        서명
-        <div @mousedown="mouseDownHandler" class="resizer resizer-r"></div>
         <div @mousedown="mouseDownHandler" class="resizer resizer-b"></div>
     </div>
 </template>
@@ -14,10 +12,8 @@
             return{
                 getData: Array,
                 resizeX: 0,
-                resizeY: 0,
                 resizeW: 0,
-                resizeH: 0,
-                Element: document.getElementById("SignObjectArea" + this.getData.id)
+                Element: document.getElementById(this.getData.id)
             }
         },
         methods: {
@@ -25,10 +21,8 @@
                     e.stopPropagation();
                     // Get the current mouse position
                     this.resizeX = e.clientX;
-                    this.resizeY = e.clientY;
                     const styles = window.getComputedStyle(this.Element);
                     this.resizeW = parseInt(styles.width, 10);
-                    this.resizeH = parseInt(styles.height, 10);
                     // Attach the listeners to `document`
                     document.addEventListener('mousemove', this.mouseMoveHandler);
                     document.addEventListener('mouseout', this.mouseMoveHandler);
@@ -37,10 +31,8 @@
             mouseMoveHandler(e){
                     // How far the mouse has been moved
                     const dx = e.clientX - this.resizeX;
-                    const dy = e.clientY - this.resizeY;
                     // Adjust the dimension of element
                     this.Element.style.width = `${this.resizeW + dx}px`;
-                    this.Element.style.height = `${this.resizeH + dy}px`;
             },
             mouseUpHandler(){
                     document.removeEventListener('mousemove', this.mouseMoveHandler);
@@ -58,7 +50,7 @@
         bottom: 100%;
         position: absolute;
     }
-    .SignObjectArea {
+    .ShortTextObjectArea {
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
@@ -74,16 +66,6 @@
     }
     .resizer {
         position: absolute;
-    }
-    /* Placed at the right side */
-    .resizer-r {
-        z-index: 2000;
-        position: absolute;
-        cursor: col-resize;
-        height: 100%;
-        right: 0;
-        top: 0;
-        width: 5px;
     }
     /* Placed at the bottom side */
     .resizer-b {

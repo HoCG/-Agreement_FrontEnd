@@ -1,6 +1,6 @@
 <template>
     <v-card class="WritersArea">
-        <div class="UserHeader">
+        <div class="WriterHeader">
             <div class="navigation"></div>
         </div>
         <div class="sideBar">
@@ -175,19 +175,19 @@
                             .push(JsonFile.object[i]);
                         //console.log(this.STextObjectArray);
                     } else if (JsonFile.object[i].title.includes("사인")) {
-                        this.makeImgObject(JsonFile.object[i]);
+                        this.makeSignObject(JsonFile.object[i]);
                         this
                             .SignObjectArray
                             .push(JsonFile.object[i]);
                     } else if (JsonFile.object[i].title.includes("체크박스")) {
                         this.makeCheckBoxObject(JsonFile.object[i]);
                         this
-                            .SignObjectArray
+                            .CheckBoxObjectArray
                             .push(JsonFile.object[i]);
                     } else if (JsonFile.object[i].title.includes("긴 글")) {
                         this.makeLongTextObject(JsonFile.object[i]);
                         this
-                            .SignObjectArray
+                            .LTextObjectArray
                             .push(JsonFile.object[i]);
                     }
                 }
@@ -237,29 +237,29 @@
                 //TextObject.setAttribute("class", "textObjectDiv");
                 ThisWindow.append(ShortTextObjectDiv);
             },
-            makeImgObject(object) {
-                const ImgObjectDiv = document.createElement("div");
-                const ImgObject = document.createElement("img");
+            makeSignObject(object) {
+                const SignObjectDiv = document.createElement("div");
+                const SignObject = document.createElement("img");
                 const ThisWindow = document.getElementById("drawer");
-                const ImgText = document.createElement("p");
-                ImgObjectDiv.setAttribute("class", "SignObjectArea");
+                const SignText = document.createElement("p");
+                SignObjectDiv.setAttribute("class", "SignObjectArea");
                 //ImgObjectDiv.setAttribute("id", "ImgBox" + object.htmlID);
-                ImgObjectDiv.style.position = "absolute";
-                ImgObjectDiv.style.width = object.width + "px";
-                ImgObjectDiv.style.height = object.height + "px";
-                ImgObjectDiv.style.top = object.y + "px";
-                ImgObjectDiv.style.left = object.x + "px";
-                ImgText.innerHTML = "(인)"
+                SignObjectDiv.style.position = "absolute";
+                SignObjectDiv.style.width = object.width + "px";
+                SignObjectDiv.style.height = object.height + "px";
+                SignObjectDiv.style.top = object.y + "px";
+                SignObjectDiv.style.left = object.x + "px";
+                SignText.innerHTML = "서명"
                 // ImgObjectDiv.style.zIndex = 9;
-                ImgObject.setAttribute("class", "imgObject");
-                ImgObject.setAttribute("id", "ImgBox" + object.id);
-                ImgText.setAttribute("id", "SignObjectAreaText" + "ImgBox" + object.id);
-                ImgObject.style.zIndex = 4;
+                SignObject.setAttribute("class", "SignObject");
+                SignObject.setAttribute("id", "Sign" + object.id);
+                SignText.setAttribute("id", "SignObjectAreaText" + "Sign" + object.id);
+                SignObject.style.zIndex = 4;
                 let self = this;
-                ImgObjectDiv.addEventListener('click', function (event) {
+                SignObjectDiv.addEventListener('click', function (event) {
                     self
                         .$store
-                        .commit('OPEN_DIALOG', String("ImgBox" + object.id));
+                        .commit('OPEN_DIALOG', String("Sign" + object.id));
                     self
                         .$store
                         .commit('GET_WIDTH', object.width);
@@ -268,9 +268,9 @@
                         .commit('GET_HEIGHT', object.height);
                     event.preventDefault();
                 });
-                ImgObjectDiv.append(ImgText);
-                ImgObjectDiv.append(ImgObject);
-                ThisWindow.append(ImgObjectDiv);
+                SignObjectDiv.append(SignText);
+                SignObjectDiv.append(SignObject);
+                ThisWindow.append(SignObjectDiv);
             },
             Loading(files) {
                 this.addFiles(files)
@@ -347,7 +347,7 @@
         position: relative;
         top: 50%;
     }
-    .UserHeader {
+    .WriterHeader {
         width: 100%;
         height: 15%;
         position: fixed;
