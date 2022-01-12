@@ -1,12 +1,11 @@
 <template>
-    <div class="SignObjectArea">
+    <div class="LongTextObjectArea">
         <p id="textForm">
-            사인{{getSOData.id}}
+            긴 글{{getLTData.id}}
         </p>
-        서명
         <svg
+            v-bind:id="'LongTextDeleteBtn'+getLTData.id"
             @mousedown="DeleteElement"
-            v-bind:id="'SignDeleteBtn'+getSOData.id"
             class="CloseBtn"
             width="20"
             height="20"
@@ -25,7 +24,7 @@
 <script>
     export default {
         props: {
-            getSOData: Object
+            getLTData: Object
         },
         data() {
             return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0}
@@ -37,19 +36,19 @@
         methods: {
             myFunction() {
                 const ThisWindow = document.getElementById("drawer");
-                const NewElementDiv = document.getElementById(this.getSOData.htmlID);
-                NewElementDiv.style.left = this.getSOData.x + "px";
-                NewElementDiv.style.top = this.getSOData.y + "px";
-                this.makingFirstClickObject(this.getSOData.htmlID);
+                const NewElementDiv = document.getElementById(this.getLTData.htmlID);
+                NewElementDiv.style.left = this.getLTData.x + "px";
+                NewElementDiv.style.top = this.getLTData.y + "px";
+                this.makingFirstClickObject(this.getLTData.htmlID);
                 ThisWindow.append(NewElementDiv);
             },
             mouseDownHandler(e) {
                 e.stopPropagation();
                 // Get the current mouse position
-                let Element = document.getElementById(this.getSOData.htmlID)
+                const Element = document.getElementById(this.getLTData.htmlID);
+                const styles = window.getComputedStyle(Element);
                 this.resizeX = e.clientX;
                 this.resizeY = e.clientY;
-                const styles = window.getComputedStyle(Element);
                 this.resizeW = parseInt(styles.width, 10);
                 this.resizeH = parseInt(styles.height, 10);
                 // Attach the listeners to `document`
@@ -58,7 +57,7 @@
                 document.addEventListener('mouseup', this.mouseUpHandler);
             },
             mouseMoveHandler(e) {
-                let Element = document.getElementById(this.getSOData.htmlID);
+                const Element = document.getElementById(this.getLTData.htmlID);
                 // How far the mouse has been moved
                 const dx = e.clientX - this.resizeX;
                 const dy = e.clientY - this.resizeY;
@@ -73,12 +72,13 @@
             },
             DeleteElement(e){
                 e.stopPropagation();
-                const Element = document.getElementById(this.getSOData.htmlID);
+                const Element = document.getElementById(this.getLTData.htmlID);
                 Element.remove();
             },
             //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다.
             appendIntoPDFPage(getElement, currentX, currentY) {
-                //let getElement_in_Array = this.findObjectInArray(getElement.getAttribute("id"));
+                // let getElement_in_Array =
+                // this.findObjectInArray(getElement.getAttribute("id"));
                 let appendY1 = 0;
                 let appendY2 = 0;
                 for (let i = 1; i <= this.$store.state.PDFInfo.PDFPageInfo; i++) {
@@ -92,11 +92,11 @@
                             computed_Object_Style.height,
                             10
                         ) / 2 + "px";
-                        this.getSOData.y = currentY - appendY1 - parseInt(
+                        this.getLTData.y = currentY - appendY1 - parseInt(
                             computed_Object_Style.height,
                             10
                         ) / 2;
-                        this.getSOData.x = currentX;
+                        this.getLTData.x = currentX;
                         PDF_Pages.append(getElement);
                         break;
                     } else {
@@ -150,8 +150,12 @@
                     getElement.removeEventListener('mousemove', onMouseMove);
                     getElement.removeEventListener('mouseout', onMouseMove);
                     getElement.style.zIndex = 4;
-                    // 오브젝트를 해당위치에 PDFPage에 둔다. 
-                    self.appendIntoPDFPage(getElement, currentX, currentY + parseInt(computedheaderStyle.height, 10)); 
+                    // 오브젝트를 해당위치에 PDFPage에 둔다.
+                    self.appendIntoPDFPage(
+                        getElement,
+                        currentX,
+                        currentY + parseInt(computedheaderStyle.height, 10)
+                    );
                     //드래그 이벤트를 준다.
                     self.makingDragEvent(getElement);
                 });
@@ -162,14 +166,14 @@
                 let currentY = 0;
                 let self = this;
                 //self.showObjectMenu(); getElement.removeEventListener('mousemove')
-                let SignDeleteBtn = document.getElementById("SignDeleteBtn" + this.getSOData.id);
+                let LongTextDeleteBtn = document.getElementById("LongTextDeleteBtn" + this.getLTData.id);
                 getElement.onmouseover = function (event) {
                     event.stopPropagation();
-                    SignDeleteBtn.style.display = "block";
+                    LongTextDeleteBtn.style.display = "block";
                 }
                 getElement.onmouseout = function (event) {
                     event.stopPropagation();
-                    SignDeleteBtn.style.display = "none";
+                    LongTextDeleteBtn.style.display = "none";
                 }
                 getElement.onmousedown = function (event) {
                     event.stopPropagation();
@@ -183,6 +187,12 @@
                 getElement.style.position = 'absolute';
                 let self = this;
                 getElement.style.zIndex = 4;
+                let ElementID = getElement.getAttribute("id");
+                let WantDeleteBtn = document.getElementById(ElementID + "Btn");
+                if (WantDeleteBtn !== null) {
+                    WantDeleteBtn.remove();
+                }
+                //각종 셋팅값들 let DeleteBtn = document.createElement("button");
                 const ThisWindow = document.getElementById("drawer");
                 const containerWindow = document.getElementById("container");
                 const headerWindow = document.getElementsByTagName("header")[0];
@@ -231,9 +241,9 @@
                 window.addEventListener('scroll', onMouseMove);
                 // 오브젝트를 드롭하고, 불필요한 핸들러를 제거합니다.
                 getElement.addEventListener('mouseup', function () {
-                    window.removeEventListener('scroll', onMouseMove);
                     getElement.removeEventListener('mousemove', onMouseMove);
                     getElement.removeEventListener('mouseout', onMouseMove);
+                    window.removeEventListener('scroll', onMouseMove);
                     self.appendIntoPDFPage(getElement, currentX, currentY);
                 });
                 //클릭시에 간단하게 메뉴들이 나올수 있는 이벤트를 만들어야 합니다.
@@ -254,7 +264,7 @@
         bottom: 100%;
         position: absolute;
     }
-    .SignObjectArea {
+    .LongTextObjectArea {
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;

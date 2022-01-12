@@ -90,10 +90,10 @@
         "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
     );
     */
-    import ShortTextSVG from '../components/ShortTextSvg.vue';
-    import LongTextSVG from '../components/LongTextSvg.vue';
-    import CheckBoxSVG from '../components/CheckBoxSVG.vue';
-    import SignSVG from '../components/SignSVG.vue';
+    import ShortTextSVG from '../svgs/ShortTextSVG.vue';
+    import LongTextSVG from '../svgs/LongTextSVG.vue';
+    import CheckBoxSVG from '../svgs/CheckBoxSVG.vue';
+    import SignSVG from '../svgs/SignSVG.vue';
     export default {
         mounted() {
             this.src = pdf.createLoadingTask(this.pdfLink);
