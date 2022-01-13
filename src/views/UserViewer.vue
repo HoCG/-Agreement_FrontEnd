@@ -135,6 +135,18 @@
         },
         beforeDestroy() {
             this.$store.state.PDFInfo.PDFTitle = "";
+            this
+                .$store
+                .commit("FORMAT_ALL_CHECKBOX_OBJECTS");
+            this
+                .$store
+                .commit("FORMAT_ALL_SHORTTEXT_OBJECTS");
+            this
+                .$store
+                .commit("FORMAT_ALL_LONGTEXT_OBJECTS");
+            this
+                .$store
+                .commit("FORMAT_ALL_SIGN_OBJECTS");
         },
         mounted() {
             this
@@ -220,18 +232,17 @@
             pushObjectInArray(objectID, x, y) {
                 if (objectID === "ShortTextObjectArea") {
                     this.$store.state.ShortTextObject.ShortText.htmlID = objectID + String(this.STextObjectID);
-                    this.$store.state.ShortTextObject.ShortText.id = 1;
                     this.$store.state.ShortTextObject.ShortText.title = "짧은 글_" + String(this.STextObjectID);
                     this.$store.state.ShortTextObject.ShortText.width = 100;
                     this.$store.state.ShortTextObject.ShortText.height = 30;
                     this.$store.state.ShortTextObject.ShortText.x = x;
                     this.$store.state.ShortTextObject.ShortText.y = y;
                     this.$store.commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
+                    console.log(this.$store.state.ShortTextObject.ShortTextArr)
                     this.STextObjectCheck = true;
                     this.STextObjectID++;
                 } else if (objectID === "LongTextObjectArea") {
                     this.$store.state.LongTextObject.LongText.htmlID = objectID + String(this.LTextObjectID);
-                    this.$store.state.LongTextObject.LongText.id = 1;
                     this.$store.state.LongTextObject.LongText.title = "긴 글_" + String(this.LTextObjectID);
                     this.$store.state.LongTextObject.LongText.width = 100;
                     this.$store.state.LongTextObject.LongText.height = 100;
@@ -242,7 +253,6 @@
                     this.LTextObjectID++;
                 } else if (objectID === "CheckBoxObjectArea") {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = objectID + String(this.CheckBoxObjectID);
-                    this.$store.state.CheckBoxObject.CheckBox.id = 1;
                     this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_" + String(this.CheckBoxObjectID);
                     this.$store.state.CheckBoxObject.CheckBox.width = 30;
                     this.$store.state.CheckBoxObject.CheckBox.height = 30;
@@ -253,8 +263,7 @@
                     this.CheckBoxObjectID++;
                 } else if (objectID === "SignObjectArea") {
                     this.$store.state.SignObject.Sign.htmlID = objectID + String(this.SignObjectID);
-                    this.$store.state.SignObject.Sign.id = 1;
-                    this.$store.state.SignObject.Sign.title = "짧은 글_" + String(this.SignObjectID);
+                    this.$store.state.SignObject.Sign.title = "사인_" + String(this.SignObjectID);
                     this.$store.state.SignObject.Sign.width = 100;
                     this.$store.state.SignObject.Sign.height = 30;
                     this.$store.state.SignObject.Sign.x = x;

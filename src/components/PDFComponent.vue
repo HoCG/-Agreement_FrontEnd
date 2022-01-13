@@ -50,11 +50,11 @@
                             <ul id="ulTable">
                                 <li>
                                     <ul class="UlTitleSetting">
-                                        <li>&nbsp;</li>
-                                        <li>문서제목</li>
-                                        <li>수정</li>
+                                        <li>공유 상태</li>
+                                        <li>문서 제목</li>
                                         <li>제출수</li>
                                         <li>링크</li>
+                                        <li>수정</li>
                                         <li>공유</li>
                                         <li>&nbsp;</li>
                                     </ul>
@@ -65,15 +65,19 @@
                                     :key="Document.id">
                                     <ul v-if="IsFirstDocument()" class="TitleAndItemsUl">
                                         <li>
-                                            <DocumentState v-bind:StateInfo="Document.State"/>
+                                            <DocumentState v-bind:StateInfo="Document.State" v-bind:WritersCountInfo="Document.documentWritersCount"/>
                                         </li>
                                         <li>{{Document.documentTitle}}</li>
-                                        <li>
-                                            <EditBtn v-if="Document.State===1 || Document.State===0" @click.native="goEditScreen"/>
-                                        </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <label class="switch-button">
+                                            <LinkBtn/>
+                                        </li>
+                                        <li>
+                                            <EditBtn v-if="(Document.State===1 || Document.State===0) || (Document.State===3 && Document.documentWritersCount===0)" 
+                                            @click.native="goEditScreen(Document)"/>
+                                        </li>
+                                        <li>
+                                            <label v-if="Document.State!=0" class="switch-button">
                                                 <input type="checkbox"/>
                                                 <span class="onoff-switch"></span>
                                             </label>
@@ -82,16 +86,19 @@
                                     </ul>
                                     <ul v-else class="ItemsUl">
                                         <li>
-                                            <DocumentState v-bind:StateInfo="Document.State"/>
+                                            <DocumentState v-bind:StateInfo="Document.State" v-bind:WritersCountInfo="Document.documentWritersCount"/>
                                         </li>
                                         <li>{{Document.documentTitle}}</li>
+                                        <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <EditBtn v-if="Document.State===1 || Document.State===0" @click.native="goEditScreen"/>
+                                            <LinkBtn v-if="Document.State===2"/>
                                         </li>
-                                        <li>{{Document.documentWritersCount}}</li>
-                                        <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <label class="switch-button">
+                                            <EditBtn v-if="(Document.State===1 || Document.State===0) || (Document.State===3 && Document.documentWritersCount===0)" 
+                                            @click.native="goEditScreen(Document)"/>
+                                        </li>
+                                        <li>
+                                            <label v-if="Document.State!=0" class="switch-button">
                                                 <input type="checkbox"/>
                                                 <span class="onoff-switch"></span>
                                             </label>
@@ -180,6 +187,7 @@
     import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
     import DocumentState from "../components/DocumentState.vue";
     import EditBtn from "../svgs/EditSVG.vue";
+    import LinkBtn from "../svgs/LinkBtnSVG.vue"
     import pdf from 'vue-pdf';
     let loadingTask = pdf.createLoadingTask(
         "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
@@ -196,6 +204,7 @@
         components: {
             DocumentState,
             EditBtn,
+            LinkBtn,
             pdf
         },
         data() {
@@ -268,16 +277,33 @@
                 const files = event.target.files;
                 this.addFiles(files);
             },
-            goEditScreen() {
+            goEditScreen(Document) {
                 this.fileUploadCheck = true;
                 let test = require('../assets/커리큘럼.pdf');
-                this.src = pdf.createLoadingTask(test);
-                this
-                    .src
-                    .promise
-                    .then(pdf => {
-                        this.numPages = pdf.numPages;
+                if(Document.src.length >= 2){
+                    this.src = pdf.createLoadingTask(Document.src);
+                    this
+                        .src
+                        .promise
+                        .then(pdf => {
+                            this.numPages = pdf.numPages;
+                            this
+                                .$store
+                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
                     });
+                }
+                else{
+                    this.src = pdf.createLoadingTask(test);
+                    this
+                        .src
+                        .promise
+                        .then(pdf => {
+                            this.numPages = pdf.numPages;
+                            this
+                                .$store
+                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
+                    });
+                }
                 this
                     .$store
                     .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
@@ -289,12 +315,9 @@
                     .commit("SET_DOCUMENT_TITLE", files[0].name);
                 if (files[0].name.includes(".pdf")) {
                     const src = await this.readFiles(files[0])
+                    /*
                     console.log(files[0])
                     console.log(src)
-                    this.fileUploadCheck = true;
-                    this
-                        .$store
-                        .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
                     this.src = src;
                     this.src = pdf.createLoadingTask(src);
                     this
@@ -306,6 +329,20 @@
                                 .$store
                                 .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
                         });
+                    this
+                        .$store
+                        .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
+                        */
+                    let newData =         {
+                        id: UsersDocumentListInfo.documentInfo.length + 1,
+                        documentTitle: files[0].name,
+                        Link: "",
+                        src: src,
+                        documentWritersCount: 2,
+                        State: 0
+                    }
+                    UsersDocumentListInfo.documentInfo.push(newData);
+                    console.log(UsersDocumentListInfo.documentInfo);
                 } else {
                     alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
                 }

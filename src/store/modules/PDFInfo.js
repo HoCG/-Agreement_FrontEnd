@@ -16,7 +16,9 @@ const mutations = {
         state.PDFFileUploadCheck = false;
     },
     SET_PDF_FILE_PAGE_INFO(state, number){
+        console.log(number);
         state.PDFPageInfo = parseInt(number);
+        console.log(state.PDFPageInfo);
     },
     SET_PDF_FILE_SRC(state, src){
         console.log(src);

@@ -28,20 +28,15 @@ const mutations = {
 
     //이벤트를 추가하는 과정.
     ADD_CHECKBOX_OBJECT(state, getCheckBox) {
-        let checkOverlapID = 1;
-        while (
-            state.CheckBoxArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
-        ) {
-            checkOverlapID++;
-        }
-        getCheckBox.id = checkOverlapID;
-        getCheckBox = makeObject(getCheckBox);
+        getCheckBox = makeObject(state, getCheckBox);
         state
             .CheckBoxArr
             .push(getCheckBox);
         state.CheckBox = initObject();
     },
-
+    FIND_CHECKBOX_OBJECT(state, ElementID){
+        state.CheckBox = state.CheckBoxArr.find(object => object.htmlID === ElementID)
+    },
     DELETE_CHECKBOX_OBJECT(state, getCheckBox) {
         state.CheckBoxArr = state
             .CheckBoxArr
@@ -53,10 +48,18 @@ const mutations = {
 //비동기 처리들.
 const actions = {};
 
-const makeObject = (Object) => {
+const makeObject = (state, Object) => {        
+    let checkOverlapID = 1;
+    if(state.CheckBoxArr.length !== 0){
+        while (
+            state.CheckBoxArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
+        ) {
+            checkOverlapID++;
+        }
+    }
     return {
         htmlID: Object.htmlID,
-        id: Object.id,
+        id: checkOverlapID,
         title: Object.title,
         width: Object.width,
         height: Object.height,

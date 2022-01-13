@@ -8,6 +8,9 @@ const mutations = {
     FORMAT_ALL_SIGN_OBJECTS(state) {
         state.SignArr = [];
     },
+    FORMAT_SIGN_OBJECT(state) {
+        state.SignArr = initObject();
+    },
     UPDATE_SIGN_OBJECT(state, getSign) {
         let checkOverlapID = 1;
         while (
@@ -28,20 +31,15 @@ const mutations = {
 
     //이벤트를 추가하는 과정.
     ADD_SIGN_OBJECT(state, getSign) {
-        let checkOverlapID = 1;
-        while (
-            state.SignArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
-        ) {
-            checkOverlapID++;
-        }
-        getSign.id = checkOverlapID;
-        getSign = makeObject(getSign);
+        getSign = makeObject(state, getSign);
         state
             .SignArr
             .push(getSign);
         state.Sign = initObject();
     },
-
+    FIND_SIGN_OBJECT(state, ElementID){
+        state.Sign = state.SignArr.find(object => object.htmlID === ElementID)
+    },
     DELETE_SIGN_OBJECT(state, getSign) {
         state.SignArr = state
             .SignArr
@@ -53,10 +51,16 @@ const mutations = {
 //비동기 처리들.
 const actions = {};
 
-const makeObject = (Object) => {
+const makeObject = (state, Object) => {        
+    let checkOverlapID = 1;
+    while (
+        state.SignArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
+    ) {
+        checkOverlapID++;
+    }
     return {
         htmlID: Object.htmlID,
-        id: Object.id,
+        id: checkOverlapID,
         title: Object.title,
         width: Object.width,
         height: Object.height,
