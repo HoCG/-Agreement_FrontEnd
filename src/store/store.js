@@ -5,11 +5,11 @@ import PDFInfo from './modules/PDFInfo';
 import Alert from './modules/Alert';
 import admin from './users/admin';
 import DocumentSideBarData from './modules/DocumentSideBarData';
+import vueMoment from 'vue-moment';
 import CheckBoxObject from './objects/CheckBoxObject';
 import LongTextObject from './objects/LongTextObject';
 import ShortTextObject from './objects/ShortTextObject';
 import SignObject from './objects/SignObject';
-import vueMoment from 'vue-moment' 
 //import createPersistedState from "vuex-persistedstate" 작성시 페이지내에 정보 유지.
 
 Vue.use(vueMoment);
@@ -20,12 +20,12 @@ export default new Vuex.Store({
         DocumentSideBarData,
         Alert,
         admin,
-        LongTextObject,
-        ShortTextObject,
+        PDFInfo,
+        DialogData,
         SignObject,
         CheckBoxObject,
-        PDFInfo,
-        DialogData
+        LongTextObject,
+        ShortTextObject
     }
     /*,
     plugins: [ createPersistedState({ //주목! : 여기에 쓴 모듈만 저장됩니다. 

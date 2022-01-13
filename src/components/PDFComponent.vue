@@ -45,18 +45,17 @@
                     multiple="multiple"/>
                 <div id="mainWrapper">
                     <ul class="MainFrame">
-                        <!-- 게시판 제목 -->
-                        <!-- <li> 게시판 Title </li> -->
-                        <!-- 게시판 목록 -->
                         <li>
                             <!--Table-->
                             <ul id="ulTable">
                                 <li>
                                     <ul class="UlTitleSetting">
+                                        <li>&nbsp;</li>
                                         <li>문서제목</li>
-                                        <li>링크</li>
+                                        <li>수정</li>
                                         <li>제출수</li>
-                                        <li>상태</li>
+                                        <li>링크</li>
+                                        <li>공유</li>
                                         <li>&nbsp;</li>
                                     </ul>
                                 </li>
@@ -65,18 +64,38 @@
                                     v-for="Document in this.UsersDocumentListInfo.documentInfo"
                                     :key="Document.id">
                                     <ul v-if="IsFirstDocument()" class="TitleAndItemsUl">
+                                        <li>
+                                            <DocumentState v-bind:StateInfo="Document.State"/>
+                                        </li>
                                         <li>{{Document.documentTitle}}</li>
-                                        <li>{{Document.Link}}</li>
+                                        <li>
+                                            <EditBtn v-if="Document.State===1 || Document.State===0" @click.native="goEditScreen"/>
+                                        </li>
                                         <li>{{Document.documentWritersCount}}</li>
-                                        <li>{{Document.documentWritersCount}}</li>
+                                        <li>
+                                            <label class="switch-button">
+                                                <input type="checkbox"/>
+                                                <span class="onoff-switch"></span>
+                                            </label>
+                                        </li>
                                         <li>&nbsp;</li>
                                     </ul>
                                     <ul v-else class="ItemsUl">
+                                        <li>
+                                            <DocumentState v-bind:StateInfo="Document.State"/>
+                                        </li>
                                         <li>{{Document.documentTitle}}</li>
-                                        <li>{{Document.Link}}</li>
+                                        <li>
+                                            <EditBtn v-if="Document.State===1 || Document.State===0" @click.native="goEditScreen"/>
+                                        </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>{{Document.documentWritersCount}}</li>
-                                        <li>&nbsp;</li>
+                                        <li>
+                                            <label class="switch-button">
+                                                <input type="checkbox"/>
+                                                <span class="onoff-switch"></span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li>
@@ -159,6 +178,8 @@
 <script>
     import UsersDocumentListInfo from "../assets/UsersDocumentListInfo.json";
     import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
+    import DocumentState from "../components/DocumentState.vue";
+    import EditBtn from "../svgs/EditSVG.vue";
     import pdf from 'vue-pdf';
     let loadingTask = pdf.createLoadingTask(
         "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
@@ -173,6 +194,8 @@
                 .commit("SET_USER_DOCUMENT_LIST_TRUE");
         },
         components: {
+            DocumentState,
+            EditBtn,
             pdf
         },
         data() {
@@ -245,6 +268,20 @@
                 const files = event.target.files;
                 this.addFiles(files);
             },
+            goEditScreen() {
+                this.fileUploadCheck = true;
+                let test = require('../assets/커리큘럼.pdf');
+                this.src = pdf.createLoadingTask(test);
+                this
+                    .src
+                    .promise
+                    .then(pdf => {
+                        this.numPages = pdf.numPages;
+                    });
+                this
+                    .$store
+                    .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
+            },
             async addFiles(files) {
                 console.log(files);
                 this
@@ -293,13 +330,13 @@
         width: 100%;
         display: none;
     }
-    .WritersList > li{
+    .WritersList > li {
         display: block;
         background: #F3F3F3;
         box-sizing: border-box;
     }
-    .WritersList > div > li{
-        display:inline-block
+    .WritersList > div > li {
+        display: inline-block;
     }
     .WritersList > div > li:first-child {
         width: 45%;
@@ -470,28 +507,76 @@
     }
 
     #ulTable > li > ul > li:first-child {
+        width: 11%;
+    }
+    #ulTable > li > ul > li:first-child +li {
         width: 45%;
     }
     /*No 열 크기*/
-    #ulTable > li > ul > li:first-child +li {
-        width: 11%;
-    }
-    /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li {
         width: 11%;
     }
-    /*작성일 열 크기*/
+    /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li {
         width: 11%;
     }
-    /*작성자 열 크기*/
+    /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
         width: 11%;
     }
-    #ulTable > li > ul > li:first-child +li+li+li+li {
+    /*작성자 열 크기*/
+    #ulTable > li > ul > li:first-child +li+li+li+li+li {
+        width: 11%;
+    }
+    #ulTable > li > ul > li:first-child +li+li+li+li+li+li {
         width: 11%;
     }
     .left {
         text-align: left;
+    }
+    .switch-button {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 30px;
+    }
+    .switch-button input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .onoff-switch {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 20px;
+        background-color: #ccc;
+        box-shadow: inset 1px 5px 1px #999;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+    }
+    .onoff-switch:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: #fff;
+        -webkit-transition: 0.5s;
+        transition: 0.4s;
+        border-radius: 20px;
+    }
+    .switch-button input:checked + .onoff-switch {
+        background-color: #F2D522;
+        box-shadow: inset 1px 5px 1px #E3AE56;
+    }
+    .switch-button input:checked + .onoff-switch:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
     }
 </style>

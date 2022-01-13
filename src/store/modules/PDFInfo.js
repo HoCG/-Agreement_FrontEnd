@@ -1,5 +1,7 @@
 const state = {
     PDFTitle: "",
+    src: "",
+    numPages: undefined,
     PDFPageInfo: 0,
     PDFFileUploadCheck: false
 };
@@ -15,6 +17,10 @@ const mutations = {
     },
     SET_PDF_FILE_PAGE_INFO(state, number){
         state.PDFPageInfo = parseInt(number);
+    },
+    SET_PDF_FILE_SRC(state, src){
+        console.log(src);
+        state.src = src;
     }
 }
 

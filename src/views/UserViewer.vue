@@ -30,11 +30,11 @@
                         <li v-if="this.STextObjectCheck">
                             <div style="width:100%; height: 28px;">
                                 <ShortTextSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.STextObjectArray.length}})</div>
+                                <div style="float: left">({{this.$store.state.ShortTextObject.ShortTextArr.length}})</div>
                             </div>
                             <ol
                                 style="width:100%;"
-                                v-for="STextObject in STextObjectArray"
+                                v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr"
                                 :key="STextObject.id">
                                 {{
                                     STextObject.title
@@ -47,11 +47,11 @@
                         <li v-if="this.LTextObjectCheck">
                             <div style="width:100%; height: 28px;">
                                 <LongTextSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.LTextObjectArray.length}})</div>
+                                <div style="float: left">({{this.$store.state.LongTextObject.LongTextArr.length}})</div>
                             </div>
                             <ol
                                 style="width:100%;"
-                                v-for="LTextObject in LTextObjectArray"
+                                v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr"
                                 :key="LTextObject.id">
                                 {{
                                     LTextObject.title
@@ -64,9 +64,9 @@
                         <li v-if="this.CheckBoxObjectCheck">
                             <div style="width:100%; height: 28px;">
                                 <CheckBoxSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.CheckBoxObjectArray.length}})</div>
+                                <div style="float: left">({{this.$store.state.CheckBoxObject.CheckBoxArr.length}})</div>
                             </div>
-                            <ol v-for="CheckBoxObject in CheckBoxObjectArray" :key="CheckBoxObject.id">
+                            <ol v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr" :key="CheckBoxObject.id">
                                 {{
                                     CheckBoxObject.title
                                 }}
@@ -78,9 +78,9 @@
                         <li v-if="this.SignObjectCheck">
                             <div style="width:100%; height: 28px;">
                                 <SignSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.SignObjectArray.length}})</div>
+                                <div style="float: left">({{this.$store.state.SignObject.SignArr.length}})</div>
                             </div>
-                            <ol v-for="SignObject in SignObjectArray" :key="SignObject.id">
+                            <ol v-for="SignObject in this.$store.state.SignObject.SignArr" :key="SignObject.id">
                                 {{
                                     SignObject.title
                                 }}
@@ -96,16 +96,16 @@
         <PDFUploader/>
         <!--id반영이 제대로 안되는 버그-->
         <div>
-            <SignObject v-for="SignObject in this.SignObjectArray" :key="SignObject.id" v-bind:getSOData="SignObject" v-bind:id="SignObject.htmlID"/>
+            <SignObject v-for="SignObject in this.$store.state.SignObject.SignArr" :key="SignObject.id" v-bind:getSOData="SignObject" v-bind:id="SignObject.htmlID"/>
         </div>
         <div>
-            <CheckBoxObject v-for="CheckBoxObject in this.CheckBoxObjectArray" :key="CheckBoxObject.id" v-bind:getCBData="CheckBoxObject" v-bind:id="CheckBoxObject.htmlID"/>
+            <CheckBoxObject v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr" :key="CheckBoxObject.id" v-bind:getCBData="CheckBoxObject" v-bind:id="CheckBoxObject.htmlID"/>
         </div>
         <div>
-            <LongTextObject v-for="LTextObject in this.LTextObjectArray" :key="LTextObject.id" v-bind:getLTData="LTextObject" v-bind:id="LTextObject.htmlID"/>
+            <LongTextObject v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr" :key="LTextObject.id" v-bind:getLTData="LTextObject" v-bind:id="LTextObject.htmlID"/>
         </div>
         <div>
-            <ShortTextObject v-for="STextObject in this.STextObjectArray" :key="STextObject.id" v-bind:getSTData="STextObject" v-bind:id="STextObject.htmlID"/>
+            <ShortTextObject v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr" :key="STextObject.id" v-bind:getSTData="STextObject" v-bind:id="STextObject.htmlID"/>
         </div>
     </v-card>
 </template>
@@ -217,113 +217,52 @@
             },
             */
             //배열내에 해당 오브젝트를 제거.
-            popObjectInArray(ElementID) {
-                if (ElementID.includes("ShortTextObjectArea")) {
-                    this.STextObjectArray = this
-                        .STextObjectArray
-                        .filter(e => e.id !== ElementID);
-                } else if (ElementID.includes("LongTextObjectArea")) {
-                    this.LTextObjectArray = this
-                        .LTextObjectArray
-                        .filter(e => e.id !== ElementID);
-                } else if (ElementID.includes("CheckBoxObjectArea")) {
-                    this.CheckBoxObjectArray = this
-                        .CheckBoxObjectArray
-                        .filter(e => e.id !== ElementID);
-                } else if (ElementID.includes("SignObjectArea")) {
-                    this.SignObjectArray = this
-                        .SignObjectArray
-                        .filter(e => e.id !== ElementID);
-                }
-            },
-            findObjectInArray(ElementID) {
-                if (ElementID.includes("ShortTextObjectArea")) {
-                    return this
-                        .STextObjectArray
-                        .find(object => object.id === ElementID);
-                } else if (ElementID.includes("LongTextObjectArea")) {
-                    return this
-                        .LTextObjectArray
-                        .find(object => object.id === ElementID);
-                } else if (ElementID.includes("CheckBoxObjectArea")) {
-                    return this
-                        .CheckBoxObjectArray
-                        .find(object => object.id === ElementID);
-                } else if (ElementID.includes("SignObjectArea")) {
-                    return this
-                        .SignObjectArray
-                        .find(object => object.id === ElementID);
-                }
-            },
             pushObjectInArray(objectID, x, y) {
-                let pushObject = {
-                    htmlID: "",
-                    id: "",
-                    title: "",
-                    width: "",
-                    height: "",
-                    x: "",
-                    y: ""
-                }
-                pushObject.width = 100;
-                pushObject.height = 100;
-                pushObject.x = x;
-                pushObject.y = y;
                 if (objectID === "ShortTextObjectArea") {
-                    pushObject.id = this.STextObjectID;
-                    pushObject.htmlID = objectID + String(this.STextObjectID);
-                    pushObject.title = "짧은 글_" + String(this.STextObjectID);
-                    this
-                        .STextObjectArray
-                        .push(pushObject);
+                    this.$store.state.ShortTextObject.ShortText.htmlID = objectID + String(this.STextObjectID);
+                    this.$store.state.ShortTextObject.ShortText.id = 1;
+                    this.$store.state.ShortTextObject.ShortText.title = "짧은 글_" + String(this.STextObjectID);
+                    this.$store.state.ShortTextObject.ShortText.width = 100;
+                    this.$store.state.ShortTextObject.ShortText.height = 30;
+                    this.$store.state.ShortTextObject.ShortText.x = x;
+                    this.$store.state.ShortTextObject.ShortText.y = y;
+                    this.$store.commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
                     this.STextObjectCheck = true;
-                    console.log(this.STextObjectArray);
                     this.STextObjectID++;
                 } else if (objectID === "LongTextObjectArea") {
-                    pushObject.id = this.LTextObjectID;
-                    pushObject.htmlID = objectID + String(this.LTextObjectID);
-                    pushObject.title = "긴 글_" + String(this.LTextObjectID)
-                    this
-                        .LTextObjectArray
-                        .push(pushObject);
+                    this.$store.state.LongTextObject.LongText.htmlID = objectID + String(this.LTextObjectID);
+                    this.$store.state.LongTextObject.LongText.id = 1;
+                    this.$store.state.LongTextObject.LongText.title = "긴 글_" + String(this.LTextObjectID);
+                    this.$store.state.LongTextObject.LongText.width = 100;
+                    this.$store.state.LongTextObject.LongText.height = 100;
+                    this.$store.state.LongTextObject.LongText.x = x;
+                    this.$store.state.LongTextObject.LongText.y = y;
+                    this.$store.commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
                     this.LTextObjectCheck = true;
-                    console.log(this.LTextObjectArray);
                     this.LTextObjectID++;
                 } else if (objectID === "CheckBoxObjectArea") {
-                    pushObject.id = this.CheckBoxObjectID;
-                    pushObject.htmlID = objectID + String(this.CheckBoxObjectID);
-                    pushObject.title = "체크박스_" + String(this.CheckBoxObjectID);
-                    this
-                        .CheckBoxObjectArray
-                        .push(pushObject);
+                    this.$store.state.CheckBoxObject.CheckBox.htmlID = objectID + String(this.CheckBoxObjectID);
+                    this.$store.state.CheckBoxObject.CheckBox.id = 1;
+                    this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_" + String(this.CheckBoxObjectID);
+                    this.$store.state.CheckBoxObject.CheckBox.width = 30;
+                    this.$store.state.CheckBoxObject.CheckBox.height = 30;
+                    this.$store.state.CheckBoxObject.CheckBox.x = x;
+                    this.$store.state.CheckBoxObject.CheckBox.y = y;
+                    this.$store.commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
                     this.CheckBoxObjectCheck = true;
-                    console.log(this.CheckBoxObjectArray);
                     this.CheckBoxObjectID++;
                 } else if (objectID === "SignObjectArea") {
-                    pushObject.id = this.SignObjectID;
-                    pushObject.htmlID = objectID + String(this.SignObjectID);
-                    pushObject.title = "사인_" + String(this.SignObjectID);
-                    this
-                        .SignObjectArray
-                        .push(pushObject);
+                    this.$store.state.SignObject.Sign.htmlID = objectID + String(this.SignObjectID);
+                    this.$store.state.SignObject.Sign.id = 1;
+                    this.$store.state.SignObject.Sign.title = "짧은 글_" + String(this.SignObjectID);
+                    this.$store.state.SignObject.Sign.width = 100;
+                    this.$store.state.SignObject.Sign.height = 30;
+                    this.$store.state.SignObject.Sign.x = x;
+                    this.$store.state.SignObject.Sign.y = y;
+                    this.$store.commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                     this.SignObjectCheck = true;
-                    console.log(this.SignObjectArray);
                     this.SignObjectID++;
                 }
-            },
-            DeleteBtnStyleSetting(DeleteBtn, computed_Object_Style, currentX, currentY) {
-                let stringHTML = '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">'+
-                '<path d="M9.51123 0.185547L5.37049 4.32629L1.22975 0.185547L0.185303 1.22999L4.32604 5.37073L0.185303 9.51147L1.229'+
-                '75 10.5559L5.37049 6.41518L9.51123 10.5559L10.5557 9.51147L6.41493 5.37073L10.5557 1.22999L9.51123 0.185547Z" fill="white"/></svg>';
-                DeleteBtn.style.width = "20px";
-                DeleteBtn.style.height = "20px";
-                DeleteBtn.style.borderRadius = "50%"
-                DeleteBtn.style.left = currentX + parseInt(computed_Object_Style.width, 10) / 2 + "px";
-                DeleteBtn.style.top = currentY - parseInt(computed_Object_Style.height, 10) / 2 + "px";
-                DeleteBtn.style.zIndex = 4;
-                DeleteBtn.style.backgroundColor = "#767676"
-                DeleteBtn.style.position = "absolute";
-                DeleteBtn.innerHTML = stringHTML;
             }
         }
     }

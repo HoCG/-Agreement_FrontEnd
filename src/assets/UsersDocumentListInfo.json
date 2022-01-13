@@ -12,21 +12,21 @@
             "documentTitle": "가정통신문",
             "Link": "",
             "documentWritersCount": 2,
-            "State": 0
+            "State": 1
         },
         {
             "id": 3,
             "documentTitle": "돌봄교실 응급처치 동의서 및 비상연락처",
             "Link": "",
             "documentWritersCount": 2,
-            "State": 0
+            "State": 2
         },
         {
             "id": 4,
             "documentTitle": "방과후 교실 신청서",
             "Link": "",
             "documentWritersCount": 2,
-            "State": 0
+            "State": 3
         }
     ]
 }

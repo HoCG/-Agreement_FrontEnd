@@ -2,7 +2,7 @@
     <div class="CheckBoxObjectArea">
         <!-- <p id="textForm"> 체크박스{{getCBData.id}} </p> -->
         <svg
-            v-bind:id="'CheckBoxDeleteBtn'+getCBData.id"
+            v-bind:id="getCBData.htmlID+'DeleteBtn'+getCBData.id"
             @mousedown="DeleteElement"
             class="CloseBtn"
             width="20"
@@ -26,203 +26,19 @@
     </div>
 </template>
 <script>
+    import ObjectEvent from "./ObjectEvent";
     export default {
         props: {
             getCBData: Object
         },
-        data() {
-            return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0}
-        },
         mounted() {
-            const fu = this.myFunction()
-            setTimeout(fu, 5000);
+            setTimeout(ObjectEvent.myFunction(this.getCBData), 5000);
         },
         methods: {
-            myFunction() {
-                const ThisWindow = document.getElementById("drawer");
-                const NewElementDiv = document.getElementById(this.getCBData.htmlID);
-                NewElementDiv.style.left = this.getCBData.x + "px";
-                NewElementDiv.style.top = this.getCBData.y + "px";
-                this.makingFirstClickObject(this.getCBData.htmlID);
-                ThisWindow.append(NewElementDiv);
-            },
-            //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다.
-            appendIntoPDFPage(getElement, currentX, currentY) {
-                // let getElement_in_Array =
-                // this.findObjectInArray(getElement.getAttribute("id"));
-                let appendY1 = 0;
-                let appendY2 = 0;
-                for (let i = 1; i <= this.$store.state.PDFInfo.PDFPageInfo; i++) {
-                    const PDF_Pages = document.getElementById("page" + String(i));
-                    PDF_Pages.style.position = "relative";
-                    let computed_PDF_Page_Style = window.getComputedStyle(PDF_Pages);
-                    let computed_Object_Style = window.getComputedStyle(getElement);
-                    appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
-                    if (currentY >= appendY1 && currentY <= appendY2) {
-                        getElement.style.top = currentY - appendY1 - parseInt(
-                            computed_Object_Style.height,
-                            10
-                        ) / 2 + "px";
-                        this.getCBData.y = currentY - appendY1 - parseInt(
-                            computed_Object_Style.height,
-                            10
-                        ) / 2;
-                        this.getCBData.x = currentX;
-                        console.log(this.getCBData);
-                        PDF_Pages.append(getElement);
-                        break;
-                    } else {
-                        appendY1 = appendY2;
-                    }
-                }
-            },
-            //아래부터는 메인 이벤트 모음입니다. 먼저 !초기! 클릭시에 오브젝트 생성.
-            makingFirstClickObject(objectID) {
-                let getElement = document.getElementById(objectID);
-                getElement.style.position = 'absolute';
-                getElement.style.zIndex = 6;
-                let currentX = 0;
-                let currentY = 0;
-                const ThisWindow = document.getElementById("drawer");
-                const containerWindow = document.getElementById("container");
-                const headerWindow = document.getElementsByTagName("header")[0];
-                let computedContainerStyle = window.getComputedStyle(containerWindow);
-                let computedheaderStyle = window.getComputedStyle(headerWindow);
-                let self = this;
-                function moveAt(currentX, currentY) {
-                    getElement.style.left = currentX + 'px';
-                    getElement.style.top = currentY + 'px';
-                }
-                function onMouseMove(event) {
-                    currentX = event.pageX - ThisWindow
-                        .getBoundingClientRect()
-                        .left - getElement
-                        .getBoundingClientRect()
-                        .width / 2;
-                    //패딩값만큼 빼고 계산하는 로직을 추가했다.
-                    currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
-                        computedheaderStyle.height,
-                        10
-                    ) - getElement
-                        .getBoundingClientRect()
-                        .height / 2;
-                    // 페이지 영역에 있는지 확인하는 함수이지만... 잘동작하지 않으므로 일단 보류.
-                    // self.checkWhere_Object_Into_PDFPage(getElement);
-                    if (currentX < 0) {
-                        currentX = 0;
-                    }
-                    if (currentY < 0) {
-                        currentY = 0;
-                    }
-                    moveAt(currentX, currentY);
-                }
-                getElement.addEventListener('mousemove', onMouseMove);
-                getElement.addEventListener('mouseout', onMouseMove);
-                getElement.addEventListener('click', function () {
-                    getElement.removeEventListener('mousemove', onMouseMove);
-                    getElement.removeEventListener('mouseout', onMouseMove);
-                    getElement.style.zIndex = 4;
-                    // 오브젝트를 해당위치에 PDFPage에 둔다.
-                    self.appendIntoPDFPage(
-                        getElement,
-                        currentX,
-                        currentY + parseInt(computedheaderStyle.height, 10)
-                    );
-                    //드래그 이벤트를 준다.
-                    self.makingDragEvent(getElement);
-                });
-            },
-            //오브젝트 배치이후 드래그시에 활성화되는 이벤트.
-            makingDragEvent(getElement) {
-                let currentX = 0;
-                let currentY = 0;
-                let self = this;
-                //self.showObjectMenu(); getElement.removeEventListener('mousemove')
-                let CheckBoxDeleteBtn = document.getElementById("CheckBoxDeleteBtn" + this.getCBData.id);
-                getElement.onmouseover = function () {
-
-                    CheckBoxDeleteBtn.style.display = "block";
-                }
-                getElement.onmouseout = function () {
-                    CheckBoxDeleteBtn.style.display = "none";
-                }
-                getElement.onmousedown = function (event) {
-                    event.stopPropagation();
-                    self.DragDetailEvent(currentX, currentY, getElement, event);
-                };
-                getElement.ondragstart = function () {
-                    return false;
-                }
-            },
             DeleteElement(e){
                 e.stopPropagation();
                 const Element = document.getElementById(this.getCBData.htmlID);
                 Element.remove();
-            },
-            DragDetailEvent(currentX, currentY, getElement, event) {
-                getElement.style.position = 'absolute';
-                let self = this;
-                getElement.style.zIndex = 4;
-                let ElementID = getElement.getAttribute("id");
-                let WantDeleteBtn = document.getElementById(ElementID + "Btn");
-                if (WantDeleteBtn !== null) {
-                    WantDeleteBtn.remove();
-                }
-                //각종 셋팅값들 let DeleteBtn = document.createElement("button");
-                const ThisWindow = document.getElementById("drawer");
-                const containerWindow = document.getElementById("container");
-                const headerWindow = document.getElementsByTagName("header")[0];
-                let computedContainerStyle = window.getComputedStyle(containerWindow);
-                let computedheaderStyle = window.getComputedStyle(headerWindow);
-                //초기 이동을 고려함.
-                currentX = event.pageX - ThisWindow
-                    .getBoundingClientRect()
-                    .left;
-                currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
-                    computedheaderStyle.height,
-                    10
-                );
-                moveAt(currentX, currentY);
-                ThisWindow.append(getElement);
-                //해당위치로 오브젝트가 이동하도록 하는 함수입니다.
-                function moveAt(currentX, currentY) {
-                    getElement.style.left = currentX - getElement
-                        .getBoundingClientRect()
-                        .width / 2 + 'px';
-                    getElement.style.top = currentY - getElement
-                        .getBoundingClientRect()
-                        .height / 2 + 'px';
-                }
-                //마우스를 움직일때 활성화되는 함수입니다.
-                function onMouseMove(event) {
-                    currentX = event.pageX - ThisWindow
-                        .getBoundingClientRect()
-                        .left;
-                    //패딩값만큼 빼고 계산하는 로직을 추가했다.
-                    currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
-                        computedheaderStyle.height,
-                        10
-                    );
-                    if (currentX < 0) {
-                        currentX = 0;
-                    }
-                    if (currentY < 0) {
-                        currentY = 0;
-                    }
-                    moveAt(currentX, currentY);
-                }
-                // mousemove로 오브젝트를 움직입니다.
-                getElement.addEventListener('mousemove', onMouseMove);
-                getElement.addEventListener('mouseout', onMouseMove);
-                window.addEventListener('scroll', onMouseMove);
-                // 오브젝트를 드롭하고, 불필요한 핸들러를 제거합니다.
-                getElement.addEventListener('mouseup', function () {
-                    window.removeEventListener('scroll', onMouseMove);
-                    getElement.removeEventListener('mouseout', onMouseMove);
-                    getElement.removeEventListener('mousemove', onMouseMove);
-                    self.appendIntoPDFPage(getElement, currentX, currentY);
-                });
-                //클릭시에 간단하게 메뉴들이 나올수 있는 이벤트를 만들어야 합니다.
             }
         }
     }
