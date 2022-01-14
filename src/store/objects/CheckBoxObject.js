@@ -1,12 +1,17 @@
 const state = {
     CheckBox: initObject(),
-    CheckBoxArr: []
+    CheckBoxArr: [],
+    NewX: 0,
+    NewY: 0
 };
 
 //사용되는 동작들
 const mutations = {
     FORMAT_ALL_CHECKBOX_OBJECTS(state) {
         state.CheckBoxArr = [];
+    },
+    FORMAT_SHORTTEXT_OBJECT(state) {
+        state.CheckBox = initObject();
     },
     UPDATE_CHECKBOX_OBJECT(state, getCheckBox) {
         let checkOverlapID = 1;
@@ -34,13 +39,20 @@ const mutations = {
             .push(getCheckBox);
         state.CheckBox = initObject();
     },
-    FIND_CHECKBOX_OBJECT(state, ElementID){
-        state.CheckBox = state.CheckBoxArr.find(object => object.htmlID === ElementID)
+    SET_CHECKBOX_X(state, x){
+        state.NewX = x;
     },
-    DELETE_CHECKBOX_OBJECT(state, getCheckBox) {
+    SET_CHECKBOX_Y(state, y){
+        state.NewY = y;
+    },
+    FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT(state, ElementID){
+        state.CheckBoxArr.find(object => object.htmlID === ElementID).x = state.NewX;
+        state.CheckBoxArr.find(object => object.htmlID === ElementID).y = state.NewY;
+    },
+    DELETE_CHECKBOX_OBJECT(state, getCheckBoxID) {
         state.CheckBoxArr = state
             .CheckBoxArr
-            .filter(e => e.id !== getCheckBox.id);
+            .filter(e => e.htmlID !== getCheckBoxID);
         state.CheckBox = initObject();
     }
 };

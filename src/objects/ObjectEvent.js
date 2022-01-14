@@ -9,18 +9,10 @@ export default{
         this.makingFirstClickObject(getData.htmlID, getData);
         ThisWindow.append(NewElementDiv);
     },
-    DeleteElement(e, getData) {
-        e.stopPropagation();
-        const Element = document.getElementById(getData.htmlID);
-        Element.remove();
-    },
     //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다.
     appendIntoPDFPage(getElement, currentX, currentY) {
-        // let getElement_in_Array =
-        //this.findObjectInArray(getElement.getAttribute("id"));
         let appendY1 = 0;
         let appendY2 = 0;
-        console.log(store.state.PDFInfo.PDFPageInfo);
         for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
@@ -32,26 +24,28 @@ export default{
                     computed_Object_Style.height,
                     10
                 ) / 2 + "px";
-                let getDataInfo = ""
-                if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
-                    store.commit("FIND_SHORTTEXT_OBJECT", getElement.getAttribute("id"));
-                    getDataInfo = store.state.ShortTextObject.ShortText;
-                } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
-                    store.commit("FIND_LONGTEXT_OBJECT", getElement.getAttribute("id"));
-                    getDataInfo = store.state.LongTextObject.LongText;
-                } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
-                    store.commit("FIND_CHECKBOX_OBJECT", getElement.getAttribute("id"));
-                    getDataInfo = store.state.CheckBoxObject.CheckBox;
-                } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
-                    store.commit("FIND_SIGN_OBJECT", getElement.getAttribute("id"));
-                    getDataInfo = store.state.SignObject.Sign;
-                }
-                getDataInfo.y = currentY - appendY1 - parseInt(
+                let y = currentY - appendY1 - parseInt(
                     computed_Object_Style.height,
                     10
                 ) / 2;
-                getDataInfo.x = currentX;
-                console.log(getDataInfo);
+                let x = currentX;
+                if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
+                    store.commit("SET_SHORTTEXT_X", parseInt(x));
+                    store.commit("SET_SHORTTEXT_Y", parseInt(y));
+                    store.commit("FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT", getElement.getAttribute("id"));
+                } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
+                    store.commit("SET_LONGTEXT_X", parseInt(x));
+                    store.commit("SET_LONGTEXT_Y", parseInt(y));
+                    store.commit("FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT", getElement.getAttribute("id"));
+                } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
+                    store.commit("SET_CHECKBOX_X", parseInt(x));
+                    store.commit("SET_CHECKBOX_Y", parseInt(y));
+                    store.commit("FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT", getElement.getAttribute("id"));
+                } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
+                    store.commit("SET_SIGN_X", parseInt(x));
+                    store.commit("SET_SIGN_Y", parseInt(y));
+                    store.commit("FIND_AND_SETTING_X_Y_SIGN_OBJECT", getElement.getAttribute("id"));
+                }
                 PDF_Pages.append(getElement);
                 break;
             } else {
@@ -103,13 +97,11 @@ export default{
         getElement.addEventListener('mouseout', onMouseMove);
         window.addEventListener('scroll', onMouseMove);
         getElement.addEventListener('click', function () {
-            /*
             self.appendIntoPDFPage(
                 getElement,
                 currentX,
                 currentY + parseInt(computedheaderStyle.height, 10)
             );
-            */
             getElement.removeEventListener('mousemove', onMouseMove);
             getElement.removeEventListener('mouseout', onMouseMove);
             window.removeEventListener('scroll', onMouseMove);
@@ -123,7 +115,7 @@ export default{
     makingDragEvent(getElement, getData) {
         let currentX = 0;
         let currentY = 0;
-        //let self = this;
+        let self = this;
         const ThisWindow = document.getElementById("drawer");
         const containerWindow = document.getElementById("container");
         const headerWindow = document.getElementsByTagName("header")[0];
@@ -178,7 +170,7 @@ export default{
         }
         getElement.addEventListener('mouseup', function () {
             MouseDownCheck = false;
-            //self.appendIntoPDFPage(getElement, currentX, currentY);
+            self.appendIntoPDFPage(getElement, currentX, currentY);
         })
         function moveAt(currentX, currentY) {
             getElement.style.left = currentX - getElement

@@ -1,12 +1,17 @@
 const state = {
     LongText: initObject(),
-    LongTextArr: []
+    LongTextArr: [],
+    NewX: 0,
+    NewY: 0
 };
 
 //사용되는 동작들
 const mutations = {
     FORMAT_ALL_LONGTEXT_OBJECTS(state) {
         state.LongTextArr = [];
+    },
+    FORMAT_SHORTTEXT_OBJECT(state) {
+        state.ShortText = initObject();
     },
     UPDATE_LONGTEXT_OBJECT(state, getLongText) {
         let checkOverlapID = 1;
@@ -34,13 +39,20 @@ const mutations = {
             .push(getLongText);
         state.LongText = initObject();
     },
-    FIND_LONGTEXT_OBJECT(state, ElementID){
-        state.LongText = state.LongTextArr.find(object => object.htmlID === ElementID)
+    SET_LONGTEXT_X(state, x){
+        state.NewX = x;
     },
-    DELETE_LONGTEXT_OBJECT(state, getLongText) {
+    SET_LONGTEXT_Y(state, y){
+        state.NewY = y;
+    },
+    FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT(state, ElementID){
+        state.LongTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
+        state.LongTextArr.find(object => object.htmlID === ElementID).y = state.NewY;
+    },
+    DELETE_LONGTEXT_OBJECT(state, getLongTextID) {
         state.LongTextArr = state
             .LongTextArr
-            .filter(e => e.id !== getLongText.id);
+            .filter(e => e.htmlID !== getLongTextID);
         state.LongText = initObject();
     }
 };

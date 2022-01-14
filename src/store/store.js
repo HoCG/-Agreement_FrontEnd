@@ -10,6 +10,7 @@ import CheckBoxObject from './objects/CheckBoxObject';
 import LongTextObject from './objects/LongTextObject';
 import ShortTextObject from './objects/ShortTextObject';
 import SignObject from './objects/SignObject';
+import UsersDocument from './users/UsersDocument'
 //import createPersistedState from "vuex-persistedstate" 작성시 페이지내에 정보 유지.
 
 Vue.use(vueMoment);
@@ -25,7 +26,8 @@ export default new Vuex.Store({
         SignObject,
         CheckBoxObject,
         LongTextObject,
-        ShortTextObject
+        ShortTextObject,
+        UsersDocument
     }
     /*,
     plugins: [ createPersistedState({ //주목! : 여기에 쓴 모듈만 저장됩니다. 

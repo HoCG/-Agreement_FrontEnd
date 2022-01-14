@@ -39,6 +39,7 @@
                 e.stopPropagation();
                 const Element = document.getElementById(this.getCBData.htmlID);
                 Element.remove();
+                this.$store.commit("DELETE_CHECKBOX_OBJECT", this.getCBData.htmlID);
             }
         }
     }

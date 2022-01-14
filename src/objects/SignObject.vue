@@ -40,6 +40,7 @@
                 e.stopPropagation();
                 const Element = document.getElementById(this.getSOData.htmlID);
                 Element.remove();
+                this.$store.commit("DELETE_SIGN_OBJECT", this.getSOData.htmlID);            
             },
             mouseDownHandler(e) {
                 e.stopPropagation();

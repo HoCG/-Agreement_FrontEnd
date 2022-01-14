@@ -1,12 +1,17 @@
 const state = {
     ShortText: initObject(),
-    ShortTextArr: []
+    ShortTextArr: [],
+    NewX: 0,
+    NewY: 0
 };
 
 //사용되는 동작들
 const mutations = {
     FORMAT_ALL_SHORTTEXT_OBJECTS(state) {
         state.ShortTextArr = [];
+    },
+    FORMAT_SHORTTEXT_OBJECT(state) {
+        state.ShortText = initObject();
     },
     UPDATE_SHORTTEXT_OBJECT(state, getShortText) {
         let checkOverlapID = 1;
@@ -33,13 +38,20 @@ const mutations = {
             .push(getShortText);
         state.ShortText = initObject();
     },
-    FIND_SHORTTEXT_OBJECT(state, ElementID){
-        state.ShortText = state.ShortTextArr.find(object => object.htmlID === ElementID)
+    SET_SHORTTEXT_X(state, x){
+        state.NewX = x;
     },
-    DELETE_SHORTTEXT_OBJECT(state, getShortText) {
+    SET_SHORTTEXT_Y(state, y){
+        state.NewY = y;
+    },
+    FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT(state, ElementID){
+        state.ShortTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
+        state.ShortTextArr.find(object => object.htmlID === ElementID).y = state.NewY;
+    },
+    DELETE_SHORTTEXT_OBJECT(state, getShortTextID) {
         state.ShortTextArr = state
             .ShortTextArr
-            .filter(e => e.id !== getShortText.id);
+            .filter(e => e.htmlID !== getShortTextID);
         state.ShortText = initObject();
     }
 };

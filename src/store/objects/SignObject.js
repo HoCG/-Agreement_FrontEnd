@@ -1,6 +1,8 @@
 const state = {
     Sign: initObject(),
-    SignArr: []
+    SignArr: [],
+    NewX: 0,
+    NewY: 0
 };
 
 //사용되는 동작들
@@ -37,13 +39,22 @@ const mutations = {
             .push(getSign);
         state.Sign = initObject();
     },
-    FIND_SIGN_OBJECT(state, ElementID){
-        state.Sign = state.SignArr.find(object => object.htmlID === ElementID)
+    SET_SIGN_X(state, x){
+        state.NewX = x;
     },
-    DELETE_SIGN_OBJECT(state, getSign) {
+    SET_SIGN_Y(state, y){
+        state.NewY = y;
+    },
+    FIND_AND_SETTING_X_Y_SIGN_OBJECT(state, ElementID){
+        state.SignArr.find(object => object.htmlID === ElementID).x = state.NewX;
+        state.SignArr.find(object => object.htmlID === ElementID).y = state.NewY;
+        console.log(state.SignArr.find(object => object.htmlID === ElementID));
+    },
+    DELETE_SIGN_OBJECT(state, getSignID) {
         state.SignArr = state
             .SignArr
-            .filter(e => e.id !== getSign.id);
+            .filter(e => e.htmlID !== getSignID);
+        console.log(state.SignArr);
         state.Sign = initObject();
     }
 };

@@ -39,6 +39,7 @@
                 e.stopPropagation();
                 const Element = document.getElementById(this.getSTData.htmlID);
                 Element.remove();
+                this.$store.commit("DELETE_SHORTTEXT_OBJECT", this.getSTData.htmlID);
             },
             mouseDownHandler(e) {
                 e.stopPropagation();

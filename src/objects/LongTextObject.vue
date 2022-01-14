@@ -67,6 +67,7 @@
                 e.stopPropagation();
                 const Element = document.getElementById(this.getLTData.htmlID);
                 Element.remove();
+                this.$store.commit("DELETE_LONGTEXT_OBJECT", this.getLTData.htmlID);
             }
         }
     }
