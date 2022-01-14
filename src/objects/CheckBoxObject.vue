@@ -32,8 +32,15 @@
             getCBData: Object
         },
         mounted() {
-            setTimeout(ObjectEvent.myFunction(this.getCBData), 5000);
+            ObjectEvent.myFunction(this.getCBData);
+        },   
+        /*
+        updated() { 
+            if(document.getElementById("page" + 1)!==null){
+                ObjectEvent.myFunction(this.getCBData);
+            }
         },
+        */  
         methods: {
             DeleteElement(e){
                 e.stopPropagation();
@@ -50,11 +57,12 @@
         left: 80%;
         position: absolute;
     }
+    /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
     .CheckBoxObjectArea {
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
-        display: flex;
+        display: none;
         font-size: large;
         text-align: center;
         justify-content: center;

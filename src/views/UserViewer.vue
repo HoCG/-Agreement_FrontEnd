@@ -18,6 +18,12 @@
                     <SignSVG/>
                     <p>서명</p>
                 </button>
+                <button class="SaveEditPageButton" @click="SaveAllData">
+                    완료
+                </button>
+                <button class="CloseEditPageButton" @click="CloseEditPage">
+                    닫기
+                </button>
             </div>
         </div>
         <div class="sideBar">
@@ -27,7 +33,7 @@
                 </div>
                 <div class="objectList">
                     <ul>
-                        <li v-if="this.STextObjectCheck">
+                        <li v-if="this.$store.state.ShortTextObject.ShortTextDefineCheck">
                             <div style="width:100%; height: 28px;">
                                 <ShortTextSVG style="float: left" height="15%"/>
                                 <div style="float: left">({{this.$store.state.ShortTextObject.ShortTextArr.length}})</div>
@@ -44,7 +50,7 @@
                         <br/>
                         <br/>
                         <br/>
-                        <li v-if="this.LTextObjectCheck">
+                        <li v-if="this.$store.state.LongTextObject.LongTextDefineCheck">
                             <div style="width:100%; height: 28px;">
                                 <LongTextSVG style="float: left" height="15%"/>
                                 <div style="float: left">({{this.$store.state.LongTextObject.LongTextArr.length}})</div>
@@ -61,12 +67,14 @@
                         <br/>
                         <br/>
                         <br/>
-                        <li v-if="this.CheckBoxObjectCheck">
+                        <li v-if="this.$store.state.CheckBoxObject.CheckBoxDefineCheck">
                             <div style="width:100%; height: 28px;">
                                 <CheckBoxSVG style="float: left" height="15%"/>
                                 <div style="float: left">({{this.$store.state.CheckBoxObject.CheckBoxArr.length}})</div>
                             </div>
-                            <ol v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr" :key="CheckBoxObject.id">
+                            <ol
+                                v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr"
+                                :key="CheckBoxObject.id">
                                 {{
                                     CheckBoxObject.title
                                 }}
@@ -75,12 +83,14 @@
                         <br/>
                         <br/>
                         <br/>
-                        <li v-if="this.SignObjectCheck">
+                        <li v-if="this.$store.state.SignObject.SignDefineCheck">
                             <div style="width:100%; height: 28px;">
                                 <SignSVG style="float: left" height="15%"/>
                                 <div style="float: left">({{this.$store.state.SignObject.SignArr.length}})</div>
                             </div>
-                            <ol v-for="SignObject in this.$store.state.SignObject.SignArr" :key="SignObject.id">
+                            <ol
+                                v-for="SignObject in this.$store.state.SignObject.SignArr"
+                                :key="SignObject.id">
                                 {{
                                     SignObject.title
                                 }}
@@ -96,16 +106,32 @@
         <PDFUploader/>
         <!--id반영이 제대로 안되는 버그-->
         <div>
-            <SignObject v-for="SignObject in this.$store.state.SignObject.SignArr" :key="SignObject.id" v-bind:getSOData="SignObject" v-bind:id="SignObject.htmlID"/>
+            <SignObject
+                v-for="SignObject in this.$store.state.SignObject.SignArr"
+                :key="SignObject.id"
+                v-bind:getSOData="SignObject"
+                v-bind:id="SignObject.htmlID"/>
         </div>
         <div>
-            <CheckBoxObject v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr" :key="CheckBoxObject.id" v-bind:getCBData="CheckBoxObject" v-bind:id="CheckBoxObject.htmlID"/>
+            <CheckBoxObject
+                v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr"
+                :key="CheckBoxObject.id"
+                v-bind:getCBData="CheckBoxObject"
+                v-bind:id="CheckBoxObject.htmlID"/>
         </div>
         <div>
-            <LongTextObject v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr" :key="LTextObject.id" v-bind:getLTData="LTextObject" v-bind:id="LTextObject.htmlID"/>
+            <LongTextObject
+                v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr"
+                :key="LTextObject.id"
+                v-bind:getLTData="LTextObject"
+                v-bind:id="LTextObject.htmlID"/>
         </div>
         <div>
-            <ShortTextObject v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr" :key="STextObject.id" v-bind:getSTData="STextObject" v-bind:id="STextObject.htmlID"/>
+            <ShortTextObject
+                v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr"
+                :key="STextObject.id"
+                v-bind:getSTData="STextObject"
+                v-bind:id="STextObject.htmlID"/>
         </div>
     </v-card>
 </template>
@@ -119,7 +145,7 @@
     import LongTextSVG from '../svgs/LongTextSVG.vue';
     import CheckBoxSVG from '../svgs/CheckBoxSVG.vue';
     import SignSVG from '../svgs/SignSVG.vue';
-    import DocumentInfoSideBar from '../components/DocumentInfoSideBar.vue'
+    import DocumentInfoSideBar from '../components/DocumentInfoSideBar.vue';
     export default {
         components: {
             DocumentInfoSideBar,
@@ -151,36 +177,48 @@
         mounted() {
             this
                 .$store
-                .commit("SET_PDF_FILE_UPLOAD_CHECK_FALSE");
+                .commit("CLOSE_EDIT_PAGE");
         },
         data() {
             return {
                 //오브젝트 관련 데이터 짧은글
                 STextObjectName: "ShortTextObjectArea",
-                STextObjectArray: [],
-                STextObjectCheck: false,
                 STextObjectID: 1,
 
                 //긴글
                 LTextObjectName: "LongTextObjectArea",
-                LTextObjectArray: [],
-                LTextObjectCheck: false,
                 LTextObjectID: 1,
 
                 //체크박스
                 CheckBoxObjectName: "CheckBoxObjectArea",
-                CheckBoxObjectArray: [],
-                CheckBoxObjectCheck: false,
                 CheckBoxObjectID: 1,
 
                 //싸인
                 SignObjectName: "SignObjectArea",
-                SignObjectArray: [],
-                SignObjectCheck: false,
                 SignObjectID: 1
             }
         },
         methods: {
+            CloseEditPage(){
+                this.$store.commit("CLOSE_EDIT_PAGE");
+                this.$store.commit("FORMAT_ALL_CHECKBOX_OBJECTS");
+                this.$store.commit("FORMAT_ALL_SHORTTEXT_OBJECTS");
+                this.$store.commit("FORMAT_ALL_LONGTEXT_OBJECTS");
+                this.$store.commit("FORMAT_ALL_SIGN_OBJECTS");
+            },
+            SaveAllData(){
+                let SendJsonFile = [];
+                let CheckBoxArray = this.$store.state.CheckBoxObject.CheckBoxArr;
+                let ShortTextArray = this.$store.state.ShortTextObject.ShortTextArr;
+                let LongTextArray = this.$store.state.LongTextObject.LongTextArr;
+                let SignArray = this.$store.state.SignObject.SignArr;
+                SendJsonFile.push(CheckBoxArray);
+                SendJsonFile.push(ShortTextArray);
+                SendJsonFile.push(LongTextArray);
+                SendJsonFile.push(SignArray);
+                const UsersDocumentObjects = JSON.stringify(SendJsonFile);
+                console.log(UsersDocumentObjects);
+            },
             //오브젝트를 형성하는 과정.
             makeObject(objectID, event) {
                 //forTest
@@ -231,45 +269,53 @@
             //배열내에 해당 오브젝트를 제거.
             pushObjectInArray(objectID, x, y) {
                 if (objectID === "ShortTextObjectArea") {
-                    this.$store.state.ShortTextObject.ShortText.htmlID = objectID + String(this.STextObjectID);
-                    this.$store.state.ShortTextObject.ShortText.title = "짧은 글_" + String(this.STextObjectID);
+                    this.$store.state.ShortTextObject.ShortText.htmlID = objectID;
+                    this.$store.state.ShortTextObject.ShortText.title = "짧은 글_";
                     this.$store.state.ShortTextObject.ShortText.width = 100;
                     this.$store.state.ShortTextObject.ShortText.height = 30;
                     this.$store.state.ShortTextObject.ShortText.x = x;
                     this.$store.state.ShortTextObject.ShortText.y = y;
-                    this.$store.commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
+                    this.$store.state.ShortTextObject.ShortText.push_or_readCheck = true;
+                    this
+                        .$store
+                        .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
                     console.log(this.$store.state.ShortTextObject.ShortTextArr)
-                    this.STextObjectCheck = true;
                     this.STextObjectID++;
                 } else if (objectID === "LongTextObjectArea") {
-                    this.$store.state.LongTextObject.LongText.htmlID = objectID + String(this.LTextObjectID);
-                    this.$store.state.LongTextObject.LongText.title = "긴 글_" + String(this.LTextObjectID);
+                    this.$store.state.LongTextObject.LongText.htmlID = objectID;
+                    this.$store.state.LongTextObject.LongText.title = "긴 글_";
                     this.$store.state.LongTextObject.LongText.width = 100;
                     this.$store.state.LongTextObject.LongText.height = 100;
                     this.$store.state.LongTextObject.LongText.x = x;
                     this.$store.state.LongTextObject.LongText.y = y;
-                    this.$store.commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
-                    this.LTextObjectCheck = true;
+                    this.$store.state.LongTextObject.LongText.push_or_readCheck = true;
+                    this
+                        .$store
+                        .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
                     this.LTextObjectID++;
                 } else if (objectID === "CheckBoxObjectArea") {
-                    this.$store.state.CheckBoxObject.CheckBox.htmlID = objectID + String(this.CheckBoxObjectID);
-                    this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_" + String(this.CheckBoxObjectID);
+                    this.$store.state.CheckBoxObject.CheckBox.htmlID = objectID;
+                    this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_";
                     this.$store.state.CheckBoxObject.CheckBox.width = 30;
                     this.$store.state.CheckBoxObject.CheckBox.height = 30;
                     this.$store.state.CheckBoxObject.CheckBox.x = x;
                     this.$store.state.CheckBoxObject.CheckBox.y = y;
-                    this.$store.commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
-                    this.CheckBoxObjectCheck = true;
+                    this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = true;
+                    this
+                        .$store
+                        .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
                     this.CheckBoxObjectID++;
                 } else if (objectID === "SignObjectArea") {
-                    this.$store.state.SignObject.Sign.htmlID = objectID + String(this.SignObjectID);
-                    this.$store.state.SignObject.Sign.title = "사인_" + String(this.SignObjectID);
+                    this.$store.state.SignObject.Sign.htmlID = objectID;
+                    this.$store.state.SignObject.Sign.title = "사인_";
                     this.$store.state.SignObject.Sign.width = 100;
-                    this.$store.state.SignObject.Sign.height = 30;
+                    this.$store.state.SignObject.Sign.height = 100;
                     this.$store.state.SignObject.Sign.x = x;
                     this.$store.state.SignObject.Sign.y = y;
-                    this.$store.commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
-                    this.SignObjectCheck = true;
+                    this.$store.state.SignObject.Sign.push_or_readCheck = true;
+                    this
+                        .$store
+                        .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                     this.SignObjectID++;
                 }
             }
@@ -277,6 +323,23 @@
     }
 </script>
 <style lang="scss">
+    .SaveEditPageButton{
+        float: right;
+        width: 82px;
+        height: 48px;
+        /* gray_05 */
+        background: #767676;
+        border: 1px solid #000000;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+    }
+    .CloseEditPageButton{
+        width: 82px;
+        height: 48px;
+        float: right;
+        color: #C4C4C4;
+    }
     #textForm::after {
         content: attr(data-content);
     }

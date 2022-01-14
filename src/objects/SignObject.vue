@@ -3,7 +3,9 @@
         <p id="textForm">
             사인{{getSOData.id}}
         </p>
-        서명
+        <p id="SignText">
+            서명
+        </p>
         <svg
             @mousedown="DeleteElement"
             v-bind:id="getSOData.htmlID+'DeleteBtn'+getSOData.id"
@@ -33,7 +35,7 @@
             return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0}
         },
         mounted() {
-            setTimeout(ObjectEvent.myFunction(this.getSOData), 5000);
+            ObjectEvent.myFunction(this.getSOData)
         },
         methods: {
             DeleteElement(e) {
@@ -86,11 +88,19 @@
         bottom: 100%;
         position: absolute;
     }
+    #SignText{
+        -ms-user-select: none;
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
     .SignObjectArea {
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
-        display: flex;
+        display: none;
         font-size: large;
         text-align: center;
         justify-content: center;

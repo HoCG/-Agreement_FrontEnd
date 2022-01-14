@@ -31,9 +31,17 @@
         data() {
             return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0}
         },
+
         mounted() {
-            setTimeout(ObjectEvent.myFunction(this.getLTData), 5000);
+            ObjectEvent.myFunction(this.getLTData);
+        }, 
+        /*  
+        updated() { 
+            if(document.getElementById("page" + 1)!==null){
+                ObjectEvent.myFunction(this.getLTData);
+            }
         },
+        */
         methods: {
             mouseDownHandler(e) {
                 e.stopPropagation();
@@ -85,11 +93,12 @@
         bottom: 100%;
         position: absolute;
     }
+    /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
     .LongTextObjectArea {
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
-        display: flex;
+        display: none;
         font-size: large;
         text-align: center;
         justify-content: center;

@@ -4,13 +4,24 @@ export default{
     myFunction(getData) {
         const ThisWindow = document.getElementById("drawer");
         const NewElementDiv = document.getElementById(getData.htmlID);
+        NewElementDiv.style.width = getData.width + "px";
+        NewElementDiv.style.height = getData.height + "px";
         NewElementDiv.style.left = getData.x + "px";
         NewElementDiv.style.top = getData.y + "px";
-        this.makingFirstClickObject(getData.htmlID, getData);
-        ThisWindow.append(NewElementDiv);
-    },
-    //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다.
-    appendIntoPDFPage(getElement, currentX, currentY) {
+        if(getData.push_or_readCheck === true){
+            this.makingFirstClickObject(getData.htmlID, getData);
+            ThisWindow.append(NewElementDiv);
+        }
+        else{
+            let self = this
+            setTimeout(function() {
+                self.append_Into_PDFPage_For_ReadingObject(getData, getData.x, getData.y);
+            }, 1000);
+            this.makingDragEvent(document.getElementById(getData.htmlID), getData);
+        }
+    }, 
+    //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 맨 처음 오브젝트를 클릭하여 생성했을때만 적용됩니다.
+    append_Into_PDFPage_For_First(getElement, currentX, currentY) {
         let appendY1 = 0;
         let appendY2 = 0;
         for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
@@ -53,11 +64,62 @@ export default{
             }
         }
     },
+    //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 오브젝트를 읽어서 배치하는 과정에서만 적용됩니다.
+    append_Into_PDFPage_For_ReadingObject(getData, currentX, currentY){
+        console.log("run")
+        let appendY1 = 0;
+        let appendY2 = 0;
+        let getElement = document.getElementById(getData.htmlID);
+        getElement.style.display = "flex";
+        for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
+            const PDF_Pages = document.getElementById("page" + String(i));
+            PDF_Pages.style.position = "relative";
+            let computed_PDF_Page_Style = window.getComputedStyle(PDF_Pages);
+            let computed_Object_Style = window.getComputedStyle(getElement);
+            appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
+            if (currentY >= appendY1 && currentY <= appendY2) {
+                if(getData.page === i){
+                    getElement.style.top = currentY - appendY1 - parseInt(
+                        computed_Object_Style.height,
+                        10
+                    ) / 2 + "px";
+                    let y = currentY - appendY1 - parseInt(
+                        computed_Object_Style.height,
+                        10
+                    ) / 2;
+                    let x = currentX;
+                    if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
+                        store.commit("SET_SHORTTEXT_X", parseInt(x));
+                        store.commit("SET_SHORTTEXT_Y", parseInt(y));
+                        store.commit("FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT", getElement.getAttribute("id"));
+                    } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
+                        store.commit("SET_LONGTEXT_X", parseInt(x));
+                        store.commit("SET_LONGTEXT_Y", parseInt(y));
+                        store.commit("FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT", getElement.getAttribute("id"));
+                    } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
+                        store.commit("SET_CHECKBOX_X", parseInt(x));
+                        store.commit("SET_CHECKBOX_Y", parseInt(y));
+                        store.commit("FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT", getElement.getAttribute("id"));
+                    } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
+                        store.commit("SET_SIGN_X", parseInt(x));
+                        store.commit("SET_SIGN_Y", parseInt(y));
+                        store.commit("FIND_AND_SETTING_X_Y_SIGN_OBJECT", getElement.getAttribute("id"));
+                    }
+                    PDF_Pages.append(getElement);
+                    break;
+                }
+            } else {
+                appendY1 = appendY2;
+            }
+        }
+    },
     //아래부터는 메인 이벤트 모음입니다. 먼저 !초기! 클릭시에 오브젝트 생성.
     makingFirstClickObject(objectID, getData) {
         let getElement = document.getElementById(objectID);
+        getElement.style.display = "flex";
+        //getElement
         getElement.style.position = 'absolute';
-        getElement.style.zIndex = 6;
+        getElement.style.zIndex = 8;
         let currentX = 0;
         let currentY = 0;
         const ThisWindow = document.getElementById("drawer");
@@ -97,7 +159,7 @@ export default{
         getElement.addEventListener('mouseout', onMouseMove);
         window.addEventListener('scroll', onMouseMove);
         getElement.addEventListener('click', function () {
-            self.appendIntoPDFPage(
+            self.append_Into_PDFPage_For_First(
                 getElement,
                 currentX,
                 currentY + parseInt(computedheaderStyle.height, 10)
@@ -170,7 +232,7 @@ export default{
         }
         getElement.addEventListener('mouseup', function () {
             MouseDownCheck = false;
-            self.appendIntoPDFPage(getElement, currentX, currentY);
+            self.append_Into_PDFPage_For_First(getElement, currentX, currentY);
         })
         function moveAt(currentX, currentY) {
             getElement.style.left = currentX - getElement

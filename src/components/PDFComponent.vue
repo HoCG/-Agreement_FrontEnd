@@ -1,6 +1,6 @@
 <template>
     <div id="container" class="container">
-        <div v-if="fileUploadCheck" id="drawerScrollBox" class="pdfViewer">
+        <div v-if="this.$store.state.PDFInfo.PDFFileUploadCheck" id="drawerScrollBox" class="pdfViewer">
             <div id="drawer">
                 <pdf
                     v-for="i in numPages"
@@ -61,7 +61,7 @@
                                 </li>
                                 <!-- 게시물이 출력될 영역 -->
                                 <li
-                                    v-for="Document in this.UsersDocumentListInfo.documentInfo"
+                                    v-for="Document in this.$store.state.UsersDocument.DocumentArr"
                                     :key="Document.id">
                                     <ul v-if="IsFirstDocument()" class="TitleAndItemsUl">
                                         <li>
@@ -141,7 +141,7 @@
                                             <button>open</button>
                                         </li>
                                     </ul>
-                                    <ul v-else-if="!IsFirstDocument()" class="ItemsUl">
+                                    <ul v-else-if="!IsFirstDocument(Document)" class="ItemsUl">
                                         <li>{{Document.documentTitle}}</li>
                                         <li>{{Document.WritersDocument.length}}</li>
                                         <li>-</li>
@@ -189,11 +189,13 @@
     import EditBtn from "../svgs/EditSVG.vue";
     import LinkBtn from "../svgs/LinkBtnSVG.vue"
     import pdf from 'vue-pdf';
+    import DocumentObjectList from '../assets/DocumentObjectList.json';
     let loadingTask = pdf.createLoadingTask(
         "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
     );
     export default {
         mounted() {
+            this.pushUsersDocuments(UsersDocumentListInfo);
             this
                 .$store
                 .commit("SET_WRITER_DOCUMENT_LIST_FALSE");
@@ -209,6 +211,7 @@
         },
         data() {
             return {
+                DocumentObjectList: DocumentObjectList,
                 OpenWritersDocument: false,
                 FirstDocumentCheck: true,
                 WritersDocumentListInfo: WritersDocumentListInfo,
@@ -220,6 +223,18 @@
             }
         },
         methods: {
+            pushUsersDocuments(UsersDocumentListInfo){
+                this.$store.commit("FORMAT_ALL_DOCUMENTS");
+                for(let getDocument of UsersDocumentListInfo.documentInfo){
+                    this.$store.state.UsersDocument.Document.id = getDocument.id;
+                    this.$store.state.UsersDocument.Document.documentTitle = getDocument.documentTitle;
+                    this.$store.state.UsersDocument.Document.Link = getDocument.Link;
+                    this.$store.state.UsersDocument.Document.src = getDocument.src;
+                    this.$store.state.UsersDocument.Document.documentWritersCount = getDocument.documentWritersCount;
+                    this.$store.state.UsersDocument.Document.State = getDocument.State;
+                    this.$store.commit("ADD_DOCUMENT", this.$store.state.UsersDocument.Document);
+                }
+            },
             ShowWritersDocumentList(documentTitle) {
                 let WritersList = document.getElementsByClassName(documentTitle);
                 for (let WL of WritersList) {
@@ -278,7 +293,9 @@
                 this.addFiles(files);
             },
             goEditScreen(Document) {
-                this.fileUploadCheck = true;
+                this
+                    .$store
+                    .commit("SHOW_EDIT_PAGE");
                 let test = require('../assets/커리큘럼.pdf');
                 if(Document.src.length >= 2){
                     this.src = pdf.createLoadingTask(Document.src);
@@ -290,6 +307,7 @@
                             this
                                 .$store
                                 .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
+                            setTimeout(3000, this.readAllObject(DocumentObjectList));
                     });
                 }
                 else{
@@ -302,11 +320,12 @@
                             this
                                 .$store
                                 .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
+                            this
+                                .$store
+                                .commit("SHOW_EDIT_PAGE");
+                            setTimeout(3000, this.readAllObject(DocumentObjectList));
                     });
                 }
-                this
-                    .$store
-                    .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
             },
             async addFiles(files) {
                 console.log(files);
@@ -315,34 +334,13 @@
                     .commit("SET_DOCUMENT_TITLE", files[0].name);
                 if (files[0].name.includes(".pdf")) {
                     const src = await this.readFiles(files[0])
-                    /*
-                    console.log(files[0])
-                    console.log(src)
-                    this.src = src;
-                    this.src = pdf.createLoadingTask(src);
-                    this
-                        .src
-                        .promise
-                        .then(pdf => {
-                            this.numPages = pdf.numPages;
-                            this
-                                .$store
-                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
-                        });
-                    this
-                        .$store
-                        .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
-                        */
-                    let newData =         {
-                        id: UsersDocumentListInfo.documentInfo.length + 1,
-                        documentTitle: files[0].name,
-                        Link: "",
-                        src: src,
-                        documentWritersCount: 2,
-                        State: 0
-                    }
-                    UsersDocumentListInfo.documentInfo.push(newData);
-                    console.log(UsersDocumentListInfo.documentInfo);
+                    this.$store.state.UsersDocument.Document.id = this.$store.state.UsersDocument.DocumentArr.length + 1;
+                    this.$store.state.UsersDocument.Document.documentTitle = files[0].name;
+                    this.$store.state.UsersDocument.Document.Link = "";
+                    this.$store.state.UsersDocument.Document.src = src;
+                    this.$store.state.UsersDocument.Document.documentWritersCount = 0;
+                    this.$store.state.UsersDocument.Document.State = 0;
+                    this.$store.commit("ADD_DOCUMENT", this.$store.state.UsersDocument.Document);
                 } else {
                     alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
                 }
@@ -355,6 +353,55 @@
                     }
                     reader.readAsDataURL(files)
                 });
+            },
+            readAllObject(DocumentObjectList) {
+                for (let DocumentObject of DocumentObjectList.object) {
+                    if (DocumentObject.title.includes("짧은 글")) {
+                        this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
+                        this.$store.state.ShortTextObject.ShortText.title = "짧은 글_"
+                        this.$store.state.ShortTextObject.ShortText.width = DocumentObject.width;
+                        this.$store.state.ShortTextObject.ShortText.height = DocumentObject.height;
+                        this.$store.state.ShortTextObject.ShortText.x = DocumentObject.x;
+                        this.$store.state.ShortTextObject.ShortText.y = DocumentObject.y;
+                        this.$store.state.ShortTextObject.ShortText.page = DocumentObject.page;
+                        this
+                            .$store
+                            .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
+                    } else if (DocumentObject.title.includes("긴 글")) {
+                        this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
+                        this.$store.state.LongTextObject.LongText.title = "긴 글_"
+                        this.$store.state.LongTextObject.LongText.width = DocumentObject.width;
+                        this.$store.state.LongTextObject.LongText.height = DocumentObject.height;
+                        this.$store.state.LongTextObject.LongText.x = DocumentObject.x;
+                        this.$store.state.LongTextObject.LongText.y = DocumentObject.y;
+                        this.$store.state.LongTextObject.LongText.page = DocumentObject.page;
+                        this
+                            .$store
+                            .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
+                    } else if (DocumentObject.title.includes("체크박스")) {
+                        this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
+                        this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
+                        this.$store.state.CheckBoxObject.CheckBox.width = DocumentObject.width;
+                        this.$store.state.CheckBoxObject.CheckBox.height = DocumentObject.height;
+                        this.$store.state.CheckBoxObject.CheckBox.x = DocumentObject.x;
+                        this.$store.state.CheckBoxObject.CheckBox.y = DocumentObject.y;
+                        this.$store.state.CheckBoxObject.CheckBox.page = DocumentObject.page;
+                        this
+                            .$store
+                            .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
+                     } else if (DocumentObject.title.includes("사인")) {
+                        this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
+                        this.$store.state.SignObject.Sign.title = "사인_"
+                        this.$store.state.SignObject.Sign.width = DocumentObject.width;
+                        this.$store.state.SignObject.Sign.height = DocumentObject.height;
+                        this.$store.state.SignObject.Sign.x = DocumentObject.x;
+                        this.$store.state.SignObject.Sign.y = DocumentObject.y;
+                        this.$store.state.SignObject.Sign.page = DocumentObject.page;
+                        this
+                            .$store
+                            .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
+                    }
+                }
             }
         }
     }

@@ -2,7 +2,8 @@ const state = {
     Sign: initObject(),
     SignArr: [],
     NewX: 0,
-    NewY: 0
+    NewY: 0,
+    SignDefineCheck: false
 };
 
 //사용되는 동작들
@@ -30,7 +31,6 @@ const mutations = {
             .push(getSign);
         state.Sign = initObject();
     },
-
     //이벤트를 추가하는 과정.
     ADD_SIGN_OBJECT(state, getSign) {
         getSign = makeObject(state, getSign);
@@ -38,6 +38,7 @@ const mutations = {
             .SignArr
             .push(getSign);
         state.Sign = initObject();
+        state.SignDefineCheck = true;
     },
     SET_SIGN_X(state, x){
         state.NewX = x;
@@ -48,13 +49,11 @@ const mutations = {
     FIND_AND_SETTING_X_Y_SIGN_OBJECT(state, ElementID){
         state.SignArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.SignArr.find(object => object.htmlID === ElementID).y = state.NewY;
-        console.log(state.SignArr.find(object => object.htmlID === ElementID));
     },
     DELETE_SIGN_OBJECT(state, getSignID) {
         state.SignArr = state
             .SignArr
             .filter(e => e.htmlID !== getSignID);
-        console.log(state.SignArr);
         state.Sign = initObject();
     }
 };
@@ -70,13 +69,15 @@ const makeObject = (state, Object) => {
         checkOverlapID++;
     }
     return {
-        htmlID: Object.htmlID,
+        htmlID: Object.htmlID + checkOverlapID,
         id: checkOverlapID,
-        title: Object.title,
+        title: Object.title + checkOverlapID,
         width: Object.width,
         height: Object.height,
         x: Object.x,
-        y: Object.y
+        y: Object.y,
+        page: Object.page,
+        push_or_readCheck: Object.push_or_readCheck
     }
 };
 
@@ -89,7 +90,9 @@ function initObject() {
         width: '',
         height: '',
         x: '',
-        y: ''
+        y: '',
+        page: '',
+        push_or_readCheck: false
     }
 }
 

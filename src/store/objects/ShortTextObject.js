@@ -1,6 +1,7 @@
 const state = {
     ShortText: initObject(),
     ShortTextArr: [],
+    ShortTextDefineCheck: false,
     NewX: 0,
     NewY: 0
 };
@@ -37,6 +38,7 @@ const mutations = {
             .ShortTextArr
             .push(getShortText);
         state.ShortText = initObject();
+        state.ShortTextDefineCheck = true;
     },
     SET_SHORTTEXT_X(state, x){
         state.NewX = x;
@@ -67,13 +69,15 @@ const makeObject = (state, Object) => {
         checkOverlapID++;
     }
     return {
-        htmlID: Object.htmlID,
+        htmlID: Object.htmlID + checkOverlapID,
         id: checkOverlapID,
-        title: Object.title,
+        title: Object.title + checkOverlapID,
         width: Object.width,
         height: Object.height,
         x: Object.x,
-        y: Object.y
+        y: Object.y,
+        page: Object.page,
+        push_or_readCheck: Object.push_or_readCheck
     }
 };
 
@@ -86,7 +90,9 @@ function initObject() {
         width: '',
         height: '',
         x: '',
-        y: ''
+        y: '',
+        page: '',
+        push_or_readCheck: false
     }
 }
 

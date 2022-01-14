@@ -32,8 +32,15 @@
             return {resizeX: 0, resizeW: 0}
         },
         mounted() {
-            setTimeout(ObjectEvent.myFunction(this.getSTData), 5000);
+            ObjectEvent.myFunction(this.getSTData)
+        },       
+        /*
+        updated() { 
+            if(document.getElementById("page" + 1)!==null){
+                ObjectEvent.myFunction(this.getSTData);
+            }
         },
+        */
         methods: {
             DeleteElement(e) {
                 e.stopPropagation();
@@ -75,11 +82,12 @@
         left: 90%;
         position: absolute;
     }
+    /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
     .ShortTextObjectArea {
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
-        display: flex;
+        display: none;
         font-size: large;
         text-align: center;
         justify-content: center;

@@ -2,7 +2,8 @@ const state = {
     LongText: initObject(),
     LongTextArr: [],
     NewX: 0,
-    NewY: 0
+    NewY: 0,
+    LongTextDefineCheck: false
 };
 
 //사용되는 동작들
@@ -38,6 +39,7 @@ const mutations = {
             .LongTextArr
             .push(getLongText);
         state.LongText = initObject();
+        state.LongTextDefineCheck = true;
     },
     SET_LONGTEXT_X(state, x){
         state.NewX = x;
@@ -70,13 +72,15 @@ const makeObject = (state, Object) => {
     }
 }
     return {
-        htmlID: Object.htmlID,
+        htmlID: Object.htmlID + checkOverlapID,
         id: checkOverlapID,
-        title: Object.title,
+        title: Object.title + checkOverlapID,
         width: Object.width,
         height: Object.height,
         x: Object.x,
-        y: Object.y
+        y: Object.y,
+        page: Object.page, //오브젝트 page위치정보
+        push_or_readCheck: Object.push_or_readCheck
     }
 };
 
@@ -89,7 +93,9 @@ function initObject() {
         width: '',
         height: '',
         x: '',
-        y: ''
+        y: '',
+        page: '',
+        push_or_readCheck: false,
     }
 }
 

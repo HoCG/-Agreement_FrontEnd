@@ -2,7 +2,8 @@ const state = {
     CheckBox: initObject(),
     CheckBoxArr: [],
     NewX: 0,
-    NewY: 0
+    NewY: 0,
+    CheckBoxDefineCheck: false
 };
 
 //사용되는 동작들
@@ -38,6 +39,7 @@ const mutations = {
             .CheckBoxArr
             .push(getCheckBox);
         state.CheckBox = initObject();
+        state.CheckBoxDefineCheck = true;
     },
     SET_CHECKBOX_X(state, x){
         state.NewX = x;
@@ -70,13 +72,15 @@ const makeObject = (state, Object) => {
         }
     }
     return {
-        htmlID: Object.htmlID,
-        id: checkOverlapID,
-        title: Object.title,
-        width: Object.width,
-        height: Object.height,
-        x: Object.x,
-        y: Object.y
+        htmlID: Object.htmlID + checkOverlapID, //오브젝트 Html id값 정보
+        id: checkOverlapID, //고유 id값
+        title: Object.title + checkOverlapID, //오브젝트 제목
+        width: Object.width, //오브젝트 가로값
+        height: Object.height, //오브젝트 세로값
+        x: Object.x, //오브젝트 x좌표
+        y: Object.y, //오브젝트 y좌표
+        page: Object.page, //오브젝트 page위치정보
+        push_or_readCheck: Object.push_or_readCheck //true면 데이터를 넣는 형태, false면 데이터를 읽는 형태
     }
 };
 
@@ -89,7 +93,9 @@ function initObject() {
         width: '',
         height: '',
         x: '',
-        y: ''
+        y: '',
+        page: '',
+        push_or_readCheck: false 
     }
 }
 
