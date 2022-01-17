@@ -226,9 +226,6 @@
                 for (let i = 1; i <= this.$store.state.PDFInfo.PDFPageInfo; i++) {
                     const PDF_Pages = document.getElementById("page" + String(i));
                     PDF_Pages.style.position = "relative";
-                    console.log("page" + String(i));
-                    let computed_PDF_Page_Style = window.getComputedStyle(PDF_Pages);
-                    console.log(computed_PDF_Page_Style.height)
                 }
                 //MainSource
                 const ThisWindow = document.getElementById("drawer");

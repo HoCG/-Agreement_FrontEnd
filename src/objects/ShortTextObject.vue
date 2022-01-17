@@ -113,10 +113,10 @@
         z-index: 2000;
         position: absolute;
         cursor: se-resize;
-        height: 10px;
+        height: 15px;
         right: 0;
         bottom: 0;
-        width: 10px;
+        width: 15px;
     }
     .resizer-r {
         z-index: 2000;

@@ -124,6 +124,7 @@
                                         <li>제출수</li>
                                         <li>제출일시</li>
                                         <li>제출자</li>
+                                        <li>다운로드</li>
                                         <li>&nbsp;</li>
                                     </ul>
                                 </li>
@@ -133,19 +134,23 @@
                                     v-for="Document in this.WritersDocumentListInfo.documentInfo"
                                     :key="Document.id">
                                     <ul v-if="IsFirstDocument(Document)" class="TitleAndItemsUl">
-                                        <li>{{Document.documentTitle}}</li>
+                                        <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
                                         <li>{{Document.WritersDocument.length}}</li>
                                         <li>-</li>
                                         <li>-</li>
+                                        <li></li>
                                         <li>
                                             <button>open</button>
                                         </li>
                                     </ul>
                                     <ul v-else-if="!IsFirstDocument(Document)" class="ItemsUl">
-                                        <li>{{Document.documentTitle}}</li>
+                                        <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
                                         <li>{{Document.WritersDocument.length}}</li>
                                         <li>-</li>
                                         <li>-</li>
+                                        <li>
+                                            <button class="WritersAllDownLoadBtn">전체 다운로드</button>
+                                        </li>
                                         <li>
                                             <button
                                                 v-bind:id="'openBtn'+Document.documentTitle"
@@ -160,12 +165,17 @@
                                         v-bind:class="'WritersList '+Document.documentTitle"
                                         v-for="WritersDocument in Document.WritersDocument"
                                         :key="WritersDocument.id">
-                                        <li>{{Document.documentTitle}}</li>
+                                        <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
                                         <li>-</li>
                                         <li>{{WritersDocument.date}}</li>
                                         <li>{{WritersDocument.writer}}</li>
                                         <li>
-                                            <button class="ShowDocumentAboutWriter">
+                                            <button class="WritersBtn">
+                                                다운로드
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="WritersBtn">
                                                 문서 보기
                                             </button>
                                         </li>
@@ -422,6 +432,11 @@
     .WritersList > div > li {
         display: inline-block;
     }
+    .WritersDocumentTitle{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .WritersList > div > li:first-child {
         width: 45%;
     }
@@ -444,7 +459,17 @@
     .WritersList > div > li:first-child +li+li+li+li {
         width: 11%;
     }
-    .ShowDocumentAboutWriter {
+    .WritersAllDownLoadBtn{
+        background: #DADADA;
+        /* gray_05 */
+
+        border: 1px solid #767676;
+        box-sizing: border-box;
+        border-radius: 20px;
+        width: 100px;
+        height: 23px;
+    }
+    .WritersBtn {
         background: #DADADA;
         /* gray_05 */
 
@@ -550,7 +575,7 @@
         margin-top: 20px;
         background-color: white;
         width: 100%;
-        height: 3000px;
+        height: 1000px;
     }
     #mainWrapper > ul > li:first-child {
         text-align: center;
