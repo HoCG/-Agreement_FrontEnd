@@ -4,6 +4,7 @@ import DialogData from './modules/DialogData';
 import PDFInfo from './modules/PDFInfo';
 import Alert from './modules/Alert';
 import admin from './users/admin';
+import writer from './users/writer'
 import DocumentSideBarData from './modules/DocumentSideBarData';
 import vueMoment from 'vue-moment';
 import CheckBoxObject from './objects/CheckBoxObject';
@@ -27,7 +28,8 @@ export default new Vuex.Store({
         CheckBoxObject,
         LongTextObject,
         ShortTextObject,
-        UsersDocument
+        UsersDocument,
+        writer
     }
     /*,
     plugins: [ createPersistedState({ //주목! : 여기에 쓴 모듈만 저장됩니다. 

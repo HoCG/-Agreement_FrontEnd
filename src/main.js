@@ -1,31 +1,10 @@
 import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
-import VueRouter from 'vue-router';
+import {router} from './routes/route'
 import store from './store/store';
 
 Vue.config.productionTip = false
-
-Vue.use(VueRouter);
-
-const routes = [
-    // 이곳에 router 를 등록할 것 입니다.
-    {
-        path: '/',
-        component: () => import ('./views/StartViewer.vue')
-    }, {
-        path: '/UserPage',
-        component: () => import ('./views/UserViewer.vue')
-    }, {
-        path: '/WriterPage',
-        component: () => import ('./views/WritersViewer.vue')
-    }, {
-        path: '/LoginPage',
-        component: () => import ('./views/LoginViewer.vue')
-    }
-]
-
-const router = new VueRouter({routes});
 
 new Vue({
     router,

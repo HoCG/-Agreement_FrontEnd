@@ -19,9 +19,11 @@
     import Alert from "../components/AlertForm.vue";
     export default {
         mounted() {
+            /*
             if (!this.$store.state.admin.AllUsersInfo.map(u => u.id).includes("hostid")) {
                 this.pushUserData();
             }
+            */
         },
         components: {
             Alert
@@ -32,49 +34,11 @@
             }
         },
         data() {
-            return {email: null, password: null, validationErrors: [], Message: ""};
+            return {validationErrors: [], Message: ""};
         },
         methods: {
-            pushUserData() {
-                this.$store.state.admin.TheUser_usedByData.id = "hostid"
-                this.$store.state.admin.TheUser_usedByData.password = "1234"
-                this.$store.state.admin.TheUser_usedByData.userName = "관리자"
-                this.$store.state.admin.TheUser_usedByData.userBirthDay = "2020-12-12"
-                this.$store.state.admin.TheUser_usedByData.startDay = "0000-00-00"
-                this.$store.state.admin.TheUser_usedByData.profileImage = require(
-                    "../assets/Initial_account.png"
-                );
-                this
-                    .$store
-                    .commit("ADD_NEW_USER", this.$store.state.admin.TheUser_usedByData);
-                this.$store.state.admin.TheUser_usedByData.id = "hostid2"
-                this.$store.state.admin.TheUser_usedByData.password = "1234"
-                this.$store.state.admin.TheUser_usedByData.userName = "관리자2"
-                this.$store.state.admin.TheUser_usedByData.userBirthDay = "2020-12-12"
-                this.$store.state.admin.TheUser_usedByData.startDay = "0000-00-00"
-                this.$store.state.admin.TheUser_usedByData.profileImage = require(
-                    "../assets/Initial_account.png"
-                );
-                this
-                    .$store
-                    .commit("ADD_NEW_USER", this.$store.state.admin.TheUser_usedByData);
-            },
             findAdmin() {
-                this
-                    .$store
-                    .commit('FIND_USER', this.admin);
-                if (this.$store.state.admin.AllClear) {
-                    this.Message = this
-                        .$store
-                        .commit('CURRENT_USER_SETTING', this.admin);
-                    this
-                        .$store
-                        .commit("OPEN_ALERT_PAGE_OVER_MODE", "로그인 성공!");
-                } else if (this.$store.state.admin.ID_or_PasswordError) {
-                    this.Message = "비밀번호가 일치하지 않습니다. 다시 입력해주세요."
-                } else {
-                    this.Message = "아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요."
-                }
+               this.$store.dispatch('REQUEST_LOGIN', this.$store.state.admin.currentUser);
             },
             backStartPage() {
                 this

@@ -117,6 +117,7 @@
         right: 0;
         bottom: 0;
         width: 15px;
+        border-radius: 50%;
     }
     .resizer-r {
         z-index: 2000;

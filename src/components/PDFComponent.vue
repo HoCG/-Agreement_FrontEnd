@@ -205,7 +205,8 @@
     );
     export default {
         mounted() {
-            this.pushUsersDocuments(UsersDocumentListInfo);
+            //this.pushUsersDocuments(UsersDocumentListInfo);
+            this.$store.dispatch('REQUEST_PROJECT');
             this
                 .$store
                 .commit("SET_WRITER_DOCUMENT_LIST_FALSE");
@@ -350,7 +351,7 @@
                     this.$store.state.UsersDocument.Document.src = src;
                     this.$store.state.UsersDocument.Document.documentWritersCount = 0;
                     this.$store.state.UsersDocument.Document.State = 0;
-                    this.$store.commit("ADD_DOCUMENT", this.$store.state.UsersDocument.Document);
+                    this.$store.dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
                 } else {
                     alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
                 }

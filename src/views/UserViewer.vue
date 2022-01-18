@@ -222,7 +222,6 @@
             //오브젝트를 형성하는 과정.
             makeObject(objectID, event) {
                 //forTest
-                console.log(this.$store.state.PDFInfo.PDFPageInfo);
                 for (let i = 1; i <= this.$store.state.PDFInfo.PDFPageInfo; i++) {
                     const PDF_Pages = document.getElementById("page" + String(i));
                     PDF_Pages.style.position = "relative";

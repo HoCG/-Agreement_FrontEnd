@@ -1,140 +1,58 @@
-[
-    [
+{
+    "projects": [
         {
-            "htmlID": "CheckBoxObjectArea6",
-            "id": 1,
-            "title": "체크박스_6",
-            "width": 30,
-            "height": 30,
-            "x": 1100,
-            "y": 600,
-            "push_or_readCheck": false
+            "idx": 36,
+            "name": "c5110c27-f912-4480-a5a0-3a0a2c79c536",
+            "title": "제출한 문서 샘플-병합됨",
+            "description": "test description2",
+            "pdf": null,
+            "user": null,
+            "submittees": [],
+            "reg_date": "2022-01-13T17:24:28",
+            "end_date": null,
+            "up_date": "2022-01-13T17:24:28",
+            "state": 0,
+            "project_objects": null,
+            "project_object_checkboxes": [],
+            "project_object_texts": [],
+            "project_object_signs": [],
+            "submittee_count": 0
+        }, {
+            "idx": 35,
+            "name": "00ca3699-2967-4948-a67f-d75e59cd79e0",
+            "title": "제출한 문서 샘플-병합됨",
+            "description": "test description2",
+            "pdf": null,
+            "user": null,
+            "submittees": [],
+            "reg_date": "2022-01-13T16:21:29",
+            "end_date": null,
+            "up_date": "2022-01-13T16:21:29",
+            "state": 0,
+            "project_objects": null,
+            "project_object_checkboxes": [],
+            "project_object_texts": [],
+            "project_object_signs": [],
+            "submittee_count": 0
+        }, {
+            "idx": 34,
+            "name": "4ac4b3a5-2a2c-4eda-8c04-49994b15bcc3",
+            "title": "제출한 문서 샘플-병합됨",
+            "description": "test description2",
+            "pdf": null,
+            "user": null,
+            "submittees": [],
+            "reg_date": "2022-01-13T16:20:57",
+            "end_date": null,
+            "up_date": "2022-01-13T16:23:18",
+            "state": 2,
+            "project_objects": null,
+            "project_object_checkboxes": [],
+            "project_object_texts": [],
+            "project_object_signs": [],
+            "submittee_count": 2
         }
     ],
-    [
-        {
-            "htmlID": "ShortTextObjectArea1",
-            "id": 1,
-            "title": "짧은 글_1",
-            "width": 300,
-            "height": 30,
-            "x": 212,
-            "y": 273,
-            "push_or_readCheck": false
-        }, {
-            "htmlID": "ShortTextObjectArea2",
-            "id": 2,
-            "title": "짧은 글_2",
-            "width": 400,
-            "height": 30,
-            "x": 232,
-            "y": 299,
-            "push_or_readCheck": false
-        }, {
-            "htmlID": "ShortTextObjectArea1",
-            "id": 3,
-            "title": "짧은 글_1",
-            "width": 100,
-            "height": 30,
-            "x": 213.21875,
-            "y": 47,
-            "push_or_readCheck": true
-        }, {
-            "htmlID": "ShortTextObjectArea2",
-            "id": 4,
-            "title": "짧은 글_2",
-            "width": 100,
-            "height": 30,
-            "x": 245.21875,
-            "y": 28,
-            "push_or_readCheck": true
-        }, {
-            "htmlID": "ShortTextObjectArea3",
-            "id": 5,
-            "title": "짧은 글_3",
-            "width": 100,
-            "height": 30,
-            "x": 142,
-            "y": 352,
-            "push_or_readCheck": true
-        }, {
-            "htmlID": "ShortTextObjectArea4",
-            "id": 6,
-            "title": "짧은 글_4",
-            "width": 100,
-            "height": 30,
-            "x": 261,
-            "y": 295,
-            "push_or_readCheck": true
-        }
-    ],
-    [
-        {
-            "htmlID": "LongTextObjectArea1",
-            "id": 1,
-            "title": "긴 글_1",
-            "width": 100,
-            "height": 100,
-            "x": 697,
-            "y": 302,
-            "push_or_readCheck": true
-        }, {
-            "htmlID": "LongTextObjectArea2",
-            "id": 2,
-            "title": "긴 글_2",
-            "width": 100,
-            "height": 100,
-            "x": 122,
-            "y": 813,
-            "push_or_readCheck": true
-        }
-    ],
-    [
-        {
-            "htmlID": "SignObjectArea3",
-            "id": 1,
-            "title": "사인_3",
-            "width": 400,
-            "height": 100,
-            "x": 400,
-            "y": 500,
-            "push_or_readCheck": false
-        }, {
-            "htmlID": "SignObjectArea4",
-            "id": 2,
-            "title": "사인_4",
-            "width": 400,
-            "height": 100,
-            "x": 506,
-            "y": 860,
-            "push_or_readCheck": false
-        }, {
-            "htmlID": "SignObjectArea5",
-            "id": 3,
-            "title": "사인_5",
-            "width": 400,
-            "height": 30,
-            "x": 423,
-            "y": 428,
-            "push_or_readCheck": false
-        }, {
-            "htmlID": "SignObjectArea1",
-            "id": 4,
-            "title": "사인_1",
-            "width": 100,
-            "height": 100,
-            "x": 387,
-            "y": 254,
-            "push_or_readCheck": true
-        }, {
-            "htmlID": "SignObjectArea2",
-            "id": 5,
-            "title": "사인_2",
-            "width": 100,
-            "height": 100,
-            "x": 861,
-            "y": 616,
-            "push_or_readCheck": true
-        }
-    ]
-]
+    "total_page": 0,
+    "current_page": 0
+}

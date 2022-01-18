@@ -114,8 +114,8 @@
         position: absolute;
         cursor: se-resize;
         height: 15px;
-        right: 0;
-        bottom: 0;
+        right: 3px;
+        bottom: 3px;
         width: 15px;
     }
     .resizer-r {

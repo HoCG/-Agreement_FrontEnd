@@ -1,80 +1,33 @@
-<!--로그인 페이지-->
 <template >
     <div class="backGroundInLogin">
         <div class="LoginRow">
-            <input id="InputID" placeholder="ID" type="text" v-model="admin.id"/>
+            <input id="InputID" placeholder="학번" type="text" v-model="writer.schoolID"/>
             <input
                 id="InputPassword"
-                placeholder="비밀번호"
-                v-model="admin.password"
+                placeholder="학생이름"
+                v-model="writer.name"
                 type="password"/>
             <p class="MessageForm">{{this.Message}}</p>
-            <button @click="findAdmin" class="LoginBtn">로그인</button>
-            <Alert :dialog="true"/>
+            <button @click="goWritingPage" class="LoginBtn">작성시작</button>
         </div>
     </div>
 </template>
 
 <script>
-    import Alert from "../components/AlertForm.vue";
     export default {
-        mounted() {
-            if (!this.$store.state.admin.AllUsersInfo.map(u => u.id).includes("hostid")) {
-                this.pushUserData();
-            }
-        },
-        components: {
-            Alert
-        },
         computed: {
-            admin() {
-                return this.$store.state.admin.currentUser;
+            writer() {
+                return this.$store.state.writer.currentWriter;
             }
         },
         data() {
-            return {email: null, password: null, validationErrors: [], Message: ""};
+            return { validationErrors: [], Message: ""};
         },
         methods: {
-            pushUserData() {
-                this.$store.state.admin.TheUser_usedByData.id = "hostid"
-                this.$store.state.admin.TheUser_usedByData.password = "1234"
-                this.$store.state.admin.TheUser_usedByData.userName = "관리자"
-                this.$store.state.admin.TheUser_usedByData.userBirthDay = "2020-12-12"
-                this.$store.state.admin.TheUser_usedByData.startDay = "0000-00-00"
-                this.$store.state.admin.TheUser_usedByData.profileImage = require(
-                    "../assets/Initial_account.png"
-                );
+            goWritingPage() {
                 this
-                    .$store
-                    .commit("ADD_NEW_USER", this.$store.state.admin.TheUser_usedByData);
-                this.$store.state.admin.TheUser_usedByData.id = "hostid2"
-                this.$store.state.admin.TheUser_usedByData.password = "1234"
-                this.$store.state.admin.TheUser_usedByData.userName = "관리자2"
-                this.$store.state.admin.TheUser_usedByData.userBirthDay = "2020-12-12"
-                this.$store.state.admin.TheUser_usedByData.startDay = "0000-00-00"
-                this.$store.state.admin.TheUser_usedByData.profileImage = require(
-                    "../assets/Initial_account.png"
-                );
-                this
-                    .$store
-                    .commit("ADD_NEW_USER", this.$store.state.admin.TheUser_usedByData);
-            },
-            findAdmin() {
-                this
-                    .$store
-                    .commit('FIND_USER', this.admin);
-                if (this.$store.state.admin.AllClear) {
-                    this.Message = this
-                        .$store
-                        .commit('CURRENT_USER_SETTING', this.admin);
-                    this
-                        .$store
-                        .commit("OPEN_ALERT_PAGE_OVER_MODE", "로그인 성공!");
-                } else if (this.$store.state.admin.ID_or_PasswordError) {
-                    this.Message = "비밀번호가 일치하지 않습니다. 다시 입력해주세요."
-                } else {
-                    this.Message = "아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요."
-                }
+                    .$router
+                    .push({path: "/WriterPage", query: {}})
             },
             backStartPage() {
                 this

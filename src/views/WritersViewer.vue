@@ -134,9 +134,8 @@
                 .promise
                 .then(pdf => {
                     this.numPages = pdf.numPages;
+                    this.readAllObject(JsonFile);
                 });
-            //this.Loading(this.pdfLink);
-            this.readAllObject(JsonFile);
             console.log(JsonFile);
             //this.documentTitle = JsonFile.documentInfo[0].title;
         },

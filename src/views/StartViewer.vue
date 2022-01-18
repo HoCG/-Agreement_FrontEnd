@@ -17,31 +17,17 @@
 </template>
 <script>
     export default {
-        mounted() {
-            if(!this.$store.state.admin.LoginMode){
-                this
-                    .$router
-                    .push({path: '/LoginPage'})
-                    .catch(() => {});
-            }
-        },
-        data() {
-            return {
-                TextCounter: 0
-            }
-        },
         methods: {
             goUserPage(){
                 this
                     .$router
-                    .push({path: '/UserPage'})
-                    .catch(() => {})
+                    .push({path: '/LoginPage'})
+                    .catch(() => {});
             },
             goWriterPage(){             
-                this.$store.commit("LOGOFF_USER");
                 this
                     .$router
-                    .push({path: '/WriterPage'})
+                    .push({path: '/WriterLoginPage'})
                     .catch(() => {})
             }
         }
