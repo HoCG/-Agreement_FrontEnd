@@ -1,4 +1,4 @@
-import {requestProject, postProject} from "../../apis/project_api";
+import {requestProject, postProject, requestProjectsWriter} from "../../apis/project_api";
 //import {router} from "../../routes/route";
 
 const state = {
@@ -63,6 +63,7 @@ const actions = {
     async REQUEST_PROJECT(context) {
         try {
             const response = await requestProject();
+            console.log(response.data)
             context.commit('ADD_DOCUMENTS', response.data);
         } catch (e) {
            alert("불러오기 실패");
@@ -71,10 +72,18 @@ const actions = {
     async POST_PROJECT(context, getDocument) {
         try {
             const response = await postProject(getDocument);
-            context.commit('ADD_DOCUMENTS', getDocument);
+            context.commit("ADD_DOCUMENT", getDocument);
             return response;
         } catch (e) {
            alert("보내기 실패");
+        }
+    },
+    async REQUEST_PROJECT_WRITER(context, DocumentName) {
+        try {
+            const response = await requestProjectsWriter(DocumentName);
+            return response;
+        } catch (e) {
+           alert("불러오기 실패");
         }
     }
 };
@@ -86,7 +95,8 @@ const makeDocument = (Document) => {
         Link: "",
         src: "",
         documentWritersCount: Document.submittee_count,
-        State: Document.state
+        State: Document.state,
+        documentWriter: []
     }
 };
 
@@ -98,7 +108,8 @@ function initDocument() {
         Link: '',
         src: '',
         documentWritersCount: '',
-        State: ''
+        State: '',
+        documentWriter: []
     }
 }
 

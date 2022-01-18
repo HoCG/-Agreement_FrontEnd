@@ -1,0 +1,185 @@
+<template>
+    <div id="mainWrapper">
+        <ul class="MainFrame">
+            <li>
+                <ul id="ulTable">
+                    <li>
+                        <ul class="UlTitleSetting">
+                            <li>문서제목</li>
+                            <li>제출수</li>
+                            <li>제출일시</li>
+                            <li>제출자</li>
+                            <li>다운로드</li>
+                            <li>&nbsp;</li>
+                        </ul>
+                    </li>
+                    <!-- 게시물이 출력될 영역 -->
+                    <li
+                        class="MainLiSetting"
+                        v-for="Document in this.WritersDocumentListInfo.documentInfo"
+                        :key="Document.id">
+                        <ul v-if="IsFirstDocument(Document)" class="TitleAndItemsUl">
+                            <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
+                            <li>{{Document.WritersDocument.length}}</li>
+                            <li>-</li>
+                            <li>-</li>
+                            <li></li>
+                            <li>
+                                <button>open</button>
+                            </li>
+                        </ul>
+                        <ul v-else-if="!IsFirstDocument(Document)" class="ItemsUl">
+                            <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
+                            <li>{{Document.WritersDocument.length}}</li>
+                            <li>-</li>
+                            <li>-</li>
+                            <li>
+                                <button class="WritersAllDownLoadBtn">전체 다운로드</button>
+                            </li>
+                            <li>
+                                <button
+                                    v-bind:id="'openBtn'+Document.documentTitle"
+                                    @click="ShowWritersDocumentList(Document.documentTitle)">open</button>
+                                <button
+                                    class="closeBtn"
+                                    v-bind:id="'closeBtn'+Document.documentTitle"
+                                    @click="CloseWritersDocumentList(Document.documentTitle)">close</button>
+                            </li>
+                        </ul>
+                        <ul
+                            v-bind:class="'WritersList '+Document.documentTitle"
+                            v-for="WritersDocument in Document.WritersDocument"
+                            :key="WritersDocument.id">
+                            <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
+                            <li>-</li>
+                            <li>{{WritersDocument.date}}</li>
+                            <li>{{WritersDocument.writer}}</li>
+                            <li>
+                                <DownloadBtn/>
+                            </li>
+                            <li>
+                                <button class="WritersBtn">
+                                    문서 보기
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="ItemsUl"></ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</template>
+<script>
+    import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
+    import DownloadBtn from "../svgs/DownLoadBtn.vue"
+    export default {
+        data() {
+            return{
+                WritersDocumentListInfo: WritersDocumentListInfo
+            }
+        },
+        components: {
+            DownloadBtn
+        },
+        methods: {
+            ShowWritersDocumentList(documentTitle) {
+                let WritersList = document.getElementsByClassName(documentTitle);
+                for (let WL of WritersList) {
+                    WL.style.display = "block";
+                }
+                let getCloseBtn = document.getElementById('closeBtn' + documentTitle);
+                getCloseBtn.style.display = "inline";
+                let getOpenBtn = document.getElementById('openBtn' + documentTitle);
+                getOpenBtn.style.display = "none";
+            },
+            CloseWritersDocumentList(documentTitle) {
+                let WritersList = document.getElementsByClassName(documentTitle);
+                for (let WL of WritersList) {
+                    WL.style.display = "none";
+                }
+                let getCloseBtn = document.getElementById('closeBtn' + documentTitle);
+                getCloseBtn.style.display = "none";
+                let getOpenBtn = document.getElementById('openBtn' + documentTitle);
+                getOpenBtn.style.display = "inline";
+            },
+            IsFirstDocument() {
+                if (this.FirstDocumentCheck) {
+                    this.FirstDocumentCheck = false;
+                    return true;
+                } else if (!this.FirstDocumentCheck) {
+                    return false;
+                }
+            }
+        }
+    }
+</script>
+<style>
+    .closeBtn {
+        display: none;
+    }
+    .WritersList {
+        width: 100%;
+        display: none;
+    }
+    .WritersList > li {
+        display: block;
+        background: #F3F3F3;
+        box-sizing: border-box;
+    }
+    .WritersList > div > li {
+        display: inline-block;
+        height: 60px;
+    }
+    .WritersDocumentTitle {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .WritersList > div > li:first-child {
+        width: 45%;
+        height: 100%;
+    }
+    /*No 열 크기*/
+    .WritersList > div > li:first-child +li {
+        width: 11%;
+        height: 60px;
+    }
+    /*제목 열 크기*/
+    .WritersList > div > li:first-child +li+li {
+        width: 11%;
+    }
+    /*작성일 열 크기*/
+    .WritersList > div > li:first-child +li+li+li {
+        width: 11%;
+    }
+    /*작성자 열 크기*/
+    .WritersList > div > li:first-child +li+li+li+li {
+        width: 11%;
+    }
+    .WritersList > div > li:first-child +li+li+li+li {
+        width: 11%;
+    }
+    .WritersAllDownLoadBtn {
+        background: #DADADA;
+        /* gray_05 */
+
+        border: 1px solid #767676;
+        box-sizing: border-box;
+        border-radius: 20px;
+        width: 100px;
+        height: 23px;
+    }
+    .WritersBtn {
+        background: #DADADA;
+        /* gray_05 */
+
+        border: 1px solid #767676;
+        box-sizing: border-box;
+        border-radius: 20px;
+        width: 60px;
+        height: 23px;
+    }
+</style>

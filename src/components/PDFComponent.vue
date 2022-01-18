@@ -1,6 +1,9 @@
 <template>
     <div id="container" class="container">
-        <div v-if="this.$store.state.PDFInfo.PDFFileUploadCheck" id="drawerScrollBox" class="pdfViewer">
+        <div
+            v-if="this.$store.state.PDFInfo.PDFFileUploadCheck"
+            id="drawerScrollBox"
+            class="pdfViewer">
             <div id="drawer">
                 <pdf
                     v-for="i in numPages"
@@ -53,9 +56,7 @@
                                         <li>공유 상태</li>
                                         <li>문서 제목</li>
                                         <li>제출수</li>
-                                        <li>링크</li>
-                                        <li>수정</li>
-                                        <li>공유</li>
+                                        <li>&nbsp;</li>
                                         <li>&nbsp;</li>
                                     </ul>
                                 </li>
@@ -63,45 +64,25 @@
                                 <li
                                     v-for="Document in this.$store.state.UsersDocument.DocumentArr"
                                     :key="Document.id">
-                                    <ul v-if="IsFirstDocument()" class="TitleAndItemsUl">
+                                    <ul class="ItemsUl">
                                         <li>
-                                            <DocumentState v-bind:StateInfo="Document.State" v-bind:WritersCountInfo="Document.documentWritersCount"/>
+                                            <DocumentState
+                                                v-bind:StateInfo="Document.State"
+                                                v-bind:WritersCountInfo="Document.documentWritersCount"/>
                                         </li>
-                                        <li>{{Document.documentTitle}}</li>
+                                        <li>
+                                            <button @click="goEditScreen(Document)">
+                                                {{Document.documentTitle}}
+                                            </button>
+                                        </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <LinkBtn/>
+                                            <StateAction v-bind:DocumentInfo="Document"/>
                                         </li>
                                         <li>
-                                            <EditBtn v-if="(Document.State===1 || Document.State===0) || (Document.State===3 && Document.documentWritersCount===0)" 
-                                            @click.native="goEditScreen(Document)"/>
-                                        </li>
-                                        <li>
-                                            <label v-if="Document.State!=0" class="switch-button">
-                                                <input type="checkbox"/>
-                                                <span class="onoff-switch"></span>
-                                            </label>
-                                        </li>
-                                        <li>&nbsp;</li>
-                                    </ul>
-                                    <ul v-else class="ItemsUl">
-                                        <li>
-                                            <DocumentState v-bind:StateInfo="Document.State" v-bind:WritersCountInfo="Document.documentWritersCount"/>
-                                        </li>
-                                        <li>{{Document.documentTitle}}</li>
-                                        <li>{{Document.documentWritersCount}}</li>
-                                        <li>
-                                            <LinkBtn v-if="Document.State===2"/>
-                                        </li>
-                                        <li>
-                                            <EditBtn v-if="(Document.State===1 || Document.State===0) || (Document.State===3 && Document.documentWritersCount===0)" 
-                                            @click.native="goEditScreen(Document)"/>
-                                        </li>
-                                        <li>
-                                            <label v-if="Document.State!=0" class="switch-button">
-                                                <input type="checkbox"/>
-                                                <span class="onoff-switch"></span>
-                                            </label>
+                                            <button @click="showDocumentMenu">
+                                                <DotsBtn/>
+                                            </button>
                                         </li>
                                     </ul>
                                 </li>
@@ -112,82 +93,10 @@
                         </li>
                     </ul>
                 </div>
+                <DocumentMenu id="DocumentMenu"/>
             </div>
             <div v-else>
-                <div id="mainWrapper">
-                    <ul class="MainFrame">
-                        <li>
-                            <ul id="ulTable">
-                                <li>
-                                    <ul class="UlTitleSetting">
-                                        <li>문서제목</li>
-                                        <li>제출수</li>
-                                        <li>제출일시</li>
-                                        <li>제출자</li>
-                                        <li>다운로드</li>
-                                        <li>&nbsp;</li>
-                                    </ul>
-                                </li>
-                                <!-- 게시물이 출력될 영역 -->
-                                <li
-                                    class="MainLiSetting"
-                                    v-for="Document in this.WritersDocumentListInfo.documentInfo"
-                                    :key="Document.id">
-                                    <ul v-if="IsFirstDocument(Document)" class="TitleAndItemsUl">
-                                        <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                                        <li>{{Document.WritersDocument.length}}</li>
-                                        <li>-</li>
-                                        <li>-</li>
-                                        <li></li>
-                                        <li>
-                                            <button>open</button>
-                                        </li>
-                                    </ul>
-                                    <ul v-else-if="!IsFirstDocument(Document)" class="ItemsUl">
-                                        <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                                        <li>{{Document.WritersDocument.length}}</li>
-                                        <li>-</li>
-                                        <li>-</li>
-                                        <li>
-                                            <button class="WritersAllDownLoadBtn">전체 다운로드</button>
-                                        </li>
-                                        <li>
-                                            <button
-                                                v-bind:id="'openBtn'+Document.documentTitle"
-                                                @click="ShowWritersDocumentList(Document.documentTitle)">open</button>
-                                            <button
-                                                class="closeBtn"
-                                                v-bind:id="'closeBtn'+Document.documentTitle"
-                                                @click="CloseWritersDocumentList(Document.documentTitle)">close</button>
-                                        </li>
-                                    </ul>
-                                    <ul
-                                        v-bind:class="'WritersList '+Document.documentTitle"
-                                        v-for="WritersDocument in Document.WritersDocument"
-                                        :key="WritersDocument.id">
-                                        <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                                        <li>-</li>
-                                        <li>{{WritersDocument.date}}</li>
-                                        <li>{{WritersDocument.writer}}</li>
-                                        <li>
-                                            <button class="WritersBtn">
-                                                다운로드
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="WritersBtn">
-                                                문서 보기
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <ul class="ItemsUl"></ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                <WritersDocumentList/>
             </div>
         </div>
     </div>
@@ -196,17 +105,21 @@
     import UsersDocumentListInfo from "../assets/UsersDocumentListInfo.json";
     import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
     import DocumentState from "../components/DocumentState.vue";
-    import EditBtn from "../svgs/EditSVG.vue";
-    import LinkBtn from "../svgs/LinkBtnSVG.vue"
     import pdf from 'vue-pdf';
     import DocumentObjectList from '../assets/DocumentObjectList.json';
+    import StateAction from '../components/StateAction.vue';
+    import WritersDocumentList from '../components/WritersDocumentList.vue';
+    import DotsBtn from '../svgs/DotsSVG.vue';
+    import DocumentMenu from '../svgs/DotsSVG.vue';
     let loadingTask = pdf.createLoadingTask(
         "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
     );
     export default {
         mounted() {
             //this.pushUsersDocuments(UsersDocumentListInfo);
-            this.$store.dispatch('REQUEST_PROJECT');
+            this
+                .$store
+                .dispatch('REQUEST_PROJECT');
             this
                 .$store
                 .commit("SET_WRITER_DOCUMENT_LIST_FALSE");
@@ -215,9 +128,11 @@
                 .commit("SET_USER_DOCUMENT_LIST_TRUE");
         },
         components: {
+            DocumentMenu,
             DocumentState,
-            EditBtn,
-            LinkBtn,
+            WritersDocumentList,
+            StateAction,
+            DotsBtn,
             pdf
         },
         data() {
@@ -234,44 +149,33 @@
             }
         },
         methods: {
-            pushUsersDocuments(UsersDocumentListInfo){
-                this.$store.commit("FORMAT_ALL_DOCUMENTS");
-                for(let getDocument of UsersDocumentListInfo.documentInfo){
-                    this.$store.state.UsersDocument.Document.id = getDocument.id;
-                    this.$store.state.UsersDocument.Document.documentTitle = getDocument.documentTitle;
-                    this.$store.state.UsersDocument.Document.Link = getDocument.Link;
-                    this.$store.state.UsersDocument.Document.src = getDocument.src;
-                    this.$store.state.UsersDocument.Document.documentWritersCount = getDocument.documentWritersCount;
-                    this.$store.state.UsersDocument.Document.State = getDocument.State;
-                    this.$store.commit("ADD_DOCUMENT", this.$store.state.UsersDocument.Document);
-                }
-            },
-            ShowWritersDocumentList(documentTitle) {
-                let WritersList = document.getElementsByClassName(documentTitle);
-                for (let WL of WritersList) {
-                    WL.style.display = "block";
-                }
-                let getCloseBtn = document.getElementById('closeBtn' + documentTitle);
-                getCloseBtn.style.display = "inline";
-                let getOpenBtn = document.getElementById('openBtn' + documentTitle);
-                getOpenBtn.style.display = "none";
-            },
-            CloseWritersDocumentList(documentTitle) {
-                let WritersList = document.getElementsByClassName(documentTitle);
-                for (let WL of WritersList) {
-                    WL.style.display = "none";
-                }
-                let getCloseBtn = document.getElementById('closeBtn' + documentTitle);
-                getCloseBtn.style.display = "none";
-                let getOpenBtn = document.getElementById('openBtn' + documentTitle);
-                getOpenBtn.style.display = "inline";
-            },
             IsFirstDocument() {
                 if (this.FirstDocumentCheck) {
                     this.FirstDocumentCheck = false;
                     return true;
                 } else if (!this.FirstDocumentCheck) {
                     return false;
+                }
+            },
+            showDocumentMenu(event){
+                let Menu = document.getElementById("DocumentMenu");
+                Menu.style.left = event.pagex;
+                Menu.style.top = event.pagey;
+            },
+            pushUsersDocuments(UsersDocumentListInfo) {
+                this
+                    .$store
+                    .commit("FORMAT_ALL_DOCUMENTS");
+                for (let getDocument of UsersDocumentListInfo.documentInfo) {
+                    this.$store.state.UsersDocument.Document.id = getDocument.id;
+                    this.$store.state.UsersDocument.Document.documentTitle = getDocument.documentTitle;
+                    this.$store.state.UsersDocument.Document.Link = getDocument.Link;
+                    this.$store.state.UsersDocument.Document.src = getDocument.src;
+                    this.$store.state.UsersDocument.Document.documentWritersCount = getDocument.documentWritersCount;
+                    this.$store.state.UsersDocument.Document.State = getDocument.State;
+                    this
+                        .$store
+                        .commit("ADD_DOCUMENT", this.$store.state.UsersDocument.Document);
                 }
             },
             onClick() {
@@ -310,8 +214,7 @@
                 let test = require('../assets/커리큘럼.pdf');
                 if(Document.src.length >= 2){
                     this.src = pdf.createLoadingTask(Document.src);
-                    this
-                        .src
+                    this.src 
                         .promise
                         .then(pdf => {
                             this.numPages = pdf.numPages;
@@ -323,8 +226,7 @@
                 }
                 else{
                     this.src = pdf.createLoadingTask(test);
-                    this
-                        .src
+                    this.src 
                         .promise
                         .then(pdf => {
                             this.numPages = pdf.numPages;
@@ -344,14 +246,17 @@
                     .$store
                     .commit("SET_DOCUMENT_TITLE", files[0].name);
                 if (files[0].name.includes(".pdf")) {
-                    const src = await this.readFiles(files[0])
-                    this.$store.state.UsersDocument.Document.id = this.$store.state.UsersDocument.DocumentArr.length + 1;
+                    //const src = await this.readFiles(files[0])
+                    this.$store.state.UsersDocument.Document.id = this.$store.state.UsersDocument.DocumentArr.length +
+                            1;
                     this.$store.state.UsersDocument.Document.documentTitle = files[0].name;
                     this.$store.state.UsersDocument.Document.Link = "";
-                    this.$store.state.UsersDocument.Document.src = src;
+                    this.$store.state.UsersDocument.Document.src = files[0];
                     this.$store.state.UsersDocument.Document.documentWritersCount = 0;
                     this.$store.state.UsersDocument.Document.State = 0;
-                    this.$store.dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
+                    this
+                        .$store
+                        .dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
                 } else {
                     alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
                 }
@@ -400,7 +305,7 @@
                         this
                             .$store
                             .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
-                     } else if (DocumentObject.title.includes("사인")) {
+                    } else if (DocumentObject.title.includes("사인")) {
                         this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
                         this.$store.state.SignObject.Sign.title = "사인_"
                         this.$store.state.SignObject.Sign.width = DocumentObject.width;
@@ -418,68 +323,6 @@
     }
 </script>
 <style lang="scss">
-    .closeBtn {
-        display: none;
-    }
-    .WritersList {
-        width: 100%;
-        display: none;
-    }
-    .WritersList > li {
-        display: block;
-        background: #F3F3F3;
-        box-sizing: border-box;
-    }
-    .WritersList > div > li {
-        display: inline-block;
-    }
-    .WritersDocumentTitle{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .WritersList > div > li:first-child {
-        width: 45%;
-    }
-    /*No 열 크기*/
-    .WritersList > div > li:first-child +li {
-        width: 11%;
-    }
-    /*제목 열 크기*/
-    .WritersList > div > li:first-child +li+li {
-        width: 11%;
-    }
-    /*작성일 열 크기*/
-    .WritersList > div > li:first-child +li+li+li {
-        width: 11%;
-    }
-    /*작성자 열 크기*/
-    .WritersList > div > li:first-child +li+li+li+li {
-        width: 11%;
-    }
-    .WritersList > div > li:first-child +li+li+li+li {
-        width: 11%;
-    }
-    .WritersAllDownLoadBtn{
-        background: #DADADA;
-        /* gray_05 */
-
-        border: 1px solid #767676;
-        box-sizing: border-box;
-        border-radius: 20px;
-        width: 100px;
-        height: 23px;
-    }
-    .WritersBtn {
-        background: #DADADA;
-        /* gray_05 */
-
-        border: 1px solid #767676;
-        box-sizing: border-box;
-        border-radius: 20px;
-        width: 60px;
-        height: 23px;
-    }
     .TitleAndItemsUl {
         border: 2px solid #767676;
     }
@@ -617,29 +460,26 @@
     }
 
     #ulTable > li > ul > li:first-child {
-        width: 11%;
+        width: 12.5%;
     }
     #ulTable > li > ul > li:first-child +li {
         width: 45%;
     }
     /*No 열 크기*/
     #ulTable > li > ul > li:first-child +li+li {
-        width: 11%;
+        width: 12.5%;
     }
     /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li {
-        width: 11%;
+        width: 12.5%;
     }
     /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 11%;
+        width: 12.5%;
     }
     /*작성자 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 11%;
-    }
-    #ulTable > li > ul > li:first-child +li+li+li+li+li+li {
-        width: 11%;
+        width: 5%;
     }
     .left {
         text-align: left;
