@@ -80,7 +80,7 @@
                                             <StateAction v-bind:DocumentInfo="Document"/>
                                         </li>
                                         <li>
-                                            <button @click="showDocumentMenu">
+                                            <button @click="showDocumentMenu(Document, $event)">
                                                 <DotsBtn/>
                                             </button>
                                         </li>
@@ -92,8 +92,8 @@
                             </ul>
                         </li>
                     </ul>
+                    <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
                 </div>
-                <DocumentMenu id="DocumentMenu"/>
             </div>
             <div v-else>
                 <WritersDocumentList/>
@@ -110,13 +110,9 @@
     import StateAction from '../components/StateAction.vue';
     import WritersDocumentList from '../components/WritersDocumentList.vue';
     import DotsBtn from '../svgs/DotsSVG.vue';
-    import DocumentMenu from '../svgs/DotsSVG.vue';
-    let loadingTask = pdf.createLoadingTask(
-        "https://documentcloud.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf"
-    );
+    import DocumentMenu from '../components/DocumentMenu.vue';
     export default {
         mounted() {
-            //this.pushUsersDocuments(UsersDocumentListInfo);
             this
                 .$store
                 .dispatch('REQUEST_PROJECT');
@@ -137,6 +133,7 @@
         },
         data() {
             return {
+                MenuDocument: {},
                 DocumentObjectList: DocumentObjectList,
                 OpenWritersDocument: false,
                 FirstDocumentCheck: true,
@@ -144,7 +141,7 @@
                 UsersDocumentListInfo: UsersDocumentListInfo,
                 fileUploadCheck: false,
                 isDragged: "",
-                src: loadingTask,
+                src: "",
                 numPages: undefined
             }
         },
@@ -157,26 +154,17 @@
                     return false;
                 }
             },
-            showDocumentMenu(event){
+            showDocumentMenu(Document, event){
                 let Menu = document.getElementById("DocumentMenu");
-                Menu.style.left = event.pagex;
-                Menu.style.top = event.pagey;
-            },
-            pushUsersDocuments(UsersDocumentListInfo) {
-                this
-                    .$store
-                    .commit("FORMAT_ALL_DOCUMENTS");
-                for (let getDocument of UsersDocumentListInfo.documentInfo) {
-                    this.$store.state.UsersDocument.Document.id = getDocument.id;
-                    this.$store.state.UsersDocument.Document.documentTitle = getDocument.documentTitle;
-                    this.$store.state.UsersDocument.Document.Link = getDocument.Link;
-                    this.$store.state.UsersDocument.Document.src = getDocument.src;
-                    this.$store.state.UsersDocument.Document.documentWritersCount = getDocument.documentWritersCount;
-                    this.$store.state.UsersDocument.Document.State = getDocument.State;
-                    this
-                        .$store
-                        .commit("ADD_DOCUMENT", this.$store.state.UsersDocument.Document);
-                }
+                this.MenuDocument = Document;
+                Menu.style.display = "block";
+                Menu.style.left = event.pageX - Menu
+                .getBoundingClientRect()
+                .width / 2 + "px";
+                Menu.style.top = event.pageY - Menu
+                .getBoundingClientRect()
+                .height / 2 + "px";
+                console.log(this.MenuDocument);
             },
             onClick() {
                 this

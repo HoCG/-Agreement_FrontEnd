@@ -1,7 +1,7 @@
 <template>
     <div>
         <svg
-            v-if="StateInfo===0"
+            v-if="StateInfo===1"
             width="60"
             height="25"
             viewBox="0 0 60 25"
@@ -13,7 +13,7 @@
                 fill="white"/>
         </svg>
         <svg
-            v-else-if="StateInfo===1"
+            v-else-if="StateInfo===2"
             width="60"
             height="25"
             viewBox="0 0 60 25"
@@ -25,7 +25,7 @@
                 fill="#5C5C5C"/>
         </svg>
         <svg
-            v-else-if="StateInfo===2"
+            v-else
             width="60"
             height="25"
             viewBox="0 0 60 25"

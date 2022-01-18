@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-if="DocumentInfo.State===0">
+        <button v-if="DocumentInfo.State===1" @click="ShareStart()">
             <svg
                 width="80"
                 height="28"
@@ -13,7 +13,7 @@
                 <rect x="0.5" y="1" width="79" height="26" rx="13" stroke="#9F9F9F"/>
             </svg>
         </button>
-        <button v-else-if="DocumentInfo.State===1">
+        <button v-else-if="DocumentInfo.State===2">
             <svg
                 width="80"
                 height="28"
@@ -36,6 +36,12 @@
     export default {
         props: {
             DocumentInfo: Object
+        },
+        methods:{
+            ShareStart(){
+                this.DocumentInfo.State = 2;              
+                this.$store.dispatch('STATE_CHANGE', this.DocumentInfo);
+            }
         }
     }
 </script>

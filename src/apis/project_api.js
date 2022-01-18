@@ -24,7 +24,13 @@ function postProject(project) {
     });
 }
 
+function changeStateProject(projectName, state){
+    return axios.put(`${process.env.VUE_APP_BASEURL}/api/projects/${projectName}/state?state=${state}`
+    );
+}
+
 export {
+    changeStateProject,
     requestProjectsWriter,
     requestProject,
     postProject

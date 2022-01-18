@@ -1,4 +1,4 @@
-import {requestProject, postProject, requestProjectsWriter} from "../../apis/project_api";
+import {requestProject, postProject, requestProjectsWriter, changeStateProject} from "../../apis/project_api";
 //import {router} from "../../routes/route";
 
 const state = {
@@ -30,6 +30,12 @@ const mutations = {
             .DocumentArr
             .push(getDocument);
         state.Document = initDocument();
+    },
+    CHANGE_STATE_DOCUMENT(state, getDocument){
+        getDocument = makeDocument(getDocument);
+        state.DocumentArr = state
+                                .DocumentArr
+                                .filter(e => e.id !== getDocument.id);
     },
     //이벤트를 추가하는 과정.
     ADD_DOCUMENT(state, getDocument) {
@@ -85,6 +91,15 @@ const actions = {
         } catch (e) {
            alert("불러오기 실패");
         }
+    },
+    async STATE_CHANGE(context, Document) {
+        try {
+            const response = await changeStateProject(Document.name, Document.State);
+            context.commit("CHANGE_STATE_DOCUMENT", Document);
+            return response;
+        } catch (e) {
+           alert("불러오기 실패");
+        }
     }
 };
 
@@ -92,6 +107,7 @@ const makeDocument = (Document) => {
     return {
         id: Document.idx,
         documentTitle: Document.title,
+        name: Document.name,
         Link: "",
         src: "",
         documentWritersCount: Document.submittee_count,
@@ -105,6 +121,7 @@ function initDocument() {
     return {
         id: '',
         documentTitle: '',
+        name: '',
         Link: '',
         src: '',
         documentWritersCount: '',
