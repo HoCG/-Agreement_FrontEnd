@@ -46,6 +46,9 @@ const mutations = {
     SET_SHORTTEXT_Y(state, y){
         state.NewY = y;
     },
+    SET_SHORTTEXT_PAGE(state, page){
+        state.page = page;
+    },
     FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT(state, ElementID){
         state.ShortTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.ShortTextArr.find(object => object.htmlID === ElementID).y = state.NewY;

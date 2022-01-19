@@ -47,6 +47,9 @@ const mutations = {
     SET_CHECKBOX_Y(state, y){
         state.NewY = y;
     },
+    SET_CHECKBOX_PAGE(state, page){
+        state.page = page;
+    },
     FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT(state, ElementID){
         state.CheckBoxArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.CheckBoxArr.find(object => object.htmlID === ElementID).y = state.NewY;

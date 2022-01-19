@@ -8,6 +8,9 @@ function requestProjectsWriter(projectName) {
     return axios.get(`${process.env.VUE_APP_BASEURL}/api/projects/${projectName}/submittees`)
 }
 
+function requestProjectInfo(projectName) {
+    return axios.get(`${process.env.VUE_APP_BASEURL}/api/projects/${projectName}`)
+}
 
 function postProject(project) {
     let form = new FormData();
@@ -33,5 +36,6 @@ export {
     changeStateProject,
     requestProjectsWriter,
     requestProject,
-    postProject
+    postProject,
+    requestProjectInfo
 }

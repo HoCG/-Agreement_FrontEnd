@@ -4,10 +4,12 @@ export default {
     myFunction(getData) {
         const ThisWindow = document.getElementById("drawer");
         const NewElementDiv = document.getElementById(getData.htmlID);
+        //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
         NewElementDiv.style.width = getData.width + "px";
         NewElementDiv.style.height = getData.height + "px";
         NewElementDiv.style.left = getData.x + "px";
         NewElementDiv.style.top = getData.y + "px";
+        //데이터를 읽는형태인지, 새로 클릭하여 추가된 형태인지를 판단한 다음에 이를 알맞게 추가시켜줍니다.
         if (getData.push_or_readCheck === true) {
             this.makingFirstClickObject(getData.htmlID, getData);
             ThisWindow.append(NewElementDiv);
@@ -20,6 +22,7 @@ export default {
         }
     },
     //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 맨 처음 오브젝트를 클릭하여 생성했을때만 적용됩니다.
+    //여기에서 page값을 저장할수 있도록 하는 로직을 추가해야합니다.
     append_Into_PDFPage_For_First(getElement, currentX, currentY) {
         let appendY1 = 0;
         let appendY2 = 0;
@@ -30,38 +33,10 @@ export default {
             let computed_Object_Style = window.getComputedStyle(getElement);
             appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
             if (currentY >= appendY1 && currentY <= appendY2) {
-                getElement.style.top = currentY - appendY1 - parseInt(
-                    computed_Object_Style.height,
-                    10
-                ) / 2 + "px";
+                getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
                 let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
                 let x = currentX;
-                if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
-                    store.commit("SET_SHORTTEXT_X", parseInt(x));
-                    store.commit("SET_SHORTTEXT_Y", parseInt(y));
-                    store.commit(
-                        "FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT",
-                        getElement.getAttribute("id")
-                    );
-                } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
-                    store.commit("SET_LONGTEXT_X", parseInt(x));
-                    store.commit("SET_LONGTEXT_Y", parseInt(y));
-                    store.commit(
-                        "FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT",
-                        getElement.getAttribute("id")
-                    );
-                } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
-                    store.commit("SET_CHECKBOX_X", parseInt(x));
-                    store.commit("SET_CHECKBOX_Y", parseInt(y));
-                    store.commit(
-                        "FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT",
-                        getElement.getAttribute("id")
-                    );
-                } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
-                    store.commit("SET_SIGN_X", parseInt(x));
-                    store.commit("SET_SIGN_Y", parseInt(y));
-                    store.commit("FIND_AND_SETTING_X_Y_SIGN_OBJECT", getElement.getAttribute("id"));
-                }
+                this.CommitUpdateData(getElement, x, y, i);
                 PDF_Pages.append(getElement);
                 break;
             } else {
@@ -70,6 +45,7 @@ export default {
         }
     },
     //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 오브젝트를 읽어서 배치하는 과정에서만 적용됩니다.
+    //여기에서 page값을 저장할수 있도록 하는 로직을 추가해야합니다.
     append_Into_PDFPage_For_ReadingObject(getData, currentX, currentY) {
         let appendY1 = 0;
         let appendY2 = 0;
@@ -83,44 +59,45 @@ export default {
             appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
             if (currentY >= appendY1 && currentY <= appendY2) {
                 if (getData.page === i) {
-                    getElement.style.top = currentY - appendY1 - parseInt(
-                        computed_Object_Style.height,
-                        10
-                    ) / 2 + "px";
+                    getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
                     let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
                     let x = currentX;
-                    if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
-                        store.commit("SET_SHORTTEXT_X", parseInt(x));
-                        store.commit("SET_SHORTTEXT_Y", parseInt(y));
-                        store.commit(
-                            "FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT",
-                            getElement.getAttribute("id")
-                        );
-                    } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
-                        store.commit("SET_LONGTEXT_X", parseInt(x));
-                        store.commit("SET_LONGTEXT_Y", parseInt(y));
-                        store.commit(
-                            "FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT",
-                            getElement.getAttribute("id")
-                        );
-                    } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
-                        store.commit("SET_CHECKBOX_X", parseInt(x));
-                        store.commit("SET_CHECKBOX_Y", parseInt(y));
-                        store.commit(
-                            "FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT",
-                            getElement.getAttribute("id")
-                        );
-                    } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
-                        store.commit("SET_SIGN_X", parseInt(x));
-                        store.commit("SET_SIGN_Y", parseInt(y));
-                        store.commit("FIND_AND_SETTING_X_Y_SIGN_OBJECT", getElement.getAttribute("id"));
-                    }
+                    this.CommitUpdateData(getElement, x, y, i);
                     PDF_Pages.append(getElement);
                     break;
                 }
             } else {
                 appendY1 = appendY2;
             }
+        }
+    },
+    CommitUpdateData(getElement, x, y, i){
+        if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
+            store.commit("SET_SHORTTEXT_X", parseInt(x));
+            store.commit("SET_SHORTTEXT_Y", parseInt(y));
+            store.commit(
+                "FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT",
+                getElement.getAttribute("id")
+            );
+            store.commit("SET_SHORTTEXT_PAGE", i);
+        } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
+            store.commit("SET_LONGTEXT_X", parseInt(x));
+            store.commit("SET_LONGTEXT_Y", parseInt(y));
+            store.commit(
+                "FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT",
+                getElement.getAttribute("id")
+            );
+            store.commit("SET_LONGTEXT_PAGE", i);
+        } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
+            store.commit("SET_CHECKBOX_X", parseInt(x));
+            store.commit("SET_CHECKBOX_Y", parseInt(y));
+            store.commit("FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT", getElement.getAttribute("id"));
+            store.commit("SET_CHECKBOX_PAGE", i);
+        } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
+            store.commit("SET_SIGN_X", parseInt(x));
+            store.commit("SET_SIGN_Y", parseInt(y));
+            store.commit("FIND_AND_SETTING_X_Y_SIGN_OBJECT", getElement.getAttribute("id"));
+            store.commit("SET_SIGN_PAGE", i);
         }
     },
     //아래부터는 메인 이벤트 모음입니다. 먼저 !초기! 클릭시에 오브젝트 생성.
@@ -132,16 +109,20 @@ export default {
         getElement.style.zIndex = 8;
         let currentX = 0;
         let currentY = 0;
+        //각 div값들을 가지고옵니다.
         const ThisWindow = document.getElementById("drawer");
         const containerWindow = document.getElementById("container");
+        //해더의 값만큼 빼고 생각을 해야하므로 해더값을 가지고 와줍니다.
         const headerWindow = document.getElementsByTagName("header")[0];
         let computedContainerStyle = window.getComputedStyle(containerWindow);
         let computedheaderStyle = window.getComputedStyle(headerWindow);
         let self = this;
+        //이동을 원하는 값을 배치해주는 메소드.
         function moveAt(currentX, currentY) {
             getElement.style.left = currentX + 'px';
             getElement.style.top = currentY + 'px';
         }
+        //마우스가 움직일때 적용되는 메소드.
         function onMouseMove(event) {
             currentX = event.pageX - ThisWindow
                 .getBoundingClientRect()
@@ -154,7 +135,7 @@ export default {
                 10
             ) - getElement
                 .getBoundingClientRect()
-                .height / 2;
+                .height / 2 - 200;
             // 페이지 영역에 있는지 확인하는 함수이지만... 잘동작하지 않으므로 일단 보류.
             // self.checkWhere_Object_Into_PDFPage(getElement);
             if (currentX < 0) {
@@ -166,9 +147,12 @@ export default {
             moveAt(currentX, currentY);
         }
         //윈도우로 이벤트를 바꾸니 매우잘됨ㅠㅠㅠㅠㅠㅠㅠㅠㅠ
+        //창에 마우스를 얹이는 순간 그냥 오브젝트가 무조건 따라올 수 있도록 수정하였다.
         window.addEventListener('mousemove', onMouseMove);
         getElement.addEventListener('mouseout', onMouseMove);
         window.addEventListener('scroll', onMouseMove);
+
+        //클릭할시에 오브젝트가 PDF문서 페이지영역에 배치가 되도록 하며, 이벤트를 제거해줍니다.
         getElement.addEventListener('click', function () {
             self.append_Into_PDFPage_For_First(
                 getElement,
@@ -196,6 +180,7 @@ export default {
         let MouseDownCheck = false;
         getElement.style.position = 'absolute';
         getElement.style.zIndex = 4;
+        //이벤트 등록.
         getElement.addEventListener("mousedown", MouseDownEvent);
         getElement.addEventListener("mouseover", MouseOverEvent);
         getElement.addEventListener("mouseout", MouseOutEvent_for_DeleteBtn);
@@ -226,7 +211,7 @@ export default {
             currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
                 computedheaderStyle.height,
                 10
-            );
+            ) - 200;
             moveAt(currentX, currentY);
             ThisWindow.append(getElement);
             MouseDownCheck = true;
@@ -248,6 +233,7 @@ export default {
                 onMouseMove(event);
             }
         }
+        //모든 이벤트를 해제하고 페이지에 pdf를 append
         getElement.addEventListener('mouseup', function () {
             MouseDownCheck = false;
             self.append_Into_PDFPage_For_First(getElement, currentX, currentY);
@@ -271,7 +257,7 @@ export default {
             currentY = event.pageY - parseInt(computedContainerStyle.paddingTop, 10) - parseInt(
                 computedheaderStyle.height,
                 10
-            );
+            ) - 200;
             if (currentX < 0) {
                 currentX = 0;
             }

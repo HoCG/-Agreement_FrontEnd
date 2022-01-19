@@ -111,6 +111,7 @@
     import WritersDocumentList from '../components/WritersDocumentList.vue';
     import DotsBtn from '../svgs/DotsSVG.vue';
     import DocumentMenu from '../components/DocumentMenu.vue';
+    import axios from "axios";
     export default {
         mounted() {
             this
@@ -154,16 +155,16 @@
                     return false;
                 }
             },
-            showDocumentMenu(Document, event){
+            showDocumentMenu(Document, event) {
                 let Menu = document.getElementById("DocumentMenu");
                 this.MenuDocument = Document;
                 Menu.style.display = "block";
                 Menu.style.left = event.pageX - Menu
-                .getBoundingClientRect()
-                .width / 2 + "px";
+                    .getBoundingClientRect()
+                    .width / 2 + "px";
                 Menu.style.top = event.pageY - Menu
-                .getBoundingClientRect()
-                .height / 2 + "px";
+                    .getBoundingClientRect()
+                    .height / 2 + "px";
                 console.log(this.MenuDocument);
             },
             onClick() {
@@ -199,34 +200,27 @@
                 this
                     .$store
                     .commit("SHOW_EDIT_PAGE");
-                let test = require('../assets/커리큘럼.pdf');
-                if(Document.src.length >= 2){
-                    this.src = pdf.createLoadingTask(Document.src);
-                    this.src 
-                        .promise
-                        .then(pdf => {
-                            this.numPages = pdf.numPages;
-                            this
-                                .$store
-                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
-                            setTimeout(3000, this.readAllObject(DocumentObjectList));
+                //let test = require('../assets/커리큘럼.pdf');
+                let self = this
+                axios
+                    .get(`${process.env.VUE_APP_BASEURL}/api/projects/${Document.name}`)
+                    .then(function (response) {
+                        console.log(response.data);
+                        self.src = pdf.createLoadingTask(`${process.env.VUE_APP_BASEURL}`+String(response.data.pdf.url));
+                        self
+                            .src
+                            .promise
+                            .then(pdf => {
+                                self.numPages = pdf.numPages;
+                                self
+                                    .$store
+                                    .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
+                                setTimeout(3000, self.readAllObject(response.data));
+                            });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
                     });
-                }
-                else{
-                    this.src = pdf.createLoadingTask(test);
-                    this.src 
-                        .promise
-                        .then(pdf => {
-                            this.numPages = pdf.numPages;
-                            this
-                                .$store
-                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
-                            this
-                                .$store
-                                .commit("SHOW_EDIT_PAGE");
-                            setTimeout(3000, this.readAllObject(DocumentObjectList));
-                    });
-                }
             },
             async addFiles(files) {
                 console.log(files);
@@ -235,13 +229,16 @@
                     .commit("SET_DOCUMENT_TITLE", files[0].name);
                 if (files[0].name.includes(".pdf")) {
                     //const src = await this.readFiles(files[0])
-                    this.$store.state.UsersDocument.Document.id = this.$store.state.UsersDocument.DocumentArr.length +
-                            1;
+                    this.$store.state.UsersDocument.Document.id = this
+                        .$store
+                        .state
+                        .UsersDocument
+                        .DocumentArr[0] + 1;
                     this.$store.state.UsersDocument.Document.documentTitle = files[0].name;
                     this.$store.state.UsersDocument.Document.Link = "";
                     this.$store.state.UsersDocument.Document.src = files[0];
                     this.$store.state.UsersDocument.Document.documentWritersCount = 0;
-                    this.$store.state.UsersDocument.Document.State = 0;
+                    this.$store.state.UsersDocument.Document.State = 1;
                     this
                         .$store
                         .dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
@@ -258,53 +255,65 @@
                     reader.readAsDataURL(files)
                 });
             },
-            readAllObject(DocumentObjectList) {
-                for (let DocumentObject of DocumentObjectList.object) {
-                    if (DocumentObject.title.includes("짧은 글")) {
+            readAllObject(responseData) {
+                console.log(responseData.project_object_texts)
+                this.readTextObject(responseData.project_object_texts);
+                this.readCheckBoxObject(responseData.project_object_checkboxes);
+                this.readSignObject(responseData.project_object_signs);
+            },
+            readTextObject(project_object_texts) {
+                for (let TextObject of project_object_texts) {
+                    if (project_object_texts.height <= 40) {
                         this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
                         this.$store.state.ShortTextObject.ShortText.title = "짧은 글_"
-                        this.$store.state.ShortTextObject.ShortText.width = DocumentObject.width;
-                        this.$store.state.ShortTextObject.ShortText.height = DocumentObject.height;
-                        this.$store.state.ShortTextObject.ShortText.x = DocumentObject.x;
-                        this.$store.state.ShortTextObject.ShortText.y = DocumentObject.y;
-                        this.$store.state.ShortTextObject.ShortText.page = DocumentObject.page;
+                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width;
+                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height;
+                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position;
+                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position;
+                        this.$store.state.ShortTextObject.ShortText.page = TextObject.page;
                         this
                             .$store
                             .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
-                    } else if (DocumentObject.title.includes("긴 글")) {
+                    } else {
                         this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
                         this.$store.state.LongTextObject.LongText.title = "긴 글_"
-                        this.$store.state.LongTextObject.LongText.width = DocumentObject.width;
-                        this.$store.state.LongTextObject.LongText.height = DocumentObject.height;
-                        this.$store.state.LongTextObject.LongText.x = DocumentObject.x;
-                        this.$store.state.LongTextObject.LongText.y = DocumentObject.y;
-                        this.$store.state.LongTextObject.LongText.page = DocumentObject.page;
+                        this.$store.state.LongTextObject.LongText.width = TextObject.width;
+                        this.$store.state.LongTextObject.LongText.height = TextObject.height;
+                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position;
+                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position;
+                        this.$store.state.LongTextObject.LongText.page = TextObject.page;
                         this
                             .$store
                             .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
-                    } else if (DocumentObject.title.includes("체크박스")) {
-                        this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
-                        this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
-                        this.$store.state.CheckBoxObject.CheckBox.width = DocumentObject.width;
-                        this.$store.state.CheckBoxObject.CheckBox.height = DocumentObject.height;
-                        this.$store.state.CheckBoxObject.CheckBox.x = DocumentObject.x;
-                        this.$store.state.CheckBoxObject.CheckBox.y = DocumentObject.y;
-                        this.$store.state.CheckBoxObject.CheckBox.page = DocumentObject.page;
-                        this
-                            .$store
-                            .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
-                    } else if (DocumentObject.title.includes("사인")) {
-                        this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
-                        this.$store.state.SignObject.Sign.title = "사인_"
-                        this.$store.state.SignObject.Sign.width = DocumentObject.width;
-                        this.$store.state.SignObject.Sign.height = DocumentObject.height;
-                        this.$store.state.SignObject.Sign.x = DocumentObject.x;
-                        this.$store.state.SignObject.Sign.y = DocumentObject.y;
-                        this.$store.state.SignObject.Sign.page = DocumentObject.page;
-                        this
-                            .$store
-                            .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                     }
+                }
+            },
+            readCheckBoxObject(project_object_checkboxes) {
+                for (let CheckBoxObject of project_object_checkboxes) {
+                    this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
+                    this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
+                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width;
+                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height;
+                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position;
+                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position;
+                    this.$store.state.CheckBoxObject.CheckBox.page = CheckBoxObject.page;
+                    this
+                        .$store
+                        .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
+                }
+            },
+            readSignObject(project_object_signs) {
+                for (let SignObject of project_object_signs) {
+                    this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
+                    this.$store.state.SignObject.Sign.title = "사인_"
+                    this.$store.state.SignObject.Sign.width = SignObject.width;
+                    this.$store.state.SignObject.Sign.height = SignObject.height;
+                    this.$store.state.SignObject.Sign.x = SignObject.x_position;
+                    this.$store.state.SignObject.Sign.y = SignObject.y_position;
+                    this.$store.state.SignObject.Sign.page = SignObject.page;
+                    this
+                        .$store
+                        .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                 }
             }
         }
@@ -382,6 +391,7 @@
         }
     }
     .pdfViewer {
+        margin-top: 200px;
         margin-left: 10%;
         text-align: center;
         height: 100%;

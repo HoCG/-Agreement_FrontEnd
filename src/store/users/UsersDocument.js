@@ -1,9 +1,11 @@
-import {requestProject, postProject, requestProjectsWriter, changeStateProject} from "../../apis/project_api";
+import {requestProject, postProject, requestProjectsWriter, changeStateProject, requestProjectInfo} from "../../apis/project_api";
 //import {router} from "../../routes/route";
 
 const state = {
     Document: initDocument(),
-    DocumentArr: []
+    DocumentArr: [],
+    responsePDF: "",
+    response: ""
 };
 
 //사용되는 동작들
@@ -41,7 +43,7 @@ const mutations = {
     ADD_DOCUMENT(state, getDocument) {
         state
             .DocumentArr
-            .push(getDocument);
+            .unshift(getDocument);
         state.Document = initDocument();
     },
     ADD_DOCUMENTS(state, getDocuments){
@@ -61,6 +63,11 @@ const mutations = {
             .DocumentArr
             .filter(e => e.id !== getDocument.id);
         state.Document = initDocument();
+    },
+    GET_DOCUMENTS_INFO(state, response){
+        state.response = response;
+        state.responsePDF = response.pdf;
+        console.log(state.response);
     }
 };
 
@@ -71,6 +78,15 @@ const actions = {
             const response = await requestProject();
             console.log(response.data)
             context.commit('ADD_DOCUMENTS', response.data);
+        } catch (e) {
+           alert("불러오기 실패");
+        }
+    },
+    async REQUEST_PROJECT_INFO(context, DocumentName) {
+        try {
+            const response = await requestProjectInfo(DocumentName);
+            console.log(response.data)
+            context.commit('GET_DOCUMENTS_INFO', response.data);
         } catch (e) {
            alert("불러오기 실패");
         }

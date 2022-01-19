@@ -41,11 +41,19 @@ const mutations = {
         state.LongText = initObject();
         state.LongTextDefineCheck = true;
     },
+    ADD_LONGTEXT_OBJECTS(state, object){
+        for(let element of object){
+            element
+        }
+    },
     SET_LONGTEXT_X(state, x){
         state.NewX = x;
     },
     SET_LONGTEXT_Y(state, y){
         state.NewY = y;
+    },
+    SET_LONGTEXT_PAGE(state, page){
+        state.page = page;
     },
     FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT(state, ElementID){
         state.LongTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
