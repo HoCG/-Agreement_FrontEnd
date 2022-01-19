@@ -56,3 +56,65 @@
     "total_page": 0,
     "current_page": 0
 }
+[
+    [
+        {
+            "htmlID": "CheckBoxObjectArea1",
+            "id": 1,
+            "title": "체크박스_1",
+            "width": 30,
+            "height": 40,
+            "x": 328,
+            "y": 126,
+            "page": 1,
+            "push_or_readCheck": false
+        }, {
+            "htmlID": "CheckBoxObjectArea2",
+            "id": 2,
+            "title": "체크박스_2",
+            "width": 32,
+            "height": 45,
+            "x": 117,
+            "y": 157,
+            "page": 1,
+            "push_or_readCheck": false
+        }
+    ],
+    [],
+    [
+        {
+            "htmlID": "LongTextObjectArea1",
+            "id": 1,
+            "title": "긴 글_1",
+            "width": 310,
+            "height": 410,
+            "x": 557,
+            "y": 371,
+            "page": 1,
+            "push_or_readCheck": false
+        }
+    ],
+    [
+        {
+            "htmlID": "SignObjectArea1",
+            "id": 1,
+            "title": "사인_1",
+            "width": 35,
+            "height": 60,
+            "x": 640,
+            "y": 185,
+            "page": 1,
+            "push_or_readCheck": false
+        }, {
+            "htmlID": "SignObjectArea2",
+            "id": 2,
+            "title": "사인_2",
+            "width": 30,
+            "height": 40,
+            "x": 208,
+            "y": 161,
+            "page": 1,
+            "push_or_readCheck": false
+        }
+    ]
+]
