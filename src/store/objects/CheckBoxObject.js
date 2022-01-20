@@ -3,6 +3,7 @@ const state = {
     CheckBoxArr: [],
     NewX: 0,
     NewY: 0,
+    SetPage: 0,
     CheckBoxDefineCheck: false
 };
 
@@ -48,11 +49,16 @@ const mutations = {
         state.NewY = y;
     },
     SET_CHECKBOX_PAGE(state, page){
-        state.page = page;
+        state.SetPage = page;
     },
     FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT(state, ElementID){
         state.CheckBoxArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.CheckBoxArr.find(object => object.htmlID === ElementID).y = state.NewY;
+    },
+    FIND_AND_SETTING_X_Y_PAGE_CHECKBOX_OBJECT(state, ElementID){
+        state.CheckBoxArr.find(object => object.htmlID === ElementID).x = state.NewX;
+        state.CheckBoxArr.find(object => object.htmlID === ElementID).y = state.NewY;
+        state.CheckBoxArr.find(object => object.htmlID === ElementID).page = state.SetPage;
     },
     DELETE_CHECKBOX_OBJECT(state, getCheckBoxID) {
         state.CheckBoxArr = state

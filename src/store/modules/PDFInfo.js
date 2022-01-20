@@ -1,10 +1,3 @@
-/*
-import pdf from 'vue-pdf';
-
-let loadingTask = pdf.createLoadingTask(
-    ""
-);
-*/
 
 const state = {
     PDFTitle: "",

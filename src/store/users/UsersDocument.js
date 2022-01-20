@@ -4,12 +4,14 @@ import {requestProject, postProject, requestProjectsWriter, changeStateProject, 
 const state = {
     Document: initDocument(),
     DocumentArr: [],
-    responsePDF: "",
     response: ""
 };
 
 //사용되는 동작들
 const mutations = {
+    SET_DOCUMENT(state, getDocument) {
+        state.Document = makeDocument(getDocument);
+    },
     FORMAT_ALL_DOCUMENTS(state) {
         state.DocumentArr = [];
     },
@@ -63,11 +65,6 @@ const mutations = {
             .DocumentArr
             .filter(e => e.id !== getDocument.id);
         state.Document = initDocument();
-    },
-    GET_DOCUMENTS_INFO(state, response){
-        state.response = response;
-        state.responsePDF = response.pdf;
-        console.log(state.response);
     }
 };
 

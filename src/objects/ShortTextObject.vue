@@ -103,6 +103,8 @@
                 const dx = e.clientX - this.resizeX;
                 // Adjust the dimension of element
                 Element.style.width = `${this.resizeW + dx}px`;
+                this.$store.commit("SET_SHORTTEXT_WIDTH", parseInt(this.resizeW + dx));
+                this.$store.commit("FIND_AND_SETTING_W_SHORTTEXT_OBJECT", this.getSTData.htmlID);
             },
             mouseUpHandler() {
                 document.removeEventListener('mousemove', this.mouseMoveHandler);

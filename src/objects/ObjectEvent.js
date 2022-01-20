@@ -10,14 +10,12 @@ export default {
         NewElementDiv.style.left = getData.x + "px";
         NewElementDiv.style.top = getData.y + "px";
         //데이터를 읽는형태인지, 새로 클릭하여 추가된 형태인지를 판단한 다음에 이를 알맞게 추가시켜줍니다.
+        //push_or_readCheck >> true면 데이터를 넣는 형태, false면 데이터를 읽는 형태
         if (getData.push_or_readCheck === true) {
             this.makingFirstClickObject(getData.htmlID, getData);
             ThisWindow.append(NewElementDiv);
         } else {
-            let self = this
-            setTimeout(function () {
-                self.append_Into_PDFPage_For_ReadingObject(getData, getData.x, getData.y);
-            }, 1500);
+            this.append_Into_PDFPage_For_ReadingObject(getData);
             this.makingDragEvent(document.getElementById(getData.htmlID), getData);
         }
     },
@@ -34,7 +32,8 @@ export default {
             appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
             if (currentY >= appendY1 && currentY <= appendY2) {
                 getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
-                let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
+                getElement.style.left = currentX - parseInt(computed_Object_Style.width, 10) / 2 + "px";
+                let y = currentY - appendY1 - parseInt(computed_Object_Style.width, 10) / 2;
                 let x = currentX;
                 this.CommitUpdateData(getElement, x, y, i);
                 PDF_Pages.append(getElement);
@@ -46,28 +45,18 @@ export default {
     },
     //PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 오브젝트를 읽어서 배치하는 과정에서만 적용됩니다.
     //여기에서 page값을 저장할수 있도록 하는 로직을 추가해야합니다.
-    append_Into_PDFPage_For_ReadingObject(getData, currentX, currentY) {
-        let appendY1 = 0;
-        let appendY2 = 0;
+    append_Into_PDFPage_For_ReadingObject(getData) {
         let getElement = document.getElementById(getData.htmlID);
         getElement.style.display = "flex";
         for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
-            let computed_PDF_Page_Style = window.getComputedStyle(PDF_Pages);
             let computed_Object_Style = window.getComputedStyle(getElement);
-            appendY2 = appendY2 + parseInt(computed_PDF_Page_Style.height, 10);
-            if (currentY >= appendY1 && currentY <= appendY2) {
-                if (getData.page === i) {
-                    getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
-                    let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
-                    let x = currentX;
-                    this.CommitUpdateData(getElement, x, y, i);
-                    PDF_Pages.append(getElement);
-                    break;
-                }
-            } else {
-                appendY1 = appendY2;
+            if (getData.page === i) {
+                getElement.style.top = getData.y - parseInt(computed_Object_Style.height, 10) / 2  + "px";
+                getElement.style.left =  getData.x - parseInt(computed_Object_Style.width, 10) / 2 + "px";
+                PDF_Pages.append(getElement);
+                break;
             }
         }
     },
@@ -75,29 +64,24 @@ export default {
         if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
             store.commit("SET_SHORTTEXT_X", parseInt(x));
             store.commit("SET_SHORTTEXT_Y", parseInt(y));
-            store.commit(
-                "FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT",
-                getElement.getAttribute("id")
+            store.commit("SET_SHORTTEXT_PAGE", parseInt(i));
+            store.commit("FIND_AND_SETTING_X_Y_PAGE_SHORTTEXT_OBJECT", getElement.getAttribute("id")
             );
-            store.commit("SET_SHORTTEXT_PAGE", i);
         } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
             store.commit("SET_LONGTEXT_X", parseInt(x));
             store.commit("SET_LONGTEXT_Y", parseInt(y));
-            store.commit(
-                "FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT",
-                getElement.getAttribute("id")
-            );
-            store.commit("SET_LONGTEXT_PAGE", i);
+            store.commit("SET_LONGTEXT_PAGE", parseInt(i));
+            store.commit("FIND_AND_SETTING_X_Y_PAGE_LONGTEXT_OBJECT", getElement.getAttribute("id"));
         } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
             store.commit("SET_CHECKBOX_X", parseInt(x));
             store.commit("SET_CHECKBOX_Y", parseInt(y));
-            store.commit("FIND_AND_SETTING_X_Y_CHECKBOX_OBJECT", getElement.getAttribute("id"));
-            store.commit("SET_CHECKBOX_PAGE", i);
+            store.commit("SET_CHECKBOX_PAGE", parseInt(i));
+            store.commit("FIND_AND_SETTING_X_Y_PAGE_CHECKBOX_OBJECT", getElement.getAttribute("id"));
         } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
             store.commit("SET_SIGN_X", parseInt(x));
             store.commit("SET_SIGN_Y", parseInt(y));
-            store.commit("FIND_AND_SETTING_X_Y_SIGN_OBJECT", getElement.getAttribute("id"));
-            store.commit("SET_SIGN_PAGE", i);
+            store.commit("SET_SIGN_PAGE", parseInt(i));
+            store.commit("FIND_AND_SETTING_X_Y_PAGE_SIGN_OBJECT", getElement.getAttribute("id"));
         }
     },
     //아래부터는 메인 이벤트 모음입니다. 먼저 !초기! 클릭시에 오브젝트 생성.

@@ -65,6 +65,9 @@
                 // Adjust the dimension of element
                 Element.style.width = `${this.resizeW + dx}px`;
                 Element.style.height = `${this.resizeH + dy}px`;
+                this.$store.commit("SET_LONGTEXT_WIDTH", parseInt(this.resizeW + dx));
+                this.$store.commit("SET_LONGTEXT_HEIGHT", parseInt(this.resizeH + dy));
+                this.$store.commit("FIND_AND_SETTING_W_H_LONGTEXT_OBJECT", this.getLTData.htmlID);
             },
             mouseUpHandler() {
                 document.removeEventListener('mousemove', this.mouseMoveHandler);

@@ -207,6 +207,7 @@
                     .then(function (response) {
                         console.log(response.data);
                         self.src = pdf.createLoadingTask(`${process.env.VUE_APP_BASEURL}`+String(response.data.pdf.url));
+                        self.$store.state.UsersDocument.Document = Document;
                         self
                             .src
                             .promise
@@ -263,7 +264,7 @@
             },
             readTextObject(project_object_texts) {
                 for (let TextObject of project_object_texts) {
-                    if (project_object_texts.height <= 40) {
+                    if (TextObject.type === "SHORT_TEXT") {
                         this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
                         this.$store.state.ShortTextObject.ShortText.title = "짧은 글_"
                         this.$store.state.ShortTextObject.ShortText.width = TextObject.width;
@@ -271,6 +272,7 @@
                         this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position;
                         this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position;
                         this.$store.state.ShortTextObject.ShortText.page = TextObject.page;
+                        this.$store.state.ShortTextObject.ShortText.push_or_readCheck = false;
                         this
                             .$store
                             .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
@@ -282,6 +284,7 @@
                         this.$store.state.LongTextObject.LongText.x = TextObject.x_position;
                         this.$store.state.LongTextObject.LongText.y = TextObject.y_position;
                         this.$store.state.LongTextObject.LongText.page = TextObject.page;
+                        this.$store.state.LongTextObject.LongText.push_or_readCheck = false;
                         this
                             .$store
                             .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
@@ -297,6 +300,7 @@
                     this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position;
                     this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position;
                     this.$store.state.CheckBoxObject.CheckBox.page = CheckBoxObject.page;
+                    this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = false;
                     this
                         .$store
                         .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
@@ -311,6 +315,7 @@
                     this.$store.state.SignObject.Sign.x = SignObject.x_position;
                     this.$store.state.SignObject.Sign.y = SignObject.y_position;
                     this.$store.state.SignObject.Sign.page = SignObject.page;
+                    this.$store.state.SignObject.Sign.push_or_readCheck = false;
                     this
                         .$store
                         .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);

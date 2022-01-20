@@ -3,6 +3,9 @@ const state = {
     SignArr: [],
     NewX: 0,
     NewY: 0,
+    NewWidth: 0,
+    NewHeight: 0,
+    SetPage: 0,
     SignDefineCheck: false
 };
 
@@ -46,12 +49,23 @@ const mutations = {
     SET_SIGN_Y(state, y){
         state.NewY = y;
     },
-    SET_SIGN_PAGE(state, page){
-        state.page = page;
+    SET_SIGN_WIDTH(state, width){
+        state.NewWidth = width;
     },
-    FIND_AND_SETTING_X_Y_SIGN_OBJECT(state, ElementID){
+    SET_SIGN_HEIGHT(state, height){
+        state.NewHeight = height;
+    },
+    SET_SIGN_PAGE(state, page){
+        state.SetPage = page;
+    },
+    FIND_AND_SETTING_W_H_SIGN_OBJECT(state, ElementID){
+        state.SignArr.find(object => object.htmlID === ElementID).width = state.NewWidth;
+        state.SignArr.find(object => object.htmlID === ElementID).height = state.NewHeight;
+    },
+    FIND_AND_SETTING_X_Y_PAGE_SIGN_OBJECT(state, ElementID){
         state.SignArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.SignArr.find(object => object.htmlID === ElementID).y = state.NewY;
+        state.SignArr.find(object => object.htmlID === ElementID).page = state.SetPage;
     },
     DELETE_SIGN_OBJECT(state, getSignID) {
         state.SignArr = state

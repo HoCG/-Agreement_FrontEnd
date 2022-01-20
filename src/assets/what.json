@@ -55,8 +55,7 @@
     ],
     "total_page": 0,
     "current_page": 0
-}
-[
+}[
     [
         {
             "htmlID": "CheckBoxObjectArea1",
@@ -117,4 +116,114 @@
             "push_or_readCheck": false
         }
     ]
-]
+]{
+    "project_object_texts": [
+        {
+            "name": "긴 글_1",
+            "x_position": 160,
+            "y_position": 5,
+            "width": 310,
+            "height": 410,
+            "rotate": 0,
+            "page": 1,
+            "type": "LONG_TEXT"
+        }
+    ],
+    "project_object_signs": [
+        {
+            "name": "사인_2",
+            "x_position": 10,
+            "y_position": 0,
+            "width": 30,
+            "height": 40,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }, {
+            "name": "사인_2",
+            "x_position": 10,
+            "y_position": 0,
+            "width": 30,
+            "height": 40,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }
+    ],
+    "project_object_checkboxes": [
+        {
+            "name": "체크박스_2",
+            "x_position": 50,
+            "y_position": 37,
+            "width": 32,
+            "height": 45,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }, {
+            "name": "체크박스_2",
+            "x_position": 50,
+            "y_position": 37,
+            "width": 32,
+            "height": 45,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }
+    ]
+} {
+    "project_object_texts": [
+        {
+            "name": "긴 글_1",
+            "x_position": 160,
+            "y_position": 5,
+            "width": 310,
+            "height": 410,
+            "rotate": 0,
+            "page": 1,
+            "type": "LONG_TEXT"
+        }
+    ],
+    "project_object_signs": [
+        {
+            "name": "사인_1",
+            "x_position": 10,
+            "y_position": 0,
+            "width": 30,
+            "height": 40,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }, {
+            "name": "사인_2",
+            "x_position": 120,
+            "y_position": 210,
+            "width": 35,
+            "height": 60,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }
+    ],
+    "project_object_checkboxes": [
+        {
+            "name": "체크박스_1",
+            "x_position": 100,
+            "y_position": 180,
+            "width": 30,
+            "height": 40,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }, {
+            "name": "체크박스_2",
+            "x_position": 50,
+            "y_position": 37,
+            "width": 32,
+            "height": 45,
+            "rotate": 0,
+            "page": 1,
+            "type": "DEFAULT"
+        }
+    ]
+}

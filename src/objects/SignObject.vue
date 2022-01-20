@@ -66,6 +66,9 @@
                 // Adjust the dimension of element
                 Element.style.width = `${this.resizeW + dx}px`;
                 Element.style.height = `${this.resizeH + dy}px`;
+                this.$store.commit("SET_SIGN_WIDTH", parseInt(this.resizeW + dx));
+                this.$store.commit("SET_SIGN_HEIGHT", parseInt(this.resizeH + dy));
+                this.$store.commit("FIND_AND_SETTING_W_H_SIGN_OBJECT", this.getSOData.htmlID);
             },
             mouseUpHandler() {
                 document.removeEventListener('mousemove', this.mouseMoveHandler);

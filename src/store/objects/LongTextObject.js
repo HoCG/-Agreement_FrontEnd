@@ -3,11 +3,19 @@ const state = {
     LongTextArr: [],
     NewX: 0,
     NewY: 0,
+    NewWidth: 0,
+    NewHeight: 0,
+    SetPage: 0,
     LongTextDefineCheck: false
 };
 
 //사용되는 동작들
 const mutations = {
+    SET_LONGTEXT_INFO(state, {getDataID, x, y, i}){
+        state.LongTextArr.find(object => object.htmlID === getDataID).x = x;
+        state.LongTextArr.find(object => object.htmlID === getDataID).y = y;
+        state.LongTextArr.find(object => object.htmlID === getDataID).page = i;
+    },
     FORMAT_ALL_LONGTEXT_OBJECTS(state) {
         state.LongTextArr = [];
     },
@@ -46,18 +54,30 @@ const mutations = {
             element
         }
     },
+    SET_LONGTEXT_WIDTH(state, width){
+        state.NewWidth = width;
+    },
+    SET_LONGTEXT_HEIGHT(state, height){
+        state.NewHeight = height;
+    },
     SET_LONGTEXT_X(state, x){
         state.NewX = x;
     },
     SET_LONGTEXT_Y(state, y){
         state.NewY = y;
-    },
+    },  
     SET_LONGTEXT_PAGE(state, page){
-        state.page = page;
+        console.log(page);
+        state.SetPage = page;
     },
-    FIND_AND_SETTING_X_Y_LONGTEXT_OBJECT(state, ElementID){
+    FIND_AND_SETTING_W_H_LONGTEXT_OBJECT(state, ElementID){
+        state.LongTextArr.find(object => object.htmlID === ElementID).width = state.NewWidth;
+        state.LongTextArr.find(object => object.htmlID === ElementID).height = state.NewHeight;
+    },
+    FIND_AND_SETTING_X_Y_PAGE_LONGTEXT_OBJECT(state, ElementID){
         state.LongTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.LongTextArr.find(object => object.htmlID === ElementID).y = state.NewY;
+        state.LongTextArr.find(object => object.htmlID === ElementID).page = state.SetPage;
     },
     DELETE_LONGTEXT_OBJECT(state, getLongTextID) {
         state.LongTextArr = state

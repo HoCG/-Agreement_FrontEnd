@@ -1,12 +1,12 @@
 <template>
     <v-card class="mainCard overflow-hidden">
-        <EditHeader class="UserHeader" v-if="this.$store.state.PDFInfo.PDFFileUploadCheck"/>
+        <EditHeader class="UserHeader" v-if="this.$store.state.PDFInfo.PDFFileUploadCheck"/> <!--네비게이션바 컴포넌트-->
         <div class="sideBar">
-            <ObjectList v-if="this.$store.state.PDFInfo.PDFFileUploadCheck" class="ShowObjectInfo"/>
+            <ObjectList v-if="this.$store.state.PDFInfo.PDFFileUploadCheck" class="ShowObjectInfo"/> <!--왼쪽 사이드바-->
             <DocumentInfoSideBar v-else class="ShowDocumentInfo"/>
         </div>
-        <PDFUploader/>
-        <ObjectBox/>
+        <PDFUploader/><!--PDF업로드 및 유저 문서 리스트-->
+        <ObjectBox/><!--오브젝트 생성부분-->
     </v-card>
 </template>
 <script>
@@ -42,28 +42,6 @@
             this
                 .$store
                 .commit("CLOSE_EDIT_PAGE");
-        },
-        data() {
-            return {
-                //오브젝트 관련 데이터 짧은글
-                STextObjectName: "ShortTextObjectArea",
-                STextObjectID: 1,
-
-                //긴글
-                LTextObjectName: "LongTextObjectArea",
-                LTextObjectID: 1,
-
-                //체크박스
-                CheckBoxObjectName: "CheckBoxObjectArea",
-                CheckBoxObjectID: 1,
-
-                //싸인
-                SignObjectName: "SignObjectArea",
-                SignObjectID: 1
-            }
-        },
-        methods: {
-            //오브젝트를 형성하는 과정.
         }
     }
 </script>

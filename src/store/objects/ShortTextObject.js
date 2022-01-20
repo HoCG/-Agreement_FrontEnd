@@ -2,12 +2,19 @@ const state = {
     ShortText: initObject(),
     ShortTextArr: [],
     ShortTextDefineCheck: false,
-    NewX: 0,
-    NewY: 0
+    SetX: 0,
+    SetY: 0,
+    NewWidth: 0,
+    SetPage: 0
 };
 
 //사용되는 동작들
 const mutations = {
+    SET_SHORTTEXT_INFO(state, {getDataID, x, y, i}){
+        state.ShortTextArr.find(object => object.htmlID === getDataID).x = x;
+        state.ShortTextArr.find(object => object.htmlID === getDataID).y = y;
+        state.ShortTextArr.find(object => object.htmlID === getDataID).page = i;
+    },
     FORMAT_ALL_SHORTTEXT_OBJECTS(state) {
         state.ShortTextArr = [];
     },
@@ -40,18 +47,25 @@ const mutations = {
         state.ShortText = initObject();
         state.ShortTextDefineCheck = true;
     },
+    SET_SHORTTEXT_WIDTH(state, width){
+        state.NewWidth = width;
+    },
     SET_SHORTTEXT_X(state, x){
-        state.NewX = x;
+        state.SetX = x;
     },
     SET_SHORTTEXT_Y(state, y){
-        state.NewY = y;
+        state.SetY = y;
     },
     SET_SHORTTEXT_PAGE(state, page){
-        state.page = page;
+        state.SetPage = page;
     },
-    FIND_AND_SETTING_X_Y_SHORTTEXT_OBJECT(state, ElementID){
-        state.ShortTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
-        state.ShortTextArr.find(object => object.htmlID === ElementID).y = state.NewY;
+    FIND_AND_SETTING_W_SHORTTEXT_OBJECT(state, ElementID){
+        state.ShortTextArr.find(object => object.htmlID === ElementID).width = state.NewWidth;
+    },
+    FIND_AND_SETTING_X_Y_PAGE_SHORTTEXT_OBJECT(state, ElementID){
+        state.ShortTextArr.find(object => object.htmlID === ElementID).x = state.SetX;
+        state.ShortTextArr.find(object => object.htmlID === ElementID).y = state.SetY;
+        state.ShortTextArr.find(object => object.htmlID === ElementID).page = state.SetPage;
     },
     DELETE_SHORTTEXT_OBJECT(state, getShortTextID) {
         state.ShortTextArr = state

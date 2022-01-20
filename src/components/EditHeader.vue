@@ -31,15 +31,19 @@
         data(){
             return{
                 //짧은글
+                STextObjectName: "ShortTextObjectArea",
                 STextObjectID: 1,
 
                 //긴글
+                LTextObjectName: "LongTextObjectArea",
                 LTextObjectID: 1,
 
                 //체크박스
+                CheckBoxObjectName: "CheckBoxObjectArea",
                 CheckBoxObjectID: 1,
 
                 //싸인
+                SignObjectName: "SignObjectArea",
                 SignObjectID: 1
             }
         },
