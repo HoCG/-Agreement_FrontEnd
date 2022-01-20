@@ -23,13 +23,13 @@ const router = new VueRouter({
             component: () => import ('../views/UserViewer.vue'),
             beforeEnter: (to, from, next) => isAuthenticationMember(to, from, next),
         }, {
-            path: '/WriterPage',
+            path: '/WriterPage/:document_name',
             component: () => import ('../views/WritersViewer.vue')
         }, {
             path: '/LoginPage',
             component: () => import ('../views/LoginViewer.vue')
         }, {
-            path: '/WriterLoginPage',
+            path: '/WriterLoginPage/:document_name',
             component: () => import ('../views/WritersLoginViewer.vue')
         }
     ]

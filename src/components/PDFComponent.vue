@@ -197,31 +197,35 @@
                 this.addFiles(files);
             },
             goEditScreen(Document) {
-                this
-                    .$store
-                    .commit("SHOW_EDIT_PAGE");
-                //let test = require('../assets/커리큘럼.pdf');
-                let self = this
-                axios
-                    .get(`${process.env.VUE_APP_BASEURL}/api/projects/${Document.name}`)
-                    .then(function (response) {
-                        console.log(response.data);
-                        self.src = pdf.createLoadingTask(`${process.env.VUE_APP_BASEURL}`+String(response.data.pdf.url));
-                        self.$store.state.UsersDocument.Document = Document;
-                        self
-                            .src
-                            .promise
-                            .then(pdf => {
-                                self.numPages = pdf.numPages;
-                                self
-                                    .$store
-                                    .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
-                                setTimeout(3000, self.readAllObject(response.data));
-                            });
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                if (Document.State === 1) {
+                    this
+                        .$store
+                        .commit("SHOW_EDIT_PAGE");
+                    //let test = require('../assets/커리큘럼.pdf');
+                    let self = this
+                    axios
+                        .get(`${process.env.VUE_APP_BASEURL}/api/projects/${Document.name}`)
+                        .then(function (response) {
+                            console.log(response.data);
+                            self.src = pdf.createLoadingTask(
+                                `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
+                            );
+                            self.$store.state.UsersDocument.Document = Document;
+                            self
+                                .src
+                                .promise
+                                .then(pdf => {
+                                    self.numPages = pdf.numPages;
+                                    self
+                                        .$store
+                                        .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
+                                    self.readAllObject(response.data);
+                                });
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
             },
             async addFiles(files) {
                 console.log(files);
@@ -257,10 +261,10 @@
                 });
             },
             readAllObject(responseData) {
-                console.log(responseData.project_object_texts)
-                this.readTextObject(responseData.project_object_texts);
-                this.readCheckBoxObject(responseData.project_object_checkboxes);
-                this.readSignObject(responseData.project_object_signs);
+                //가지고 온 데이터에서
+                this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
+                this.readCheckBoxObject(responseData.project_object_checkboxes); //체크박스만 따로 처리.
+                this.readSignObject(responseData.project_object_signs); //사인값만 따로 처리.
             },
             readTextObject(project_object_texts) {
                 for (let TextObject of project_object_texts) {

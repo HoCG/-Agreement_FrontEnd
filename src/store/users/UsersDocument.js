@@ -65,6 +65,10 @@ const mutations = {
             .DocumentArr
             .filter(e => e.id !== getDocument.id);
         state.Document = initDocument();
+    },
+    WRITER_INPUT(state, DocumentName) {
+        state.DocumentArr.find(D => D.name === DocumentName);
+        state.Document = initDocument();
     }
 };
 
@@ -100,6 +104,7 @@ const actions = {
     async REQUEST_PROJECT_WRITER(context, DocumentName) {
         try {
             const response = await requestProjectsWriter(DocumentName);
+            context.commit("CHANGE_STATE_DOCUMENT", response.data);
             return response;
         } catch (e) {
            alert("불러오기 실패");

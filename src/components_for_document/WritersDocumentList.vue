@@ -16,21 +16,11 @@
                     <!-- 게시물이 출력될 영역 -->
                     <li
                         class="MainLiSetting"
-                        v-for="Document in this.WritersDocumentListInfo.documentInfo"
+                        v-for="Document in this.$store.state.UsersDocument.DocumentArr"
                         :key="Document.id">
-                        <ul v-if="IsFirstDocument(Document)" class="TitleAndItemsUl">
+                        <ul v-if="!IsFirstDocument(Document)" class="ItemsUl">
                             <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                            <li>{{Document.WritersDocument.length}}</li>
-                            <li>-</li>
-                            <li>-</li>
-                            <li></li>
-                            <li>
-                                <button>open</button>
-                            </li>
-                        </ul>
-                        <ul v-else-if="!IsFirstDocument(Document)" class="ItemsUl">
-                            <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                            <li>{{Document.WritersDocument.length}}</li>
+                            <li>{{Document.documentWriter.length}}</li>
                             <li>-</li>
                             <li>-</li>
                             <li>
@@ -39,7 +29,7 @@
                             <li>
                                 <button
                                     v-bind:id="'openBtn'+Document.documentTitle"
-                                    @click="ShowWritersDocumentList(Document.documentTitle)">open</button>
+                                    @click="ShowWritersDocumentList(Document)">open</button>
                                 <button
                                     class="closeBtn"
                                     v-bind:id="'closeBtn'+Document.documentTitle"
@@ -48,12 +38,12 @@
                         </ul>
                         <ul
                             v-bind:class="'WritersList '+Document.documentTitle"
-                            v-for="WritersDocument in Document.WritersDocument"
-                            :key="WritersDocument.id">
+                            v-for="documentWriter in Document.documentWriter"
+                            :key="documentWriter.id">
                             <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
                             <li>-</li>
-                            <li>{{WritersDocument.date}}</li>
-                            <li>{{WritersDocument.writer}}</li>
+                            <li>{{documentWriter.date}}</li>
+                            <li>{{documentWriter.writer}}</li>
                             <li>
                                 <DownloadBtn/>
                             </li>
@@ -85,8 +75,10 @@
             DownloadBtn
         },
         methods: {
-            ShowWritersDocumentList(documentTitle) {
+            ShowWritersDocumentList(Document) {
+                let documentTitle = Document.documentTitle
                 let WritersList = document.getElementsByClassName(documentTitle);
+                this.$store.dispatch("REQUEST_PROJECT_WRITER", Document.name)
                 for (let WL of WritersList) {
                     WL.style.display = "block";
                 }

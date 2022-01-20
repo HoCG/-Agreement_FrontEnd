@@ -6,7 +6,7 @@
                 id="InputPassword"
                 placeholder="학생이름"
                 v-model="writer.name"
-                type="password"/>
+                type="text"/>
             <p class="MessageForm">{{this.Message}}</p>
             <button @click="goWritingPage" class="LoginBtn">작성시작</button>
         </div>
@@ -21,13 +21,24 @@
             }
         },
         data() {
-            return { validationErrors: [], Message: ""};
+            return {validationErrors: [], Message: "", documentName: this.$route.params.document_name};
         },
         methods: {
             goWritingPage() {
-                this
-                    .$router
-                    .push({path: "/WriterPage", query: {}})
+                if (typeof(parseInt(this.writer.schoolID)) === 'number' && typeof(this.writer.name) === 'string') {
+                    if (this.writer.schoolID.length <= 2 && this.writer.name.length <= 4) {
+                        this
+                            .$router
+                            .push({
+                                path: "/WriterPage/" + this.documentName,
+                                query: {}
+                            })
+                    } else {
+                        this.Message = "학번 또는 이름이 너무 깁니다. 다시 작성해주세요."
+                    }
+                } else {
+                    this.Message = "학번에는 숫자만 이름에는 문자만 작성해주세요."
+                }
             },
             backStartPage() {
                 this

@@ -13,7 +13,8 @@
                 <rect x="0.5" y="1" width="79" height="26" rx="13" stroke="#9F9F9F"/>
             </svg>
         </button>
-        <button v-else-if="DocumentInfo.State===2">
+        <button v-else-if="DocumentInfo.State===2" @click="LinkShare()">
+            <input type="text" id="copyArea" v-bind:value="'http://192.168.0.247:8080/WriterLoginPage/'+DocumentInfo.name" style="display: none;"/>
             <svg
                 width="80"
                 height="28"
@@ -41,7 +42,19 @@
             ShareStart(){
                 this.DocumentInfo.State = 2;              
                 this.$store.dispatch('STATE_CHANGE', this.DocumentInfo);
+            },
+            LinkShare(){
+                let url = document.getElementById('copyArea');
+                url.style.display='block';	// 숨겨둔 input 태그 block처리
+                url.select();	// 복사할 text 블럭
+                document.execCommand('copy');
+                url.style.display='none';
             }
         }
     }
 </script>
+<style>
+    #copyArea{
+        display: none;
+    }
+</style>
