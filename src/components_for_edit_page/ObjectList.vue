@@ -15,8 +15,8 @@
                         v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr"
                         :key="STextObject.id">
                         {{
-                                    STextObject.title
-                                }}
+                            STextObject.title
+                        }}
                     </ol>
                 </li>
                 <br/>
@@ -32,8 +32,8 @@
                         v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr"
                         :key="LTextObject.id">
                         {{
-                                    LTextObject.title
-                                }}
+                            LTextObject.title
+                        }}
                     </ol>
                 </li>
                 <br/>
@@ -48,8 +48,8 @@
                         v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr"
                         :key="CheckBoxObject.id">
                         {{
-                                    CheckBoxObject.title
-                                }}
+                            CheckBoxObject.title
+                        }}
                     </ol>
                 </li>
                 <br/>
@@ -64,8 +64,8 @@
                         v-for="SignObject in this.$store.state.SignObject.SignArr"
                         :key="SignObject.id">
                         {{
-                                    SignObject.title
-                                }}
+                            SignObject.title
+                        }}
                     </ol>
                 </li>
             </ul>

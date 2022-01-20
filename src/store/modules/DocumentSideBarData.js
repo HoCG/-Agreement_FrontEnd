@@ -1,3 +1,4 @@
+//옆 사이드바의 형태를 결정해주는 vuex파일
 const state = {
     Show_WriterDocumentList: false,
     Show_UserDocumentList: false,
