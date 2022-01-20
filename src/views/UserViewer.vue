@@ -11,10 +11,10 @@
 </template>
 <script>
     import PDFUploader from '../components/PDFComponent.vue';
-    import DocumentInfoSideBar from '../components/DocumentInfoSideBar.vue';
-    import ObjectList from '../components/ObjectList.vue'
+    import DocumentInfoSideBar from '../components_for_document/DocumentInfoSideBar.vue';
+    import ObjectList from '../components_for_edit_page/ObjectList.vue'
     import ObjectBox from '../objects/ObjectBox.vue'
-    import EditHeader from '../components/EditHeader.vue';
+    import EditHeader from '../components_for_edit_page/EditHeader.vue';
     export default {
         components: {
             DocumentInfoSideBar,

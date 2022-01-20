@@ -104,13 +104,13 @@
 <script>
     import UsersDocumentListInfo from "../assets/UsersDocumentListInfo.json";
     import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
-    import DocumentState from "../components/DocumentState.vue";
+    import DocumentState from "../components_for_document/DocumentState.vue";
     import pdf from 'vue-pdf';
     import DocumentObjectList from '../assets/DocumentObjectList.json';
-    import StateAction from '../components/StateAction.vue';
-    import WritersDocumentList from '../components/WritersDocumentList.vue';
+    import StateAction from '../components_for_document/StateAction.vue';
+    import WritersDocumentList from '../components_for_document/WritersDocumentList.vue';
     import DotsBtn from '../svgs/DotsSVG.vue';
-    import DocumentMenu from '../components/DocumentMenu.vue';
+    import DocumentMenu from '../components_for_document/DocumentMenu.vue';
     import axios from "axios";
     export default {
         mounted() {

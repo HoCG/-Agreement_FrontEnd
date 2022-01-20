@@ -63,6 +63,7 @@ const mutations = {
         state.SignArr.find(object => object.htmlID === ElementID).height = state.NewHeight;
     },
     FIND_AND_SETTING_X_Y_PAGE_SIGN_OBJECT(state, ElementID){
+        console.log("run2", ElementID, state.NewX, state.NewY)
         state.SignArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.SignArr.find(object => object.htmlID === ElementID).y = state.NewY;
         state.SignArr.find(object => object.htmlID === ElementID).page = state.SetPage;

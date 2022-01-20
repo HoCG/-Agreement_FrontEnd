@@ -33,7 +33,7 @@ export default {
             if (currentY >= appendY1 && currentY <= appendY2) {
                 getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
                 getElement.style.left = currentX - parseInt(computed_Object_Style.width, 10) / 2 + "px";
-                let y = currentY - appendY1 - parseInt(computed_Object_Style.width, 10) / 2;
+                let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
                 let x = currentX;
                 this.CommitUpdateData(getElement, x, y, i);
                 PDF_Pages.append(getElement);
@@ -53,7 +53,7 @@ export default {
             PDF_Pages.style.position = "relative";
             let computed_Object_Style = window.getComputedStyle(getElement);
             if (getData.page === i) {
-                getElement.style.top = getData.y - parseInt(computed_Object_Style.height, 10) / 2  + "px";
+                getElement.style.top = getData.y  + "px"; //이미 height를 제외하고 적용하는게 된 상태이니 y값을 그대로 넣어주도록 설정.
                 getElement.style.left =  getData.x - parseInt(computed_Object_Style.width, 10) / 2 + "px";
                 PDF_Pages.append(getElement);
                 break;

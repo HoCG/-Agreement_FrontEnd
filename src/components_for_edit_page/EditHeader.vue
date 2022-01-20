@@ -26,7 +26,7 @@
     import LongTextSVG from '../svgs/LongTextSVG.vue';
     import CheckBoxSVG from '../svgs/CheckBoxSVG.vue';
     import SignSVG from '../svgs/SignSVG.vue';
-    import EditAction from '../components/EditAction.vue'
+    import EditAction from '../components_for_edit_page/EditAction.vue'
     export default {
         data(){
             return{
