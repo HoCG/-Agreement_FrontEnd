@@ -1,5 +1,5 @@
 <template>
-    <v-card class="WritersArea">
+    <v-card class="WritersArea overflow-hidden">
         <div class="WriterHeader">
             <div class="navigation">
                 <button class="SaveEditPageButton" @click="pdfPrint()">
@@ -10,229 +10,97 @@
                 </button>
             </div>
         </div>
-        <div class="sideBar">
-            <div class="ShowObjectInfo">
-                <div class="objectInfo">
-                    <h3 class="objectInfoText">오브젝트 리스트</h3>
-                </div>
-                <div class="objectList">
-                    <ul>
-                        <li>
-                            <div style="width:100%; height: 28px;">
-                                <ShortTextSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.ShortTextObjectArray.length}})</div>
-                            </div>
-                            <ol
-                                style="width:100%;"
-                                v-for="ShortTextObject in ShortTextObjectArray"
-                                :key="ShortTextObject.id">
-                                {{
-                                    ShortTextObject.title
-                                }}
-                            </ol>
-                        </li>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <li>
-                            <div style="width:100%; height: 28px;">
-                                <LongTextSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.LongTextObjectArray.length}})</div>
-                            </div>
-                            <ol
-                                style="width:100%;"
-                                v-for="LongTextObject in LongTextObjectArray"
-                                :key="LongTextObject.id">
-                                {{
-                                    LongTextObject.title
-                                }}
-                            </ol>
-                        </li>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <li>
-                            <div style="width:100%; height: 28px;">
-                                <CheckBoxSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.CheckBoxObjectArray.length}})</div>
-                            </div>
-                            <ol v-for="CheckBoxObject in this.CheckBoxObjectArray" :key="CheckBoxObject.id">
-                                {{
-                                    CheckBoxObject.title
-                                }}
-                            </ol>
-                        </li>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <li>
-                            <div style="width:100%; height: 28px;">
-                                <SignSVG style="float: left" height="15%"/>
-                                <div style="float: left">({{this.SignObjectArray.length}})</div>
-                            </div>
-                            <ol v-for="SignObject in this.SignObjectArray" :key="SignObject.id">
-                                {{
-                                    SignObject.title
-                                }}
-                            </ol>
-                        </li>
-                    </ul>
+        <WriteList/>
+        <div id="container" class="container">
+            <div id="drawerScrollBox" class="pdfViewer">
+                <div id="drawer">
+                    <pdf v-for="i in numPages" :key="i" :page="i" :src="src"></pdf>
                 </div>
             </div>
         </div>
-        <div id="drawerScrollBox" class="pdfViewer">
-            <div id="drawer">
-                <pdf v-for="i in numPages" :key="i" :page="i" :src="src"></pdf>
-            </div>
-        </div>
-        <div>
-            <CheckBoxObject
-                v-for="CheckBoxObject in CheckBoxObjectArray"
-                :key="CheckBoxObject.id"
-                v-bind:getCBData="CheckBoxObject"/>
-        </div>
-        <div>
-            <LongTextObject
-                v-for="LTextObject in LongTextObjectArray"
-                :key="LTextObject.id"
-                v-bind:getLTData="LTextObject"/>
-        </div>
-        <div>
-            <ShortTextObject
-                v-for="STextObject in ShortTextObjectArray"
-                :key="STextObject.id"
-                v-bind:getSTData="STextObject"/>
-        </div>
-        <div>
-            <SignObject
-                v-for="SignObject in SignObjectArray"
-                :key="SignObject.id"
-                v-bind:getSOData="SignObject"/>
-        </div>
+        <ObjectBox/>
         <SignDialog :dialog="true"/>
     </v-card>
 </template>
 <script>
     import pdf from 'vue-pdf';
     import SignDialog from '../components/SignDialog.vue';
-    import JsonFile from '../assets/testJsonFile.json';
-    import ShortTextSVG from '../svgs/ShortTextSVG.vue';
-    import LongTextSVG from '../svgs/LongTextSVG.vue';
-    import CheckBoxSVG from '../svgs/CheckBoxSVG.vue';
-    import SignSVG from '../svgs/SignSVG.vue';
     import html2canvas from "html2canvas";
     import jsPDF from "jspdf";
-    import CheckBoxObject from "../w_object/CheckBoxObject.vue";
-    import LongTextObject from "../w_object/LongTextObject.vue";
-    import ShortTextObject from "../w_object/ShortTextObject.vue";
-    import SignObject from "../w_object/SignObject.vue";
+    import axios from "axios";
+    import ObjectBox from '../w_object/ObjectBox.vue';
+    import WriteList from '../components_for_writer_view/WriteList.vue';
     export default {
         mounted() {
             this.src = pdf.createLoadingTask(this.pdfLink);
-            this
-                .src
-                .promise
-                .then(pdf => {
-                    this.numPages = pdf.numPages;
-                    this.readAllObject(JsonFile);
+            let self = this;
+            axios
+                .get(`${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.documentName}`)
+                .then(function (response) {
+                    console.log(response.data);
+                    self.src = pdf.createLoadingTask(
+                        `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
+                    );
+                    self.$store.state.UsersDocument.Document = Document;
+                    self
+                        .src
+                        .promise
+                        .then(pdf => {
+                            self.numPages = pdf.numPages;
+                            self.saveOriginalWidth(response.data);
+                            self.readAllObject(response.data);
+                        });
+                })
+                .catch(function (error) {
+                    console.log(error);
                 });
-            console.log(JsonFile);
-            //this.documentTitle = JsonFile.documentInfo[0].title;
         },
         components: {
-            CheckBoxObject,
-            LongTextObject,
-            ShortTextObject,
-            SignObject,
-            CheckBoxSVG,
-            SignSVG,
             SignDialog,
-            ShortTextSVG,
-            LongTextSVG,
-            pdf
+            pdf,
+            ObjectBox,
+            WriteList
         },
         data() {
             return {
                 //useForJsonFile 오브젝트 관련 데이터 짧은글
                 pdfLink: require('../assets/커리큘럼.pdf'),
                 ShortTextObjectName: "ShortTextObjectArea",
-                ShortTextObjectArray: [],
-                ShortTextObject: {
-                    title: "",
-                    id: "",
-                    htmlID: "",
-                    text: "",
-                    width: "",
-                    height: "",
-                    page: "",
-                    x: "",
-                    y: ""
-                },
                 ShortTextObjectCheck: false,
                 ShortTextObjectID: 1,
 
                 //긴글
                 LongTextObjectName: "LongTextObjectArea",
-                LongTextObjectArray: [],
-                LongTextObject: {
-                    title: "",
-                    id: "",
-                    htmlID: "",
-                    text: "",
-                    width: "",
-                    height: "",
-                    page: "",
-                    x: "",
-                    y: ""
-                },
                 LongTextObjectCheck: false,
                 LongTextObjectID: 1,
 
                 //체크박스
                 CheckBoxObjectName: "CheckBoxObjectArea",
-                CheckBoxObjectArray: [],
-                CheckBoxObject: {
-                    title: "",
-                    id: "",
-                    htmlID: "",
-                    text: "",
-                    width: "",
-                    height: "",
-                    page: "",
-                    x: "",
-                    y: ""
-                },
                 CheckBoxObjectCheck: false,
                 CheckBoxObjectID: 1,
 
                 //싸인
                 SignObjectName: "SignObjectArea",
-                SignObjectArray: [],
-                SignObject: {
-                    title: "",
-                    id: "",
-                    htmlID: "",
-                    text: "",
-                    width: "",
-                    height: "",
-                    page: "",
-                    x: "",
-                    y: ""
-                },
                 SignObjectCheck: false,
                 SignObjectID: 1,
 
-                isDragged: "",
                 src: "",
                 numPages: undefined,
                 itemLength: 0,
                 selectedID: "",
                 imageID: "",
                 selectedItem: 1,
-                selectedItemText: ""
+                selectedItemText: "",
+                documentName: this.$route.params.document_name
             }
         },
         methods: {
+            saveOriginalWidth(responseData){
+                this.$store.commit("FORMAT_ORIGINAL_WIDTH");
+                for(let OW of responseData.pdf.original_width){
+                    this.$store.commit("SAVE_ORIGINAL_WIDTH", OW);
+                }
+            },
             pdfPrint() {
                 // 현재 document.body의 html을 A4 크기에 맞춰 PDF로 변환
                 html2canvas(document.getElementById("drawer")).then(function (canvas) {
@@ -261,85 +129,79 @@
                     doc.save('sample.pdf');
                 })
             },
-            fnSaveAsPdf() {
-                html2canvas(document.getElementById("drawer")).then(function (canvas) {
-                    var imgData = canvas.toDataURL('image/png');
-                    var imgWidth = 210;
-                    //var pageHeight = imgWidth * 1.414;
-                    var imgHeight = canvas.height * imgWidth / canvas.width;
-
-                    var doc = new jsPDF({'orientation': 'p', 'unit': 'mm', 'format': 'a4'});
-
-                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                    doc.save('sample_A4.pdf');
-                    console.log('Reached here?');
-                    console.log(doc);
-                });
+            readAllObject(responseData) {
+                //가지고 온 데이터에서
+                this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
+                this.readCheckBoxObject(responseData.project_object_checkboxes); //체크박스만 따로 처리.
+                this.readSignObject(responseData.project_object_signs); //사인값만 따로 처리.
             },
-            readAllObject(DocumentObjectList) {
-                for (let DocumentObject of DocumentObjectList.object) {
-                    let NewObject = {
-                        title: "",
-                        id: "",
-                        htmlID: "",
-                        text: "",
-                        width: "",
-                        height: "",
-                        page: "",
-                        x: "",
-                        y: ""
-                    }
-                    if (DocumentObject.title.includes("짧은 글")) {
-                        NewObject.htmlID = "ShortTextObjectArea" + DocumentObject.id;
-                        NewObject.id = DocumentObject.id;
-                        NewObject.title = "짧은 글_" + DocumentObject.id;
-                        NewObject.width = DocumentObject.width;
-                        NewObject.height = DocumentObject.height;
-                        NewObject.x = DocumentObject.x;
-                        NewObject.y = DocumentObject.y;
-                        NewObject.page = DocumentObject.page;
+            readTextObject(project_object_texts) {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
+                for (let TextObject of project_object_texts) {
+                    if (TextObject.type === "SHORT_TEXT") {
+                        this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
+                        this.$store.state.ShortTextObject.ShortText.title = "짧은 글_"
+                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.page = TextObject.page;
+                        this.$store.state.ShortTextObject.ShortText.push_or_readCheck = false;
                         this
-                            .ShortTextObjectArray
-                            .push(NewObject);
-                    } else if (DocumentObject.title.includes("긴 글")) {
-                        NewObject.htmlID = "LongTextObjectArea" + DocumentObject.id
-                        NewObject.title = "긴 글_" + DocumentObject.id
-                        NewObject.id = DocumentObject.id;
-                        NewObject.width = DocumentObject.width;
-                        NewObject.height = DocumentObject.height;
-                        NewObject.x = DocumentObject.x;
-                        NewObject.y = DocumentObject.y;
-                        NewObject.page = DocumentObject.page;
+                            .$store
+                            .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
+                    } else {
+                        this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
+                        this.$store.state.LongTextObject.LongText.title = "긴 글_"
+                        this.$store.state.LongTextObject.LongText.width = TextObject.width*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.height = TextObject.height*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.page = TextObject.page;
+                        this.$store.state.LongTextObject.LongText.push_or_readCheck = false;
                         this
-                            .LongTextObjectArray
-                            .push(NewObject);
-                    } else if (DocumentObject.title.includes("체크박스")) {
-                        NewObject.htmlID = "CheckBoxObjectArea" + DocumentObject.id
-                        NewObject.title = "체크박스_" + DocumentObject.id
-                        NewObject.id = DocumentObject.id;
-                        NewObject.width = DocumentObject.width;
-                        NewObject.height = DocumentObject.height;
-                        NewObject.x = DocumentObject.x;
-                        NewObject.y = DocumentObject.y;
-                        NewObject.page = DocumentObject.page;
-                        this
-                            .CheckBoxObjectArray
-                            .push(NewObject);
-                    } else if (DocumentObject.title.includes("사인")) {
-                        NewObject.htmlID = "SignObjectArea" + DocumentObject.id
-                        NewObject.title = "사인_" + DocumentObject.id
-                        NewObject.id = DocumentObject.id;
-                        NewObject.width = DocumentObject.width;
-                        NewObject.height = DocumentObject.height;
-                        NewObject.x = DocumentObject.x;
-                        NewObject.y = DocumentObject.y;
-                        NewObject.page = DocumentObject.page;
-                        this
-                            .SignObjectArray
-                            .push(NewObject);
+                            .$store
+                            .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
                     }
                 }
-                console.log(this.ShortTextObjectArray)
+            },
+            readCheckBoxObject(project_object_checkboxes) {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
+                for (let CheckBoxObject of project_object_checkboxes) {
+                    this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
+                    this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
+                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.page = CheckBoxObject.page;
+                    this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = false;
+                    this
+                        .$store
+                        .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
+                }
+            },
+            readSignObject(project_object_signs) {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
+                for (let SignObject of project_object_signs) {
+                    this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
+                    this.$store.state.SignObject.Sign.title = "사인_"
+                    this.$store.state.SignObject.Sign.width = SignObject.width*computed_Ratio;
+                    this.$store.state.SignObject.Sign.height = SignObject.height*computed_Ratio;
+                    this.$store.state.SignObject.Sign.x = SignObject.x_position*computed_Ratio;
+                    this.$store.state.SignObject.Sign.y = SignObject.y_position*computed_Ratio;
+                    this.$store.state.SignObject.Sign.page = SignObject.page;
+                    this.$store.state.SignObject.Sign.push_or_readCheck = false;
+                    this
+                        .$store
+                        .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
+                }
             },
             async addFiles(files) {
                 console.log(files);
@@ -382,6 +244,19 @@
     }
 </script>
 <style>
+    .pdfViewer {
+        margin-top: 200px;
+        text-align: center;
+        height: 100%;
+        width: 80%;
+    }
+    #drawer {
+        position: relative;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        overflow: hidden;
+    }
     .SaveEditPageButton {
         float: right;
         width: 82px;
@@ -404,6 +279,40 @@
     }
     ul {
         list-style: none;
+    }
+    .WriterHeader {
+        width: 100%;
+        height: 15%;
+        position: fixed;
+        background-color: white;
+        z-index: 10;
+        left: 0;
+        right: 0;
+        top: 50px;
+    }
+    .navigation {
+        position: relative;
+        text-align: center;
+        top: 25%;
+        height: 60%;
+    }
+    .WritersArea {
+        display: flex;
+        align-items: center;
+        position: relative;
+        height: 100%;
+    }
+    .pdfViewer {
+        z-index: 2;
+        width: 70%;
+        margin-left: 15%;
+    }
+    .container {
+        align-items: center;
+        margin-left: 15%;
+        width: 85%;
+        height: 100%;
+        background-color: #F3F3F3;
     }
     .sideBar {
         top: 20%;
@@ -429,82 +338,5 @@
     .objectInfoText {
         position: relative;
         top: 50%;
-    }
-    .WriterHeader {
-        width: 100%;
-        height: 15%;
-        position: fixed;
-        background-color: white;
-        z-index: 10;
-        left: 0;
-        right: 0;
-        top: 50px;
-    }
-    .navigation {
-        position: relative;
-        text-align: center;
-        top: 25%;
-        height: 60%;
-    }
-    .ShortTextObjectArea {
-        z-index: 6;
-        align-items: center;
-        box-shadow: 5px 5px 5px;
-        font-weight: 800;
-        display: flex;
-        font-size: large;
-        text-align: center;
-        justify-content: center;
-        border-radius: 8px;
-        background-color: #DADADA;
-        position: absolute;
-    }
-    .LongTextObjectArea {
-        z-index: 6;
-        align-items: center;
-        box-shadow: 5px 5px 5px;
-        font-weight: 800;
-        display: flex;
-        font-size: large;
-        text-align: center;
-        justify-content: center;
-        border-radius: 8px;
-        background-color: #DADADA;
-        position: absolute;
-    }
-    .CheckBoxObjectArea {
-        z-index: 6;
-        align-items: center;
-        box-shadow: 5px 5px 5px;
-        font-weight: 800;
-        display: flex;
-        font-size: large;
-        text-align: center;
-        justify-content: center;
-        border-radius: 8px;
-        background-color: #DADADA;
-        position: absolute;
-    }
-    .SignObjectArea {
-        z-index: 6;
-        align-items: center;
-        box-shadow: 5px 5px 5px;
-        font-weight: 800;
-        display: flex;
-        font-size: large;
-        text-align: center;
-        justify-content: center;
-        border-radius: 8px;
-        background-color: #DADADA;
-        position: absolute;
-    }
-    .WritersArea {
-        text-align: center;
-        align-items: center;
-    }
-    .pdfViewer {
-        z-index: 2;
-        width: 70%;
-        margin-left: 15%;
     }
 </style>

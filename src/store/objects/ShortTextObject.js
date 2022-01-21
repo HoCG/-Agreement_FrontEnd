@@ -21,23 +21,6 @@ const mutations = {
     FORMAT_SHORTTEXT_OBJECT(state) {
         state.ShortText = initObject();
     },
-    UPDATE_SHORTTEXT_OBJECT(state, getShortText) {
-        let checkOverlapID = 1;
-        while (
-            state.ShortTextArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
-        ) {
-            checkOverlapID++;
-        }
-        state.ShortTextArr = state
-            .ShortTextArr
-            .filter(e => e.id !== getShortText.id);
-        getShortText.id = checkOverlapID;
-        getShortText = makeObject(getShortText);
-        state
-            .ShortTextArr
-            .push(getShortText);
-        state.ShortText = initObject();
-    },
     //이벤트를 추가하는 과정.
     ADD_SHORTTEXT_OBJECT(state, getShortText) {
         getShortText = makeObject(state, getShortText);

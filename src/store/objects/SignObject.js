@@ -17,23 +17,6 @@ const mutations = {
     FORMAT_SIGN_OBJECT(state) {
         state.SignArr = initObject();
     },
-    UPDATE_SIGN_OBJECT(state, getSign) {
-        let checkOverlapID = 1;
-        while (
-            state.SignArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
-        ) {
-            checkOverlapID++;
-        }
-        state.SignArr = state
-            .SignArr
-            .filter(e => e.id !== getSign.id);
-        getSign.id = checkOverlapID;
-        getSign = makeObject(getSign);
-        state
-            .SignArr
-            .push(getSign);
-        state.Sign = initObject();
-    },
     //이벤트를 추가하는 과정.
     ADD_SIGN_OBJECT(state, getSign) {
         getSign = makeObject(state, getSign);

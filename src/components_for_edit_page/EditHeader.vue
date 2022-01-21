@@ -71,7 +71,7 @@
                 let offsetY = event.pageY - parseInt(computedheaderStyle.height, 10);
                 this.pushObjectInArray(objectID, offsetX, offsetY);
             },
-            //배열내에 해당 오브젝트를 제거.
+            //배열에 데이터를 넣는 과정.
             pushObjectInArray(objectID, x, y) {
                 if (objectID === "ShortTextObjectArea") {
                     this.$store.state.ShortTextObject.ShortText.htmlID = objectID;

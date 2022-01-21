@@ -25,8 +25,10 @@
         },
         methods: {
             goWritingPage() {
-                if (typeof(parseInt(this.writer.schoolID)) === 'number' && typeof(this.writer.name) === 'string') {
+                //정규식으로 유효성 검사 실시.
+                if (/^[0-9_-]{2,10}$/.test(this.writer.schoolID) && typeof(this.writer.name) === 'string') {
                     if (this.writer.schoolID.length <= 2 && this.writer.name.length <= 4) {
+                        
                         this
                             .$router
                             .push({
@@ -41,9 +43,7 @@
                 }
             },
             backStartPage() {
-                this
-                    .$router
-                    .push({path: "/", query: {}})
+                self.close();
             }
         }
     };

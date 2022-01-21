@@ -27,7 +27,7 @@
         align-items: center;
         box-shadow: 5px 5px 5px;
         font-weight: 800;
-        display: none;
+        display: flex;
         font-size: large;
         text-align: center;
         justify-content: center;

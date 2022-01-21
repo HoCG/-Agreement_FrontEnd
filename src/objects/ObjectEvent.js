@@ -34,8 +34,7 @@ export default {
                 getElement.style.top = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2 + "px";
                 getElement.style.left = currentX - parseInt(computed_Object_Style.width, 10) / 2 + "px";
                 let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
-                let x = currentX;
-                this.CommitUpdateData(getElement, x, y, i);
+                this.CommitUpdateData(getElement, y, i);
                 PDF_Pages.append(getElement);
                 break;
             } else {
@@ -51,34 +50,34 @@ export default {
         for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
-            let computed_Object_Style = window.getComputedStyle(getElement);
             if (getData.page === i) {
                 getElement.style.top = getData.y  + "px"; //이미 height를 제외하고 적용하는게 된 상태이니 y값을 그대로 넣어주도록 설정.
-                getElement.style.left =  getData.x - parseInt(computed_Object_Style.width, 10) / 2 + "px";
+                getElement.style.left =  getData.x + "px";
                 PDF_Pages.append(getElement);
                 break;
             }
         }
     },
-    CommitUpdateData(getElement, x, y, i){
+    CommitUpdateData(getElement, y, i){
+        let computed_Object_Style = window.getComputedStyle(getElement);
         if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
-            store.commit("SET_SHORTTEXT_X", parseInt(x));
+            store.commit("SET_SHORTTEXT_X", parseInt(computed_Object_Style.left, 10));
             store.commit("SET_SHORTTEXT_Y", parseInt(y));
             store.commit("SET_SHORTTEXT_PAGE", parseInt(i));
             store.commit("FIND_AND_SETTING_X_Y_PAGE_SHORTTEXT_OBJECT", getElement.getAttribute("id")
             );
         } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
-            store.commit("SET_LONGTEXT_X", parseInt(x));
+            store.commit("SET_LONGTEXT_X", parseInt(computed_Object_Style.left, 10));
             store.commit("SET_LONGTEXT_Y", parseInt(y));
             store.commit("SET_LONGTEXT_PAGE", parseInt(i));
             store.commit("FIND_AND_SETTING_X_Y_PAGE_LONGTEXT_OBJECT", getElement.getAttribute("id"));
         } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
-            store.commit("SET_CHECKBOX_X", parseInt(x));
+            store.commit("SET_CHECKBOX_X", parseInt(computed_Object_Style.left, 10));
             store.commit("SET_CHECKBOX_Y", parseInt(y));
             store.commit("SET_CHECKBOX_PAGE", parseInt(i));
             store.commit("FIND_AND_SETTING_X_Y_PAGE_CHECKBOX_OBJECT", getElement.getAttribute("id"));
         } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
-            store.commit("SET_SIGN_X", parseInt(x));
+            store.commit("SET_SIGN_X", parseInt(computed_Object_Style.left, 10));
             store.commit("SET_SIGN_Y", parseInt(y));
             store.commit("SET_SIGN_PAGE", parseInt(i));
             store.commit("FIND_AND_SETTING_X_Y_PAGE_SIGN_OBJECT", getElement.getAttribute("id"));

@@ -4,7 +4,8 @@ const state = {
     src: "",
     numPages: undefined,
     PDFPageInfo: 0,
-    PDFFileUploadCheck: false
+    PDFFileUploadCheck: false,
+    OriginalWidth: []
 };
 const mutations = {
     SET_DOCUMENT_TITLE(state, titleInfo){
@@ -21,6 +22,12 @@ const mutations = {
     },
     SET_PDF_FILE_SRC(state, src){
         state.src = src;
+    },
+    SAVE_ORIGINAL_WIDTH(state, WidthInfo){
+        state.OriginalWidth.push(WidthInfo);
+    },
+    FORMAT_ORIGINAL_WIDTH(state){
+        state.OriginalWidth = [];
     }
 }
 

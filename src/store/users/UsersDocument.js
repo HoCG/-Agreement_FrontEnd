@@ -4,7 +4,8 @@ import {requestProject, postProject, requestProjectsWriter, changeStateProject, 
 const state = {
     Document: initDocument(),
     DocumentArr: [],
-    response: ""
+    response: "",
+    want_Document_Name: ""
 };
 
 //사용되는 동작들
@@ -66,9 +67,15 @@ const mutations = {
             .filter(e => e.id !== getDocument.id);
         state.Document = initDocument();
     },
-    WRITER_INPUT(state, DocumentName) {
-        state.DocumentArr.find(D => D.name === DocumentName);
+    WRITER_INPUT(state, data) {
+        for(let element of data){
+            state.DocumentArr.find(D => D.name === state.want_Document_Name).documentWriter = makeWriterDocument(element);
+        }
         state.Document = initDocument();
+        state.want_Document_Name = "";
+    },
+    WANT_DOCUMENT_NAME_SETTING(state, DocumentName){
+        state.want_Document_Name = DocumentName;
     }
 };
 
@@ -104,7 +111,8 @@ const actions = {
     async REQUEST_PROJECT_WRITER(context, DocumentName) {
         try {
             const response = await requestProjectsWriter(DocumentName);
-            context.commit("CHANGE_STATE_DOCUMENT", response.data);
+            context.commit("WANT_DOCUMENT_NAME_SETTING", DocumentName);
+            context.commit("WRITER_INPUT", response.data);
             return response;
         } catch (e) {
            alert("불러오기 실패");
@@ -131,6 +139,16 @@ const makeDocument = (Document) => {
         documentWritersCount: Document.submittee_count,
         State: Document.state,
         documentWriter: []
+    }
+};                   
+
+const makeWriterDocument = (data) => {
+    return {
+        id: data.idx,
+        student_id: data.student_id,
+        date: data.date,
+        writer: data.student_name,
+
     }
 };
 

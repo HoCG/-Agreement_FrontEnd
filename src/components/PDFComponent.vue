@@ -197,7 +197,7 @@
                 this.addFiles(files);
             },
             goEditScreen(Document) {
-                if (Document.State === 1) {
+                if (Document.State !== 0) {
                     this
                         .$store
                         .commit("SHOW_EDIT_PAGE");
@@ -219,6 +219,7 @@
                                     self
                                         .$store
                                         .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
+                                    self.saveOriginalWidth(response.data);
                                     self.readAllObject(response.data);
                                 });
                         })
@@ -260,6 +261,12 @@
                     reader.readAsDataURL(files)
                 });
             },
+            saveOriginalWidth(responseData){
+                this.$store.commit("FORMAT_ORIGINAL_WIDTH");
+                for(let OW of responseData.pdf.original_width){
+                    this.$store.commit("SAVE_ORIGINAL_WIDTH", OW);
+                }
+            },
             readAllObject(responseData) {
                 //가지고 온 데이터에서
                 this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
@@ -267,14 +274,17 @@
                 this.readSignObject(responseData.project_object_signs); //사인값만 따로 처리.
             },
             readTextObject(project_object_texts) {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
                         this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
                         this.$store.state.ShortTextObject.ShortText.title = "짧은 글_"
-                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width;
-                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height;
-                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position;
-                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position;
+                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position*computed_Ratio;
                         this.$store.state.ShortTextObject.ShortText.page = TextObject.page;
                         this.$store.state.ShortTextObject.ShortText.push_or_readCheck = false;
                         this
@@ -283,10 +293,10 @@
                     } else {
                         this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
                         this.$store.state.LongTextObject.LongText.title = "긴 글_"
-                        this.$store.state.LongTextObject.LongText.width = TextObject.width;
-                        this.$store.state.LongTextObject.LongText.height = TextObject.height;
-                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position;
-                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position;
+                        this.$store.state.LongTextObject.LongText.width = TextObject.width*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.height = TextObject.height*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position*computed_Ratio;
                         this.$store.state.LongTextObject.LongText.page = TextObject.page;
                         this.$store.state.LongTextObject.LongText.push_or_readCheck = false;
                         this
@@ -296,13 +306,16 @@
                 }
             },
             readCheckBoxObject(project_object_checkboxes) {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
                 for (let CheckBoxObject of project_object_checkboxes) {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
                     this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
-                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width;
-                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height;
-                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position;
-                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position;
+                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position*computed_Ratio;
                     this.$store.state.CheckBoxObject.CheckBox.page = CheckBoxObject.page;
                     this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = false;
                     this
@@ -311,13 +324,16 @@
                 }
             },
             readSignObject(project_object_signs) {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
                 for (let SignObject of project_object_signs) {
                     this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
                     this.$store.state.SignObject.Sign.title = "사인_"
-                    this.$store.state.SignObject.Sign.width = SignObject.width;
-                    this.$store.state.SignObject.Sign.height = SignObject.height;
-                    this.$store.state.SignObject.Sign.x = SignObject.x_position;
-                    this.$store.state.SignObject.Sign.y = SignObject.y_position;
+                    this.$store.state.SignObject.Sign.width = SignObject.width*computed_Ratio;
+                    this.$store.state.SignObject.Sign.height = SignObject.height*computed_Ratio;
+                    this.$store.state.SignObject.Sign.x = SignObject.x_position*computed_Ratio;
+                    this.$store.state.SignObject.Sign.y = SignObject.y_position*computed_Ratio;
                     this.$store.state.SignObject.Sign.page = SignObject.page;
                     this.$store.state.SignObject.Sign.push_or_readCheck = false;
                     this
