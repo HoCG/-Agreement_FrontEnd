@@ -7,20 +7,13 @@
     </div>
 </template>
 <script>
+    import ObjectEvent from "./ObjectEvent";
     export default {
         props: {
             getSOData: Object
         },
         mounted() {
-            const ThisWindow = document.getElementById("drawer");
-            const ObjectDiv = document.getElementById(this.getSOData.htmlID);
-            if (ObjectDiv != null) {
-                ObjectDiv.style.width = this.getSOData.width + "px";
-                ObjectDiv.style.height = this.getSOData.height + "px";
-                ObjectDiv.style.top = this.getSOData.y + "px";
-                ObjectDiv.style.left = this.getSOData.x + "px";
-                ThisWindow.append(ObjectDiv);
-            }
+            ObjectEvent.myFunction(this.getSOData);
         },
         methods: {
             openSignDialog(SignObject) {

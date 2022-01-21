@@ -43,7 +43,7 @@
             backStartPage() {
                 this
                     .$router
-                    .push({path: "/", query: {}})
+                    .push({path: "/UserPage", query: {}})
             }
         }
     };

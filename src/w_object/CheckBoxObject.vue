@@ -4,18 +4,13 @@
     </div>
 </template>
 <script>
+    import ObjectEvent from "./ObjectEvent";
     export default {
         props: {
             getCBData: Object
         },
         mounted() {
-            const ThisWindow = document.getElementById("drawer");
-            const ObjectDiv = document.getElementById(this.getCBData.htmlID);
-            if (ObjectDiv != null) {
-                ObjectDiv.style.top = this.getCBData.y + "px";
-                ObjectDiv.style.left = this.getCBData.x + "px";
-                ThisWindow.append(ObjectDiv);
-            }
+            ObjectEvent.myFunction(this.getCBData);
         }
     }
 </script>

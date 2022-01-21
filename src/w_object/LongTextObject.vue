@@ -1,23 +1,16 @@
 <template>
     <div class="LongTextObjectArea" v-bind:id="getLTData.htmlID">
-        <textarea v-bind="getLTData.text" id="" cols="30" rows="5"></textarea>
+        <textarea v-bind="getLTData.text" maxlength="50" style="width: 85%; height: 85%" cols="30" rows="5"></textarea>
     </div>
 </template>
 <script>
+    import ObjectEvent from "./ObjectEvent";
     export default {
         props: {
             getLTData: Object
         },
         mounted() {
-            const ThisWindow = document.getElementById("drawer");
-            const ObjectDiv = document.getElementById(this.getLTData.htmlID);
-            if (ObjectDiv != null) {
-                ObjectDiv.style.width = this.getLTData.width + "px";
-                ObjectDiv.style.height = this.getLTData.height + "px";
-                ObjectDiv.style.top = this.getLTData.y + "px";
-                ObjectDiv.style.left = this.getLTData.x + "px";
-                ThisWindow.append(ObjectDiv);
-            }
+            ObjectEvent.myFunction(this.getLTData);
         }
     }
 </script>

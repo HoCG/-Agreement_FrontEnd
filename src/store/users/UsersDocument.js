@@ -102,6 +102,8 @@ const actions = {
     async POST_PROJECT(context, getDocument) {
         try {
             const response = await postProject(getDocument);
+            getDocument.id = response.data.idx;
+            getDocument.name = response.data.name;
             context.commit("ADD_DOCUMENT", getDocument);
             return response;
         } catch (e) {
@@ -148,7 +150,6 @@ const makeWriterDocument = (data) => {
         student_id: data.student_id,
         date: data.date,
         writer: data.student_name,
-
     }
 };
 

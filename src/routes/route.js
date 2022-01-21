@@ -15,10 +15,13 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         // 이곳에 router 를 등록할 것 입니다.
+        /*
         {
             path: '/',
             component: () => import ('../views/StartViewer.vue')
-        }, {
+        }, 
+        */
+        {
             path: '/UserPage',
             component: () => import ('../views/UserViewer.vue'),
             beforeEnter: (to, from, next) => isAuthenticationMember(to, from, next),
@@ -26,7 +29,7 @@ const router = new VueRouter({
             path: '/WriterPage/:document_name',
             component: () => import ('../views/WritersViewer.vue')
         }, {
-            path: '/LoginPage',
+            path: '/',
             component: () => import ('../views/LoginViewer.vue')
         }, {
             path: '/WriterLoginPage/:document_name',

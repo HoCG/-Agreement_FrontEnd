@@ -14,7 +14,7 @@
         <div id="container" class="container">
             <div id="drawerScrollBox" class="pdfViewer">
                 <div id="drawer">
-                    <pdf v-for="i in numPages" :key="i" :page="i" :src="src"></pdf>
+                    <pdf v-for="i in numPages" :key="i" :page="i" :src="src" v-bind:id="'page'+i"></pdf>
                 </div>
             </div>
         </div>
@@ -32,7 +32,6 @@
     import WriteList from '../components_for_writer_view/WriteList.vue';
     export default {
         mounted() {
-            this.src = pdf.createLoadingTask(this.pdfLink);
             let self = this;
             axios
                 .get(`${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.documentName}`)
@@ -47,6 +46,9 @@
                         .promise
                         .then(pdf => {
                             self.numPages = pdf.numPages;
+                            self
+                                .$store
+                                .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
                             self.saveOriginalWidth(response.data);
                             self.readAllObject(response.data);
                         });
@@ -64,26 +66,6 @@
         data() {
             return {
                 //useForJsonFile 오브젝트 관련 데이터 짧은글
-                pdfLink: require('../assets/커리큘럼.pdf'),
-                ShortTextObjectName: "ShortTextObjectArea",
-                ShortTextObjectCheck: false,
-                ShortTextObjectID: 1,
-
-                //긴글
-                LongTextObjectName: "LongTextObjectArea",
-                LongTextObjectCheck: false,
-                LongTextObjectID: 1,
-
-                //체크박스
-                CheckBoxObjectName: "CheckBoxObjectArea",
-                CheckBoxObjectCheck: false,
-                CheckBoxObjectID: 1,
-
-                //싸인
-                SignObjectName: "SignObjectArea",
-                SignObjectCheck: false,
-                SignObjectID: 1,
-
                 src: "",
                 numPages: undefined,
                 itemLength: 0,

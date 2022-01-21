@@ -1,23 +1,16 @@
 <template>
     <div class="ShortTextObjectArea" v-bind:id="getSTData.htmlID">
-        <input type="text" v-bind="getSTData.text"/>
+        <input style="width: 100%" v-bind="getSTData.text"/>
     </div>
 </template>
 <script>
+    import ObjectEvent from "./ObjectEvent";
     export default {
         props: {
             getSTData: Object
         },
         mounted() {
-            const ThisWindow = document.getElementById("drawer");
-            const ObjectDiv = document.getElementById(this.getSTData.htmlID);
-            if (ObjectDiv != null) {
-                ObjectDiv.style.width = this.getSTData.width + "px";
-                ObjectDiv.style.height = this.getSTData.height + "px";
-                ObjectDiv.style.top = this.getSTData.y + "px";
-                ObjectDiv.style.left = this.getSTData.x + "px";
-                ThisWindow.append(ObjectDiv);
-            }
+            ObjectEvent.myFunction(this.getSTData);
         }
     }
 </script>
