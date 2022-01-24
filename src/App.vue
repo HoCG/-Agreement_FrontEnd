@@ -5,9 +5,14 @@
                 <h2 class="appbarColor">서비스 로고</h2>
             </div>
             <v-spacer></v-spacer>
-            <input v-model="this.$store.state.PDFInfo.PDFTitle" class="appbarColor">
+            <h2 v-if="this.$store.state.PDFInfo.PDFWriteComplete"><u>{{this.$store.state.PDFInfo.PDFTitle}}</u></h2>
+            <h3 v-if="this.$store.state.PDFInfo.PDFWriteComplete">    
+                이 작성이 완료되었습니다.
+            </h3>     
+            <input v-else v-model="this.$store.state.PDFInfo.PDFTitle" class="appbarColor">       
             <v-spacer></v-spacer>
             <button v-if="this.$store.state.admin.LoginMode" @click="Logout" class="appbarColor" id="LogoutBtn">로그아웃</button>
+            <WriteAction v-if="this.$store.state.PDFInfo.PDFWriteComplete"/>
         </v-app-bar>
         <v-main>
             <router-view/>
@@ -16,9 +21,12 @@
 </template>
 
 <script>
-    export default {
+    import WriteAction from './components_for_writer_view/WriteAction'
+export default {
         name: 'App',
-        components: {},
+        components: {
+            WriteAction
+        },
         data: () => ({
             //
         }),

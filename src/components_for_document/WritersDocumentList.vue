@@ -48,7 +48,7 @@
                                 <DownloadBtn/>
                             </li>
                             <li>
-                                <button class="WritersBtn">
+                                <button @click="ShowWriterDocument(documentWriter)" class="WritersBtn">
                                     문서 보기
                                 </button>
                             </li>
@@ -75,9 +75,17 @@
             DownloadBtn
         },
         methods: {
+            ShowWriterDocument(documentWriter){
+                this.$store.commit(documentWriter)
+                this
+                    .$router
+                    .push({path: '/WritersPDF'})
+                    .catch(() => {});
+            },
             ShowWritersDocumentList(Document) {
                 let documentTitle = Document.documentTitle
                 let WritersList = document.getElementsByClassName(documentTitle);
+                this.$store.commit("FORMAT_ALL_WRITERS", Document.name)
                 this.$store.dispatch("REQUEST_PROJECT_WRITER", Document.name)
                 for (let WL of WritersList) {
                     WL.style.display = "block";

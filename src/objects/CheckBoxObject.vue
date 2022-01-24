@@ -4,7 +4,7 @@
         <svg
             v-bind:id="getCBData.htmlID+'DeleteBtn'+getCBData.id"
             @mousedown="DeleteElement"
-            class="CloseBtn"
+            class="CheckBoxCloseBtn"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -52,9 +52,10 @@
     }
 </script>
 <style>
-    .CloseBtn {
-        bottom: 90%;
-        left: 80%;
+    .CheckBoxCloseBtn {
+        display: none;
+        bottom: 70%;
+        left: 70%;
         position: absolute;
     }
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/

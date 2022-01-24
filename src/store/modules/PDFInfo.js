@@ -5,6 +5,7 @@ const state = {
     numPages: undefined,
     PDFPageInfo: 0,
     PDFFileUploadCheck: false,
+    PDFWriteComplete: false,
     OriginalWidth: []
 };
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
     },
     SHOW_EDIT_PAGE(state){
         state.PDFFileUploadCheck = true;
+    },
+    SHOW_WRITE_END_PAGE(state){
+        state.PDFWriteComplete = true;
     },
     CLOSE_EDIT_PAGE(state){
         state.PDFFileUploadCheck = false;

@@ -5,7 +5,8 @@ const state = {
     Document: initDocument(),
     DocumentArr: [],
     response: "",
-    want_Document_Name: ""
+    want_Document_Name: "",
+    CheckResizeMode: false, //해당 문서내에 오브젝트 resize를 하고있는지 확인하기위한 변수
 };
 
 //사용되는 동작들
@@ -18,6 +19,9 @@ const mutations = {
     },
     FORMAT_DOCUMENT(state) {
         state.Document = initDocument();
+    },
+    FORMAT_ALL_WRITERS(state, DocumentName) {
+        state.DocumentArr.find(D => D.name === DocumentName).documentWriter = [];
     },
     UPDATE_DOCUMENT(state, getDocument) {
         let checkOverlapID = 1;
@@ -69,11 +73,12 @@ const mutations = {
     },
     WRITER_INPUT(state, data) {
         for(let element of data){
-            state.DocumentArr.find(D => D.name === state.want_Document_Name).documentWriter = makeWriterDocument(element);
+            state.DocumentArr.find(D => D.name === state.want_Document_Name).documentWriter.push(makeWriterDocument(element));
         }
         state.Document = initDocument();
         state.want_Document_Name = "";
     },
+    //임시적으로 불러오기 원하는 다큐먼트의 이름을 저장해둔다.
     WANT_DOCUMENT_NAME_SETTING(state, DocumentName){
         state.want_Document_Name = DocumentName;
     }
@@ -114,7 +119,7 @@ const actions = {
         try {
             const response = await requestProjectsWriter(DocumentName);
             context.commit("WANT_DOCUMENT_NAME_SETTING", DocumentName);
-            context.commit("WRITER_INPUT", response.data);
+            context.commit("WRITER_INPUT", response.data.submittees);
             return response;
         } catch (e) {
            alert("불러오기 실패");

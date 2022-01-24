@@ -34,6 +34,9 @@ const router = new VueRouter({
         }, {
             path: '/WriterLoginPage/:document_name',
             component: () => import ('../views/WritersLoginViewer.vue')
+        }, {
+            path: '/WritersPDF',
+            component: () => import ('../views/WritersPDFViewer.vue')
         }
     ]
 });

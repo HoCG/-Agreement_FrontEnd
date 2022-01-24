@@ -87,6 +87,14 @@
     }
 </script>
 <style>
+    .sideBar {
+        top: 20%;
+        width: 15%;
+        height: 100%;
+        z-index: 4;
+        position: fixed;
+        background-color: white;
+    }
     .ShowObjectInfo {
         height: 80%;
         overflow-y: scroll;

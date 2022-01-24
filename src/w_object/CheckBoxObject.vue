@@ -1,6 +1,6 @@
 <template>
     <div class="CheckBoxObjectArea" v-bind:id="getCBData.htmlID">
-        <input class="CheckBox" type="checkbox"/>
+        <input class="CheckBox" type="checkbox" v-model="getCBData.checked"/>
     </div>
 </template>
 <script>

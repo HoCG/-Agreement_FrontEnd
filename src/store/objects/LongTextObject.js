@@ -49,7 +49,6 @@ const mutations = {
         state.NewY = y;
     },  
     SET_LONGTEXT_PAGE(state, page){
-        console.log(page);
         state.SetPage = page;
     },
     FIND_AND_SETTING_W_H_LONGTEXT_OBJECT(state, ElementID){
@@ -60,6 +59,7 @@ const mutations = {
         state.LongTextArr.find(object => object.htmlID === ElementID).x = state.NewX;
         state.LongTextArr.find(object => object.htmlID === ElementID).y = state.NewY;
         state.LongTextArr.find(object => object.htmlID === ElementID).page = state.SetPage;
+        console.log(state.LongTextArr.find(object => object.htmlID === ElementID).page);
     },
     DELETE_LONGTEXT_OBJECT(state, getLongTextID) {
         state.LongTextArr = state
@@ -87,6 +87,7 @@ const makeObject = (state, Object) => {
         title: Object.title + checkOverlapID,
         width: Object.width,
         height: Object.height,
+        text: Object.text,
         x: Object.x,
         y: Object.y,
         page: Object.page, //오브젝트 page위치정보
@@ -102,6 +103,7 @@ function initObject() {
         title: '',
         width: '',
         height: '',
+        text: '',
         x: '',
         y: '',
         page: '',

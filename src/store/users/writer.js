@@ -24,6 +24,9 @@ const mutations = {
     LOGOUT(state) {
         resetToken(state);
     },
+    SET_CURRENT_WRITER(state, getWriter) {
+        state.currentWriter = makeDocument(getWriter)
+    },
     LOGOUT_WITH_TOKEN_INVALIDE(state) {
         resetToken(state);
         if (this
@@ -50,5 +53,12 @@ function initWriter() {
         StudentID: ""
     }
 }
+
+const makeDocument = (Document) => {        
+    return {
+        name: Document.name,
+        StudentID: Document.StudentID
+    }
+};
 
 export default {mutations, state, actions, getters};

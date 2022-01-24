@@ -28,7 +28,7 @@
                 this
                     .$router
                     .push({path: '/WriterLoginPage'})
-                    .catch(() => {})
+                    .catch(() => {});
             }
         }
     }

@@ -71,6 +71,7 @@ const makeObject = (state, Object) => {
         x: Object.x, //오브젝트 x좌표
         y: Object.y, //오브젝트 y좌표
         page: Object.page, //오브젝트 page위치정보
+        checked: Object.checked,
         push_or_readCheck: Object.push_or_readCheck //true면 데이터를 넣는 형태, false면 데이터를 읽는 형태
     }
 };
@@ -86,6 +87,7 @@ function initObject() {
         x: '',
         y: '',
         page: '',
+        checked: false,
         push_or_readCheck: false 
     }
 }

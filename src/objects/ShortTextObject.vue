@@ -6,7 +6,7 @@
         <svg
             @mousedown="DeleteElement"
             v-bind:id="getSTData.htmlID+'DeleteBtn'+getSTData.id"
-            class="CloseBtn"
+            class="ShortTextCloseBtn"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -78,24 +78,25 @@
         */
         methods: {
             DeleteElement(e) {
-                e.stopPropagation();
                 const Element = document.getElementById(this.getSTData.htmlID);
                 Element.remove();
                 this
                     .$store
                     .commit("DELETE_SHORTTEXT_OBJECT", this.getSTData.htmlID);
+                e.stopPropagation();
             },
             mouseDownHandler(e) {
-                e.stopPropagation();
                 // Get the current mouse position
                 const Element = document.getElementById(this.getSTData.htmlID);
                 const styles = window.getComputedStyle(Element);
                 this.resizeX = e.clientX;
                 this.resizeW = parseInt(styles.width, 10);
+                this.$store.state.UsersDocument.CheckResizeMode = true;
                 // Attach the listeners to `document`
                 document.addEventListener('mousemove', this.mouseMoveHandler);
                 document.addEventListener('mouseout', this.mouseMoveHandler);
                 document.addEventListener('mouseup', this.mouseUpHandler);
+                e.stopPropagation();
             },
             mouseMoveHandler(e) {
                 let Element = document.getElementById(this.getSTData.htmlID);
@@ -105,11 +106,16 @@
                 Element.style.width = `${this.resizeW + dx}px`;
                 this.$store.commit("SET_SHORTTEXT_WIDTH", parseInt(this.resizeW + dx));
                 this.$store.commit("FIND_AND_SETTING_W_SHORTTEXT_OBJECT", this.getSTData.htmlID);
+                e.stopPropagation();
             },
-            mouseUpHandler() {
+            mouseUpHandler(e) {
+                const Element = document.getElementById(this.getSTData.htmlID);
+                Element.style.left = this.getSTData.x + this.getSTData.width / 2 + "px";
                 document.removeEventListener('mousemove', this.mouseMoveHandler);
                 document.removeEventListener('mouseout', this.mouseMoveHandler);
                 document.removeEventListener('mouseup', this.mouseUpHandler);
+                e.preventDefault();
+                this.$store.state.UsersDocument.CheckResizeMode = false;
             }
         }
     }
@@ -127,10 +133,10 @@
         box-sizing: border-box;
         border-radius: 5px;
     }
-    .CloseBtn {
+    .ShortTextCloseBtn {
         display: none;
         bottom: 100%;
-        left: 90%;
+        left: 94%;
         position: absolute;
     }
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/

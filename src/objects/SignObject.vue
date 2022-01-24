@@ -39,13 +39,12 @@
         },
         methods: {
             DeleteElement(e) {
-                e.stopPropagation();
                 const Element = document.getElementById(this.getSOData.htmlID);
                 Element.remove();
-                this.$store.commit("DELETE_SIGN_OBJECT", this.getSOData.htmlID);            
+                this.$store.commit("DELETE_SIGN_OBJECT", this.getSOData.htmlID);      
+                e.stopPropagation();      
             },
             mouseDownHandler(e) {
-                e.stopPropagation();
                 // Get the current mouse position
                 let Element = document.getElementById(this.getSOData.htmlID)
                 this.resizeX = e.clientX;
@@ -57,6 +56,8 @@
                 document.addEventListener('mousemove', this.mouseMoveHandler);
                 document.addEventListener('mouseout', this.mouseMoveHandler);
                 document.addEventListener('mouseup', this.mouseUpHandler);
+                e.stopPropagation();
+                this.$store.state.UsersDocument.CheckResizeMode = true;
             },
             mouseMoveHandler(e) {
                 let Element = document.getElementById(this.getSOData.htmlID);
@@ -69,11 +70,17 @@
                 this.$store.commit("SET_SIGN_WIDTH", parseInt(this.resizeW + dx));
                 this.$store.commit("SET_SIGN_HEIGHT", parseInt(this.resizeH + dy));
                 this.$store.commit("FIND_AND_SETTING_W_H_SIGN_OBJECT", this.getSOData.htmlID);
+                e.stopPropagation();
             },
-            mouseUpHandler() {
+            mouseUpHandler(e) {
+                const Element = document.getElementById(this.getSOData.htmlID);
+                Element.style.top = this.getSOData.y + this.getSOData.height / 2 + "px";
+                Element.style.left = this.getSOData.x + this.getSOData.width / 2 + "px";
                 document.removeEventListener('mousemove', this.mouseMoveHandler);
                 document.removeEventListener('mouseout', this.mouseMoveHandler);
                 document.removeEventListener('mouseup', this.mouseUpHandler);
+                e.preventDefault();
+                this.$store.state.UsersDocument.CheckResizeMode = false;
             }
         }
     }

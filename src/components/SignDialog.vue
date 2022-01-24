@@ -65,8 +65,7 @@
             // canvas.setAttribute("width",
             // parseInt(this.$store.state.DialogData.ImageWidth) + "px")
             canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) + "px";
-            canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) +
-                    "px";
+            canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) + "px";
             this.InitEvent(canvas);
         },
         methods: {
@@ -96,12 +95,8 @@
                         top = top + parseInt(elem.offsetTop);
                         elem = elem.offsetParent;
                     }
-                    ev._x = ev
-                        .targetTouches[0]
-                        .pageX - left;
-                    ev._y = ev
-                        .targetTouches[0]
-                        .pageY - top;
+                    ev._x = ev.targetTouches[0].pageX - left;
+                    ev._y = ev.targetTouches[0].pageY - top;
                 }
                 // tool의 이벤트 핸들러를 호출한다.
                 let func = this.tool[ev.type];
@@ -112,7 +107,6 @@
             tool_pencil(context) {
                 let tool = this;
                 this.started = false;
-
                 // 마우스를 누르는 순간 그리기 작업을 시작 한다.
                 this.mousedown = function (ev) {
                     context.beginPath();

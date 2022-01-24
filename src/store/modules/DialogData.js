@@ -13,11 +13,9 @@ const mutations = {
     },
     GET_WIDTH(state, ImageWidth){
         state.ImageWidth = ImageWidth;
-        console.log(ImageWidth);
     },
     GET_HEIGHT(state, ImageHeight){
         state.ImageHeight = ImageHeight;
-        console.log(ImageHeight);
     }
 }
 

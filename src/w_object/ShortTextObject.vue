@@ -1,6 +1,6 @@
 <template>
     <div class="ShortTextObjectArea" v-bind:id="getSTData.htmlID">
-        <input style="width: 100%" v-bind="getSTData.text"/>
+        <input style="width: 100%" v-model="getSTData.text"/>
     </div>
 </template>
 <script>
@@ -27,7 +27,5 @@
         border-radius: 8px;
         background-color: #DADADA;
         position: absolute;
-        width: 100px;
-        height: 30px;
     }
 </style>

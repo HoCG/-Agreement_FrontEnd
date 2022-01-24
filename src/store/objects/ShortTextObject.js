@@ -74,6 +74,7 @@ const makeObject = (state, Object) => {
         title: Object.title + checkOverlapID,
         width: Object.width,
         height: Object.height,
+        text: Object.text,
         x: Object.x,
         y: Object.y,
         page: Object.page,

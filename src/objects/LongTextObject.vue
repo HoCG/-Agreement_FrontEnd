@@ -6,7 +6,7 @@
         <svg
             v-bind:id="getLTData.htmlID+'DeleteBtn'+getLTData.id"
             @mousedown="DeleteElement"
-            class="CloseBtn"
+            class="LongTextCloseBtn"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -34,9 +34,9 @@
 
         mounted() {
             ObjectEvent.myFunction(this.getLTData);
-        }, 
-        /*  
-        updated() { 
+        },
+        /*
+        updated() {
             if(document.getElementById("page" + 1)!==null){
                 ObjectEvent.myFunction(this.getLTData);
             }
@@ -44,18 +44,19 @@
         */
         methods: {
             mouseDownHandler(e) {
-                e.stopPropagation();
                 // Get the current mouse position
                 const Element = document.getElementById(this.getLTData.htmlID);
                 const styles = window.getComputedStyle(Element);
+                this.$store.state.UsersDocument.CheckResizeMode = true;
                 this.resizeX = e.clientX;
                 this.resizeY = e.clientY;
                 this.resizeW = parseInt(styles.width, 10);
                 this.resizeH = parseInt(styles.height, 10);
                 // Attach the listeners to `document`
-                document.addEventListener('mousemove', this.mouseMoveHandler);
-                document.addEventListener('mouseout', this.mouseMoveHandler);
+                window.addEventListener('mousemove', this.mouseMoveHandler);
+                window.addEventListener('mouseout', this.mouseMoveHandler);
                 document.addEventListener('mouseup', this.mouseUpHandler);
+                e.stopPropagation();
             },
             mouseMoveHandler(e) {
                 const Element = document.getElementById(this.getLTData.htmlID);
@@ -65,28 +66,40 @@
                 // Adjust the dimension of element
                 Element.style.width = `${this.resizeW + dx}px`;
                 Element.style.height = `${this.resizeH + dy}px`;
-                this.$store.commit("SET_LONGTEXT_WIDTH", parseInt(this.resizeW + dx));
-                this.$store.commit("SET_LONGTEXT_HEIGHT", parseInt(this.resizeH + dy));
-                this.$store.commit("FIND_AND_SETTING_W_H_LONGTEXT_OBJECT", this.getLTData.htmlID);
-            },
-            mouseUpHandler() {
-                document.removeEventListener('mousemove', this.mouseMoveHandler);
-                document.removeEventListener('mouseout', this.mouseMoveHandler);
-                document.removeEventListener('mouseup', this.mouseUpHandler);
-            },
-            DeleteElement(e){
+                this
+                    .$store
+                    .commit("SET_LONGTEXT_WIDTH", parseInt(this.resizeW + dx));
+                this
+                    .$store
+                    .commit("SET_LONGTEXT_HEIGHT", parseInt(this.resizeH + dy));
+                this
+                    .$store
+                    .commit("FIND_AND_SETTING_W_H_LONGTEXT_OBJECT", this.getLTData.htmlID);
                 e.stopPropagation();
+            },
+            mouseUpHandler(e) {
+                window.removeEventListener('mousemove', this.mouseMoveHandler);
+                window.removeEventListener('mouseout', this.mouseMoveHandler);
+                document.removeEventListener('mouseup', this.mouseUpHandler);
+                e.preventDefault();
+                this.$store.state.UsersDocument.CheckResizeMode = false;
+            },
+            DeleteElement(e) {
                 const Element = document.getElementById(this.getLTData.htmlID);
                 Element.remove();
-                this.$store.commit("DELETE_LONGTEXT_OBJECT", this.getLTData.htmlID);
+                this
+                    .$store
+                    .commit("DELETE_LONGTEXT_OBJECT", this.getLTData.htmlID);
+                e.stopPropagation();
             }
         }
     }
 </script>
 <style>
-    .CloseBtn {
+    .LongTextCloseBtn {
+        display: none;
         bottom: 100%;
-        left: 90%;
+        left: 98%;
         position: absolute;
     }
     #textForm {
@@ -112,7 +125,7 @@
         height: 100px;
     }
     /* Placed at the right side */
-    .resizePoint{
+    .resizePoint {
         z-index: 2000;
         position: absolute;
         cursor: se-resize;

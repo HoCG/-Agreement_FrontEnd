@@ -1,7 +1,7 @@
 <template>
     <v-card class="WritersArea overflow-hidden">
-        <WriterHeader v-if="!this.$store.state.PDFInfo.PDFWriteComplete"/>
-        <WriteList v-if="!this.$store.state.PDFInfo.PDFWriteComplete"/>
+        <WritePDFViewHeader/>
+        <WriteList/>
         <div id="container" class="container">
             <div id="drawerScrollBox" class="pdfViewer">
                 <div id="drawer">
@@ -9,17 +9,13 @@
                 </div>
             </div>
         </div>
-        <ObjectBox/>
-        <SignDialog v-if="!this.$store.state.PDFInfo.PDFWriteComplete" :dialog="true"/>
     </v-card>
 </template>
 <script>
-    import WriterHeader from "../components_for_writer_view/WriteHeader.vue"
     import pdf from 'vue-pdf';
-    import SignDialog from '../components/SignDialog.vue';
     import axios from "axios";
-    import ObjectBox from '../w_object/ObjectBox.vue';
     import WriteList from '../components_for_writer_view/WriteList.vue';
+    import WritePDFViewHeader from '../components_for_writer_view/WritePDFViewHeader.vue';
     export default {
         mounted() {
             this
@@ -37,7 +33,7 @@
             let self = this;
             axios
                 .get(
-                    `${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.documentName}`
+                    `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.writer.name}`
                 )
                 .then(function (response) {
                     console.log(response.data);
@@ -56,7 +52,6 @@
                             self
                                 .$store
                                 .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
-                            self.saveOriginalWidth(response.data);
                             self.readAllObject(response.data);
                         });
                 })
@@ -65,36 +60,23 @@
                 });
         },
         components: {
-            SignDialog,
             pdf,
-            ObjectBox,
             WriteList,
-            WriterHeader
+            WritePDFViewHeader
+        },
+        computed: {
+            writer(){
+                return this.$store.state.writer.currentWriter
+            }
         },
         data() {
             return {
                 //useForJsonFile 오브젝트 관련 데이터 짧은글
                 src: "",
-                numPages: undefined,
-                itemLength: 0,
-                selectedID: "",
-                imageID: "",
-                selectedItem: 1,
-                selectedItemText: "",
-                documentName: this.$route.params.document_name
+                numPages: undefined
             }
         },
         methods: {
-            saveOriginalWidth(responseData) {
-                this
-                    .$store
-                    .commit("FORMAT_ORIGINAL_WIDTH");
-                for (let OW of responseData.pdf.original_width) {
-                    this
-                        .$store
-                        .commit("SAVE_ORIGINAL_WIDTH", OW);
-                }
-            },
             readAllObject(responseData) {
                 //가지고 온 데이터에서
                 this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
@@ -180,43 +162,6 @@
                         .$store
                         .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                 }
-            },
-            async addFiles(files) {
-                console.log(files);
-                this
-                    .$store
-                    .commit("SET_DOCUMENT_TITLE", files[0].name);
-                if (files[0].name.includes(".pdf")) {
-                    const src = await this.readFiles(files[0])
-                    console.log(files[0])
-                    console.log(src)
-                    this.fileUploadCheck = true;
-                    this
-                        .$store
-                        .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
-                    this.src = src;
-                    this.src = pdf.createLoadingTask(src);
-                    this
-                        .src
-                        .promise
-                        .then(pdf => {
-                            this.numPages = pdf.numPages;
-                            this
-                                .$store
-                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
-                        });
-                } else {
-                    alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
-                }
-            },
-            async readFiles(files) {
-                return new Promise((resolve) => {
-                    const reader = new FileReader()
-                    reader.onload = async (e) => {
-                        resolve(e.target.result)
-                    }
-                    reader.readAsDataURL(files)
-                });
             }
         }
     }
