@@ -156,9 +156,9 @@
         padding: 20px;
         position: absolute;
         width: 303px;
-        height: 240px;
-        left: 40%;
-        top: 40%;
+        height: 238px;
+        left: calc(50% - 151.5px);
+        top: calc(50% - 119px);
         background: #FFFFFF;
         border-radius: 15px;
     }
