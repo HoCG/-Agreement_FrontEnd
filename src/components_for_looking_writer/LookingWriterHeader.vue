@@ -28,6 +28,7 @@
             }
         },
         methods: {
+            //PDF 다운을 돕는 함수입니다.
             pdfPrint() {
                 let self = this;
                 axios

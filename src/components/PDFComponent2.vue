@@ -2,24 +2,7 @@
 <template>
     <div id="container" class="container">
         <!--편집화면으로 넘어갈때-->
-        <div
-            v-if="this.$store.state.PDFScreenInfo
-            .PDFFileUploadCheck"
-            id="drawerScrollBox"
-            class="pdfViewer">
-            <div id="drawer">
-                <pdf
-                    v-for="i in numPages"
-                    :key="i"
-                    :page="i"
-                    style="width: 100%"
-                    class="pdf-page-Setting"
-                    :src="src"
-                    v-bind:id="'page'+i"></pdf>
-            </div>
-        </div>
-        <!--문서들을 확인하고자 할때-->
-        <div v-else class="FileUploadArea">
+        <div class="FileUploadArea">
             <div v-if="this.$store.state.DocumentSideBarData.Show_UserDocumentList">
                 <div
                     class="file-upload-container"
@@ -133,8 +116,7 @@
             DocumentStateShow,
             DocumentForWriterList,
             DocumentStateAction,
-            DotsBtn,
-            pdf
+            DotsBtn
         },
         data() {
             return {
