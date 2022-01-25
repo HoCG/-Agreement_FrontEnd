@@ -45,7 +45,7 @@
                             <li>{{documentWriter.date}}</li>
                             <li>{{documentWriter.writer}}</li>
                             <li>
-                                <DownloadBtn/>
+                                <DownloadBtn @click="downloadPDF(documentWriter)"/>
                             </li>
                             <li>
                                 <button @click="ShowWriterDocument(documentWriter)" class="WritersBtn">
@@ -75,6 +75,9 @@
             DownloadBtn
         },
         methods: {
+            downloadPDF(){
+                
+            },
             ShowWriterDocument(documentWriter){
                 this.$store.commit(documentWriter)
                 this

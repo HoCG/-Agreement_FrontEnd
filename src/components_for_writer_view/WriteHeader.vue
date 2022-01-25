@@ -13,7 +13,7 @@
 <script>
     import html2canvas from "html2canvas";
     import jsPDF from "jspdf";
-    //import axios from "axios";
+    import axios from "axios";
     export default {
         data() {
             return {
@@ -33,11 +33,28 @@
                 this.makeSignForm();
                 this.setCssNull();
                 // 현재 document.body의 html을 A4 크기에 맞춰 PDF로 변환
-                //let self = this;
+                let self = this;
+                const dataURLtoFile = (dataurl, fileName) => {
+
+                    var arr = dataurl.split(','),
+                        mime = arr[0].match(/:(.*?);/)[1],
+                        bstr = atob(arr[1]),
+                        n = bstr.length,
+                        u8arr = new Uint8Array(n);
+
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+
+                    return new File([u8arr], fileName, {type: mime});
+                }
+                //Usage example:
+                let SignIMG = document.getElementById("Sign1");
+                let file = dataURLtoFile(SignIMG.src, "사인_1");
+                //const fs = require('fs');
                 html2canvas(document.getElementById("drawer")).then(function (canvas) {
-                    //let drawerDiv = document.getElementById("drawer");
-                    //let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                    // 캔버스를 이미지로 변환
+                    // let drawerDiv = document.getElementById("drawer"); let computed_Object_Style
+                    // = window.getComputedStyle(drawerDiv); 캔버스를 이미지로 변환
                     let imgData = canvas.toDataURL('image/png');
                     let imgWidth = 200; // 이미지 가로 길이(mm) A4 기준
                     let pageHeight = imgWidth * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
@@ -57,24 +74,21 @@
                         doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
                         heightLeft -= pageHeight;
                     }
-                    // 파일 저장 doc.save('sample.pdf');
-                    //doc.save('sample.pdf');
-                    /*
-                    let file = document
-                        .getElementById("Sign1");
-                    fetch(file.src)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            const file = new File([blob], '사인_1.png', blob)
-                            console.log(file)
-                        });
+                    // 파일 저장 doc.save('sample.pdf'); doc.save('sample.pdf'); const json =
+                    // JSON.stringify(cap); let pdfFile = fs.createReadStream(doc); const blob = new
+                    // Blob([doc], {type: 'application/pdf'}); let url = URL.createObjectURL(blob);
+                    // console.log(doc); let pdffile = dataURLtoFile(doc); 
+                    let blob = new Blob([doc.output('dataurlstring')], {type: "application/pdf"});
+                    //let pdf = doc.save('sample.pdf');
+                    //let dataUrl = URL.createObjectURL(blob);
                     let form = new FormData();
+                    //let data = new Blob([doc.output()], {type: 'application/pdf'});
 
-                    console.log(file[0]);
-                    console.log(doc.output('blob'));
+                    console.log(blob);
+                    console.log(file);
                     console.log(self.SendJsonFile);
-
-                    form.append("file_pdf", doc.output('blob'));
+                    
+                    form.append("file_pdf", blob, self.$store.state.PDFInfo.PDFTitle + '.pdf');
                     form.append("sign_img", file);
                     form.append("data", self.SendJsonFile);
                     axios
@@ -92,11 +106,11 @@
                         })
                         .catch(function (error) {
                             console.log(error);
-                        }
-                    );
-                    */
+                        });
                 });
-                this.$store.commit("SHOW_WRITE_END_PAGE");
+                this
+                    .$store
+                    .commit("SHOW_WRITE_END_PAGE");
                 let container = document.getElementById("container");
                 container.style.marginLeft = "7.5%";
                 /*
@@ -135,14 +149,18 @@
                     LongTextElement.style.backgroundColor = "transparent";
                     LongTextElement.style.boxShadow = "unset";
                     LongTextElement.style.borderRadius = "0px";
-                    LongTextElement.childNodes[0].readOnly = true;
+                    LongTextElement
+                        .childNodes[0]
+                        .readOnly = true;
                 }
                 let ShortTextElements = document.getElementsByClassName("ShortTextObjectArea");
                 for (let ShortTextElement of ShortTextElements) {
                     ShortTextElement.style.backgroundColor = "transparent";
                     ShortTextElement.style.boxShadow = "unset";
                     ShortTextElement.style.borderRadius = "0px";
-                    ShortTextElement.childNodes[0].readOnly = true;
+                    ShortTextElement
+                        .childNodes[0]
+                        .readOnly = true;
                 }
                 let SignElements = document.getElementsByClassName("SignObjectArea");
                 for (let SignElement of SignElements) {
@@ -155,7 +173,9 @@
                     CheckBoxElement.style.backgroundColor = "transparent";
                     CheckBoxElement.style.boxShadow = "unset";
                     CheckBoxElement.style.borderRadius = "0px";
-                    CheckBoxElement.childNodes[0].disabled = true;
+                    CheckBoxElement
+                        .childNodes[0]
+                        .disabled = true;
                 }
             },
             makeCheckBoxForm() {
@@ -300,7 +320,7 @@
     }
 </script>
 <style>
-    .WritingAlert{
+    .WritingAlert {
         display: none;
     }
     .SaveEditPageButton {
