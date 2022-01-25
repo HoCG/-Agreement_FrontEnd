@@ -1,3 +1,4 @@
+<!--사용자에게 알람을 띄어주는 vue파일입니다.-->
 <template>
     <v-row justify="center">
         <v-dialog width="400" persistent v-model="alert">
