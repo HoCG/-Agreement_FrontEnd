@@ -1,7 +1,7 @@
 <template>
     <v-card class="WritersArea overflow-hidden">
-        <WriterHeader v-if="!this.$store.state.PDFInfo.PDFWriteComplete"/>
-        <WriteList v-if="!this.$store.state.PDFInfo.PDFWriteComplete"/>
+        <WriterHeader v-if="!this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
+        <WriteList v-if="!this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
         <div id="container" class="container">
             <div id="drawerScrollBox" class="pdfViewer">
                 <div id="drawer">
@@ -10,7 +10,7 @@
             </div>
         </div>
         <ObjectBox/>
-        <SignDialog v-if="!this.$store.state.PDFInfo.PDFWriteComplete" :dialog="true"/>
+        <SignDialog v-if="!this.$store.state.PDFScreenInfo.PDFWriteComplete" :dialog="true"/>
     </v-card>
 </template>
 <script>
@@ -107,7 +107,7 @@
                 let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0];
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
@@ -143,7 +143,7 @@
                 let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0];
                 for (let CheckBoxObject of project_object_checkboxes) {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
@@ -165,7 +165,7 @@
                 let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0];
                 for (let SignObject of project_object_signs) {
                     this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"

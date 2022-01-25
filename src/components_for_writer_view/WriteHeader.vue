@@ -1,3 +1,4 @@
+<!--네비게이션 바에 위치하여 오브젝트의 axios처리와 페이지닫기를 도와주는 vue파일입니다.-->
 <template>
     <div class="WriterHeader">
         <div class="navigation">
@@ -90,7 +91,7 @@
                         let imageBlob = new Blob([files[count]], {type: 'image/png'});
                         form.append('sign_img', imageBlob, filesName[count] +'.png');
                     }
-                    form.append('file_pdf', blob, self.$store.state.PDFInfo.PDFTitle + '.pdf');
+                    form.append('file_pdf', blob, self.$store.state.PDFScreenInfo.PDFTitle + '.pdf');
                     form.append('data', jsonBlob);
                     axios
                         .post(
@@ -156,7 +157,7 @@
                 let computed_Ratio = this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
                     let submittee_object_checkbox = {
@@ -193,7 +194,7 @@
                 let computed_Ratio = this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
                     let submittee_object_text = {
@@ -258,7 +259,7 @@
                 let computed_Ratio = this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 console.log(this.$store.state.SignObject.SignArr);
                 for (let SignObject of this.$store.state.SignObject.SignArr) {

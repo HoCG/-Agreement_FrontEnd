@@ -1,4 +1,4 @@
-
+//화면에서 보여지는 PDF의 정보를 담는 파일입니다.
 const state = {
     PDFTitle: "",
     numPages: undefined,

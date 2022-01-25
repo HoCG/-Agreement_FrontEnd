@@ -1,3 +1,5 @@
+//유저가 가지고있는 문서 정보를 담고있는 데이터입니다.
+
 import {requestProject, postProject, requestProjectsWriter, changeStateProject, requestProjectInfo} from "../../apis/project_api";
 //import {router} from "../../routes/route";
 

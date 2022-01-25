@@ -57,7 +57,7 @@
         methods: {
             makeObject(objectID, event) {
                 //forTest
-                for (let i = 1; i <= this.$store.state.PDFInfo.PDFPageInfo; i++) {
+                for (let i = 1; i <= this.$store.state.PDFScreenInfo.PDFPageInfo; i++) {
                     const PDF_Pages = document.getElementById("page" + String(i));
                     PDF_Pages.style.position = "relative";
                 }

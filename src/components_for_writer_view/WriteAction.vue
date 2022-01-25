@@ -1,3 +1,4 @@
+<!--AppBar에 위치하여(네비게이션 상단에 있는 Bar) PDF다운로드와 페이지 종료를 돕는 vue파일입니다.-->
 <template>
     <div class="WriteOverForm">
         <button @click="closeBtn()">
@@ -52,8 +53,7 @@
                     }
                     let today = new Date();
                     doc.save(
-                        self.$store.state.PDFInfo.PDFTitle + " " + self.$store.state.writer.currentWriter.name +
-                        " " + today.toLocaleString() + '.pdf'
+                        self.$store.state.PDFScreenInfo.PDFTitle + " " + self.$store.state.writer.currentWriter.name + " " + today.toLocaleString() + '.pdf'
                     );
                 });
             }

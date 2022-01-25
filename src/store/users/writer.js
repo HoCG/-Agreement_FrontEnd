@@ -1,3 +1,5 @@
+//제출자의 정보를 담고있는 데이터입니다.
+
 import {deleteAccessTokenInHeader} from "../../apis/common_api";
 
 const state = {

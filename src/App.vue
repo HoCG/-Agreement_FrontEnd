@@ -5,14 +5,14 @@
                 <h2 class="appbarColor">서비스 로고</h2>
             </div>
             <v-spacer></v-spacer>
-            <h2 v-if="this.$store.state.PDFInfo.PDFWriteComplete"><u>{{this.$store.state.PDFInfo.PDFTitle}}</u></h2>
-            <h3 v-if="this.$store.state.PDFInfo.PDFWriteComplete">    
+            <h2 v-if="this.$store.state.PDFScreenInfo.PDFWriteComplete"><u>{{this.$store.state.PDFScreenInfo.PDFTitle}}</u></h2>
+            <h3 v-if="this.$store.state.PDFScreenInfo.PDFWriteComplete">    
                 이 작성이 완료되었습니다.
             </h3>     
-            <input v-else v-model="this.$store.state.PDFInfo.PDFTitle" class="appbarColor">       
+            <input v-else v-model="this.$store.state.PDFScreenInfo.PDFTitle" class="appbarColor">       
             <v-spacer></v-spacer>
             <button v-if="this.$store.state.admin.LoginMode" @click="Logout" class="appbarColor" id="LogoutBtn">로그아웃</button>
-            <WriteAction v-if="this.$store.state.PDFInfo.PDFWriteComplete"/>
+            <WriteAction v-if="this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
         </v-app-bar>
         <v-main>
             <router-view/>

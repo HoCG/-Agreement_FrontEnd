@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import DialogData from './modules/DialogData';
-import PDFInfo from './modules/PDFInfo';
+import PDFScreenInfo from './modules/PDFScreenInfo';
 import Alert from './modules/Alert';
 import admin from './users/admin';
 import writer from './users/writer'
@@ -22,7 +22,7 @@ export default new Vuex.Store({
         DocumentSideBarData,
         Alert,
         admin,
-        PDFInfo,
+        PDFScreenInfo,
         DialogData,
         SignObject,
         CheckBoxObject,

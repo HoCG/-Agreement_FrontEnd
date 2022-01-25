@@ -1,2 +1,2 @@
 UserView에서 필요한 모든 vuex store값들을 담는 파일입니다.
--여기서 헷갈리지 말아야하는 부분은 UsersDocument.js와 PDFInfo.js는 엄연히 다른 파일이라는 점입니다. (UsersDocument는 불러온 유저의 문서값을 관리해주는 것이고 PDFInfo는 PDFComponent에서 활용하기위해 존재하는 파일입니다.)
+-여기서 헷갈리지 말아야하는 부분은 UsersDocument.js와 PDFScreenInfo.js는 엄연히 다른 파일이라는 점입니다. (UsersDocument는 불러온 유저의 문서값을 관리해주는 것이고 PDFScreenInfo PDFComponent에서 활용하기위해 존재하는 파일입니다.)

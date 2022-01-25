@@ -15,7 +15,7 @@ export default {
     append_Into_PDFPage_For_ReadingObject(getData) {
         let getElement = document.getElementById(getData.htmlID);
         getElement.style.display = "flex";
-        for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
+        for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
             if (getData.page === i) {

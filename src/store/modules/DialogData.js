@@ -1,5 +1,4 @@
 //사인 다이얼로그를 띄우는 역할을 하는 vuex 파일.
-
 const state = {
     DialogShow: false,
     ImageID: '',

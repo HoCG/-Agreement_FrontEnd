@@ -1,6 +1,6 @@
 <template>
     <v-card class="WritersArea overflow-hidden">
-        <WriterLookingHeader/>
+        <LookingWriterHeader/>
         <WriteList/>
         <div id="container" class="container">
             <div id="drawerScrollBox" class="pdfViewer">
@@ -15,7 +15,7 @@
     import pdf from 'vue-pdf';
     import axios from "axios";
     import WriteList from '../components_for_writer_view/WriteList.vue';
-    import WriterLookingHeader from '../components_for_looking_writer/WriterLookingHeader.vue';
+    import LookingWriterHeader from '../components_for_looking_writer/LookingWriterHeader.vue';
     export default {
         mounted() {
             this
@@ -70,7 +70,7 @@
         components: {
             pdf,
             WriteList,
-            WriterLookingHeader
+            LookingWriterHeader
         },
         computed: {
             writer(){
@@ -97,7 +97,7 @@
                 let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0];
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
@@ -133,7 +133,7 @@
                 let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0];
                 for (let CheckBoxObject of project_object_checkboxes) {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
@@ -155,7 +155,7 @@
                 let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
                     .$store
                     .state
-                    .PDFInfo
+                    .PDFScreenInfo
                     .OriginalWidth[0];
                 for (let SignObject of project_object_signs) {
                     this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"

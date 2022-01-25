@@ -1,8 +1,8 @@
 <template>
     <v-card class="mainCard overflow-hidden">
-        <EditHeader class="UserHeader" v-if="this.$store.state.PDFInfo.PDFFileUploadCheck"/> <!--네비게이션바 컴포넌트-->
+        <EditHeader class="UserHeader" v-if="this.$store.state.PDFScreenInfo.PDFFileUploadCheck"/> <!--네비게이션바 컴포넌트-->
         <div class="sideBar">
-            <ObjectList v-if="this.$store.state.PDFInfo.PDFFileUploadCheck" class="ShowObjectInfo"/> <!--왼쪽 사이드바-->
+            <ObjectList v-if="this.$store.state.PDFScreenInfo.PDFFileUploadCheck" class="ShowObjectInfo"/> <!--왼쪽 사이드바-->
             <DocumentInfoSideBar v-else class="ShowDocumentInfo"/>
         </div>
         <PDFUploader/><!--PDF업로드 및 유저 문서 리스트-->
@@ -24,7 +24,7 @@
             EditHeader
         },
         beforeDestroy() {
-            this.$store.state.PDFInfo.PDFTitle = "";
+            this.$store.state.PDFScreenInfo.PDFTitle = "";
             this
                 .$store
                 .commit("FORMAT_ALL_CHECKBOX_OBJECTS");

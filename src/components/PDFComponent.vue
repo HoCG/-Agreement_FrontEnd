@@ -1,7 +1,8 @@
 <template>
     <div id="container" class="container">
         <div
-            v-if="this.$store.state.PDFInfo.PDFFileUploadCheck"
+            v-if="this.$store.state.PDFScreenInfo
+            .PDFFileUploadCheck"
             id="drawerScrollBox"
             class="pdfViewer">
             <div id="drawer">
@@ -66,7 +67,7 @@
                                     :key="Document.id">
                                     <ul class="ItemsUl">
                                         <li>
-                                            <DocumentState
+                                            <DocumentStateShow
                                                 v-bind:StateInfo="Document.State"
                                                 v-bind:WritersCountInfo="Document.documentWritersCount"/>
                                         </li>
@@ -77,7 +78,7 @@
                                         </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <StateAction v-bind:DocumentInfo="Document"/>
+                                            <DocumentStateAction v-bind:DocumentInfo="Document"/>
                                         </li>
                                         <li>
                                             <button @click="showDocumentMenu(Document, $event)">
@@ -102,16 +103,13 @@
     </div>
 </template>
 <script>
-    import UsersDocumentListInfo from "../assets/UsersDocumentListInfo.json";
-    import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
-    import DocumentState from "../components_for_document/DocumentState.vue";
-    import pdf from 'vue-pdf';
-    import DocumentObjectList from '../assets/DocumentObjectList.json';
-    import StateAction from '../components_for_document/StateAction.vue';
+    import DocumentStateShow from "../components_for_document/DocumentStateShow.vue";
+    import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
     import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
-    import DotsBtn from '../svgs/DotsSVG.vue';
     import DocumentMenu from '../components_for_document/DocumentMenu.vue';
+    import DotsBtn from '../svgs/DotsSVG.vue';
     import axios from "axios";
+    import pdf from 'vue-pdf';
     export default {
         mounted() {
             this
@@ -126,20 +124,17 @@
         },
         components: {
             DocumentMenu,
-            DocumentState,
+            DocumentStateShow,
             DocumentForWriterList,
-            StateAction,
+            DocumentStateAction,
             DotsBtn,
             pdf
         },
         data() {
             return {
                 MenuDocument: {},
-                DocumentObjectList: DocumentObjectList,
                 OpenWritersDocument: false,
                 FirstDocumentCheck: true,
-                WritersDocumentListInfo: WritersDocumentListInfo,
-                UsersDocumentListInfo: UsersDocumentListInfo,
                 fileUploadCheck: false,
                 isDragged: "",
                 src: "",
@@ -276,7 +271,8 @@
             readTextObject(project_object_texts) {
                 let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo
+                .OriginalWidth[0];
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
                         this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
@@ -308,7 +304,8 @@
             readCheckBoxObject(project_object_checkboxes) {
                 let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo
+                .OriginalWidth[0];
                 for (let CheckBoxObject of project_object_checkboxes) {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
                     this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
@@ -326,7 +323,8 @@
             readSignObject(project_object_signs) {
                 let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFInfo.OriginalWidth[0];
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo
+                .OriginalWidth[0];
                 for (let SignObject of project_object_signs) {
                     this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
                     this.$store.state.SignObject.Sign.title = "사인_"

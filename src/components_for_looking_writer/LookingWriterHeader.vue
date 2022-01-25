@@ -40,7 +40,7 @@
                         );
                         let a = document.createElement("a");
                         a.href = file;
-                        a.download = self.$store.state.PDFInfo.PDFTitle.normalize('NFC'); //한글 분해현상 방지.
+                        a.download = self.$store.state.PDFScreenInfo.PDFTitle.normalize('NFC'); //한글 분해현상 방지.
                         document
                             .body
                             .appendChild(a);

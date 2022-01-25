@@ -25,7 +25,7 @@ export default {
         let appendY1 = 0;
         let appendY2 = 0;
         console.log(currentX, currentY);
-        for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
+        for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
             let computed_PDF_Page_Style = window.getComputedStyle(PDF_Pages);
@@ -51,7 +51,7 @@ export default {
     append_Into_PDFPage_For_ReadingObject(getData) {
         let getElement = document.getElementById(getData.htmlID);
         getElement.style.display = "flex";
-        for (let i = 1; i <= store.state.PDFInfo.PDFPageInfo; i++) {
+        for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
             if (getData.page === i) {
@@ -62,6 +62,8 @@ export default {
             }
         }
     },
+    //페이지에 들어간 오브젝트의 정보를 업데이트 해주는 함수입니다.
+    //오브젝트의 x, y, 페이지값을 업데이트 합니다. 
     CommitUpdateData(getElement, y, i) {
         let computed_Object_Style = window.getComputedStyle(getElement);
         if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {

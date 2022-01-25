@@ -1,3 +1,4 @@
+<!--작성자가 작성해야하는 오브젝트의 정보를 SideBar의 형태로 만들어서 보여주는 vue파일입니다.-->
 <template>
     <div class="sideBar">
         <div class="objectInfo">
