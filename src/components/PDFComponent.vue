@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div v-else>
-                <WritersDocumentList/>
+                <DocumentForWriterList/>
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@
     import pdf from 'vue-pdf';
     import DocumentObjectList from '../assets/DocumentObjectList.json';
     import StateAction from '../components_for_document/StateAction.vue';
-    import WritersDocumentList from '../components_for_document/WritersDocumentList.vue';
+    import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
     import DotsBtn from '../svgs/DotsSVG.vue';
     import DocumentMenu from '../components_for_document/DocumentMenu.vue';
     import axios from "axios";
@@ -127,7 +127,7 @@
         components: {
             DocumentMenu,
             DocumentState,
-            WritersDocumentList,
+            DocumentForWriterList,
             StateAction,
             DotsBtn,
             pdf
@@ -197,7 +197,7 @@
                 this.addFiles(files);
             },
             goEditScreen(Document) {
-                if (Document.State !== 0) {
+                if (Document.State === 1) {
                     this
                         .$store
                         .commit("SHOW_EDIT_PAGE");

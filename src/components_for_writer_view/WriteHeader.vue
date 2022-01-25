@@ -20,9 +20,9 @@
                 SendJsonFile: {
                     student_name: this.$store.state.writer.currentWriter.name,
                     student_id: this.$store.state.writer.currentWriter.schoolID,
-                    project_object_texts: [],
-                    project_object_signs: [],
-                    project_object_checkboxes: []
+                    submittee_object_texts: [],
+                    submittee_object_signs: [],
+                    submittee_object_checkboxes: []
                 }
             }
         },
@@ -36,7 +36,7 @@
                 let self = this;
                 const dataURLtoFile = (dataurl, fileName) => {
 
-                    var arr = dataurl.split(','),
+                    let arr = dataurl.split(','),
                         mime = arr[0].match(/:(.*?);/)[1],
                         bstr = atob(arr[1]),
                         n = bstr.length,
@@ -49,8 +49,14 @@
                     return new File([u8arr], fileName, {type: mime});
                 }
                 //Usage example:
-                let SignIMG = document.getElementById("Sign1");
-                let file = dataURLtoFile(SignIMG.src, "사인_1");
+                let files = [];
+                let filesName = [];
+                let SignIMGArr = document.getElementsByClassName("SignIMG");
+                for(let SignIMG of SignIMGArr){
+                    console.log(SignIMG);
+                    files.push(dataURLtoFile(SignIMG.src));
+                    filesName.push(SignIMG.getAttribute("id"));
+                }
                 //const fs = require('fs');
                 html2canvas(document.getElementById("drawer")).then(function (canvas) {
                     // let drawerDiv = document.getElementById("drawer"); let computed_Object_Style
@@ -74,23 +80,18 @@
                         doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
                         heightLeft -= pageHeight;
                     }
-                    // 파일 저장 doc.save('sample.pdf'); doc.save('sample.pdf'); const json =
-                    // JSON.stringify(cap); let pdfFile = fs.createReadStream(doc); const blob = new
-                    // Blob([doc], {type: 'application/pdf'}); let url = URL.createObjectURL(blob);
-                    // console.log(doc); let pdffile = dataURLtoFile(doc); 
-                    let blob = new Blob([doc.output('dataurlstring')], {type: "application/pdf"});
-                    //let pdf = doc.save('sample.pdf');
-                    //let dataUrl = URL.createObjectURL(blob);
+                    let blob = new Blob([doc.output('blob')], {type: 'application/pdf'});
+                    let jsonBlob = new Blob([JSON.stringify(self.SendJsonFile)], {type: 'application/json'});
                     let form = new FormData();
-                    //let data = new Blob([doc.output()], {type: 'application/pdf'});
 
-                    console.log(blob);
-                    console.log(file);
-                    console.log(self.SendJsonFile);
-                    
-                    form.append("file_pdf", blob, self.$store.state.PDFInfo.PDFTitle + '.pdf');
-                    form.append("sign_img", file);
-                    form.append("data", self.SendJsonFile);
+                    //console.log(blob);
+                    //console.log(self.SendJsonFile);
+                    for(let count = 0; count < files.length; count++){
+                        let imageBlob = new Blob([files[count]], {type: 'image/png'});
+                        form.append('sign_img', imageBlob, filesName[count] +'.png');
+                    }
+                    form.append('file_pdf', blob, self.$store.state.PDFInfo.PDFTitle + '.pdf');
+                    form.append('data', jsonBlob);
                     axios
                         .post(
                             `${process.env.VUE_APP_BASEURL}/api/submittees/projects/${self.$route.params.document_name}`,
@@ -113,35 +114,6 @@
                     .commit("SHOW_WRITE_END_PAGE");
                 let container = document.getElementById("container");
                 container.style.marginLeft = "7.5%";
-                /*
-                let form = new FormData();
-                form.append("file_pdf", project.src);
-                axios.post(
-                    `${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.$route.params.document_name}`,
-                    form,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data; boundary=" + form._boundary + "; application/json"
-                        }
-                    }
-                ).then(function (response) {console.log(response)}).catch(function (error) {
-                    console.log(error);
-                });
-                */
-                /*
-                this
-                    .$store
-                    .commit("FORMAT_ALL_CHECKBOX_OBJECTS");
-                this
-                    .$store
-                    .commit("FORMAT_ALL_SHORTTEXT_OBJECTS");
-                this
-                    .$store
-                    .commit("FORMAT_ALL_LONGTEXT_OBJECTS");
-                this
-                    .$store
-                    .commit("FORMAT_ALL_SIGN_OBJECTS");
-                */
             },
             setCssNull() {
                 let LongTextElements = document.getElementsByClassName("LongTextObjectArea");
@@ -187,7 +159,7 @@
                     .PDFInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
-                    let project_object_checkbox = {
+                    let submittee_object_checkbox = {
                         name: "",
                         x_position: 0,
                         y_position: 0,
@@ -200,20 +172,19 @@
                         font_size: 24,
                         checked: false
                     }
-                    project_object_checkbox.name = CheckBoxObject.title;
-                    project_object_checkbox.x_position = CheckBoxObject.x * computed_Ratio;
-                    project_object_checkbox.y_position = CheckBoxObject.y * computed_Ratio;
-                    project_object_checkbox.width = CheckBoxObject.width * computed_Ratio;
-                    project_object_checkbox.height = CheckBoxObject.height * computed_Ratio;
-                    project_object_checkbox.rotate = 0;
-                    project_object_checkbox.page = CheckBoxObject.page;
-                    project_object_checkbox.type = "DEFAULT";
-                    project_object_checkbox.checked = CheckBoxObject
-                        .checked
-                        this
+                    submittee_object_checkbox.name = CheckBoxObject.title;
+                    submittee_object_checkbox.x_position = CheckBoxObject.x * computed_Ratio;
+                    submittee_object_checkbox.y_position = CheckBoxObject.y * computed_Ratio;
+                    submittee_object_checkbox.width = CheckBoxObject.width * computed_Ratio;
+                    submittee_object_checkbox.height = CheckBoxObject.height * computed_Ratio;
+                    submittee_object_checkbox.rotate = 0;
+                    submittee_object_checkbox.page = CheckBoxObject.page;
+                    submittee_object_checkbox.type = "DEFAULT";
+                    submittee_object_checkbox.checked = CheckBoxObject.checked;
+                    this
                         .SendJsonFile
-                        .project_object_checkboxes
-                        .push(project_object_checkbox);
+                        .submittee_object_checkboxes
+                        .push(submittee_object_checkbox);
                 }
             },
             makeTextForm() {
@@ -225,7 +196,7 @@
                     .PDFInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
-                    let project_object_text = {
+                    let submittee_object_text = {
                         name: "",
                         x_position: 0,
                         y_position: 0,
@@ -238,22 +209,22 @@
                         font_size: 24,
                         content: ""
                     };
-                    project_object_text.name = ShortTextObject.title;
-                    project_object_text.x_position = ShortTextObject.x * computed_Ratio;
-                    project_object_text.y_position = ShortTextObject.y * computed_Ratio;
-                    project_object_text.width = ShortTextObject.width * computed_Ratio;
-                    project_object_text.height = ShortTextObject.height * computed_Ratio;
-                    project_object_text.rotate = 0;
-                    project_object_text.page = ShortTextObject.page;
-                    project_object_text.type = "SHORT_TEXT";
-                    project_object_text.content = ShortTextObject.text;
+                    submittee_object_text.name = ShortTextObject.title;
+                    submittee_object_text.x_position = ShortTextObject.x * computed_Ratio;
+                    submittee_object_text.y_position = ShortTextObject.y * computed_Ratio;
+                    submittee_object_text.width = ShortTextObject.width * computed_Ratio;
+                    submittee_object_text.height = ShortTextObject.height * computed_Ratio;
+                    submittee_object_text.rotate = 0;
+                    submittee_object_text.page = ShortTextObject.page;
+                    submittee_object_text.type = "SHORT_TEXT";
+                    submittee_object_text.content = ShortTextObject.text;
                     this
                         .SendJsonFile
-                        .project_object_texts
-                        .push(project_object_text);
+                        .submittee_object_texts
+                        .push(submittee_object_text);
                 }
                 for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
-                    let project_object_text = {
+                    let submittee_object_text = {
                         name: "",
                         x_position: 0,
                         y_position: 0,
@@ -266,19 +237,19 @@
                         font_size: 24,
                         content: ""
                     };
-                    project_object_text.name = LongTextObject.title;
-                    project_object_text.x_position = LongTextObject.x * computed_Ratio;
-                    project_object_text.y_position = LongTextObject.y * computed_Ratio;
-                    project_object_text.width = LongTextObject.width * computed_Ratio;
-                    project_object_text.height = LongTextObject.height * computed_Ratio;
-                    project_object_text.rotate = 0;
-                    project_object_text.page = LongTextObject.page;
-                    project_object_text.type = "LONG_TEXT";
-                    project_object_text.content = LongTextObject.text;
+                    submittee_object_text.name = LongTextObject.title;
+                    submittee_object_text.x_position = LongTextObject.x * computed_Ratio;
+                    submittee_object_text.y_position = LongTextObject.y * computed_Ratio;
+                    submittee_object_text.width = LongTextObject.width * computed_Ratio;
+                    submittee_object_text.height = LongTextObject.height * computed_Ratio;
+                    submittee_object_text.rotate = 0;
+                    submittee_object_text.page = LongTextObject.page;
+                    submittee_object_text.type = "LONG_TEXT";
+                    submittee_object_text.content = LongTextObject.text;
                     this
                         .SendJsonFile
-                        .project_object_texts
-                        .push(project_object_text);
+                        .submittee_object_texts
+                        .push(submittee_object_text);
                 }
             },
             makeSignForm() {
@@ -289,8 +260,9 @@
                     .state
                     .PDFInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
+                console.log(this.$store.state.SignObject.SignArr);
                 for (let SignObject of this.$store.state.SignObject.SignArr) {
-                    let project_object_sign = {
+                    let submittee_object_sign = {
                         name: "",
                         x_position: 0,
                         y_position: 0,
@@ -302,18 +274,18 @@
                         color: "#000000",
                         font_size: 24
                     }
-                    project_object_sign.name = SignObject.title;
-                    project_object_sign.x_position = SignObject.x * computed_Ratio;
-                    project_object_sign.y_position = SignObject.y * computed_Ratio;
-                    project_object_sign.width = SignObject.width * computed_Ratio;
-                    project_object_sign.height = SignObject.height * computed_Ratio;
-                    project_object_sign.rotate = 0;
-                    project_object_sign.page = SignObject.page;
-                    project_object_sign.type = "DEFAULT";
+                    submittee_object_sign.name = SignObject.title;
+                    submittee_object_sign.x_position = SignObject.x * computed_Ratio;
+                    submittee_object_sign.y_position = SignObject.y * computed_Ratio;
+                    submittee_object_sign.width = SignObject.width * computed_Ratio;
+                    submittee_object_sign.height = SignObject.height * computed_Ratio;
+                    submittee_object_sign.rotate = 0;
+                    submittee_object_sign.page = SignObject.page;
+                    submittee_object_sign.type = "DEFAULT";
                     this
                         .SendJsonFile
-                        .project_object_signs
-                        .push(project_object_sign);
+                        .submittee_object_signs
+                        .push(submittee_object_sign);
                 }
             }
         }

@@ -36,7 +36,7 @@ const router = new VueRouter({
             component: () => import ('../views/WritersLoginViewer.vue')
         }, {
             path: '/WritersPDF',
-            component: () => import ('../views/WritersPDFViewer.vue')
+            component: () => import ('../views/WritersLookingViewer.vue')
         }
     ]
 });

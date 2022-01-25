@@ -25,7 +25,8 @@ const mutations = {
         resetToken(state);
     },
     SET_CURRENT_WRITER(state, getWriter) {
-        state.currentWriter = makeDocument(getWriter)
+        state.currentWriter = makeDocument(getWriter);
+        console.log(state.currentWriter)
     },
     LOGOUT_WITH_TOKEN_INVALIDE(state) {
         resetToken(state);
@@ -49,15 +50,19 @@ const actions = {
 //이벤트의 형태를 잡아주는 변수.
 function initWriter() {
     return {
+        writer: "",
         name: "",
-        StudentID: ""
+        StudentID: "",
+        Date: ""
     }
 }
 
 const makeDocument = (Document) => {        
     return {
+        writer: Document.student_name,
         name: Document.name,
-        StudentID: Document.StudentID
+        StudentID: Document.student_id,
+        Date: Document.reg_date
     }
 };
 

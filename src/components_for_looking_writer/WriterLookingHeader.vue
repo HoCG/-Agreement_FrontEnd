@@ -21,52 +21,35 @@
     </div>
 </template>
 <script>
-    import html2canvas from "html2canvas";
-    import jsPDF from "jspdf";
+    import axios from "axios";
     export default {
         data() {
             return {
-                SendJsonFile: {
-                    student_name: this.$store.state.writer.currentWriter.name,
-                    student_id: this.$store.state.writer.currentWriter.schoolID,
-                    project_object_texts: [],
-                    project_object_signs: [],
-                    project_object_checkboxes: []
-                }
             }
         },
         methods: {
             pdfPrint() {
-                // 현재 document.body의 html을 A4 크기에 맞춰 PDF로 변환
                 let self = this;
-                html2canvas(document.getElementById("drawer")).then(function (canvas) {
-                    // let drawerDiv = document.getElementById("drawer"); let computed_Object_Style
-                    // = window.getComputedStyle(drawerDiv); 캔버스를 이미지로 변환
-                    let imgData = canvas.toDataURL('image/png');
-                    let imgWidth = 200; // 이미지 가로 길이(mm) A4 기준
-                    let pageHeight = imgWidth * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
-                    let imgHeight = canvas.height * imgWidth / canvas.width;
-                    let heightLeft = imgHeight;
-                    let doc = new jsPDF({'orientation': 'p', 'unit': 'mm', 'format': 'a4'});
-                    let position = 0;
-
-                    // 첫 페이지 출력
-                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-
-                    // 한 페이지 이상일 경우 루프 돌면서 출력
-                    while (heightLeft >= 20) {
-                        position = heightLeft - imgHeight;
-                        doc.addPage();
-                        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                        heightLeft -= pageHeight;
+                axios
+                    .get(
+                        `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}/pdf`, {responseType: "blob"}
+                    )
+                    .then(function (response) {
+                        let file = URL.createObjectURL(
+                            new Blob([response.data], {type: 'application/pdf'})
+                        );
+                        let a = document.createElement("a");
+                        a.href = file;
+                        a.download = self.$store.state.PDFInfo.PDFTitle.normalize('NFC'); //한글 분해현상 방지.
+                        document
+                            .body
+                            .appendChild(a);
+                        a.click();
+                        a.remove();
                     }
-                    let today = new Date();
-                    doc.save(self.$store.state.PDFInfo.PDFTitle + " " + self.$store.state.writer.currentWriter.name +
-                        " " + today.toLocaleString() + '.pdf');
-                });
+                );
             },
-            backPage(){
+            backPage() {
                 this
                     .$router
                     .push({path: '/UserPage'})

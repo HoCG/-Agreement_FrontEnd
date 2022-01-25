@@ -1,7 +1,6 @@
 
 const state = {
     PDFTitle: "",
-    src: "",
     numPages: undefined,
     PDFPageInfo: 0,
     PDFFileUploadCheck: false,
@@ -23,9 +22,6 @@ const mutations = {
     },
     SET_PDF_FILE_PAGE_INFO(state, number){
         state.PDFPageInfo = parseInt(number);
-    },
-    SET_PDF_FILE_SRC(state, src){
-        state.src = src;
     },
     SAVE_ORIGINAL_WIDTH(state, WidthInfo){
         state.OriginalWidth.push(WidthInfo);

@@ -74,12 +74,18 @@
         components: {
             DownloadBtn
         },
+        mounted(){
+            for(let Document of this.$store.state.UsersDocument.DocumentArr){
+                this.$store.commit("FORMAT_ALL_WRITERS", Document.name);
+                this.$store.dispatch("REQUEST_PROJECT_WRITER", Document.name);
+            }
+        },
         methods: {
             downloadPDF(){
                 
             },
             ShowWriterDocument(documentWriter){
-                this.$store.commit(documentWriter)
+                this.$store.commit("SET_CURRENT_WRITER", documentWriter)
                 this
                     .$router
                     .push({path: '/WritersPDF'})
@@ -88,8 +94,6 @@
             ShowWritersDocumentList(Document) {
                 let documentTitle = Document.documentTitle
                 let WritersList = document.getElementsByClassName(documentTitle);
-                this.$store.commit("FORMAT_ALL_WRITERS", Document.name)
-                this.$store.dispatch("REQUEST_PROJECT_WRITER", Document.name)
                 for (let WL of WritersList) {
                     WL.style.display = "block";
                 }

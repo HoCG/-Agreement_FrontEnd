@@ -1,6 +1,6 @@
 <template>
     <v-card class="WritersArea overflow-hidden">
-        <WritePDFViewHeader/>
+        <WriterLookingHeader/>
         <WriteList/>
         <div id="container" class="container">
             <div id="drawerScrollBox" class="pdfViewer">
@@ -15,7 +15,7 @@
     import pdf from 'vue-pdf';
     import axios from "axios";
     import WriteList from '../components_for_writer_view/WriteList.vue';
-    import WritePDFViewHeader from '../components_for_writer_view/WritePDFViewHeader.vue';
+    import WriterLookingHeader from '../components_for_looking_writer/WriterLookingHeader.vue';
     export default {
         mounted() {
             this
@@ -33,17 +33,12 @@
             let self = this;
             axios
                 .get(
-                    `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.writer.name}`
+                    `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}/pdf`,{responseType: "blob"}
                 )
                 .then(function (response) {
-                    console.log(response.data);
-                    self.src = pdf.createLoadingTask(
-                        `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
-                    );
-                    self.$store.state.UsersDocument.Document = Document;
-                    self
-                        .$store
-                        .commit("SET_DOCUMENT_TITLE", response.data.title);
+                    let file = URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
+                    console.log(file);
+                    self.src = pdf.createLoadingTask(file);
                     self
                         .src
                         .promise
@@ -52,17 +47,30 @@
                             self
                                 .$store
                                 .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
-                            self.readAllObject(response.data);
-                        });
+                        }
+                    );  
                 })
                 .catch(function (error) {
-                    console.log(error);
-                });
+                console.log(error);
+            });
+            axios
+                .get(
+                    `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}`
+                )
+                .then(function (response) {
+                    self
+                        .$store
+                        .commit("SET_DOCUMENT_TITLE", response.data.pdf.original_name);
+                    self.readAllObject(response.data);
+                })
+                .catch(function (error) {
+                console.log(error);
+            });
         },
         components: {
             pdf,
             WriteList,
-            WritePDFViewHeader
+            WriterLookingHeader
         },
         computed: {
             writer(){
@@ -79,9 +87,9 @@
         methods: {
             readAllObject(responseData) {
                 //가지고 온 데이터에서
-                this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
-                this.readCheckBoxObject(responseData.project_object_checkboxes); //체크박스만 따로 처리.
-                this.readSignObject(responseData.project_object_signs); //사인값만 따로 처리.
+                this.readTextObject(responseData.submittee_object_texts); //텍스트들만 따로 처리.
+                this.readCheckBoxObject(responseData.submittee_object_checkboxes); //체크박스만 따로 처리.
+                this.readSignObject(responseData.submittee_object_signs); //사인값만 따로 처리.
             },
             readTextObject(project_object_texts) {
                 let drawerDiv = document.getElementById("drawer");

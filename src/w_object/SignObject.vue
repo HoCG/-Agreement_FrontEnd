@@ -1,9 +1,9 @@
 <template>
     <div class="SignObjectArea" @click="openSignDialog(getSOData)" v-bind:id="getSOData.htmlID">
-        <p v-bind:id="'SignObjectAreaTextSign'+getSOData.id">
+        <p v-bind:id="'SignObjectAreaText사인_'+getSOData.id">
             서명
         </p>
-        <img v-bind:id="'Sign'+getSOData.id">
+        <img class="SignIMG" v-bind:id="'사인_'+getSOData.id">
     </div>
 </template>
 <script>
@@ -19,7 +19,7 @@
             openSignDialog(SignObject) {
                 this
                     .$store
-                    .commit('OPEN_DIALOG', 'Sign'+String(SignObject.id));
+                    .commit('OPEN_DIALOG', '사인_'+String(SignObject.id));
                 this
                     .$store
                     .commit('GET_WIDTH', SignObject.width);

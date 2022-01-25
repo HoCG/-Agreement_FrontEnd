@@ -71,6 +71,7 @@ const mutations = {
             .filter(e => e.id !== getDocument.id);
         state.Document = initDocument();
     },
+
     WRITER_INPUT(state, data) {
         for(let element of data){
             state.DocumentArr.find(D => D.name === state.want_Document_Name).documentWriter.push(makeWriterDocument(element));
@@ -155,6 +156,7 @@ const makeWriterDocument = (data) => {
         student_id: data.student_id,
         date: data.date,
         writer: data.student_name,
+        name: data.name,
     }
 };
 

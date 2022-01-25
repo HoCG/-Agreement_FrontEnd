@@ -188,6 +188,7 @@
             },
             toDataURL() {
                 let ImageID = this.$store.state.DialogData.ImageID;
+                console.log(ImageID);
                 let myImage = document.getElementById(String(ImageID));
                 let canvas = document.getElementById('drawCanvas');
                 let ImgText = document.getElementById("SignObjectAreaText" + ImageID);
