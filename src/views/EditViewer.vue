@@ -25,19 +25,28 @@
         <ObjectBox/><!--오브젝트 생성부분--></div>
 </template>
 <script>
+    import EditHeader from "../components_for_edit_page/EditHeader.vue"
+    import ObjectList from "../components_for_edit_page/ObjectList.vue"
+    import ObjectBox from "../objects/ObjectBox.vue"
     import axios from "axios";
     import pdf from 'vue-pdf';
     export default {
+        components: {
+            ObjectBox,
+            ObjectList,
+            EditHeader
+        },
         mounted() {
+            console.log(this.$route.query.getDocumentData)
             let self = this;
             axios
-                .get(`${process.env.VUE_APP_BASEURL}/api/projects/${self.getDocumentData.name}`)
+                .get(`${process.env.VUE_APP_BASEURL}/api/projects/${self.$route.query.getDocumentData.name}`)
                 .then(function (response) {
                     console.log(response.data);
                     self.src = pdf.createLoadingTask(
                         `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
                     );
-                    self.$store.state.UsersDocument.Document = self.getDocumentData;
+                    self.$store.state.UsersDocument.Document = self.$route.query.getDocumentData;
                     self
                         .src
                         .promise
@@ -60,9 +69,6 @@
                 numPages: 0,
                 src: ""
             }
-        },
-        props: {
-            getDocumentData: Object
         },
         methods: {
              //서버에서 넘겨준 PDF의 원래 가로값을 가지고와서 전역으로 사용할 수 있도록 돕는 함수입니다.

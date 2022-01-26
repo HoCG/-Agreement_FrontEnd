@@ -31,6 +31,63 @@
             multiple="multiple"/>
     </div>
 </template>
-<style>
-    
-</style>
+<script>
+    export default {
+        methods: {
+            onClick() {
+                this
+                    .$refs
+                    .fileInput
+                    .click()
+            },
+            onDragenter() {
+                // class 넣기
+                this.isDragged = true;
+            },
+            onDragleave() {
+                // class 삭제
+                this.isDragged = false;
+            },
+            onDragover(event) {
+                // 드롭을 허용하도록 prevetDefault() 호출
+                event.preventDefault()
+            },
+            onDrop(event) {
+                // 기본 액션을 막음 (링크 열기같은 것들)
+                event.preventDefault()
+                this.isDragged = false
+                const files = event.dataTransfer.files;
+                this.addFiles(files);
+            },
+            onFileChange(event) {
+                const files = event.target.files;
+                this.addFiles(files);
+            },
+            async addFiles(files) {
+                console.log(files);
+                this
+                    .$store
+                    .commit("SET_DOCUMENT_TITLE", files[0].name);
+                if (files[0].name.includes(".pdf")) { //파일이 pdf의 형태인지 확인.
+                    //const src = await this.readFiles(files[0]) 새로들어온 pdf를 store에 저장 및 서버에 전송.
+                    this.$store.state.UsersDocument.Document.id = this
+                        .$store
+                        .state
+                        .UsersDocument
+                        .DocumentArr[0] + 1;
+                    this.$store.state.UsersDocument.Document.documentTitle = files[0].name;
+                    this.$store.state.UsersDocument.Document.Link = "";
+                    this.$store.state.UsersDocument.Document.src = files[0];
+                    this.$store.state.UsersDocument.Document.documentWritersCount = 0;
+                    this.$store.state.UsersDocument.Document.State = 1;
+                    this
+                        .$store
+                        .dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
+                } else {
+                    alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
+                }
+            }
+        }
+    }
+</script>
+<style></style>
