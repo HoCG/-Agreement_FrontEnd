@@ -51,9 +51,13 @@
                     @change="onFileChange"
                     multiple="multiple"/>
                 <div id="mainWrapper">
-                    <ul class="MainFrame">
-                        <li>
-                            <!--Table-->
+                    <project-list-component/>
+
+
+
+                    <!-- <ul class="MainFrame"> -->
+                        <!-- <li>
+                            Table
                             <ul id="ulTable">
                                 <li>
                                     <ul class="UlTitleSetting">
@@ -64,13 +68,13 @@
                                         <li>&nbsp;</li>
                                     </ul>
                                 </li>
-                                <!-- 게시물이 출력될 영역 -->
+                                게시물이 출력될 영역
                                 <li
                                     v-for="Document in this.$store.state.UsersDocument.DocumentArr"
                                     :key="Document.id">
                                     <ul class="ItemsUl">
                                         <li>
-                                            <!--문서의 상태값을 보여주는 컴포넌트-->
+                                            문서의 상태값을 보여주는 컴포넌트
                                             <DocumentStateShow
                                                 v-bind:StateInfo="Document.State"
                                                 v-bind:WritersCountInfo="Document.documentWritersCount"/>
@@ -82,12 +86,12 @@
                                         </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <!--문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트-->
+                                            문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트
                                             <DocumentStateAction v-bind:DocumentInfo="Document"/>
                                         </li>
                                         <li>
                                             <button @click="showDocumentMenu(Document, $event)">
-                                                <!--SVG-->
+                                                SVG
                                                 <DotsBtn/>
                                             </button>
                                         </li>
@@ -97,8 +101,8 @@
                                     <ul class="ItemsUl"></ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
+                        </li> -->
+                    <!-- </ul> -->
                     <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
                 </div>
             </div>
@@ -116,6 +120,7 @@
     import DotsBtn from '../svgs/DotsSVG.vue';
     import axios from "axios";
     import pdf from 'vue-pdf';
+import ProjectListComponent from './ProjectListComponent.vue';
     export default {
         mounted() {
             this
@@ -134,7 +139,8 @@
             DocumentForWriterList,
             DocumentStateAction,
             DotsBtn,
-            pdf
+            pdf,
+                ProjectListComponent
         },
         data() {
             return {
@@ -383,13 +389,13 @@
         &-container {
             padding: 25px;
             width: 100%;
-            min-width: 750px;
+            min-width: 777px;
             height: 184px;
-            margin: 0 auto;
-            box-shadow: 0 0.625rem 1.25rem #0000001a;
+            margin: 60px auto 40px auto;
+            // box-shadow: 0 0.625rem 1.25rem #0000001a;
             background-color: white;
-            border: 3px dashed #4c384a;
-            border-radius: 20px;
+            border: 2px dashed #4c384a;
+            border-radius: 50px;
         }
         &-input {
             display: none;
@@ -451,7 +457,7 @@
 
     #mainWrapper {
         // padding-right: 50px;
-        min-width: 720px;
+        min-width: 777px;
         margin-top: 20px;
         background-color: white;
         width: 100%;
@@ -502,7 +508,7 @@
         width: 80px;
     }
     #ulTable > li > ul > li:first-child +li {
-        width: calc(100% - 370px);
+        width: calc(100% - 340px);
     }
     /*No 열 크기*/
     #ulTable > li > ul > li:first-child +li+li {
@@ -510,15 +516,15 @@
     }
     /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li {
-        width: 80px;
+        width: 60px;
     }
     /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 80px;
+        width: 120px;
     }
     /*작성자 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 50px;
+        width: 44px;
     }
     .left {
         text-align: left;
