@@ -117,8 +117,7 @@ export default {
             white-space: nowrap;
             line-height: 60px;
             overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+            text-overflow: ellipsis;
 
         }
         &-submittees{

@@ -7,10 +7,7 @@
                 <DocumentUploadView />
                 <div id="mainWrapper">
                     <project-list-component />
-<<<<<<< HEAD
-=======
                     <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
->>>>>>> main
                 </div>
             </div>
             <div v-else>

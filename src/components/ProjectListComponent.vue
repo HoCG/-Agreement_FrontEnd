@@ -26,7 +26,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import DocumentMenu from '../components_for_document/DocumentMenu.vue'
 import DocumentStateAction from '../components_for_document/DocumentStateAction.vue'
 import DocumentStateShow from '../components_for_document/DocumentStateShow.vue'
@@ -42,11 +41,6 @@ export default {
 
     components: { DocumentStateAction, DocumentStateShow, DotsSVG, ProjectListElementComponent, DocumentMenu },
     
-=======
-import ProjectListElementComponent from './ProjectListElementComponent.vue'
-export default {
-    components: { ProjectListElementComponent },
->>>>>>> main
     props: [
         
     ],
