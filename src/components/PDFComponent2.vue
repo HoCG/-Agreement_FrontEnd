@@ -4,35 +4,7 @@
         <!--편집화면으로 넘어갈때-->
         <div class="FileUploadArea">
             <div v-if="this.$store.state.DocumentSideBarData.Show_UserDocumentList">
-                <div
-                    class="file-upload-container"
-                    @dragenter="onDragenter"
-                    @dragover="onDragover"
-                    @dragleave="onDragleave"
-                    @drop="onDrop">
-                    <div class="file-upload-div">
-                        <svg
-                            class="file-upload-img"
-                            width="105"
-                            height="70"
-                            viewBox="0 0 105 70"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M82.8333 69.6666H26.5C12.9556 69.6746 1.67383 59.2833 0.570867 45.7839C-0.532097 32.2845 8.91323 20.1996 22.2793 18.0089C28.4314 7.10143 39.9771 0.348473 52.5 0.333009C60.3087 0.303493 67.8939 2.93889 74.002 7.80393C79.9997 12.5613 84.2638 19.1615 86.1353 26.5846C97.3322 28.305 105.314 38.3605 104.448 49.6557C103.582 60.9509 94.1616 69.6726 82.8333 69.6666ZM52.5 8.99988C43.104 9.01099 34.4415 14.079 29.828 22.2643L27.8 25.8999L23.6876 26.5716C14.8055 28.0597 8.54267 36.1019 9.27588 45.0779C10.0091 54.0539 17.4941 60.9731 26.5 60.9999H82.8333C89.6305 61.0069 95.2856 55.7765 95.8082 48.9995C96.3308 42.2224 91.5445 36.1868 84.8266 35.1516L79.124 34.2849L77.7286 28.6863C74.8482 17.1024 64.4365 8.97807 52.5 8.99988ZM58.7833 52.3333H46.2166V39.3333H35.1666L52.5 21.9999L69.8333 39.3333H58.7833V52.3333Z"
-                                fill="#767676"/>
-                        </svg>
-                        <h2 class="file-upload-text">서명 받을 문서를 끌어오거나 오른쪽의 버튼을 눌러 업로드 해주세요.</h2>
-                        <button @click="onClick" class="file-upload-btn">문서 가져오기</button>
-                    </div>
-                </div>
-                <!-- 파일 업로드 -->
-                <input
-                    type="file"
-                    ref="fileInput"
-                    class="file-upload-input"
-                    @change="onFileChange"
-                    multiple="multiple"/>
+                <DocumentUploadView />
                 <div id="mainWrapper">
                     <ul class="MainFrame">
                         <li>
@@ -97,8 +69,7 @@
     import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
     import DocumentMenu from '../components_for_document/DocumentMenu.vue';
     import DotsBtn from '../svgs/DotsSVG.vue';
-    import axios from "axios";
-    import pdf from 'vue-pdf';
+    import DocumentUploadView from '../components_for_document/DocumentUploadView.vue';
     export default {
         mounted() {
             this
@@ -116,7 +87,8 @@
             DocumentStateShow,
             DocumentForWriterList,
             DocumentStateAction,
-            DotsBtn
+            DotsBtn,
+            DocumentUploadView
         },
         data() {
             return {
@@ -152,107 +124,30 @@
                     .height / 2 + "px";
                 console.log(this.MenuDocument);
             },
-            //이 아래 on으로 시작하는 함수들은 모두 문서 업로드를 돕는 함수들입니다.
-            onClick() {
-                this
-                    .$refs
-                    .fileInput
-                    .click()
-            },
-            onDragenter() {
-                // class 넣기
-                this.isDragged = true;
-            },
-            onDragleave() {
-                // class 삭제
-                this.isDragged = false;
-            },
-            onDragover(event) {
-                // 드롭을 허용하도록 prevetDefault() 호출
-                event.preventDefault()
-            },
-            onDrop(event) {
-                // 기본 액션을 막음 (링크 열기같은 것들)
-                event.preventDefault()
-                this.isDragged = false
-                const files = event.dataTransfer.files;
-                this.addFiles(files);
-            },
-            onFileChange(event) {
-                const files = event.target.files;
-                this.addFiles(files);
-            },
-            async addFiles(files) {
-                console.log(files);
-                this
-                    .$store
-                    .commit("SET_DOCUMENT_TITLE", files[0].name);
-                if (files[0].name.includes(".pdf")) { //파일이 pdf의 형태인지 확인.
-                    //const src = await this.readFiles(files[0])
-                    //새로들어온 pdf를 store에 저장 및 서버에 전송.
-                    this.$store.state.UsersDocument.Document.id = this
-                        .$store
-                        .state
-                        .UsersDocument
-                        .DocumentArr[0] + 1;
-                    this.$store.state.UsersDocument.Document.documentTitle = files[0].name;
-                    this.$store.state.UsersDocument.Document.Link = "";
-                    this.$store.state.UsersDocument.Document.src = files[0];
-                    this.$store.state.UsersDocument.Document.documentWritersCount = 0;
-                    this.$store.state.UsersDocument.Document.State = 1;
-                    this
-                        .$store
-                        .dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
-                } else {
-                    alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
-                }
-            },
-            async readFiles(files) {
-                return new Promise((resolve) => {
-                    const reader = new FileReader()
-                    reader.onload = async (e) => {
-                        resolve(e.target.result)
-                    }
-                    reader.readAsDataURL(files)
-                });
-            },
             //편집화면으로 넘어가도록 돕는 함수.
             goEditScreen(Document) {
                 if (Document.State === 1) {
                     this
-                        .$store
-                        .commit("SHOW_EDIT_PAGE");
-                    let self = this
-                    axios
-                        .get(`${process.env.VUE_APP_BASEURL}/api/projects/${Document.name}`)
-                        .then(function (response) {
-                            console.log(response.data);
-                            self.src = pdf.createLoadingTask(
-                                `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
-                            );
-                            self.$store.state.UsersDocument.Document = Document;
-                            self
-                                .src
-                                .promise
-                                .then(pdf => {
-                                    self.numPages = pdf.numPages;
-                                    self
-                                        .$store
-                                        .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
-                                    self.saveOriginalWidth(response.data);
-                                    self.readAllObject(response.data);
-                                });
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                    });
+                        .$router
+                        .push({
+                            //name: "EditPage로 가는 데이터",
+                            path: '/EditView',
+                            query: {
+                                getDocumentData: Document
+                            }
+                        }
+                    ).catch();
                 }
             },
             //서버에서 넘겨준 PDF의 원래 가로값을 가지고와서 전역으로 사용할 수 있도록 돕는 함수입니다.
-            saveOriginalWidth(responseData){
-                this.$store.commit("FORMAT_ORIGINAL_WIDTH"); //기존에 store에서 담고있을 원래 가로값을 초기화 시켜줍니다.
-                for(let OW of responseData.pdf.original_width){
-                    this.$store.commit("SAVE_ORIGINAL_WIDTH", OW); //원래 가로값을 store에 저장합니다.
+            saveOriginalWidth(responseData) {
+                this
+                    .$store
+                    .commit("FORMAT_ORIGINAL_WIDTH"); //기존에 store에서 담고있을 원래 가로값을 초기화 시켜줍니다.
+                for (let OW of responseData.pdf.original_width) {
+                    this
+                        .$store
+                        .commit("SAVE_ORIGINAL_WIDTH", OW); //원래 가로값을 store에 저장합니다.
                 }
             },
             //서버를 통해 읽은 모든 데이터를 store에 저장합니다.
@@ -264,17 +159,21 @@
             },
             //아래 모든 함수들은 데이터를 저장하는 과정입니다.
             readTextObject(project_object_texts) {
-                let drawerDiv = document.getElementById("drawer"); 
+                let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo.OriginalWidth[0]; // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
+                    .$store
+                    .state
+                    .PDFScreenInfo
+                    .OriginalWidth[0]; // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
                         this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
                         this.$store.state.ShortTextObject.ShortText.title = "짧은 글_"
-                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width*computed_Ratio;
-                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height*computed_Ratio;
-                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position*computed_Ratio;
-                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position*computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width * computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height * computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position * computed_Ratio;
+                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position * computed_Ratio;
                         this.$store.state.ShortTextObject.ShortText.page = TextObject.page;
                         this.$store.state.ShortTextObject.ShortText.push_or_readCheck = false;
                         this
@@ -283,10 +182,10 @@
                     } else {
                         this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
                         this.$store.state.LongTextObject.LongText.title = "긴 글_"
-                        this.$store.state.LongTextObject.LongText.width = TextObject.width*computed_Ratio;
-                        this.$store.state.LongTextObject.LongText.height = TextObject.height*computed_Ratio;
-                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position*computed_Ratio;
-                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position*computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.width = TextObject.width * computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.height = TextObject.height * computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position * computed_Ratio;
+                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position * computed_Ratio;
                         this.$store.state.LongTextObject.LongText.page = TextObject.page;
                         this.$store.state.LongTextObject.LongText.push_or_readCheck = false;
                         this
@@ -298,14 +197,18 @@
             readCheckBoxObject(project_object_checkboxes) {
                 let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo.OriginalWidth[0];// 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
+                    .$store
+                    .state
+                    .PDFScreenInfo
+                    .OriginalWidth[0]; // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
                 for (let CheckBoxObject of project_object_checkboxes) {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
                     this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_"
-                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width*computed_Ratio;
-                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height*computed_Ratio;
-                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position*computed_Ratio;
-                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position*computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width * computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height * computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position * computed_Ratio;
+                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position * computed_Ratio;
                     this.$store.state.CheckBoxObject.CheckBox.page = CheckBoxObject.page;
                     this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = false;
                     this
@@ -316,14 +219,18 @@
             readSignObject(project_object_signs) {
                 let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo.OriginalWidth[0]; // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
+                    .$store
+                    .state
+                    .PDFScreenInfo
+                    .OriginalWidth[0]; // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
                 for (let SignObject of project_object_signs) {
                     this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
                     this.$store.state.SignObject.Sign.title = "사인_"
-                    this.$store.state.SignObject.Sign.width = SignObject.width*computed_Ratio;
-                    this.$store.state.SignObject.Sign.height = SignObject.height*computed_Ratio;
-                    this.$store.state.SignObject.Sign.x = SignObject.x_position*computed_Ratio;
-                    this.$store.state.SignObject.Sign.y = SignObject.y_position*computed_Ratio;
+                    this.$store.state.SignObject.Sign.width = SignObject.width * computed_Ratio;
+                    this.$store.state.SignObject.Sign.height = SignObject.height * computed_Ratio;
+                    this.$store.state.SignObject.Sign.x = SignObject.x_position * computed_Ratio;
+                    this.$store.state.SignObject.Sign.y = SignObject.y_position * computed_Ratio;
                     this.$store.state.SignObject.Sign.page = SignObject.page;
                     this.$store.state.SignObject.Sign.push_or_readCheck = false;
                     this

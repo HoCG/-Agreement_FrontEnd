@@ -1,27 +1,18 @@
 <template>
     <v-card class="mainCard overflow-hidden">
-        <EditHeader class="UserHeader" v-if="this.$store.state.PDFScreenInfo.PDFFileUploadCheck"/> <!--네비게이션바 컴포넌트-->
         <div class="sideBar">
-            <ObjectList v-if="this.$store.state.PDFScreenInfo.PDFFileUploadCheck" class="ShowObjectInfo"/> <!--왼쪽 사이드바-->
-            <DocumentInfoSideBar v-else class="ShowDocumentInfo"/>
+            <DocumentInfoSideBar class="ShowDocumentInfo"/>
         </div>
-        <PDFUploader/><!--PDF업로드 및 유저 문서 리스트-->
-        <ObjectBox/><!--오브젝트 생성부분-->
+        <PDFComponent2/><!--PDF업로드 및 유저 문서 리스트-->
     </v-card>
 </template>
 <script>
-    import PDFUploader from '../components/PDFComponent.vue';
+    import PDFComponent2 from '../components/PDFComponent2.vue';
     import DocumentInfoSideBar from '../components_for_document/DocumentInfoSideBar.vue';
-    import ObjectList from '../components_for_edit_page/ObjectList.vue'
-    import ObjectBox from '../objects/ObjectBox.vue'
-    import EditHeader from '../components_for_edit_page/EditHeader.vue';
     export default {
         components: {
             DocumentInfoSideBar,
-            PDFUploader,
-            ObjectList,
-            ObjectBox,
-            EditHeader
+            PDFComponent2,
         },
         beforeDestroy() {
             this.$store.state.PDFScreenInfo.PDFTitle = "";
