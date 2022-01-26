@@ -17,7 +17,7 @@
             <input
                 type="text"
                 v-bind:id="'copyArea'+DocumentInfo.name"
-                v-bind:value="'http://192.168.0.26:8080/WriterLoginPage/'+DocumentInfo.name"
+                v-bind:value="'http://192.168.0.247:8080/WriterLoginPage/'+DocumentInfo.name"
                 style="display: none;"/>
             <!-- http://172.30.1.37:8080/ >> 집 네트워크-->
             <svg

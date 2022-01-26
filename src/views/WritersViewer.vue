@@ -1,7 +1,7 @@
 <template>
     <v-card class="WritersArea overflow-hidden">
-        <WriterHeader v-if="!this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
-        <WriteList v-if="!this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
+        <WriterHeader />
+        <WriteList />
         <div id="container" class="container">
             <div id="drawerScrollBox" class="pdfViewer">
                 <div id="drawer">
@@ -10,7 +10,7 @@
             </div>
         </div>
         <ObjectBox/>
-        <SignDialog v-if="!this.$store.state.PDFScreenInfo.PDFWriteComplete" :dialog="true"/>
+        <SignDialog :dialog="true"/>
     </v-card>
 </template>
 <script>
@@ -180,42 +180,6 @@
                         .$store
                         .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                 }
-            },
-            async addFiles(files) {
-                console.log(files);
-                this
-                    .$store
-                    .commit("SET_DOCUMENT_TITLE", files[0].name);
-                if (files[0].name.includes(".pdf")) {
-                    const src = await this.readFiles(files[0])
-                    console.log(files[0])
-                    console.log(src)
-                    this
-                        .$store
-                        .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");
-                    this.src = src;
-                    this.src = pdf.createLoadingTask(src);
-                    this
-                        .src
-                        .promise
-                        .then(pdf => {
-                            this.numPages = pdf.numPages;
-                            this
-                                .$store
-                                .commit("SET_PDF_FILE_PAGE_INFO", this.numPages);
-                        });
-                } else {
-                    alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
-                }
-            },
-            async readFiles(files) {
-                return new Promise((resolve) => {
-                    const reader = new FileReader()
-                    reader.onload = async (e) => {
-                        resolve(e.target.result)
-                    }
-                    reader.readAsDataURL(files)
-                });
             }
         }
     }

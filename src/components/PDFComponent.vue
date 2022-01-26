@@ -52,57 +52,6 @@
                     multiple="multiple"/>
                 <div id="mainWrapper">
                     <project-list-component/>
-
-
-
-                    <!-- <ul class="MainFrame"> -->
-                        <!-- <li>
-                            Table
-                            <ul id="ulTable">
-                                <li>
-                                    <ul class="UlTitleSetting">
-                                        <li>공유 상태</li>
-                                        <li>문서 제목</li>
-                                        <li>제출수</li>
-                                        <li>&nbsp;</li>
-                                        <li>&nbsp;</li>
-                                    </ul>
-                                </li>
-                                게시물이 출력될 영역
-                                <li
-                                    v-for="Document in this.$store.state.UsersDocument.DocumentArr"
-                                    :key="Document.id">
-                                    <ul class="ItemsUl">
-                                        <li>
-                                            문서의 상태값을 보여주는 컴포넌트
-                                            <DocumentStateShow
-                                                v-bind:StateInfo="Document.State"
-                                                v-bind:WritersCountInfo="Document.documentWritersCount"/>
-                                        </li>
-                                        <li>
-                                            <button @click="goEditScreen(Document)">
-                                                {{Document.documentTitle}}
-                                            </button>
-                                        </li>
-                                        <li>{{Document.documentWritersCount}}</li>
-                                        <li>
-                                            문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트
-                                            <DocumentStateAction v-bind:DocumentInfo="Document"/>
-                                        </li>
-                                        <li>
-                                            <button @click="showDocumentMenu(Document, $event)">
-                                                SVG
-                                                <DotsBtn/>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <ul class="ItemsUl"></ul>
-                                </li>
-                            </ul>
-                        </li> -->
-                    <!-- </ul> -->
                     <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
                 </div>
             </div>
@@ -113,14 +62,11 @@
     </div>
 </template>
 <script>
-    import DocumentStateShow from "../components_for_document/DocumentStateShow.vue";
-    import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
     import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
     import DocumentMenu from '../components_for_document/DocumentMenu.vue';
-    import DotsBtn from '../svgs/DotsSVG.vue';
     import axios from "axios";
     import pdf from 'vue-pdf';
-import ProjectListComponent from './ProjectListComponent.vue';
+    import ProjectListComponent from './ProjectListComponent.vue';
     export default {
         mounted() {
             this
@@ -135,10 +81,7 @@ import ProjectListComponent from './ProjectListComponent.vue';
         },
         components: {
             DocumentMenu,
-            DocumentStateShow,
             DocumentForWriterList,
-            DocumentStateAction,
-            DotsBtn,
             pdf,
                 ProjectListComponent
         },

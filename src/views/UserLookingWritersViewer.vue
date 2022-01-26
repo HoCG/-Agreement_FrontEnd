@@ -36,6 +36,7 @@
                     `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}/pdf`,{responseType: "blob"}
                 )
                 .then(function (response) {
+                    console.log(response.data);
                     let file = URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
                     console.log(file);
                     self.src = pdf.createLoadingTask(file);

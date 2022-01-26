@@ -46,6 +46,7 @@
                     self.src = pdf.createLoadingTask(
                         `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
                     );
+                    console.log(self.src);
                     self.$store.state.UsersDocument.Document = self.$route.query.getDocumentData;
                     self
                         .src
