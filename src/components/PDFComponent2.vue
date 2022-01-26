@@ -7,7 +7,6 @@
                 <DocumentUploadView />
                 <div id="mainWrapper">
                     <project-list-component />
-                    <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
                 </div>
             </div>
             <div v-else>
@@ -18,7 +17,7 @@
 </template>
 <script>
     import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
-    import DocumentMenu from '../components_for_document/DocumentMenu.vue';
+    
     import DocumentUploadView from '../components_for_document/DocumentUploadView.vue';
     import ProjectListComponent from './ProjectListComponent.vue';
     export default {
@@ -34,7 +33,7 @@
                 .commit("SET_USER_DOCUMENT_LIST_TRUE");
         },
         components: {
-            DocumentMenu,
+            
             DocumentForWriterList,
             DocumentUploadView,
             ProjectListComponent
@@ -293,7 +292,7 @@
         margin-top: 20px;
         background-color: white;
         width: 100%;
-        height: 1000px;
+        min-height: 1000px;
     }
     
     .left {

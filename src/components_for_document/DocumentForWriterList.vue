@@ -140,7 +140,7 @@ import WriterListComponent from './WriterListComponent.vue';
         margin-top: 20px;
         background-color: white;
         width: 100%;
-        height: 1000px;
+        min-height: 1000px;
     }
     #mainWrapper > ul > li:first-child {
         text-align: center;

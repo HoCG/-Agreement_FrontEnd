@@ -1,29 +1,51 @@
 <template>
-  <div>
+  <div class="list-em-wrapper">
       <div class="list-em">
           <div class="list-em-title">{{project.documentTitle}}</div>
           <div class="list-em-count">{{project.documentWriter.length}}</div>
           <div class="list-em-date">-</div>
           <div class="list-em-name">-</div>
-          <div class="list-em-download">-</div>
-          <div class="list-em-etc">open</div>
+          <div class="list-em-download">전체 다운로드</div>
+          <div class="list-em-etc">
+            <arrow-button
+            :toggle="toggleOn"
+            @click.native="toggle"
+            />
+          </div>
       </div>
-      <div
+      <submittee
       v-for="projectWriter in project.documentWriter"
+      :style="toggleOn ? {display: 'flex'} : {display: 'none'}"
       :key="projectWriter.id"
       :writer="projectWriter"
-      >
-        zz
-      </div>
+      :project-title="project.documentTitle"
+      />
+      <div class="division-line"></div>
   </div>
 </template>
 
 <script>
+import ArrowButton from '../components/ArrowButton.vue';
+import Submittee from './Submittee.vue';
 export default {
+  components: { Submittee, ArrowButton },
 
     props: [
         "project"
     ],
+
+    data: () => {
+        return {
+            toggleOn: false,
+        }
+    },
+
+    methods: {
+        toggle(){
+            this.toggleOn = !this.toggleOn;
+        }
+
+    },
 
     mounted() {
         console.log(this.project);
@@ -45,6 +67,7 @@ export default {
         margin-top: 10px;
 
         &-title{
+            padding: 0 10px;
             width: 200px;
             flex-grow: 1;
             white-space: nowrap;
@@ -67,5 +90,11 @@ export default {
             min-width: 80px;
         }
     }
+
+    .division-line{
+        margin-top: 10px;
+        border-bottom: 1px solid #f3f3f3;
+    }
+
 
 </style>
