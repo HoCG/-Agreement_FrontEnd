@@ -7,6 +7,10 @@
                 <DocumentUploadView />
                 <div id="mainWrapper">
                     <project-list-component />
+<<<<<<< HEAD
+=======
+                    <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
+>>>>>>> main
                 </div>
             </div>
             <div v-else>
@@ -16,13 +20,10 @@
     </div>
 </template>
 <script>
-    import DocumentStateShow from "../components_for_document/DocumentStateShow.vue";
-    import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
     import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
     import DocumentMenu from '../components_for_document/DocumentMenu.vue';
-    import DotsBtn from '../svgs/DotsSVG.vue';
     import DocumentUploadView from '../components_for_document/DocumentUploadView.vue';
-import ProjectListComponent from './ProjectListComponent.vue';
+    import ProjectListComponent from './ProjectListComponent.vue';
     export default {
         mounted() {
             this
@@ -37,10 +38,7 @@ import ProjectListComponent from './ProjectListComponent.vue';
         },
         components: {
             DocumentMenu,
-            DocumentStateShow,
             DocumentForWriterList,
-            DocumentStateAction,
-            DotsBtn,
             DocumentUploadView,
             ProjectListComponent
         },

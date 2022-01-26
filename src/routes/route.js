@@ -35,8 +35,11 @@ const router = new VueRouter({
             path: '/WriterLoginPage/:document_name',
             component: () => import ('../views/WritersLoginViewer.vue')
         }, {
+            path: '/WriteOverPage',
+            component: () => import ('../views/WritersPDFViewer.vue')
+        }, {
             path: '/WritersPDF',
-            component: () => import ('../views/WritersLookingViewer.vue')
+            component: () => import ('../views/UserLookingWritersViewer.vue')
         }, {
             path: '/EditView',
             component: () => import ('../views/EditViewer.vue')

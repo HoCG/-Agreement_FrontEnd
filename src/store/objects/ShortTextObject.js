@@ -93,7 +93,8 @@ function initObject() {
         x: '',
         y: '',
         page: '',
-        push_or_readCheck: false
+        push_or_readCheck: false,
+        text: ''
     }
 }
 

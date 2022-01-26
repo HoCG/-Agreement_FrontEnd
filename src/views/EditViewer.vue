@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mainCard">
         <EditHeader/>
         <!--네비게이션바 컴포넌트-->
         <div id="container" class="container">
@@ -46,6 +46,7 @@
                     self.src = pdf.createLoadingTask(
                         `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
                     );
+                    console.log(self.src);
                     self.$store.state.UsersDocument.Document = self.$route.query.getDocumentData;
                     self
                         .src
@@ -158,13 +159,28 @@
     }
 </script>
 <style>
+    .mainCard {
+        display: flex;
+        align-items: center;
+        position: relative;
+        height: 100%;
+    }
     .sideBar {
         top: 20%;
-        width: 15%;
+        width: 280px;
         height: 100%;
         z-index: 4;
         position: fixed;
         background-color: white;
+    }
+    .container {
+        padding: 0 40px;
+        align-items: center;
+        margin-left: 280px;
+        width: calc(100% - 280px);
+        max-width: none;
+        height: 100%;
+        background-color: #F3F3F3;
     }
     .pdfViewer {
         margin-top: 200px;

@@ -20,8 +20,6 @@
     </div>
 </template>
 <script>
-    import html2canvas from "html2canvas";
-    import jsPDF from "jspdf";
     export default {
         mounted() {},
         methods: {
@@ -29,6 +27,7 @@
                 window.close();
             },
             documentSaveBtn() {
+                /*
                 let self = this;
                 html2canvas(document.getElementById("drawer")).then(function (canvas) {
                     // 캔버스를 이미지로 변환
@@ -44,14 +43,14 @@
                         }
                     }
                     let computed_Ratio = self.$store.state.PDFScreenInfo.OriginalWidth[MinPage - 1] / parseInt(computed_drawerDiv_Style.width, 10);
-                    let DefaultPage = document.getElementById('page'+MinPage);      
-                    let computed_DefaultPage_Style = window.getComputedStyle(DefaultPage); 
+                    let DefaultPage = document.getElementById('page'+MinPage);
+                    let computed_DefaultPage_Style = window.getComputedStyle(DefaultPage);
                     let imgWidth = self.$store.state.PDFScreenInfo.OriginalWidth[MinPage - 1];
                     let position = 0;
                     let doc = new jsPDF('p', 'px', [parseInt(computed_DefaultPage_Style.height, 10) * computed_Ratio, imgWidth]);
                     for(let i = 1; i <= self.$store.state.PDFScreenInfo.PDFPageInfo; i++){
-                        let currentPage = document.getElementById('page'+i);      
-                        let computed_Page_Style = window.getComputedStyle(currentPage);                 
+                        let currentPage = document.getElementById('page'+i);
+                        let computed_Page_Style = window.getComputedStyle(currentPage);
                         let pageHeight = parseInt(computed_Page_Style.height, 10) * computed_Ratio;
                         if(self.$store.state.PDFScreenInfo.OriginalWidth[i - 1] < pageHeight * 1.41){
                             if(i === 1){
@@ -78,16 +77,30 @@
                         self.$store.state.PDFScreenInfo.PDFTitle + " " + self.$store.state.writer.currentWriter.name + " " + today.toLocaleString() + '.pdf'
                     );
                 });
+                */
+                let a = document.createElement("a");
+                a.href = this.$store.state.PDFScreenInfo.file;
+                a.download = this
+                    .$store
+                    .state
+                    .PDFScreenInfo
+                    .PDFTitle
+                    .normalize('NFC'); //한글 분해현상 방지.
+                document
+                    .body
+                    .appendChild(a);
+                a.click();
+                a.remove();
             }
         }
     }
 </script>
 <style>
-    .WriteOverForm{
+    .WriteOverForm {
         align-items: center;
         display: inline-flex;
     }
-    .closeText{
+    .closeText {
         width: 150px;
         height: 30px;
     }

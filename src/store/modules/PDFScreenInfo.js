@@ -5,11 +5,24 @@ const state = {
     PDFPageInfo: 0,
     PDFFileUploadCheck: false,
     PDFWriteComplete: false,
-    OriginalWidth: []
+    OriginalWidth: [],
+    src: "",
+    file: "",
 };
 const mutations = {
+    SET_DOCUMENT_FILE(state, file){
+        console.log(file);
+        state.file = file;
+        console.log(state.file);
+    },
+    SET_DOCUMENT_SRC(state, src){
+        console.log(src);
+        state.src = src;
+        console.log(state.src);
+    },
     SET_DOCUMENT_TITLE(state, titleInfo){
         state.PDFTitle = titleInfo;
+        console.log(state.PDFTitle);
     },
     SHOW_EDIT_PAGE(state){
         state.PDFFileUploadCheck = true;
