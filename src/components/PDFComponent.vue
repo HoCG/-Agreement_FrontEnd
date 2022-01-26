@@ -352,7 +352,7 @@
         }
     }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .TitleAndItemsUl {
         border: 2px solid #767676;
     }
@@ -383,6 +383,7 @@
         &-container {
             padding: 25px;
             width: 100%;
+            min-width: 750px;
             height: 184px;
             margin: 0 auto;
             box-shadow: 0 0.625rem 1.25rem #0000001a;
@@ -394,7 +395,10 @@
             display: none;
         }
         &-div {
-            margin-left: 180px;
+            
+            display: flex;
+            justify-content: space-evenly;
+            min-width: 750px;
             margin-top: 30px;
         }
         &-text {
@@ -410,7 +414,7 @@
             height: 68px;
             float: left;
             /* Auto layout */
-            margin-left: 110px;
+            // margin-left: 110px;
             align-items: flex-start;
             padding: 10px;
             /* gray_03 */
@@ -446,7 +450,8 @@
     }
 
     #mainWrapper {
-        padding-right: 50px;
+        // padding-right: 50px;
+        min-width: 720px;
         margin-top: 20px;
         background-color: white;
         width: 100%;
@@ -465,6 +470,9 @@
         font-weight: bold;
         font-size: 16px;
         line-height: 23px;
+    }
+    #ulTable{
+        margin: 0 40px;
     }
     #ulTable > li:first-child > ul > li {
         font-weight: bold;
@@ -491,26 +499,26 @@
     }
 
     #ulTable > li > ul > li:first-child {
-        width: 12.5%;
+        width: 80px;
     }
     #ulTable > li > ul > li:first-child +li {
-        width: 45%;
+        width: calc(100% - 370px);
     }
     /*No 열 크기*/
     #ulTable > li > ul > li:first-child +li+li {
-        width: 12.5%;
+        width: 80px;
     }
     /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li {
-        width: 12.5%;
+        width: 80px;
     }
     /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 12.5%;
+        width: 80px;
     }
     /*작성자 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 5%;
+        width: 50px;
     }
     .left {
         text-align: left;

@@ -60,14 +60,15 @@
     }
     .container {
         align-items: center;
-        margin-left: 15%;
-        width: 85%;
+        margin-left: 280px;
+        width: calc(100% - 280px);
+        max-width: none;
         height: 100%;
         background-color: #F3F3F3;
     }
     .sideBar {
-        top: 20%;
-        width: 15%;
+        padding-top: 100px;
+        width: 280px;
         height: 100%;
         z-index: 4;
         position: fixed;
