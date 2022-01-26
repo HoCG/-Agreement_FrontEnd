@@ -1,47 +1,66 @@
 <template>
-    <div class="list-em">
-        <div class="list-em-status">
-            <document-state-show
-            class="list-em-status-button"
-            v-bind:StateInfo="document.State"
-            v-bind:WritersCountInfo="document.documentWritersCount"/>
-        </div>
-        <div class="list-em-title">
-            <button @click="goEditScreen(document)">
-                {{document.documentTitle}}
-            </button>
-        </div>
-        <div class="list-em-submittees">
-            {{document.documentWritersCount}}
-        </div>
-        <div class="list-em-sharing">
-            <document-state-action
-            class="list-em-sharing-button"
-            v-bind:DocumentInfo="document"/>
-        </div>
-        <div class="list-em-etc">
-            <button 
-            class="list-em-etc-button"
-            @click="showDocumentMenu(document, $event)">
-                <DotsBtn/>
-            </button>
-        </div>
-    </div>  
+    <div>
+        <div class="list-em">
+            <div class="list-em-status">
+                <document-state-show
+                class="list-em-status-button"
+                v-bind:StateInfo="document.State"
+                v-bind:WritersCountInfo="document.documentWritersCount"/>
+            </div>
+            <div class="list-em-title">
+                <button @click="goEditScreen(document)">
+                    {{document.documentTitle}}
+                </button>
+            </div>
+            <div class="list-em-submittees">
+                {{document.documentWritersCount}}
+            </div>
+            <div class="list-em-sharing">
+                <document-state-action
+                class="list-em-sharing-button"
+                v-bind:DocumentInfo="document"/>
+            </div>
+            <div class="list-em-etc">
+                <button 
+                class="list-em-etc-button"
+                @click="showDocumentMenu(document, $event)">
+                    <DotsBtn/>
+                </button>
+            </div>
+        </div>  
+        <document-menu
+            v-if="this.isMenuOn"
+            v-bind:menu-document="document"
+            @toggle="menuToggle"
+            id="DocumentMenu"/>
+    </div>
 </template>
 
 <script>
+import DocumentMenu from '../components_for_document/DocumentMenu.vue';
 import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
 import DocumentStateShow from '../components_for_document/DocumentStateShow.vue';
 import DotsBtn from '../svgs/DotsSVG.vue';
+
+
 export default {
-  components: { DocumentStateShow, DocumentStateAction, DotsBtn },
+    components: { DocumentStateShow, DocumentStateAction, DotsBtn, DocumentMenu },
     name: "ProjectListElementComponent",
+
+    data: () => {
+        return {
+            isMenuOn: false,
+        }
+    },
 
     props: [
         "document"
     ],
 
     methods:{
+        menuToggle(toggle) {
+            this.isMenuOn = toggle;
+        },
         goEditScreen(Document) {
             if (Document.State === 1) {
                 this
@@ -57,16 +76,18 @@ export default {
             }
         },
         showDocumentMenu(Document, event) {
-            let Menu = document.getElementById("DocumentMenu");
-            this.MenuDocument = Document;
-            Menu.style.display = "block";
-            Menu.style.left = event.pageX - Menu
-                .getBoundingClientRect()
-                .width / 2 + "px";
-            Menu.style.top = event.pageY - Menu
-                .getBoundingClientRect()
-                .height / 2 + "px";
-            console.log(this.MenuDocument);
+            if(this.isMenuOn == true)
+                this.isMenuOn = false;
+            else
+                this.isMenuOn = true;
+            // let Menu = document.getElementById("DocumentMenu");
+            // Menu.style.display = "block";
+            // Menu.style.left = event.pageX - Menu
+            //     .getBoundingClientRect()
+            //     .width / 20 + "px";
+            // Menu.style.top = event.pageY - Menu
+            //     .getBoundingClientRect()
+            //     .height / 2 + "px";
         },
     }
 

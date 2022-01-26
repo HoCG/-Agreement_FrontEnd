@@ -26,12 +26,20 @@
 </template>
 
 <script>
+import DocumentMenu from '../components_for_document/DocumentMenu.vue'
 import DocumentStateAction from '../components_for_document/DocumentStateAction.vue'
 import DocumentStateShow from '../components_for_document/DocumentStateShow.vue'
 import DotsSVG from '../svgs/DotsSVG.vue'
 import ProjectListElementComponent from './ProjectListElementComponent.vue'
 export default {
-    components: { DocumentStateAction, DocumentStateShow, DotsSVG, ProjectListElementComponent },
+
+    data: () => {
+        return {
+            menuDocument: {}
+        }
+    },
+
+    components: { DocumentStateAction, DocumentStateShow, DotsSVG, ProjectListElementComponent, DocumentMenu },
     
     props: [
         

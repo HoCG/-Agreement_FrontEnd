@@ -59,11 +59,12 @@
         background-color: #F3F3F3;
     }
     .UserSideBar {
-        padding-top: 100px;
+        // padding-top: 100px;
         width: 280px;
         height: 100%;
         z-index: 4;
         position: fixed;
         background-color: white;
+        border-right: 1px solid #9F9F9F;
     }
 </style>
