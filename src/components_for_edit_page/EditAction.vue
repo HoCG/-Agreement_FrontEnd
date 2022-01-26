@@ -24,9 +24,6 @@
             CloseEditPage() {
                 this
                     .$store
-                    .commit("CLOSE_EDIT_PAGE");
-                this
-                    .$store
                     .commit("FORMAT_ALL_CHECKBOX_OBJECTS");
                 this
                     .$store
@@ -37,6 +34,12 @@
                 this
                     .$store
                     .commit("FORMAT_ALL_SIGN_OBJECTS");
+                this
+                    .$router
+                    .push({
+                        path: '/UserPage',
+                    }
+                ).catch();
             },
             SaveAllData() {
                 this.makeCheckBoxForm();
@@ -56,9 +59,6 @@
                     });
                 this
                     .$store
-                    .commit("CLOSE_EDIT_PAGE");
-                this
-                    .$store
                     .commit("FORMAT_ALL_CHECKBOX_OBJECTS");
                 this
                     .$store
@@ -69,6 +69,11 @@
                 this
                     .$store
                     .commit("FORMAT_ALL_SIGN_OBJECTS");
+                 this
+                    .$router
+                    .push({
+                        path: '/UserPage',
+                    });
             },
             makeCheckBoxForm() {
                 let drawerDiv = document.getElementById("drawer");
