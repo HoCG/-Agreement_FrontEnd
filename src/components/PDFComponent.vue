@@ -51,9 +51,13 @@
                     @change="onFileChange"
                     multiple="multiple"/>
                 <div id="mainWrapper">
-                    <ul class="MainFrame">
-                        <li>
-                            <!--Table-->
+                    <project-list-component/>
+
+
+
+                    <!-- <ul class="MainFrame"> -->
+                        <!-- <li>
+                            Table
                             <ul id="ulTable">
                                 <li>
                                     <ul class="UlTitleSetting">
@@ -64,13 +68,13 @@
                                         <li>&nbsp;</li>
                                     </ul>
                                 </li>
-                                <!-- 게시물이 출력될 영역 -->
+                                게시물이 출력될 영역
                                 <li
                                     v-for="Document in this.$store.state.UsersDocument.DocumentArr"
                                     :key="Document.id">
                                     <ul class="ItemsUl">
                                         <li>
-                                            <!--문서의 상태값을 보여주는 컴포넌트-->
+                                            문서의 상태값을 보여주는 컴포넌트
                                             <DocumentStateShow
                                                 v-bind:StateInfo="Document.State"
                                                 v-bind:WritersCountInfo="Document.documentWritersCount"/>
@@ -82,12 +86,12 @@
                                         </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <!--문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트-->
+                                            문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트
                                             <DocumentStateAction v-bind:DocumentInfo="Document"/>
                                         </li>
                                         <li>
                                             <button @click="showDocumentMenu(Document, $event)">
-                                                <!--SVG-->
+                                                SVG
                                                 <DotsBtn/>
                                             </button>
                                         </li>
@@ -97,8 +101,8 @@
                                     <ul class="ItemsUl"></ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
+                        </li> -->
+                    <!-- </ul> -->
                     <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
                 </div>
             </div>
@@ -116,6 +120,7 @@
     import DotsBtn from '../svgs/DotsSVG.vue';
     import axios from "axios";
     import pdf from 'vue-pdf';
+import ProjectListComponent from './ProjectListComponent.vue';
     export default {
         mounted() {
             this
@@ -134,7 +139,8 @@
             DocumentForWriterList,
             DocumentStateAction,
             DotsBtn,
-            pdf
+            pdf,
+                ProjectListComponent
         },
         data() {
             return {
