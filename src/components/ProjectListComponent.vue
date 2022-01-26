@@ -11,44 +11,59 @@
                 제출 수
             </div>
             <div class="list-header-sharing">
-                <document-state-action v-bind:DocumentInfo="Document"/>
+                
             </div>
             <div class="list-header-etc">
                 
             </div>      
       </div>
-
-        <div class="list-em">
-            <div class="list-header-status">
-                공유 상태
-            </div>
-            <div class="list-header-title">
-                문서 제목
-            </div>
-            <div class="list-header-submittees">
-                제출 수
-            </div>
-            <div class="list-header-sharing">
-                공유중
-            </div>
-            <div class="list-header-etc">
-            기타
-            </div>
-        </div>  
+        <project-list-element-component
+        v-for="Document in this.$store.state.UsersDocument.DocumentArr"
+        :key="Document.id"
+        :document="Document"
+        />
   </div>
 </template>
 
 <script>
 import DocumentStateAction from '../components_for_document/DocumentStateAction.vue'
+import DocumentStateShow from '../components_for_document/DocumentStateShow.vue'
+import DotsSVG from '../svgs/DotsSVG.vue'
+import ProjectListElementComponent from './ProjectListElementComponent.vue'
 export default {
-  components: { DocumentStateAction },
-
+    components: { DocumentStateAction, DocumentStateShow, DotsSVG, ProjectListElementComponent },
+    
     props: [
-
+        
     ],
 
     methods: {
-
+        goEditScreen(Document) {
+            if (Document.State === 1) {
+                this
+                    .$router
+                    .push({
+                        //name: "EditPage로 가는 데이터",
+                        path: '/EditView',
+                        query: {
+                            getDocumentData: Document
+                        }
+                    }
+                ).catch();
+            }
+        },
+        showDocumentMenu(Document, event) {
+            let Menu = document.getElementById("DocumentMenu");
+            this.MenuDocument = Document;
+            Menu.style.display = "block";
+            Menu.style.left = event.pageX - Menu
+                .getBoundingClientRect()
+                .width / 2 + "px";
+            Menu.style.top = event.pageY - Menu
+                .getBoundingClientRect()
+                .height / 2 + "px";
+            console.log(this.MenuDocument);
+        },
     },
 
 
@@ -56,7 +71,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
     .list-wrapper{
         width: 80%;
@@ -74,33 +89,21 @@ export default {
         border-bottom: 2px solid #767676;
 
         &-status{
-            width: 84px;
+            min-width: 84px;
         }
         &-title{
-            width: 480px;
+            min-width: 200px;
             flex-grow: 1;
         }
         &-submittees{
-            width: 60px;
+            min-width: 60px;
         }
         &-sharing{
-            width: 120px;
+            min-width: 120px;
         }
         &-etc{
-            width: 43px;
+            min-width: 43px;
         }
-    }
-
-
-    .list-em{
-        display: flex;
-        font-size: 15px;
-        justify-content: space-between;
-        height: 44px;
-        line-height: 44px;
-
-        border-bottom: 1px solid #DADADA;
-
     }
 
 </style>

@@ -7,7 +7,8 @@
                 <DocumentUploadView />
                 <div id="mainWrapper">
 
-                    <project-list-component/>
+                    <project-list-component 
+                    />
 
                     <!-- <ul class="MainFrame">
                         <li>
@@ -100,6 +101,10 @@ import ProjectListComponent from './ProjectListComponent.vue';
                 MenuDocument: {},
                 OpenWritersDocument: false,
                 FirstDocumentCheck: true,
+                fileUploadCheck: false,
+                isDragged: "",
+                src: "",
+                numPages: undefined
             }
         },
         methods: {

@@ -95,14 +95,8 @@
                     .catch(() => {});
             },
             ShowWritersDocumentList(Document) {
-<<<<<<< HEAD
-                
-                let documentTitle = Document.documentTitle
-                let WritersList = document.getElementsByClassName(documentTitle);
-=======
                 let documentName = Document.name
                 let WritersList = document.getElementsByClassName(documentName);
->>>>>>> main
                 for (let WL of WritersList) {
                     WL.style.display = "block";
                 }
