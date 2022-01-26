@@ -32,24 +32,46 @@
                 let self = this;
                 html2canvas(document.getElementById("drawer")).then(function (canvas) {
                     // 캔버스를 이미지로 변환
+                    let drawerDiv = document.getElementById("drawer");
+                    let computed_drawerDiv_Style = window.getComputedStyle(drawerDiv);
                     let imgData = canvas.toDataURL('image/png');
-                    let imgWidth = 200; // 이미지 가로 길이(mm) A4 기준
-                    let pageHeight = imgWidth * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
-                    let imgHeight = canvas.height * imgWidth / canvas.width;
-                    let heightLeft = imgHeight;
-                    let doc = new jsPDF({'orientation': 'p', 'unit': 'mm', 'format': 'a4'});
+                    let MinData = 4000;
+                    let MinPage = 0;
+                    for(let j = 0; j < self.$store.state.PDFScreenInfo.OriginalWidth.length; j++){
+                        if(self.$store.state.PDFScreenInfo.OriginalWidth[j] < MinData){
+                            MinData = self.$store.state.PDFScreenInfo.OriginalWidth[j];
+                            MinPage = j + 1;
+                        }
+                    }
+                    let computed_Ratio = self.$store.state.PDFScreenInfo.OriginalWidth[MinPage - 1] / parseInt(computed_drawerDiv_Style.width, 10);
+                    let DefaultPage = document.getElementById('page'+MinPage);      
+                    let computed_DefaultPage_Style = window.getComputedStyle(DefaultPage); 
+                    let imgWidth = self.$store.state.PDFScreenInfo.OriginalWidth[MinPage - 1];
                     let position = 0;
-
-                    // 첫 페이지 출력
-                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-
-                    // 한 페이지 이상일 경우 루프 돌면서 출력
-                    while (heightLeft >= 20) {
-                        position = heightLeft - imgHeight;
-                        doc.addPage();
-                        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                        heightLeft -= pageHeight;
+                    let doc = new jsPDF('p', 'px', [parseInt(computed_DefaultPage_Style.height, 10) * computed_Ratio, imgWidth]);
+                    for(let i = 1; i <= self.$store.state.PDFScreenInfo.PDFPageInfo; i++){
+                        let currentPage = document.getElementById('page'+i);      
+                        let computed_Page_Style = window.getComputedStyle(currentPage);                 
+                        let pageHeight = parseInt(computed_Page_Style.height, 10) * computed_Ratio;
+                        if(self.$store.state.PDFScreenInfo.OriginalWidth[i - 1] < pageHeight * 1.41){
+                            if(i === 1){
+                                doc.addImage(imgData, 'PNG', 0, position, self.$store.state.PDFScreenInfo.OriginalWidth[i - 1], pageHeight);
+                            }
+                            else{
+                                doc.addImage(imgData, 'PNG', 0, position, self.$store.state.PDFScreenInfo.OriginalWidth[i - 1], pageHeight);
+                                doc.addPage();
+                            }
+                        }
+                        else{
+                            if(i === 1){
+                                doc.addImage(imgData, 'PNG', -90, position, self.$store.state.PDFScreenInfo.OriginalWidth[i - 1], pageHeight);
+                            }
+                            else{
+                                doc.addImage(imgData, 'PNG', -90, position, self.$store.state.PDFScreenInfo.OriginalWidth[i - 1], pageHeight);
+                                doc.addPage();
+                            }
+                        }
+                        position = position + pageHeight;
                     }
                     let today = new Date();
                     doc.save(

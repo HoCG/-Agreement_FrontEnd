@@ -25,6 +25,7 @@ const mutations = {
     },
     SAVE_ORIGINAL_WIDTH(state, WidthInfo){
         state.OriginalWidth.push(WidthInfo);
+        console.log(state.OriginalWidth);
     },
     FORMAT_ORIGINAL_WIDTH(state){
         state.OriginalWidth = [];
