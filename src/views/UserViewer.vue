@@ -59,6 +59,7 @@
         height: 100%;
     }
     .container {
+        padding: 0 40px;
         align-items: center;
         margin-left: 280px;
         width: calc(100% - 280px);

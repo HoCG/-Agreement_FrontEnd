@@ -45,7 +45,10 @@
                             <li>{{documentWriter.date}}</li>
                             <li>{{documentWriter.writer}}</li>
                             <li>
-                                <DownloadBtn @click="downloadPDF(documentWriter)"/>
+                                 <!-- svg 높이가 안맞아서 임시로 처리 -->
+                                <DownloadBtn 
+                                :style="{marginTop: '-10px'}"
+                                @click="downloadPDF(documentWriter)"/>
                             </li>
                             <li>
                                 <button @click="ShowWriterDocument(documentWriter)" class="WritersBtn">
@@ -92,6 +95,7 @@
                     .catch(() => {});
             },
             ShowWritersDocumentList(Document) {
+                
                 let documentTitle = Document.documentTitle
                 let WritersList = document.getElementsByClassName(documentTitle);
                 for (let WL of WritersList) {
@@ -125,6 +129,9 @@
 </script>
 <style scoped>
 
+    .MainFrame {
+        padding: 0 20px;
+    }
     #mainWrapper {
         min-width: 720px;
         margin-top: 20px;
@@ -147,7 +154,7 @@
         line-height: 23px;
     }
     #ulTable{
-        margin: 0 40px;
+        padding: 0;
     }
     #ulTable > li:first-child > ul > li {
         font-weight: bold;
@@ -174,7 +181,7 @@
     }
 
     #ulTable > li > ul > li:first-child {
-        width: calc(100% - 370px);
+        width: calc(100% - 430px);
     }
     #ulTable > li > ul > li:first-child +li {
         width: 80px;
@@ -189,11 +196,11 @@
     }
     /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 80px;
+        width: 120px;
     }
     /*작성자 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 50px;
+        width: 70px;
     }
 
     .closeBtn {
@@ -205,6 +212,7 @@
     }
     .WritersList > li {
         display: block;
+        height: 53px;
         background: #F3F3F3;
         box-sizing: border-box;
     }

@@ -383,13 +383,13 @@
         &-container {
             padding: 25px;
             width: 100%;
-            min-width: 750px;
+            min-width: 777px;
             height: 184px;
-            margin: 0 auto;
-            box-shadow: 0 0.625rem 1.25rem #0000001a;
+            margin: 60px auto 40px auto;
+            // box-shadow: 0 0.625rem 1.25rem #0000001a;
             background-color: white;
-            border: 3px dashed #4c384a;
-            border-radius: 20px;
+            border: 2px dashed #4c384a;
+            border-radius: 50px;
         }
         &-input {
             display: none;
@@ -451,7 +451,7 @@
 
     #mainWrapper {
         // padding-right: 50px;
-        min-width: 720px;
+        min-width: 777px;
         margin-top: 20px;
         background-color: white;
         width: 100%;
@@ -502,7 +502,7 @@
         width: 80px;
     }
     #ulTable > li > ul > li:first-child +li {
-        width: calc(100% - 370px);
+        width: calc(100% - 340px);
     }
     /*No 열 크기*/
     #ulTable > li > ul > li:first-child +li+li {
@@ -510,15 +510,15 @@
     }
     /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li {
-        width: 80px;
+        width: 60px;
     }
     /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 80px;
+        width: 120px;
     }
     /*작성자 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 50px;
+        width: 44px;
     }
     .left {
         text-align: left;
