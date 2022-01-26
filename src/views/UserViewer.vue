@@ -1,7 +1,7 @@
 <template>
     <v-card class="mainCard overflow-hidden">
-        <div class="sideBar">
-            <DocumentInfoSideBar class="ShowDocumentInfo"/>
+        <div class="UserSideBar">
+            <DocumentInfoSideBar/>
         </div>
         <PDFComponent2/><!--PDF업로드 및 유저 문서 리스트-->
     </v-card>
@@ -57,25 +57,12 @@
         height: 100%;
         background-color: #F3F3F3;
     }
-    .sideBar {
+    .UserSideBar {
         padding-top: 100px;
         width: 280px;
         height: 100%;
         z-index: 4;
         position: fixed;
         background-color: white;
-    }
-    .objectInfo {
-        position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        height: 10%;
-        background-color: #767676;
-        color: white;
-    }
-    .objectInfoText {
-        position: relative;
-        top: 50%;
     }
 </style>

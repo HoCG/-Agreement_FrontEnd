@@ -33,11 +33,11 @@
                                 <button
                                     class="closeBtn"
                                     v-bind:id="'closeBtn'+Document.documentTitle"
-                                    @click="CloseWritersDocumentList(Document.documentTitle)">close</button>
+                                    @click="CloseWritersDocumentList(Document)">close</button>
                             </li>
                         </ul>
                         <ul
-                            v-bind:class="'WritersList '+Document.documentTitle"
+                            v-bind:class="'WritersList '+Document.name"
                             v-for="documentWriter in Document.documentWriter"
                             :key="documentWriter.id">
                             <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
@@ -92,24 +92,25 @@
                     .catch(() => {});
             },
             ShowWritersDocumentList(Document) {
-                let documentTitle = Document.documentTitle
-                let WritersList = document.getElementsByClassName(documentTitle);
+                let documentName = Document.name
+                let WritersList = document.getElementsByClassName(documentName);
                 for (let WL of WritersList) {
                     WL.style.display = "block";
                 }
-                let getCloseBtn = document.getElementById('closeBtn' + documentTitle);
+                let getCloseBtn = document.getElementById('closeBtn' + documentName);
                 getCloseBtn.style.display = "inline";
-                let getOpenBtn = document.getElementById('openBtn' + documentTitle);
+                let getOpenBtn = document.getElementById('openBtn' + documentName);
                 getOpenBtn.style.display = "none";
             },
-            CloseWritersDocumentList(documentTitle) {
-                let WritersList = document.getElementsByClassName(documentTitle);
+            CloseWritersDocumentList(Document) {
+                let documentName = Document.name
+                let WritersList = document.getElementsByClassName(documentName);
                 for (let WL of WritersList) {
                     WL.style.display = "none";
                 }
-                let getCloseBtn = document.getElementById('closeBtn' + documentTitle);
+                let getCloseBtn = document.getElementById('closeBtn' + documentName);
                 getCloseBtn.style.display = "none";
-                let getOpenBtn = document.getElementById('openBtn' + documentTitle);
+                let getOpenBtn = document.getElementById('openBtn' + documentName);
                 getOpenBtn.style.display = "inline";
             },
             IsFirstDocument() {
