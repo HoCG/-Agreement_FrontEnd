@@ -1,6 +1,6 @@
 <template>
     <div>
-        <EditHeader class="EditHeader"/>
+        <EditHeader/>
         <!--네비게이션바 컴포넌트-->
         <div id="container" class="container">
             <!--편집화면으로 넘어갈때-->

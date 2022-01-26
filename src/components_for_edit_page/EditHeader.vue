@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="EditHeader">
         <div class="navigation">
             <button @click="makeObject(STextObjectName , $event)" class="objectBtnStyle">
                 <ShortTextSVG/>
@@ -128,7 +128,7 @@
     }
 </script>
 <style>
-    .UserHeader {
+    .EditHeader {
         width: 100%;
         height: 15%;
         position: fixed;
