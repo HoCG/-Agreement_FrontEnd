@@ -90,4 +90,66 @@
         }
     }
 </script>
-<style></style>
+<style lang="scss" scoped>
+
+.file-upload {
+        width: 70%;
+        height: 184px;
+        float: right;
+        border: transparent;
+        border-radius: 20px;
+        font-size: 10;
+        font-weight: 700;
+        cursor: pointer;
+        &.dragged {
+            border: 1px dashed powderblue;
+            opacity: 0.6;
+        }
+        &-container {
+            padding: 25px;
+            width: 100%;
+            min-width: 777px;
+            height: 184px;
+            margin: 60px auto 40px auto;
+            // box-shadow: 0 0.625rem 1.25rem #0000001a;
+            background-color: white;
+            border: 2px dashed #4c384a;
+            border-radius: 50px;
+        }
+        &-input {
+            display: none;
+        }
+        &-div {
+            
+            display: flex;
+            justify-content: space-evenly;
+            min-width: 750px;
+            margin-top: 30px;
+        }
+        &-text {
+            width: 420px;
+            float: left;
+        }
+        &-img {
+            float: left;
+        }
+        &-btn {
+            text-align: center;
+            width: 158px;
+            height: 68px;
+            float: left;
+            /* Auto layout */
+            // margin-left: 110px;
+            align-items: flex-start;
+            padding: 10px;
+            /* gray_03 */
+
+            background: #DADADA;
+            box-sizing: border-box;
+            border-radius: 24px;
+
+            /* Inside auto layout */
+            flex: none;
+        }
+    }
+</style>

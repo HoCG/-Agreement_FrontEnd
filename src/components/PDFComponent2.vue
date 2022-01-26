@@ -6,9 +6,12 @@
             <div v-if="this.$store.state.DocumentSideBarData.Show_UserDocumentList">
                 <DocumentUploadView />
                 <div id="mainWrapper">
-                    <ul class="MainFrame">
+
+                    <project-list-component/>
+
+                    <!-- <ul class="MainFrame">
                         <li>
-                            <!--Table-->
+                            Table
                             <ul id="ulTable">
                                 <li>
                                     <ul class="UlTitleSetting">
@@ -19,13 +22,13 @@
                                         <li>&nbsp;</li>
                                     </ul>
                                 </li>
-                                <!-- 게시물이 출력될 영역 -->
+                                게시물이 출력될 영역
                                 <li
                                     v-for="Document in this.$store.state.UsersDocument.DocumentArr"
                                     :key="Document.id">
                                     <ul class="ItemsUl">
                                         <li>
-                                            <!--문서의 상태값을 보여주는 컴포넌트-->
+                                            문서의 상태값을 보여주는 컴포넌트
                                             <DocumentStateShow
                                                 v-bind:StateInfo="Document.State"
                                                 v-bind:WritersCountInfo="Document.documentWritersCount"/>
@@ -37,12 +40,12 @@
                                         </li>
                                         <li>{{Document.documentWritersCount}}</li>
                                         <li>
-                                            <!--문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트-->
+                                            문서의 상태값에 따라 공유와 공유재개를 결정하게 도와주는 컴포넌트
                                             <DocumentStateAction v-bind:DocumentInfo="Document"/>
                                         </li>
                                         <li>
                                             <button @click="showDocumentMenu(Document, $event)">
-                                                <!--SVG-->
+                                                SVG
                                                 <DotsBtn/>
                                             </button>
                                         </li>
@@ -53,7 +56,7 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
+                    </ul> -->
                     <DocumentMenu v-bind:MenuDocument="this.MenuDocument" id="DocumentMenu"/>
                 </div>
             </div>
@@ -70,6 +73,7 @@
     import DocumentMenu from '../components_for_document/DocumentMenu.vue';
     import DotsBtn from '../svgs/DotsSVG.vue';
     import DocumentUploadView from '../components_for_document/DocumentUploadView.vue';
+import ProjectListComponent from './ProjectListComponent.vue';
     export default {
         mounted() {
             this
@@ -88,7 +92,8 @@
             DocumentForWriterList,
             DocumentStateAction,
             DotsBtn,
-            DocumentUploadView
+            DocumentUploadView,
+                ProjectListComponent
         },
         data() {
             return {
@@ -241,7 +246,7 @@
         }
     }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .TitleAndItemsUl {
         border: 2px solid #767676;
     }
@@ -272,18 +277,22 @@
         &-container {
             padding: 25px;
             width: 100%;
+            min-width: 777px;
             height: 184px;
-            margin: 0 auto;
-            box-shadow: 0 0.625rem 1.25rem #0000001a;
+            margin: 60px auto 40px auto;
+            // box-shadow: 0 0.625rem 1.25rem #0000001a;
             background-color: white;
-            border: 3px dashed #4c384a;
-            border-radius: 20px;
+            border: 2px dashed #4c384a;
+            border-radius: 50px;
         }
         &-input {
             display: none;
         }
         &-div {
-            margin-left: 180px;
+            
+            display: flex;
+            justify-content: space-evenly;
+            min-width: 750px;
             margin-top: 30px;
         }
         &-text {
@@ -299,7 +308,7 @@
             height: 68px;
             float: left;
             /* Auto layout */
-            margin-left: 110px;
+            // margin-left: 110px;
             align-items: flex-start;
             padding: 10px;
             /* gray_03 */
@@ -335,7 +344,8 @@
     }
 
     #mainWrapper {
-        padding-right: 50px;
+        // padding-right: 50px;
+        min-width: 777px;
         margin-top: 20px;
         background-color: white;
         width: 100%;
@@ -354,6 +364,9 @@
         font-weight: bold;
         font-size: 16px;
         line-height: 23px;
+    }
+    #ulTable{
+        margin: 0 40px;
     }
     #ulTable > li:first-child > ul > li {
         font-weight: bold;
@@ -380,26 +393,26 @@
     }
 
     #ulTable > li > ul > li:first-child {
-        width: 12.5%;
+        width: 80px;
     }
     #ulTable > li > ul > li:first-child +li {
-        width: 45%;
+        width: calc(100% - 340px);
     }
     /*No 열 크기*/
     #ulTable > li > ul > li:first-child +li+li {
-        width: 12.5%;
+        width: 80px;
     }
     /*제목 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li {
-        width: 12.5%;
+        width: 60px;
     }
     /*작성일 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 12.5%;
+        width: 120px;
     }
     /*작성자 열 크기*/
     #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 5%;
+        width: 44px;
     }
     .left {
         text-align: left;
