@@ -130,13 +130,13 @@
                     this
                         .$router
                         .push({
-                            name: "EditPage로 가는 데이터",
+                            //name: "EditPage로 가는 데이터",
                             path: '/EditView',
                             query: {
-                                getDocumentData: Document.name
+                                getDocumentData: Document
                             }
                         }
-                    );
+                    ).catch();
                 }
             },
             //서버에서 넘겨준 PDF의 원래 가로값을 가지고와서 전역으로 사용할 수 있도록 돕는 함수입니다.

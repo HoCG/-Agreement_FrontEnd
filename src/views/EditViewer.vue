@@ -7,12 +7,12 @@
             <div id="drawerScrollBox" class="pdfViewer">
                 <div id="drawer">
                     <pdf
-                        v-for="i in this.numPages"
+                        v-for="i in numPages"
                         :key="i"
                         :page="i"
                         style="width: 100%"
                         class="pdf-page-Setting"
-                        :src="this.src"
+                        :src="src"
                         v-bind:id="'page'+i"></pdf>
                 </div>
             </div>
@@ -34,7 +34,8 @@
         components: {
             ObjectBox,
             ObjectList,
-            EditHeader
+            EditHeader,
+            pdf
         },
         mounted() {
             console.log(this.$route.query.getDocumentData)
