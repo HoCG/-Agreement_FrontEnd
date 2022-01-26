@@ -36,17 +36,14 @@
                 // 현재 document.body의 html을 A4 크기에 맞춰 PDF로 변환
                 let self = this;
                 const dataURLtoFile = (dataurl, fileName) => {
-
                     let arr = dataurl.split(','),
                         mime = arr[0].match(/:(.*?);/)[1],
                         bstr = atob(arr[1]),
                         n = bstr.length,
                         u8arr = new Uint8Array(n);
-
                     while (n--) {
                         u8arr[n] = bstr.charCodeAt(n);
                     }
-
                     return new File([u8arr], fileName, {type: mime});
                 }
                 //Usage example:
@@ -54,7 +51,6 @@
                 let filesName = [];
                 let SignIMGArr = document.getElementsByClassName("SignIMG");
                 for(let SignIMG of SignIMGArr){
-                    console.log(SignIMG);
                     files.push(dataURLtoFile(SignIMG.src));
                     filesName.push(SignIMG.getAttribute("id"));
                 }

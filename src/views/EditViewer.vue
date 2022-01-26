@@ -18,22 +18,21 @@
             </div>
         </div>
         <div class="sideBar">
-            <ObjectList
-                class="ShowObjectInfo"/>
+            <EditObjectList/>
             <!--왼쪽 사이드바-->
         </div>
         <ObjectBox/><!--오브젝트 생성부분--></div>
 </template>
 <script>
     import EditHeader from "../components_for_edit_page/EditHeader.vue"
-    import ObjectList from "../components_for_edit_page/ObjectList.vue"
+    import EditObjectList from "../components_for_edit_page/EditObjectList.vue"
     import ObjectBox from "../objects/ObjectBox.vue"
     import axios from "axios";
     import pdf from 'vue-pdf';
     export default {
         components: {
             ObjectBox,
-            ObjectList,
+            EditObjectList,
             EditHeader,
             pdf
         },

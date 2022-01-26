@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ShowDocumentInfo">
         <v-img :src="this.$store.state.admin.currentUser.profileImage"></v-img>
         <button id="MyDocument" class="documentShowBtn" @click="MyDocumentClick">
             내 문서 리스트

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ShowObjectInfo">
         <div class="objectInfo">
             <h3 class="objectInfoText">오브젝트 리스트</h3>
         </div>
@@ -86,3 +86,29 @@
         }
     }
 </script>
+<style>
+    .ShowObjectInfo {
+        height: 100%;
+        overflow-y: scroll;
+    }
+    .sideBar {
+        width: 280px;
+        height: 100%;
+        z-index: 4;
+        position: fixed;
+        background-color: white;
+    }
+    .objectInfo {
+        position: relative;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        height: 10%;
+        background-color: #767676;
+        color: white;
+    }
+    .objectInfoText {
+        position: relative;
+        top: 45%;
+    }
+</style>
