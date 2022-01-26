@@ -65,10 +65,6 @@
         position: fixed;
         background-color: white;
     }
-    .ShowObjectInfo {
-        height: 80%;
-        overflow-y: scroll;
-    }
     .objectInfo {
         position: relative;
         align-items: center;

@@ -190,7 +190,6 @@
                     const src = await this.readFiles(files[0])
                     console.log(files[0])
                     console.log(src)
-                    this.fileUploadCheck = true;
                     this
                         .$store
                         .commit("SET_PDF_FILE_UPLOAD_CHECK_TRUE");

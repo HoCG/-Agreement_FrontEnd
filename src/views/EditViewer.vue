@@ -18,8 +18,7 @@
             </div>
         </div>
         <div class="sideBar">
-            <ObjectList
-                class="ShowObjectInfo"/>
+            <ObjectList/>
             <!--왼쪽 사이드바-->
         </div>
         <ObjectBox/><!--오브젝트 생성부분--></div>

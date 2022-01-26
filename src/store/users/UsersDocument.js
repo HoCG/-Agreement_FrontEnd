@@ -111,7 +111,9 @@ const actions = {
         try {
             const response = await postProject(getDocument);
             getDocument.id = response.data.idx;
+            getDocument.documentTitle = response.data.title;
             getDocument.name = response.data.name;
+            getDocument.State = response.data.state;
             context.commit("ADD_DOCUMENT", getDocument);
             return response;
         } catch (e) {
@@ -144,6 +146,7 @@ const makeDocument = (Document) => {
         id: Document.idx,
         documentTitle: Document.title,
         name: Document.name,
+        date: Document.reg_date,
         Link: "",
         src: "",
         documentWritersCount: Document.submittee_count,
@@ -168,6 +171,7 @@ function initDocument() {
         id: '',
         documentTitle: '',
         name: '',
+        date: '',
         Link: '',
         src: '',
         documentWritersCount: '',

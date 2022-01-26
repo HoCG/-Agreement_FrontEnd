@@ -95,10 +95,6 @@
                 MenuDocument: {},
                 OpenWritersDocument: false,
                 FirstDocumentCheck: true,
-                fileUploadCheck: false,
-                isDragged: "",
-                src: "",
-                numPages: undefined
             }
         },
         methods: {
