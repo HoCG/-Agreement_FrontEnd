@@ -82,7 +82,7 @@ export default {
 <style lang="scss" scoped>
 
     .list-wrapper{
-        width: 80%;
+        width: calc(100% - 80px);
         margin: 0 auto;
         padding: 30px 0;
     }

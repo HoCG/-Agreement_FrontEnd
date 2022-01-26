@@ -6,10 +6,7 @@
             <div v-if="this.$store.state.DocumentSideBarData.Show_UserDocumentList">
                 <DocumentUploadView />
                 <div id="mainWrapper">
-
-                    <project-list-component 
-                    />
-                    
+                    <project-list-component />
                 </div>
             </div>
             <div v-else>
@@ -297,75 +294,13 @@ import ProjectListComponent from './ProjectListComponent.vue';
 
     #mainWrapper {
         // padding-right: 50px;
-        min-width: 777px;
+        min-width: 1000px;
         margin-top: 20px;
         background-color: white;
         width: 100%;
         height: 1000px;
     }
-    #mainWrapper > ul > li:first-child {
-        text-align: center;
-        font-size: 14px;
-        height: 40px;
-        vertical-align: middle;
-        line-height: 30px;
-    }
-    .UlTitleSetting > li {
-        font-family: Noto Sans KR;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 23px;
-    }
-    #ulTable{
-        margin: 0 40px;
-    }
-    #ulTable > li:first-child > ul > li {
-        font-weight: bold;
-        text-align: center;
-    }
-    #ulTable > li > ul {
-        text-align: center;
-        clear: both;
-        position: relative;
-        min-width: 40px;
-    }
-    #ulTable > li > ul > li {
-        padding-top: 15px;
-        padding-bottom: 15px;
-        text-align: center;
-        font-family: Noto Sans KR;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 23px;
-        float: left;
-        font-size: 10pt;
-        vertical-align: baseline;
-    }
-
-    #ulTable > li > ul > li:first-child {
-        width: 80px;
-    }
-    #ulTable > li > ul > li:first-child +li {
-        width: calc(100% - 340px);
-    }
-    /*No 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li {
-        width: 80px;
-    }
-    /*제목 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li+li {
-        width: 60px;
-    }
-    /*작성일 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li+li+li {
-        width: 120px;
-    }
-    /*작성자 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li+li+li+li {
-        width: 44px;
-    }
+    
     .left {
         text-align: left;
     }

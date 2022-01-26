@@ -1,6 +1,7 @@
 <template>
     <div id="mainWrapper">
-        <ul class="MainFrame">
+        <writer-list-component/>
+        <!-- <ul class="MainFrame">
             <li>
                 <ul id="ulTable">
                     <li>
@@ -13,7 +14,7 @@
                             <li>&nbsp;</li>
                         </ul>
                     </li>
-                    <!-- 게시물이 출력될 영역 -->
+                    게시물이 출력될 영역
                     <li
                         class="MainLiSetting"
                         v-for="Document in this.$store.state.UsersDocument.DocumentArr"
@@ -45,7 +46,7 @@
                             <li>{{documentWriter.date}}</li>
                             <li>{{documentWriter.writer}}</li>
                             <li>
-                                 <!-- svg 높이가 안맞아서 임시로 처리 -->
+                                 svg 높이가 안맞아서 임시로 처리
                                 <DownloadBtn 
                                 :style="{marginTop: '-10px'}"
                                 @click="downloadPDF(documentWriter)"/>
@@ -62,12 +63,13 @@
                     </li>
                 </ul>
             </li>
-        </ul>
+        </ul> -->
     </div>
 </template>
 <script>
     import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
     import DownloadBtn from "../svgs/DownLoadBtn.vue"
+import WriterListComponent from './WriterListComponent.vue';
     export default {
         data() {
             return{
@@ -75,7 +77,8 @@
             }
         },
         components: {
-            DownloadBtn
+            DownloadBtn,
+                WriterListComponent
         },
         mounted(){
             for(let Document of this.$store.state.UsersDocument.DocumentArr){
@@ -133,7 +136,7 @@
         padding: 0 20px;
     }
     #mainWrapper {
-        min-width: 720px;
+        min-width: 1100px;
         margin-top: 20px;
         background-color: white;
         width: 100%;

@@ -98,7 +98,7 @@ export default {
 
     .list-em{
         display: flex;
-        font-size: 15px;
+        font-size: 14px;
         justify-content: space-between;
         height: 60px;
         line-height: 44px;
