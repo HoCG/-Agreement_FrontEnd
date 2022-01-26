@@ -28,11 +28,11 @@
                             </li>
                             <li>
                                 <button
-                                    v-bind:id="'openBtn'+Document.documentTitle"
+                                    v-bind:id="'openBtn'+Document.name"
                                     @click="ShowWritersDocumentList(Document)">open</button>
                                 <button
                                     class="closeBtn"
-                                    v-bind:id="'closeBtn'+Document.documentTitle"
+                                    v-bind:id="'closeBtn'+Document.name"
                                     @click="CloseWritersDocumentList(Document)">close</button>
                             </li>
                         </ul>
