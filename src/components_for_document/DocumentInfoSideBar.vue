@@ -1,8 +1,7 @@
 <template>
-    <div class="ShowDocumentInfo">
+    <div>
         <v-img :src="this.$store.state.admin.currentUser.profileImage"></v-img>
-        <div class="user-info"
-        >user</div>
+        <div class="user-info">user</div>
         <div class="document-show-btn my-document"
         :style="this.selectedId == 1 ? {backgroundColor: '#9F9F9F', color: '#F3F3F3' } : {backgroundColor: '#F3F3F3', color: '#767676'}"
         @click="MyDocumentClick">
@@ -46,7 +45,6 @@
     }
 </script>
 <style lang="scss" scoped>
-
     .document-show-btn {
         width: 100%;
         height: 50px;

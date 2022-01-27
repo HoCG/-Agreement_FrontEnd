@@ -8,7 +8,7 @@
         @click="downloadSubmitteePdf"
         >다운로드</div>
         <div class="submittee-em-etc"
-        @click="ShowWriterDocument" >
+            @click="ShowWriterDocument" >
             문서보기
         </div>
     </div>
@@ -38,7 +38,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.writer);
         const dateArr = this.writer.date.split("T");
         this.date = dateArr[0] + " " + dateArr[1];
     }
