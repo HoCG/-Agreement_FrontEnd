@@ -211,11 +211,14 @@
         box-sizing: border-box;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 5px;
+        margin-right: 20px;
     }
     .CloseEditPageButton {
         width: 82px;
         height: 48px;
         float: right;
-        color: #C4C4C4;
+        color: #9F9F9F;
+        margin-right: 20px;
+        font-weight: bold;
     }
 </style>

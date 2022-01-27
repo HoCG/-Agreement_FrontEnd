@@ -87,6 +87,9 @@ export default {
         }
         &-download{
             min-width: 120px;
+            &:hover{
+                cursor: pointer;
+            }
         }
         &-etc{
             min-width: 80px;

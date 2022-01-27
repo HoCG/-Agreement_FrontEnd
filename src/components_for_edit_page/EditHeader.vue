@@ -130,13 +130,13 @@
 <style>
     .EditHeader {
         width: 100%;
-        height: 15%;
+        height: 88px;
         position: fixed;
         background-color: white;
         z-index: 5;
         left: 0;
         right: 0;
-        top: 50px;
+        top: 64px;
     }
     .navigation {
         position: relative;

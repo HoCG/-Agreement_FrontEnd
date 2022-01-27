@@ -5,7 +5,7 @@
           <div class="list-em-count">{{project.documentWriter.length}}</div>
           <div class="list-em-date">-</div>
           <div class="list-em-name">-</div>
-          <div class="list-em-download">전체 다운로드</div>
+          <div class="list-em-download">-</div>
           <div class="list-em-etc">
             <arrow-button
             :toggle="toggleOn"
