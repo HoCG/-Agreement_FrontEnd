@@ -11,7 +11,8 @@
             </h3>     
             <input v-else v-model="this.$store.state.PDFScreenInfo.PDFTitle" class="appbarColor">       
             <v-spacer></v-spacer>
-            <button v-if="this.$store.state.admin.LoginMode" @click="Logout" class="appbarColor" id="LogoutBtn">로그아웃</button>
+            <button v-if="this.$router.history.current.path != '/'" @click="loginHandler" class="appbarColor" id="LogoutBtn">로그아웃</button>
+
             <WriteAppBarAction v-if="this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
         </v-app-bar>
         <v-main>
@@ -30,11 +31,15 @@
         data: () => ({
             //
         }),
+
+        mounted() {
+          
+        },
         methods:{
-            Logout(){
+            loginHandler(){
                 this
                     .$router
-                    .push({path: '/LoginPage'})
+                    .push({path: '/'})
                     .catch(() => {})
             }
         }
