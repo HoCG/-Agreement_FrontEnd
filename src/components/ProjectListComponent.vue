@@ -10,80 +10,67 @@
             <div class="list-header-submittees">
                 제출 수
             </div>
-            <div class="list-header-sharing">
-                
-            </div>
-            <div class="list-header-etc">
-                
-            </div>      
-      </div>
-        <project-list-element-component
-        v-for="Document in this.$store.state.UsersDocument.DocumentArr"
-        :key="Document.id"
-        :document="Document"
-        />
-  </div>
+            <div class="list-header-sharing"></div>
+            <div class="list-header-etc"></div>
+        </div>
+        <ProjectListElementComponent
+            v-for="Document in this.$store.state.UsersDocument.DocumentArr"
+            :key="Document.id"
+            :document="Document"/>
+    </div>
 </template>
 
 <script>
-import DocumentMenu from '../components_for_document/DocumentMenu.vue'
-import DocumentStateAction from '../components_for_document/DocumentStateAction.vue'
-import DocumentStateShow from '../components_for_document/DocumentStateShow.vue'
-import DotsSVG from '../svgs/DotsSVG.vue'
-import ProjectListElementComponent from './ProjectListElementComponent.vue'
-export default {
+    import ProjectListElementComponent from './ProjectListElementComponent.vue'
+    export default {
 
-    data: () => {
-        return {
-            menuDocument: {}
-        }
-    },
+        data: () => {
+            return {menuDocument: {}}
+        },
 
-    components: { DocumentStateAction, DocumentStateShow, DotsSVG, ProjectListElementComponent, DocumentMenu },
-    
-    props: [
-        
-    ],
-    methods: {
-        goEditScreen(Document) {
-            if (Document.State === 1) {
-                this
-                    .$router
-                    .push({
-                        //name: "EditPage로 가는 데이터",
-                        path: '/EditView',
-                        query: {
-                            getDocumentData: Document
-                        }
-                    }
-                ).catch();
+        components: {
+            ProjectListElementComponent
+        },
+
+        props: [],
+        methods: {
+            goEditScreen(Document) {
+                if (Document.State === 1) {
+                    this
+                        .$router
+                        .push({
+                            path: '/EditView',
+                            query: {
+                                getDocumentData: Document
+                            }
+                        })
+                        .catch();
+                }
+            },
+            showDocumentMenu(Document, event) {
+                let Menu = document.getElementById("DocumentMenu");
+                this.MenuDocument = Document;
+                Menu.style.display = "block";
+                Menu.style.left = event.pageX - Menu
+                    .getBoundingClientRect()
+                    .width / 2 + "px";
+                Menu.style.top = event.pageY - Menu
+                    .getBoundingClientRect()
+                    .height / 2 + "px";
             }
-        },
-        showDocumentMenu(Document, event) {
-            let Menu = document.getElementById("DocumentMenu");
-            this.MenuDocument = Document;
-            Menu.style.display = "block";
-            Menu.style.left = event.pageX - Menu
-                .getBoundingClientRect()
-                .width / 2 + "px";
-            Menu.style.top = event.pageY - Menu
-                .getBoundingClientRect()
-                .height / 2 + "px";
-            console.log(this.MenuDocument);
-        },
-    },
-}
+        }
+    }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped="scoped">
 
-    .list-wrapper{
+    .list-wrapper {
         width: calc(100% - 80px);
         margin: 0 auto;
         padding: 30px 0;
     }
 
-    .list-header{
+    .list-header {
         display: flex;
         font-size: 15px;
         font-weight: bold;
@@ -92,22 +79,21 @@ export default {
         height: 43px;
         border-bottom: 2px solid #767676;
 
-        &-status{
+        &-status {
             min-width: 84px;
         }
-        &-title{
+        &-title {
             min-width: 200px;
             flex-grow: 1;
         }
-        &-submittees{
+        &-submittees {
             min-width: 60px;
         }
-        &-sharing{
+        &-sharing {
             min-width: 120px;
         }
-        &-etc{
+        &-etc {
             min-width: 43px;
         }
     }
-
 </style>

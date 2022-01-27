@@ -2,10 +2,10 @@
     <div>
         <div class="list-em">
             <div class="list-em-status">
-                <document-state-show
-                class="list-em-status-button"
-                v-bind:StateInfo="document.State"
-                v-bind:WritersCountInfo="document.documentWritersCount"/>
+                <DocumentStateShow
+                    class="list-em-status-button"
+                    v-bind:StateInfo="document.State"
+                    v-bind:WritersCountInfo="document.documentWritersCount"/>
             </div>
             <div class="list-em-title">
                 <button @click="goEditScreen(document)">
@@ -16,7 +16,7 @@
                 {{document.documentWritersCount}}
             </div>
             <div class="list-em-sharing">
-                <document-state-action
+                <DocumentStateAction
                 class="list-em-sharing-button"
                 v-bind:DocumentInfo="document"/>
             </div>
@@ -28,7 +28,7 @@
                 </button>
             </div>
         </div>  
-        <document-menu
+        <DocumentMenu
             v-if="this.isMenuOn"
             v-bind:menu-document="document"
             @toggle="menuToggle"
@@ -75,7 +75,7 @@ export default {
                 ).catch();
             }
         },
-        showDocumentMenu(Document, event) {
+        showDocumentMenu() {
             if(this.isMenuOn == true)
                 this.isMenuOn = false;
             else

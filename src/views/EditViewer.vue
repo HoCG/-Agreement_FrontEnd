@@ -2,31 +2,15 @@
     <div class="mainCard">
         <EditHeader/>
         <!--네비게이션바 컴포넌트-->
-        <div id="container" class="container">
-            <!--편집화면으로 넘어갈때-->
-            <div id="drawerScrollBox" class="pdfViewer">
-                <div id="drawer">
-                    <pdf
-                        v-for="i in numPages"
-                        :key="i"
-                        :page="i"
-                        style="width: 100%"
-                        class="pdf-page-Setting"
-                        :src="src"
-                        v-bind:id="'page'+i"></pdf>
-                </div>
-            </div>
-        </div>
-        <div class="sideBar">
-            <EditObjectList/>
-            <!--왼쪽 사이드바-->
-        </div>
+        <PDFViewer v-bind:numPages="this.numPages" v-bind:src="this.src"/>
+        <EditObjectList/>
         <ObjectBox/><!--오브젝트 생성부분--></div>
 </template>
 <script>
     import EditHeader from "../components_for_edit_page/EditHeader.vue"
     import EditObjectList from "../components_for_edit_page/EditObjectList.vue"
     import ObjectBox from "../objects/ObjectBox.vue"
+    import PDFViewer from "../components/PDFViewer.vue"
     import axios from "axios";
     import pdf from 'vue-pdf';
     export default {
@@ -34,7 +18,7 @@
             ObjectBox,
             EditObjectList,
             EditHeader,
-            pdf
+            PDFViewer
         },
         mounted() {
             console.log(this.$route.query.getDocumentData)
@@ -46,7 +30,6 @@
                     self.src = pdf.createLoadingTask(
                         `${process.env.VUE_APP_BASEURL}` + String(response.data.pdf.url)
                     );
-                    console.log(self.src);
                     self.$store.state.UsersDocument.Document = self.$route.query.getDocumentData;
                     self
                         .src
@@ -172,29 +155,6 @@
         z-index: 4;
         position: fixed;
         background-color: white;
-    }
-    .container {
-        padding: 0 40px;
-        align-items: center;
-        margin-left: 280px;
-        width: calc(100% - 280px);
-        max-width: none;
-        height: 100%;
-        background-color: #F3F3F3;
-    }
-    .pdfViewer {
-        margin-top: 200px;
-        margin-left: 10%;
-        text-align: center;
-        height: 100%;
-        width: 80%;
-    }
-    #drawer {
-        position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        overflow: hidden;
     }
     .EditHeader {
         width: 100%;

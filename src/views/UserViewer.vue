@@ -1,18 +1,18 @@
 <template>
-    <v-card class="mainCard overflow-hidden">
-        <div class="UserSideBar">
+    <v-card class="user-main overflow-hidden">
+        <div class="user-side-bar">
             <DocumentInfoSideBar/>
         </div>
-        <PDFComponent2/><!--PDF업로드 및 유저 문서 리스트-->
+        <DocumentComponent/><!--PDF업로드 및 유저 문서 리스트-->
     </v-card>
 </template>
 <script>
-    import PDFComponent2 from '../components/PDFComponent2.vue';
+    import DocumentComponent from '../components/DocumentComponent.vue';
     import DocumentInfoSideBar from '../components_for_document/DocumentInfoSideBar.vue';
     export default {
         components: {
             DocumentInfoSideBar,
-            PDFComponent2,
+            DocumentComponent,
         },
         beforeDestroy() {
             this.$store.state.PDFScreenInfo.PDFTitle = "";
@@ -43,7 +43,7 @@
     ul {
         list-style: none;
     }
-    .mainCard {
+    .user-main {
         display: flex;
         align-items: center;
         position: relative;
@@ -58,7 +58,7 @@
         height: 100%;
         background-color: #F3F3F3;
     }
-    .UserSideBar {
+    .user-side-bar {
         // padding-top: 100px;
         width: 280px;
         height: 100%;

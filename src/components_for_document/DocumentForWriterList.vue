@@ -1,6 +1,6 @@
 <template>
     <div id="mainWrapper">
-        <writer-list-component/>
+        <WriterListComponent/>
         <!-- <ul class="MainFrame">
             <li>
                 <ul id="ulTable">
@@ -67,18 +67,10 @@
     </div>
 </template>
 <script>
-    import WritersDocumentListInfo from "../assets/WritersDocumentListInfo.json";
-    import DownloadBtn from "../svgs/DownLoadBtn.vue"
-import WriterListComponent from './WriterListComponent.vue';
+    import WriterListComponent from './WriterListComponent.vue';
     export default {
-        data() {
-            return{
-                WritersDocumentListInfo: WritersDocumentListInfo
-            }
-        },
         components: {
-            DownloadBtn,
-                WriterListComponent
+            WriterListComponent
         },
         mounted(){
             for(let Document of this.$store.state.UsersDocument.DocumentArr){
@@ -118,14 +110,6 @@ import WriterListComponent from './WriterListComponent.vue';
                 getCloseBtn.style.display = "none";
                 let getOpenBtn = document.getElementById('openBtn' + documentName);
                 getOpenBtn.style.display = "inline";
-            },
-            IsFirstDocument() {
-                if (this.FirstDocumentCheck) {
-                    this.FirstDocumentCheck = false;
-                    return true;
-                } else if (!this.FirstDocumentCheck) {
-                    return false;
-                }
             }
         }
     }

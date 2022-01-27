@@ -1,14 +1,14 @@
 <template >
-    <div class="Login-backGround">
-        <div class="Login-Row">
-            <input id="Login-InputID" placeholder="학번" type="text" v-model="writer.schoolID"/>
+    <div class="login-backGround">
+        <div class="login-Row">
+            <input id="login-InputID" placeholder="학번" type="text" v-model="writer.schoolID"/>
             <input
-                id="Login-InputPassword"
+                id="login-InputPassword"
                 placeholder="학생이름"
                 v-model="writer.name"
                 type="text"/>
-            <p class="Login-MessageForm">{{this.Message}}</p>
-            <button @click="goWritingPage" class="Login-Btn">작성시작</button>
+            <p class="login-MessageForm">{{this.Message}}</p>
+            <button @click="goWritingPage" class="login-Btn">작성시작</button>
         </div>
     </div>
 </template>
@@ -28,13 +28,18 @@
                 //정규식으로 유효성 검사 실시.
                 if (/^[0-9_-]{2,10}$/.test(this.writer.schoolID) && typeof(this.writer.name) === 'string') {
                     if (this.writer.schoolID.length <= 2 && this.writer.name.length <= 4) {
-                        
-                        this
-                            .$router
-                            .push({
-                                path: "/WriterPage/" + this.documentName,
-                                query: {}
-                            })
+                        if(this.writer.name.length <= 1){
+                            this.Message = "이름이 너무 짧습니다. 다시 입력해주세요."
+                        }
+                        else{
+                            this
+                                .$router
+                                .push({
+                                    path: "/WriterPage/" + this.documentName,
+                                    query: {}
+                                }
+                            );
+                        }
                     } else {
                         this.Message = "학번 또는 이름이 너무 깁니다. 다시 작성해주세요."
                     }
@@ -49,7 +54,7 @@
     };
 </script>
 <style>
-    .Login-MessageForm {
+    .login-MessageForm {
         position: static;
         width: 255px;
         height: 18px;
@@ -74,7 +79,7 @@
         flex-grow: 1;
         margin: 0 10px;
     }
-    .Login-Btn {
+    .login-Btn {
         /* Auto layout */
 
         display: flex;
@@ -108,13 +113,13 @@
         flex-grow: 0;
         margin: 20px 0;
     }
-    .Login-backGround {
+    .login-backGround {
         position: absolute;
         width: 100%;
         height: 100%;
         background: #F3F3F3;
     }
-    #Login-InputID {
+    #login-InputID {
         padding-top: 20px;
         display: flex;
         flex-direction: row;
@@ -132,7 +137,7 @@
         flex-grow: 0;
         margin: 5px 0;
     }
-    #Login-InputPassword {
+    #login-InputPassword {
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -148,7 +153,7 @@
         flex-grow: 0;
         margin: 5px 0;
     }
-    .Login-Row {
+    .login-Row {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -166,7 +171,7 @@
         color: white;
         border: 900;
     }
-    .LoginToolbar {
+    .loginToolbar {
         text-align: center !important;
     }
     .fontSetting {

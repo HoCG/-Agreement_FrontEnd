@@ -1,15 +1,15 @@
 <!--로그인 페이지-->
 <template >
-    <div class="backGroundInLogin">
-        <div class="LoginRow">
-            <input id="InputID" placeholder="ID" type="text" v-model="admin.id"/>
+    <div class="login-div">
+        <div class="login-row">
+            <input id="login-input-id" placeholder="ID" type="text" v-model="admin.id"/>
             <input
-                id="InputPassword"
+                id="login-input-password"
                 placeholder="비밀번호"
                 v-model="admin.password"
                 type="password"/>
-            <p class="MessageForm">{{this.Message}}</p>
-            <button @click="findAdmin" class="LoginBtn">로그인</button>
+            <p class="login-message-form">{{this.Message}}</p>
+            <button @click="findAdmin" class="login-btn">로그인</button>
             <Alert :dialog="true"/>
         </div>
     </div>
@@ -49,7 +49,7 @@
     };
 </script>
 <style>
-    .MessageForm {
+    .login-message-form {
         position: static;
         width: 255px;
         height: 18px;
@@ -74,7 +74,7 @@
         flex-grow: 1;
         margin: 0 10px;
     }
-    .LoginBtn {
+    .login-btn {
         /* Auto layout */
 
         display: flex;
@@ -108,13 +108,13 @@
         flex-grow: 0;
         margin: 20px 0;
     }
-    .backGroundInLogin {
+    .login-div {
         position: absolute;
         width: 100%;
         height: 100%;
         background: #F3F3F3;
     }
-    #InputID {
+    #login-input-id {
         padding-top: 20px;
         display: flex;
         flex-direction: row;
@@ -132,7 +132,7 @@
         flex-grow: 0;
         margin: 5px 0;
     }
-    #InputPassword {
+    #login-input-password {
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -148,7 +148,7 @@
         flex-grow: 0;
         margin: 5px 0;
     }
-    .LoginRow {
+    .login-row {
         display: flex;
         flex-direction: column;
         justify-content: center;

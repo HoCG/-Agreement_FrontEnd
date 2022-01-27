@@ -1,6 +1,6 @@
 <template>
     <div id="writer-pdf-container" class="writer-pdf-container">
-        <div id="drawerScrollBox" class="writer-pdf-viewer">
+        <div class="writer-pdf-viewer">
             <div id="writer-pdf-drawer">
                 <pdf v-for="i in this.$store.state.PDFScreenInfo.PDFPageInfo" :key="i" :page="i" :src="src" v-bind:id="'page'+i"></pdf>
             </div>
@@ -26,7 +26,8 @@
     }
 </script>
 <style>
-    .container {
+    .writer-pdf-container {
+        background-color: #F3F3F3;
         align-items: center;
         width: 100%;
         max-width: none;

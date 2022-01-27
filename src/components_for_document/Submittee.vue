@@ -22,17 +22,15 @@ export default {
     },
 
     props: ["writer", "project-title"],
-
     methods: {
         ShowWriterDocument(){
-                this.$store.commit("SET_CURRENT_WRITER", this.writer)
-                this
-                    .$router
-                    .push({path: '/WritersPDF'})
-                    .catch(() => {});
-            }
+            this.$store.commit("SET_CURRENT_WRITER", this.writer)
+            this
+                .$router
+                .push({path: '/WritersPDF'})
+                .catch(() => {});
+        }
     },
-
     mounted() {
         console.log(this.writer);
         const dateArr = this.writer.date.split("T");

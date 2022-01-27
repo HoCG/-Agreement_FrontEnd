@@ -2,13 +2,7 @@
     <v-card class="WritersArea overflow-hidden">
         <LookingWriterHeader/>
         <WriteList/>
-        <div id="container" class="container">
-            <div id="drawerScrollBox" class="pdfViewer">
-                <div id="drawer">
-                    <pdf v-for="i in numPages" :key="i" :page="i" :src="src" v-bind:id="'page'+i"></pdf>
-                </div>
-            </div>
-        </div>
+        <PDFViewer v-bind:numPages="this.numPages" v-bind:src="this.src"/>
     </v-card>
 </template>
 <script>
@@ -69,7 +63,6 @@
             });
         },
         components: {
-            pdf,
             WriteList,
             LookingWriterHeader
         },
@@ -179,20 +172,6 @@
     body {
         background-color: transparent;
     }
-    .pdfViewer {
-        margin-top: 200px;
-        text-align: center;
-        height: 100%;
-        width: 80%;
-    }
-    #drawer {
-        background-color: transparent;
-        position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        overflow: hidden;
-    }
     header {
         z-index: 3000 !important;
     }
@@ -204,18 +183,6 @@
         align-items: center;
         position: relative;
         height: 100%;
-    }
-    .pdfViewer {
-        z-index: 2;
-        width: 70%;
-        margin-left: 15%;
-    }
-    .container {
-        align-items: center;
-        margin-left: 15%;
-        width: 85%;
-        height: 100%;
-        background-color: #F3F3F3;
     }
     .sideBar {
         top: 20%;

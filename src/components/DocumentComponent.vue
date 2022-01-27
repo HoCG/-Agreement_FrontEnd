@@ -6,7 +6,7 @@
             <div v-if="this.$store.state.DocumentSideBarData.Show_UserDocumentList">
                 <DocumentUploadView />
                 <div id="mainWrapper">
-                    <project-list-component />
+                    <ProjectListComponent />
                 </div>
             </div>
             <div v-else>
@@ -42,23 +42,11 @@
             return {
                 MenuDocument: {},
                 OpenWritersDocument: false,
-                FirstDocumentCheck: true,
-                fileUploadCheck: false,
-                isDragged: "",
                 src: "",
                 numPages: undefined
             }
         },
         methods: {
-            //맨처음 입력된 문서인지 확인하는 함수.(문서들의 정렬을 이쁘게 하고자 있는 함수이며 큰 의미는 없습니다.)
-            IsFirstDocument() {
-                if (this.FirstDocumentCheck) {
-                    this.FirstDocumentCheck = false;
-                    return true;
-                } else if (!this.FirstDocumentCheck) {
-                    return false;
-                }
-            },
             //문서 오른쪽에 있는 ...버튼을 눌렀을때에 이벤트 처리를 돕는 함수.
             showDocumentMenu(Document, event) {
                 let Menu = document.getElementById("DocumentMenu");

@@ -21,7 +21,7 @@
                     
                 </div>      
             </div>
-            <writer-list-element-component
+            <WriterListElementComponent
             v-for="project in this.$store.state.UsersDocument.DocumentArr"
             :key="project.id"
             :project="project"

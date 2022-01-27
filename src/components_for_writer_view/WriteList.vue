@@ -113,4 +113,7 @@
         position: relative;
         top: 50%;
     }
+    ul {
+        list-style: none;
+    }
 </style>
