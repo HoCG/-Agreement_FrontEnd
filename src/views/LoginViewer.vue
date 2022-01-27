@@ -7,7 +7,7 @@
                 id="login-input-password"
                 placeholder="비밀번호"
                 v-model="admin.password"
-                type="password"/>
+                type="password" @keyup.enter="findAdmin"/>
             <p class="login-message-form">{{this.Message}}</p>
             <button @click="findAdmin" class="login-btn">로그인</button>
             <Alert :dialog="true"/>
@@ -19,11 +19,6 @@
     import Alert from "../components/AlertForm.vue";
     export default {
         mounted() {
-            /*
-            if (!this.$store.state.admin.AllUsersInfo.map(u => u.id).includes("hostid")) {
-                this.pushUserData();
-            }
-            */
         },
         components: {
             Alert
@@ -38,7 +33,9 @@
         },
         methods: {
             findAdmin() {
-               this.$store.dispatch('REQUEST_LOGIN', this.$store.state.admin.currentUser);
+                this
+                    .$store
+                    .dispatch('REQUEST_LOGIN', this.$store.state.admin.currentUser);
             },
             backStartPage() {
                 this

@@ -1,69 +1,6 @@
 <template>
     <div id="mainWrapper">
         <WriterListComponent/>
-        <!-- <ul class="MainFrame">
-            <li>
-                <ul id="ulTable">
-                    <li>
-                        <ul class="UlTitleSetting">
-                            <li>문서제목</li>
-                            <li>제출수</li>
-                            <li>제출일시</li>
-                            <li>제출자</li>
-                            <li>다운로드</li>
-                            <li>&nbsp;</li>
-                        </ul>
-                    </li>
-                    게시물이 출력될 영역
-                    <li
-                        class="MainLiSetting"
-                        v-for="Document in this.$store.state.UsersDocument.DocumentArr"
-                        :key="Document.id">
-                        <ul v-if="!IsFirstDocument(Document)" class="ItemsUl">
-                            <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                            <li>{{Document.documentWriter.length}}</li>
-                            <li>-</li>
-                            <li>-</li>
-                            <li>
-                                <button class="WritersAllDownLoadBtn">전체 다운로드</button>
-                            </li>
-                            <li>
-                                <button
-                                    v-bind:id="'openBtn'+Document.name"
-                                    @click="ShowWritersDocumentList(Document)">open</button>
-                                <button
-                                    class="closeBtn"
-                                    v-bind:id="'closeBtn'+Document.name"
-                                    @click="CloseWritersDocumentList(Document)">close</button>
-                            </li>
-                        </ul>
-                        <ul
-                            v-bind:class="'WritersList '+Document.name"
-                            v-for="documentWriter in Document.documentWriter"
-                            :key="documentWriter.id">
-                            <li class="WritersDocumentTitle">{{Document.documentTitle}}</li>
-                            <li>-</li>
-                            <li>{{documentWriter.date}}</li>
-                            <li>{{documentWriter.writer}}</li>
-                            <li>
-                                 svg 높이가 안맞아서 임시로 처리
-                                <DownloadBtn 
-                                :style="{marginTop: '-10px'}"
-                                @click="downloadPDF(documentWriter)"/>
-                            </li>
-                            <li>
-                                <button @click="ShowWriterDocument(documentWriter)" class="WritersBtn">
-                                    문서 보기
-                                </button>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul class="ItemsUl"></ul>
-                    </li>
-                </ul>
-            </li>
-        </ul> -->
     </div>
 </template>
 <script>
