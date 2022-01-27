@@ -14,6 +14,7 @@
     import axios from "axios";
     import ObjectBox from '../w_object/ObjectBox.vue';
     import WriteList from '../components_for_edit_page/EditObjectList.vue';
+    import PDFViewer from '../components/PDFViewer.vue'
     export default {
         mounted() {
             this
@@ -62,7 +63,8 @@
             SignDialog,
             ObjectBox,
             WriteList,
-            WriterHeader
+            WriterHeader,
+            PDFViewer
         },
         data() {
             return {
@@ -189,5 +191,13 @@
         align-items: center;
         position: relative;
         height: 100%;
+    }
+    .sideBar {
+        top: 20%;
+        width: 280px;
+        height: 100%;
+        z-index: 4;
+        position: fixed;
+        background-color: white;
     }
 </style>

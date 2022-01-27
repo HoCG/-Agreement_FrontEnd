@@ -1,7 +1,7 @@
 <template>
     <div class="WriterHeader">
         <div class="navigation">
-            <button @click="pdfPrint()">
+            <button class="SaveEditPageButton" @click="pdfPrint()">
                 <svg
                     width="92"
                     height="48"
@@ -65,6 +65,7 @@
     }
     .SaveEditPageButton {
         height: 48px;
+        float: right;        
         /* gray_05 */
     }
     .CloseEditPageButton {
@@ -79,14 +80,10 @@
         position: fixed;
         background-color: white;
         z-index: 10;
-        left: 0;
-        right: 0;
-        top: 50px;
     }
     .navigation {
         position: relative;
         text-align: center;
         top: 25%;
-        height: 60%;
     }
 </style>

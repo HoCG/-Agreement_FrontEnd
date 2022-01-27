@@ -109,7 +109,6 @@
             line-height: 60px;
             overflow: hidden;
             text-overflow: ellipsis;
-
         }
         &-submittees {
             min-width: 60px;

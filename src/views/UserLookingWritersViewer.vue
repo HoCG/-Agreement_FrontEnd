@@ -177,6 +177,22 @@
     header {
         z-index: 3000 !important;
     }
+    .WriterHeader {
+        width: 100%;
+        height: 15%;
+        position: fixed;
+        background-color: white;
+        z-index: 5;
+        left: 0;
+        right: 0;
+        top: 50px;
+    }
+    .navigation {
+        position: relative;
+        text-align: center;
+        top: 25%;
+        height: 60%;
+    }
     .WritersArea {
         display: flex;
         align-items: center;
