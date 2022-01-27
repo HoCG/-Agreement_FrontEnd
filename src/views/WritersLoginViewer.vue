@@ -26,7 +26,7 @@
         methods: {
             goWritingPage() {
                 //정규식으로 유효성 검사 실시.
-                if (/^[0-9_-]{2,10}$/.test(this.writer.schoolID) && typeof(this.writer.name) === 'string') {
+                if (/^[0-9_-]{1,10}$/.test(this.writer.schoolID) && typeof(this.writer.name) === 'string') {
                     if (this.writer.schoolID.length <= 8 && this.writer.name.length <= 4) {
                         if(this.writer.name.length <= 1){
                             this.Message = "이름이 너무 짧습니다. 다시 입력해주세요."
