@@ -27,6 +27,7 @@ export default {
     props: ["writer", "project-title"],
     methods: {
         ShowWriterDocument(){
+            console.log(this.writer);
             this.$store.commit("SET_CURRENT_WRITER", this.writer)
             this
                 .$router
