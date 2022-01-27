@@ -167,6 +167,11 @@
                         .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                 }
             }
+        },
+
+        beforeDestroy() {
+            this.$store.commit("removeCurrentWriter");
+            this.$store.commit("SET_DOCUMENT_TITLE", "");
         }
     }
 </script>
