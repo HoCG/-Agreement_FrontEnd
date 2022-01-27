@@ -4,7 +4,9 @@
         <div class="submittee-em-count">-</div>
         <div class="submittee-em-date">{{this.date}}</div>
         <div class="submittee-em-name">{{writer.writer}}</div>
-        <div class="submittee-em-download">다운로드</div>
+        <div class="submittee-em-download"
+        @click="downloadSubmitteePdf"
+        >다운로드</div>
         <div class="submittee-em-etc"
         @click="ShowWriterDocument" >
             문서보기
@@ -13,6 +15,7 @@
 </template>
 
 <script>
+import {requestProjectInfo} from "../apis/project_api";
 export default {
 
     data: () => {
@@ -29,6 +32,9 @@ export default {
                 .$router
                 .push({path: '/WritersPDF'})
                 .catch(() => {});
+        },
+        downloadSubmitteePdf(){
+            
         }
     },
     mounted() {
