@@ -66,6 +66,7 @@
 </script>
 <style>
     .ShowObjectInfo {
+        width: 100%;
         height: 100%;
         overflow-y: scroll;
     }
@@ -88,13 +89,5 @@
     .objectInfoText {
         position: relative;
         top: 45%;
-    }
-    .sideBar {
-        top: 20%;
-        width: 280px;
-        height: 100%;
-        z-index: 4;
-        position: fixed;
-        background-color: white;
     }
 </style>

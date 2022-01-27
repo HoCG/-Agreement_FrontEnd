@@ -162,21 +162,4 @@
         background: #FFFFFF;
         border-radius: 15px;
     }
-    .BtnTextSetting {
-        color: white;
-        border: 900;
-    }
-    .LoginToolbar {
-        text-align: center !important;
-    }
-    .fontSetting {
-        color: black;
-        border: 900;
-    }
-    .link {
-        width: 100% !important;
-        height: 100% !important;
-        color: white !important;
-        text-decoration: none !important;
-    }
 </style>

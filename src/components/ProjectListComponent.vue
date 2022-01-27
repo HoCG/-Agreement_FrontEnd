@@ -23,15 +23,12 @@
 <script>
     import ProjectListElementComponent from './ProjectListElementComponent.vue'
     export default {
-
         data: () => {
             return {menuDocument: {}}
         },
-
         components: {
             ProjectListElementComponent
         },
-
         props: [],
         methods: {
             goEditScreen(Document) {

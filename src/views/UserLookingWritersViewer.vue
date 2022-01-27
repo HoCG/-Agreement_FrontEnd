@@ -10,7 +10,13 @@
     import axios from "axios";
     import WriteList from '../components_for_writer_view/WriteList.vue';
     import LookingWriterHeader from '../components_for_looking_writer/LookingWriterHeader.vue';
+    import PDFViewer from "../components/PDFViewer.vue"
     export default {
+        components: {
+            WriteList,
+            LookingWriterHeader,
+            PDFViewer
+        },
         mounted() {
             this
                 .$store
@@ -61,10 +67,6 @@
                 .catch(function (error) {
                 console.log(error);
             });
-        },
-        components: {
-            WriteList,
-            LookingWriterHeader
         },
         computed: {
             writer(){
@@ -175,9 +177,6 @@
     header {
         z-index: 3000 !important;
     }
-    ul {
-        list-style: none;
-    }
     .WritersArea {
         display: flex;
         align-items: center;
@@ -191,22 +190,5 @@
         z-index: 4;
         position: fixed;
         background-color: white;
-    }
-    .ShowObjectInfo {
-        height: 80%;
-        overflow-y: scroll;
-    }
-    .objectInfo {
-        position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        height: 10%;
-        background-color: #767676;
-        color: white;
-    }
-    .objectInfoText {
-        position: relative;
-        top: 50%;
     }
 </style>

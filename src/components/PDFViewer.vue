@@ -21,7 +21,10 @@
             pdf
         },
         props: {
-            src: String,
+            src: {
+               type: String,
+               default: () => (""),
+           },
             numPages: Number
         }
     }

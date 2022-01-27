@@ -12,7 +12,7 @@
             <input v-else v-model="this.$store.state.PDFScreenInfo.PDFTitle" class="appbarColor">       
             <v-spacer></v-spacer>
             <button v-if="this.$store.state.admin.LoginMode" @click="Logout" class="appbarColor" id="LogoutBtn">로그아웃</button>
-            <WriteAction v-if="this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
+            <WriteAppBarAction v-if="this.$store.state.PDFScreenInfo.PDFWriteComplete"/>
         </v-app-bar>
         <v-main>
             <router-view/>
@@ -21,11 +21,11 @@
 </template>
 
 <script>
-    import WriteAction from './components_for_writer_view/WriteAction'
-export default {
+    import WriteAppBarAction from './components_for_writer_view/WriteAppBarAction'
+    export default {
         name: 'App',
         components: {
-            WriteAction
+            WriteAppBarAction
         },
         data: () => ({
             //

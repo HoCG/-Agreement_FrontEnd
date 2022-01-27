@@ -17,17 +17,15 @@
             </div>
             <div class="list-em-sharing">
                 <DocumentStateAction
-                class="list-em-sharing-button"
-                v-bind:DocumentInfo="document"/>
+                    class="list-em-sharing-button"
+                    v-bind:DocumentInfo="document"/>
             </div>
             <div class="list-em-etc">
-                <button 
-                class="list-em-etc-button"
-                @click="showDocumentMenu(document, $event)">
+                <button class="list-em-etc-button" @click="showDocumentMenu(document, $event)">
                     <DotsBtn/>
                 </button>
             </div>
-        </div>  
+        </div>
         <DocumentMenu
             v-if="this.isMenuOn"
             v-bind:menu-document="document"
@@ -37,66 +35,59 @@
 </template>
 
 <script>
-import DocumentMenu from '../components_for_document/DocumentMenu.vue';
-import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
-import DocumentStateShow from '../components_for_document/DocumentStateShow.vue';
-import DotsBtn from '../svgs/DotsSVG.vue';
+    import DocumentMenu from '../components_for_document/DocumentMenu.vue';
+    import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
+    import DocumentStateShow from '../components_for_document/DocumentStateShow.vue';
+    import DotsBtn from '../svgs/DotsSVG.vue';
 
-
-export default {
-    components: { DocumentStateShow, DocumentStateAction, DotsBtn, DocumentMenu },
-    name: "ProjectListElementComponent",
-
-    data: () => {
-        return {
-            isMenuOn: false,
-        }
-    },
-
-    props: [
-        "document"
-    ],
-
-    methods:{
-        menuToggle(toggle) {
-            this.isMenuOn = toggle;
+    export default {
+        components: {
+            DocumentStateShow,
+            DocumentStateAction,
+            DotsBtn,
+            DocumentMenu
         },
-        goEditScreen(Document) {
-            if (Document.State === 1) {
-                this
-                    .$router
-                    .push({
-                        //name: "EditPage로 가는 데이터",
-                        path: '/EditView',
-                        query: {
-                            getDocumentData: Document
-                        }
-                    }
-                ).catch();
+        name: "ProjectListElementComponent",
+        data: () => {
+            return {isMenuOn: false}
+        },
+        props: ["document"],
+        methods: {
+            menuToggle(toggle) {
+                this.isMenuOn = toggle;
+            },
+            goEditScreen(Document) {
+                if (Document.State === 1) {
+                    this
+                        .$router
+                        .push({
+                            //name: "EditPage로 가는 데이터",
+                            path: '/EditView',
+                            query: {
+                                getDocumentData: Document
+                            }
+                        })
+                        .catch();
+                }
+            },
+            showDocumentMenu() {
+                if (this.isMenuOn == true) 
+                    this.isMenuOn = false;
+                else 
+                    this.isMenuOn = true;
+                    // let Menu = document.getElementById("DocumentMenu"); Menu.style.display =
+                    // "block"; Menu.style.left = event.pageX - Menu     .getBoundingClientRect()
+                    // .width / 20 + "px"; Menu.style.top = event.pageY - Menu
+                    // .getBoundingClientRect()     .height / 2 + "px";
+                }
             }
-        },
-        showDocumentMenu() {
-            if(this.isMenuOn == true)
-                this.isMenuOn = false;
-            else
-                this.isMenuOn = true;
-            // let Menu = document.getElementById("DocumentMenu");
-            // Menu.style.display = "block";
-            // Menu.style.left = event.pageX - Menu
-            //     .getBoundingClientRect()
-            //     .width / 20 + "px";
-            // Menu.style.top = event.pageY - Menu
-            //     .getBoundingClientRect()
-            //     .height / 2 + "px";
-        },
-    }
 
-}
+    }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped="scoped">
 
-    .list-em{
+    .list-em {
         display: flex;
         font-size: 14px;
         justify-content: space-between;
@@ -104,14 +95,14 @@ export default {
         line-height: 44px;
         border-bottom: 1px solid #DADADA;
 
-        &-status{
+        &-status {
             min-width: 84px;
-            
-            &-button{
-                margin-top: 18px;//요소 가운데정렬 다른방법 찾아야함
+
+            &-button {
+                margin-top: 18px; //요소 가운데정렬 다른방법 찾아야함
             }
         }
-        &-title{
+        &-title {
             flex-grow: 1;
             min-width: 200px;
             white-space: nowrap;
@@ -120,18 +111,18 @@ export default {
             text-overflow: ellipsis;
 
         }
-        &-submittees{
+        &-submittees {
             min-width: 60px;
             line-height: 60px;
         }
-        &-sharing{
+        &-sharing {
             min-width: 120px;
 
             &-button {
                 margin-top: 15px; //요소 가운데정렬 다른방법 찾아야함
             }
         }
-        &-etc{
+        &-etc {
             min-width: 43px;
 
             &-button {
@@ -139,5 +130,4 @@ export default {
             }
         }
     }
-
 </style>

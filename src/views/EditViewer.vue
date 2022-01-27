@@ -146,7 +146,6 @@
         display: flex;
         align-items: center;
         position: relative;
-        height: 100%;
     }
     .sideBar {
         top: 20%;
