@@ -96,6 +96,7 @@
                 document.addEventListener('mousemove', this.mouseMoveHandler);
                 document.addEventListener('mouseout', this.mouseMoveHandler);
                 document.addEventListener('mouseup', this.mouseUpHandler);
+
                 e.stopPropagation();
             },
             mouseMoveHandler(e) {

@@ -54,8 +54,15 @@
             LongTextSVG,
             EditAction,
         },
+        mounted() {
+            this.$store.commit("leaveObject");
+        }
+        ,
         methods: {
             makeObject(objectID, event) {
+                if(this.$store.state.object.isObjectHangOnMouse) return;
+
+                this.$store.commit("takeObject");
                 //forTest
                 for (let i = 1; i <= this.$store.state.PDFScreenInfo.PDFPageInfo; i++) {
                     const PDF_Pages = document.getElementById("page" + String(i));
@@ -85,6 +92,9 @@
                         .$store
                         .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
                     console.log(this.$store.state.ShortTextObject.ShortTextArr)
+
+
+
                     this.STextObjectID++;
                 } else if (objectID === "LongTextObjectArea") {
                     this.$store.state.LongTextObject.LongText.htmlID = objectID;
