@@ -62,6 +62,8 @@
         // padding-top: 100px;
         width: 280px;
         height: 100%;
+        top: 0;
+        margin-top: 60px;
         z-index: 4;
         position: fixed;
         background-color: white;
