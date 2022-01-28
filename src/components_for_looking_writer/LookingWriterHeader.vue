@@ -1,7 +1,7 @@
 <template>
     <div class="WriterHeader">
         <div class="navigation">
-            <button class="CloseEditPageButton" @click="pdfPrint()">
+            <button class="CloseEditPageButton" @click="pdfPrint">
                 다운로드
             </button>
             <button class="CloseEditPageButton" @click="backPage">

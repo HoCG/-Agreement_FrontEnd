@@ -58,10 +58,11 @@ function initWriter() {
 }
 
 const makeDocument = (Document) => {
+  console.log(Document);
   return {
     writer: Document.writer,
     name: Document.name,
-    StudentID: Document.id,
+    StudentID: Document.student_id,
     Date: Document.date,
   };
 };
