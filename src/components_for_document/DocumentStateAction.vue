@@ -45,8 +45,8 @@
         },
         data() {
             return {
-                IP: process.env.VUE_APP_NETWORK_URL,
-                testIP: "http://192.168.0.26:8080"
+                // IP: process.env.VUE_APP_NETWORK_URL,
+                testIP: process.env.VUE_APP_NETWORK_URL
             }
         },
         props: {
