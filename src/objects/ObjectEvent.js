@@ -29,6 +29,7 @@ export default {
   append_Into_PDFPage_For_First(getElement, currentX, currentY) {
     let appendY1 = 0;
     let appendY2 = 0;
+    store.commit("leaveObject");
     console.log(currentX, currentY);
     let drawerDiv = document.getElementById("drawer");
     let computed_Div_Style = window.getComputedStyle(drawerDiv);
@@ -126,7 +127,6 @@ export default {
   },
   //아래부터는 메인 이벤트 모음입니다. 먼저 !초기! 클릭시에 오브젝트 생성.
   makingFirstClickObject(objectID, getData) {
-    store.commit("leaveObject");
     let getElement = document.getElementById(objectID);
     getElement.style.display = "flex";
     //getElement
