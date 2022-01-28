@@ -87,31 +87,27 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .sideBar {
-        top: 20%;
-        width: 15%;
+        width: 280px;
         height: 100%;
         z-index: 4;
         position: fixed;
+        top: 150px;
         background-color: white;
-    }
-    .ShowObjectInfo {
-        height: 80%;
-        overflow-y: scroll;
     }
     .objectInfo {
         position: relative;
         align-items: center;
         text-align: center;
         justify-content: center;
-        height: 10%;
+        height: 88px;
         background-color: #767676;
         color: white;
     }
     .objectInfoText {
         position: relative;
-        top: 50%;
+        line-height: 88px;
     }
     ul {
         list-style: none;
