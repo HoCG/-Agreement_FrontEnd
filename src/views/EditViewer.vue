@@ -21,6 +21,7 @@
             PDFViewer
         },
         mounted() {
+            this.$store.commit("SET_DOCUMENT_TITLE", this.$route.query.getDocumentData.documentTitle);
             console.log(this.$route.query.getDocumentData)
             let self = this;
             axios
@@ -173,6 +174,9 @@
                         .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                 }
             }
+        },
+        beforeDestroy() {
+            this.$store.commit("SET_DOCUMENT_TITLE", "");
         }
     }
 </script>
