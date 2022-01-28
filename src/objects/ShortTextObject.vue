@@ -146,13 +146,14 @@
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
     .ShortTextObjectArea {
         align-items: center;
-        box-shadow: 5px 5px 5px;
+        border: 1px solid black;
+        /* box-shadow: 5px 5px 5px; */
         font-weight: 800;
         display: none;
         font-size: large;
         text-align: center;
         justify-content: center;
-        border-radius: 8px;
+        border-radius: 2px;
         background-color: #DADADA;
         position: absolute;
         width: 100px;
@@ -162,7 +163,10 @@
         z-index: 10;
         width: 100%;
         height: 25px;
-        bottom: 100%;
+        top: -19px;
+        color: #9F9F9F;
+        font-size: 12px;
+        /* bottom: 100%; */
         position: absolute;
         -ms-user-select: none;
         -moz-user-select: -moz-none;
