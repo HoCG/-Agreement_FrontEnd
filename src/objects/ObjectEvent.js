@@ -1,10 +1,13 @@
-import store from '../store/store';
+import store from "../store/store";
 
 export default {
     myFunction(getData) {
-        let drawerDiv = document.getElementById("drawer"); 
+        let drawerDiv = document.getElementById("drawer");
         let computed_Div_Style = window.getComputedStyle(drawerDiv);
-        let computed_Ratio = parseInt(computed_Div_Style.width, 10) / store.state.PDFScreenInfo.OriginalWidth[0];
+        let computed_Ratio = parseInt(computed_Div_Style.width, 10) / store
+            .state
+            .PDFScreenInfo
+            .OriginalWidth[0];
         const ThisWindow = document.getElementById("drawer");
         const NewElementDiv = document.getElementById(getData.htmlID);
         //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
@@ -28,9 +31,12 @@ export default {
         let appendY1 = 0;
         let appendY2 = 0;
         console.log(currentX, currentY);
-        let drawerDiv = document.getElementById("drawer"); 
+        let drawerDiv = document.getElementById("drawer");
         let computed_Div_Style = window.getComputedStyle(drawerDiv);
-        let computed_Ratio =  store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
+        let computed_Ratio = store
+            .state
+            .PDFScreenInfo
+            .OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
         for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
@@ -55,9 +61,10 @@ export default {
     // PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 오브젝트를 읽어서 배치하는 과정에서만 적용됩니다.
     // 여기에서 page값을 저장할수 있도록 하는 로직을 추가해야합니다.
     append_Into_PDFPage_For_ReadingObject(getData) {
-        //let drawerDiv = document.getElementById("drawer"); 
-        //let computed_Object_Style = window.getComputedStyle(drawerDiv);
-        //let computed_Ratio = parseInt(computed_Object_Style.width, 10) / store.state.PDFScreenInfo.OriginalWidth[0];
+        // let drawerDiv = document.getElementById("drawer"); let computed_Object_Style
+        // = window.getComputedStyle(drawerDiv); let computed_Ratio =
+        // parseInt(computed_Object_Style.width, 10) /
+        // store.state.PDFScreenInfo.OriginalWidth[0];
         let getElement = document.getElementById(getData.htmlID);
         getElement.style.display = "flex";
         for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
@@ -71,15 +78,20 @@ export default {
             }
         }
     },
-    //페이지에 들어간 오브젝트의 정보를 업데이트 해주는 함수입니다.
-    //오브젝트의 x, y, 페이지값을 업데이트 합니다. 
+    //페이지에 들어간 오브젝트의 정보를 업데이트 해주는 함수입니다. 오브젝트의 x, y, 페이지값을 업데이트 합니다.
     CommitUpdateData(getElement, y, i) {
-        let drawerDiv = document.getElementById("drawer"); 
+        let drawerDiv = document.getElementById("drawer");
         let computed_Div_Style = window.getComputedStyle(drawerDiv);
-        let computed_Ratio = store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
+        let computed_Ratio = store
+            .state
+            .PDFScreenInfo
+            .OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
         let computed_Object_Style = window.getComputedStyle(getElement);
         if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
-            store.commit("SET_SHORTTEXT_X", parseInt(computed_Object_Style.left, 10) * computed_Ratio);
+            store.commit(
+                "SET_SHORTTEXT_X",
+                parseInt(computed_Object_Style.left, 10) * computed_Ratio
+            );
             store.commit("SET_SHORTTEXT_Y", parseInt(y));
             store.commit("SET_SHORTTEXT_PAGE", parseInt(i));
             store.commit(
@@ -114,6 +126,7 @@ export default {
     },
     //아래부터는 메인 이벤트 모음입니다. 먼저 !초기! 클릭시에 오브젝트 생성.
     makingFirstClickObject(objectID, getData) {
+        store.commit("leaveObject");
         let getElement = document.getElementById(objectID);
         getElement.style.display = "flex";
         //getElement
@@ -128,7 +141,6 @@ export default {
         const headerWindow = document.getElementsByTagName("header")[0];
         let computedContainerStyle = window.getComputedStyle(containerWindow);
         let computedheaderStyle = window.getComputedStyle(headerWindow);
-        let self = this;
         //이동을 원하는 값을 배치해주는 메소드.
         function moveAt(currentX, currentY) {
             getElement.style.left = currentX - getElement
@@ -163,18 +175,8 @@ export default {
         window.addEventListener('mousemove', onMouseMove);
         getElement.addEventListener('mouseout', onMouseMove);
         window.addEventListener('scroll', onMouseMove);
-
-        //클릭할시에 오브젝트가 PDF문서 페이지영역에 배치가 되도록 하며, 이벤트를 제거해줍니다.
-        getElement.addEventListener('click', function () {
-            self.append_Into_PDFPage_For_First(getElement, currentX, currentY);
-            window.removeEventListener('mousemove', onMouseMove);
-            getElement.removeEventListener('mouseout', onMouseMove);
-            window.removeEventListener('scroll', onMouseMove);
-            getElement.style.zIndex = 4;
-            // 오브젝트를 해당위치에 PDFPage에 둔다. 드래그 이벤트를 준다.
-            self.makingDragEvent(getElement, getData);
-        });
     },
+    // PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 오브젝트를 읽어서 배치하는 과정에서만 적용됩니다.
     //오브젝트 배치이후 드래그시에 활성화되는 이벤트.
     makingDragEvent(getElement, getData) {
         let self = this;
@@ -185,7 +187,7 @@ export default {
         let computedheaderStyle = window.getComputedStyle(headerWindow);
         let computedElementStyle = window.getComputedStyle(getElement);
         let MouseDownCheck = false;
-        getElement.style.position = 'absolute';
+        getElement.style.position = "absolute";
         getElement.style.zIndex = 4;
         //이벤트 등록.
         getElement.addEventListener("mousedown", MouseDownEvent, false);
@@ -239,7 +241,7 @@ export default {
         //이쪽을 건드는 방안은...?그래야 이벤트가 자연스럽게 진행될거같은데????
         getElement.ondragstart = function () {
             return false;
-        }
+        };
         function MouseMoveEvent(event) {
             if (MouseDownCheck) {
                 onMouseMove(event);
@@ -247,20 +249,20 @@ export default {
             }
         }
         //모든 이벤트를 해제하고 페이지에 pdf를 append
-        getElement.addEventListener('mouseup', function () {
+        getElement.addEventListener("mouseup", function () {
             MouseDownCheck = false;
             self.append_Into_PDFPage_For_First(getElement, currentX, currentY);
             getElement.removeEventListener("mouseout", MouseOutEvent);
             window.removeEventListener("scroll", ScrollEvent);
             window.removeEventListener("mousemove", MouseMoveEvent);
-        })
+        });
         function moveAt(currentX, currentY) {
             getElement.style.left = currentX - getElement
                 .getBoundingClientRect()
-                .width / 2 + 'px';
+                .width / 2 + "px";
             getElement.style.top = currentY - getElement
                 .getBoundingClientRect()
-                .height / 2 + 'px';
+                .height / 2 + "px";
         }
         function onMouseMove(event) {
             if (!store.state.UsersDocument.CheckResizeMode) {
@@ -283,4 +285,4 @@ export default {
             }
         }
     }
-}
+};
