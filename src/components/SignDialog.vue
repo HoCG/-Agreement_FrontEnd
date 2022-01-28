@@ -156,9 +156,6 @@
                 };
             },
             InitEvent(canvas) {
-                // 이표현말고 아래 setAtt canvas.style.width =
-                // parseInt(this.$store.state.DialogData.ImageWidth) + "px"; canvas.style.height
-                // = parseInt(this.$store.state.DialogData.ImageHeight) + "px";
                 let makedWidth = 0;
                 let makedHeight = 0;
                 while(makedWidth < 300){
@@ -226,13 +223,6 @@
                 let myImage = document.getElementById(String(ImageID));
                 myImage.remove();
                 this.onClear();
-                /* 캔버스가 비어있나 확인하는 로직
-                if(this.isCanvasBlank(canvas)){
-                    let ImageID = this.$store.state.DialogData.ImageID;
-                    let myImage = document.getElementById(String(ImageID));
-                    myImage.remove();
-                }
-                */
             },
             isCanvasBlank(canvas) {
                 return !canvas

@@ -39,6 +39,7 @@
                     self.$store.commit("SET_DOCUMENT_TITLE", response.data.title);
                 })
                 .catch(function (error) {
+                    console.log(error);
                     self.state = 0;
                 }
             );
@@ -72,7 +73,7 @@
             },
             backStartPage() {
                 self.close();
-            }//http://192.168.0.26:8080/WriterLoginPage/15af8f81-91a0-4cda-bee8-4a108ac13dc2
+            }
         }
     };
 </script>
