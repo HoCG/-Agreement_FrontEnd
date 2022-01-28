@@ -7,8 +7,10 @@
                     v-bind:StateInfo="document.State"
                     v-bind:WritersCountInfo="document.documentWritersCount"/>
             </div>
-            <div class="list-em-title">
-                <button @click="goEditScreen(document)">
+            <div 
+            @click="goEditScreen(document)"
+            class="list-em-title">
+                <button>
                     {{document.documentTitle}}
                 </button>
             </div>
@@ -94,6 +96,10 @@
         height: 60px;
         line-height: 44px;
         border-bottom: 1px solid #DADADA;
+        
+        &:hover{
+            background-color: #f0f0f0;
+        }
 
         &-status {
             min-width: 84px;
@@ -109,6 +115,7 @@
             line-height: 60px;
             overflow: hidden;
             text-overflow: ellipsis;
+            cursor: pointer;
         }
         &-submittees {
             min-width: 60px;

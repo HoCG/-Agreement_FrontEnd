@@ -25,6 +25,15 @@
             :key="project.id"
             :project="project"
             />
+
+            <div class="button-wrapper">
+                <button 
+                @click="setPage(isNext = false)"
+                class="page-button">이전</button> 
+                <button 
+                @click="setPage(isNext = true)"
+                class="page-button">다음</button>
+            </div>
         </div>
     </div>
 </template>
@@ -32,7 +41,38 @@
 <script>
 import WriterListElementComponent from './WriterListElementComponent.vue'
 export default {
-  components: { WriterListElementComponent },
+    data: () => {
+        return {
+            page: 0,
+            totalPage: 0,
+        }
+    },
+    components: { WriterListElementComponent },
+
+    mounted() {
+            this.$store.dispatch('REQUEST_PROJECT', 0);
+    },
+
+    methods: {
+        setPage(isNext){
+                if(isNext){
+                    this.totalPage = this.$store.state.UsersDocument.projectTotalPage;
+                    if(this.page < this.totalPage){
+                        this.$store.dispatch('REQUEST_PROJECT', this.page + 1);
+                        this.page +=1;
+                    }else{
+                        alert("마지막 페이지 입니다.");
+                    }
+                }else{
+                    if(this.page == 0){
+                        alert("첫번째 페이지 입니다.");
+                        return;
+                    }
+                    this.$store.dispatch('REQUEST_PROJECT', this.page - 1);
+                    this.page -=1;
+                }
+            },
+    }
 
 }
 </script>
@@ -71,5 +111,24 @@ export default {
         &-etc{
             min-width: 80px;
         }
+    }
+
+    .button-wrapper{
+        height: 60px;
+
+        .page-button{
+            margin: 5px 5px 0 0;
+            float: left;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: #c2c2c2;
+            font-weight: bold;
+            color: white;
+            border-radius: 5px;
+            &:hover{
+                background-color: #838383;
+            }
+        }   
     }
 </style>

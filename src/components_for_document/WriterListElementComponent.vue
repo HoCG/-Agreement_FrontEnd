@@ -1,7 +1,10 @@
 <template>
   <div class="list-em-wrapper">
-      <div class="list-em">
-          <div class="list-em-title">{{project.documentTitle}}</div>
+      <div class="list-em" 
+      :style="toggleOn ? {border: '2px solid gray'} : {border: '1px solid #DADADA'}">
+          <div 
+          @click="toggle"
+          class="list-em-title">{{project.documentTitle}}</div>
           <div class="list-em-count">{{project.documentWriter.length}}</div>
           <div class="list-em-date">-</div>
           <div class="list-em-name">-</div>
@@ -34,6 +37,10 @@ export default {
         "project"
     ],
 
+    mounted() {
+        this.$store.dispatch('REQUEST_PROJECT_WRITER', this.project.name)
+    },
+
     data: () => {
         return {
             toggleOn: false,
@@ -46,10 +53,6 @@ export default {
         }
 
     },
-
-    mounted() {
-        console.log(this.project);
-    }
 }
 </script>
 
@@ -66,6 +69,10 @@ export default {
         border-radius: 5px;
         margin-top: 10px;
 
+        &:hover{
+            background-color: #eeeeee;
+        }
+
         &-title{
             padding: 0 10px;
             width: 200px;
@@ -73,6 +80,7 @@ export default {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            cursor: pointer;
         }
         &-count{
             min-width: 80px;

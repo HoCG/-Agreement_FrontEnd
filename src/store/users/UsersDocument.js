@@ -106,7 +106,7 @@ const actions = {
       context.commit("ADD_DOCUMENTS", response.data);
       context.commit("setProjectTotalPage", response.data.total_page);
     } catch (e) {
-      alert("불러오기 실패");
+      console.log("불러오기 실패");
     }
   },
   async REQUEST_PROJECT_INFO(context, DocumentName) {
@@ -115,7 +115,7 @@ const actions = {
       console.log(response.data);
       context.commit("GET_DOCUMENTS_INFO", response.data);
     } catch (e) {
-      alert("불러오기 실패");
+      console.log("불러오기 실패");
     }
   },
   async POST_PROJECT(context, getDocument) {
@@ -128,7 +128,7 @@ const actions = {
       context.commit("ADD_DOCUMENT", getDocument);
       return response;
     } catch (e) {
-      alert("보내기 실패");
+      console.log("보내기 실패");
     }
   },
   async REQUEST_PROJECT_WRITER(context, DocumentName) {
@@ -138,7 +138,7 @@ const actions = {
       context.commit("WRITER_INPUT", response.data.submittees);
       return response;
     } catch (e) {
-      alert("불러오기 실패");
+      console.log("불러오기 실패");
     }
   },
   async STATE_CHANGE(context, Document) {
@@ -147,7 +147,7 @@ const actions = {
       context.commit("CHANGE_STATE_DOCUMENT", Document);
       return response;
     } catch (e) {
-      alert("불러오기 실패");
+      console.log("불러오기 실패");
     }
   },
 };

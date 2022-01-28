@@ -70,6 +70,10 @@ export default {
         border-radius: 5px;
         margin-top: 1px;
 
+        &:hover{
+            background-color: #f0f0f0;
+        }
+
         &-title{
             width: 200px;
             flex-grow: 1;
