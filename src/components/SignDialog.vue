@@ -208,8 +208,8 @@
                 canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) * 2 + "px";
                 myImage.src = canvas.toDataURL();
                 myImage.style.zIndex = 4;
-                myImage.style.width = this.$store.state.DialogData.ImageWidth + "px";
-                myImage.style.height = this.$store.state.DialogData.ImageHeight + "px";
+                myImage.style.width = this.$store.state.DialogData.ImageWidth * 2  + "px";
+                myImage.style.height = this.$store.state.DialogData.ImageHeight * 2  + "px";
                 //myImage.style.border = "2px";
                 myImage.style.borderColor = "black";
                 myImage.style.borderRadius = "8px";

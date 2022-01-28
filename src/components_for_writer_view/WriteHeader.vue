@@ -52,16 +52,14 @@
                     }
                     filesName.push(SignIMG.getAttribute("id"));
                 }
-                console.log(files);
                 if (filesName.length === files.length) {
-                    //this.setPDFsForm();
                     this.makeCheckBoxForm();
                     this.makeTextForm();
                     this.makeSignForm();
                     this.setCssNull();
                     html2canvas(document.getElementById("drawer")).then(function (canvas) {
-                        let drawerDiv = document.getElementById("drawer");
-                        let computed_drawerDiv_Style = window.getComputedStyle(drawerDiv);
+                        ///let drawerDiv = document.getElementById("drawer");
+                        //let computed_drawerDiv_Style = window.getComputedStyle(drawerDiv);
                         let imgData = canvas.toDataURL('image/png');
                         let MinData = 4000;
                         let MinPage = 0;
@@ -75,11 +73,6 @@
                                 MinPage = j + 1;
                             }
                         }
-                        let computed_Ratio = self
-                            .$store
-                            .state
-                            .PDFScreenInfo
-                            .OriginalWidth[MinPage - 1] / parseInt(computed_drawerDiv_Style.width, 10);
                         let DefaultPage = document.getElementById('page' + MinPage);
                         let computed_DefaultPage_Style = window.getComputedStyle(DefaultPage);
                         let imgWidth = self
@@ -87,6 +80,11 @@
                             .state
                             .PDFScreenInfo
                             .OriginalWidth[MinPage - 1];
+                        let computed_Ratio = self
+                            .$store
+                            .state
+                            .PDFScreenInfo
+                            .OriginalWidth[MinPage - 1] / parseInt(computed_DefaultPage_Style.width, 10);
                         let position = 0;
                         let doc = new jsPDF('p', 'px', [
                             parseInt(computed_DefaultPage_Style.height, 10) * computed_Ratio,
@@ -96,7 +94,6 @@
                             let currentPage = document.getElementById('page' + i);
                             let computed_Page_Style = window.getComputedStyle(currentPage);
                             let pageHeight = parseInt(computed_Page_Style.height, 10) * computed_Ratio;
-                            console.log(position, pageHeight)
                             if (self.$store.state.PDFScreenInfo.OriginalWidth[i - 1] < pageHeight * 1.41) {
                                 if (i === 1) {
                                     doc.addImage(
@@ -148,13 +145,10 @@
                             {type: 'application/json'}
                         );
                         let form = new FormData();
-                        //console.log(blob); console.log(self.SendJsonFile);
                         for (let count = 0; count < files.length; count++) {
                             let imageBlob = new Blob([files[count]], {type: 'image/png'});
                             form.append('sign_img', imageBlob, filesName[count] + '.png');
                         }
-                        console.log(blob);
-                        console.log(JSON.stringify(self.SendJsonFile));
                         form.append(
                             'file_pdf',
                             blob,
@@ -185,7 +179,6 @@
                                 src
                                     .promise
                                     .then(pdf => {
-                                        console.log(pdf);
                                         self
                                             .$store
                                             .commit("SET_DOCUMENT_SRC", src);
@@ -206,11 +199,12 @@
                     this.$store.commit("OPEN_ALERT", "서명을 모두 입력해주세요!");
                 }
             },
+            /*
             setPDFsForm(){
                 let drawerDiv = document.getElementById("drawer");
-                drawerDiv.style.width = 900 + "px";
-                let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo.OriginalWidth[0];
+                drawerDiv.style.width = 1100 + "px";
+                //let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = 1100 / this.$store.state.PDFScreenInfo.OriginalWidth[0];
                 //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
                 for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
                     const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
@@ -231,7 +225,7 @@
                     NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
                     NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
                     NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + "px";
+                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + 150 + "px";
                 }
                 for (let SignObject of this.$store.state.SignObject.SignArr) {
                     const NewElementDiv = document.getElementById(SignObject.htmlID);
@@ -241,7 +235,9 @@
                     NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
                 }
             },
+            */
             setCssNull() {
+                //this.setPDFsForm();
                 let LongTextElements = document.getElementsByClassName("LongTextObjectArea");
                 for (let LongTextElement of LongTextElements) {
                     LongTextElement.style.backgroundColor = "transparent";
@@ -386,7 +382,6 @@
                     .state
                     .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
-                console.log(this.$store.state.SignObject.SignArr);
                 for (let SignObject of this.$store.state.SignObject.SignArr) {
                     let submittee_object_sign = {
                         name: "",
@@ -412,6 +407,44 @@
                         .SendJsonFile
                         .submittee_object_signs
                         .push(submittee_object_sign);
+                }
+            },
+            resizeEvent() {
+                let drawerDiv = document.getElementById("drawer");
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
+                    .$store
+                    .state
+                    .PDFScreenInfo
+                    .OriginalWidth[0];
+                //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
+                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
+                    const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
+                    NewElementDiv.style.width = ShortTextObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = ShortTextObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = ShortTextObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = ShortTextObject.y * computed_Ratio + "px";
+                }
+                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
+                    const NewElementDiv = document.getElementById(LongTextObject.htmlID);
+                    NewElementDiv.style.width = LongTextObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = LongTextObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = LongTextObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = LongTextObject.y * computed_Ratio + "px";
+                }
+                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
+                    const NewElementDiv = document.getElementById(CheckBoxObject.htmlID);
+                    NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + "px";
+                }
+                for (let SignObject of this.$store.state.SignObject.SignArr) {
+                    const NewElementDiv = document.getElementById(SignObject.htmlID);
+                    NewElementDiv.style.width = SignObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = SignObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = SignObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
                 }
             }
         }
