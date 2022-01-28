@@ -93,10 +93,10 @@
                         font_size: 24
                     }
                     project_object_checkbox.name = CheckBoxObject.title;
-                    project_object_checkbox.x_position = CheckBoxObject.x*computed_Ratio;
-                    project_object_checkbox.y_position = CheckBoxObject.y*computed_Ratio;
-                    project_object_checkbox.width = CheckBoxObject.width*computed_Ratio;
-                    project_object_checkbox.height = CheckBoxObject.height*computed_Ratio;
+                    project_object_checkbox.x_position = CheckBoxObject.x * computed_Ratio;
+                    project_object_checkbox.y_position = CheckBoxObject.y * computed_Ratio;
+                    project_object_checkbox.width = CheckBoxObject.width * computed_Ratio;
+                    project_object_checkbox.height = CheckBoxObject.height * computed_Ratio;
                     project_object_checkbox.rotate = 0;
                     project_object_checkbox.page = CheckBoxObject.page;
                     project_object_checkbox.type = "DEFAULT";
@@ -124,10 +124,10 @@
                         font_size: 24
                     };
                     project_object_text.name = ShortTextObject.title;
-                    project_object_text.x_position = ShortTextObject.x*computed_Ratio;
-                    project_object_text.y_position = ShortTextObject.y*computed_Ratio;
-                    project_object_text.width = ShortTextObject.width*computed_Ratio;
-                    project_object_text.height = ShortTextObject.height*computed_Ratio;
+                    project_object_text.x_position = ShortTextObject.x * computed_Ratio;
+                    project_object_text.y_position = ShortTextObject.y * computed_Ratio;
+                    project_object_text.width = ShortTextObject.width * computed_Ratio;
+                    project_object_text.height = ShortTextObject.height * computed_Ratio;
                     project_object_text.rotate = 0;
                     project_object_text.page = ShortTextObject.page;
                     project_object_text.type = "SHORT_TEXT";
@@ -150,10 +150,10 @@
                         font_size: 24
                     };
                     project_object_text.name = LongTextObject.title;
-                    project_object_text.x_position = LongTextObject.x*computed_Ratio;
-                    project_object_text.y_position = LongTextObject.y*computed_Ratio;
-                    project_object_text.width = LongTextObject.width*computed_Ratio;
-                    project_object_text.height = LongTextObject.height*computed_Ratio;
+                    project_object_text.x_position = LongTextObject.x * computed_Ratio;
+                    project_object_text.y_position = LongTextObject.y * computed_Ratio;
+                    project_object_text.width = LongTextObject.width * computed_Ratio;
+                    project_object_text.height = LongTextObject.height * computed_Ratio;
                     project_object_text.rotate = 0;
                     project_object_text.page = LongTextObject.page;
                     project_object_text.type = "LONG_TEXT";
@@ -181,10 +181,10 @@
                         font_size: 24
                     }
                     project_object_sign.name = SignObject.title;
-                    project_object_sign.x_position = SignObject.x*computed_Ratio;
-                    project_object_sign.y_position = SignObject.y*computed_Ratio;
-                    project_object_sign.width = SignObject.width*computed_Ratio;
-                    project_object_sign.height = SignObject.height*computed_Ratio;
+                    project_object_sign.x_position = SignObject.x * computed_Ratio;
+                    project_object_sign.y_position = SignObject.y * computed_Ratio;
+                    project_object_sign.width = SignObject.width * computed_Ratio;
+                    project_object_sign.height = SignObject.height * computed_Ratio;
                     project_object_sign.rotate = 0;
                     project_object_sign.page = SignObject.page;
                     project_object_sign.type = "DEFAULT";

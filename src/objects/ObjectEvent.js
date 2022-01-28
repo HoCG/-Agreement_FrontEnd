@@ -2,13 +2,16 @@ import store from '../store/store';
 
 export default {
     myFunction(getData) {
+        let drawerDiv = document.getElementById("drawer"); 
+        let computed_Div_Style = window.getComputedStyle(drawerDiv);
+        let computed_Ratio = parseInt(computed_Div_Style.width, 10) / store.state.PDFScreenInfo.OriginalWidth[0];
         const ThisWindow = document.getElementById("drawer");
         const NewElementDiv = document.getElementById(getData.htmlID);
         //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
         NewElementDiv.style.width = getData.width + "px";
         NewElementDiv.style.height = getData.height + "px";
-        NewElementDiv.style.left = getData.x + "px";
-        NewElementDiv.style.top = getData.y + "px";
+        NewElementDiv.style.left = getData.x * computed_Ratio + "px";
+        NewElementDiv.style.top = getData.y * computed_Ratio + "px";
         // 데이터를 읽는형태인지, 새로 클릭하여 추가된 형태인지를 판단한 다음에 이를 알맞게 추가시켜줍니다. push_or_readCheck >>
         // true면 데이터를 넣는 형태, false면 데이터를 읽는 형태
         if (getData.push_or_readCheck === true) {
@@ -25,6 +28,9 @@ export default {
         let appendY1 = 0;
         let appendY2 = 0;
         console.log(currentX, currentY);
+        let drawerDiv = document.getElementById("drawer"); 
+        let computed_Div_Style = window.getComputedStyle(drawerDiv);
+        let computed_Ratio =  store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
         for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
@@ -38,7 +44,7 @@ export default {
                 ) / 2 + "px";
                 getElement.style.left = currentX - parseInt(computed_Object_Style.width, 10) / 2 + "px";
                 let y = currentY - appendY1 - parseInt(computed_Object_Style.height, 10) / 2;
-                this.CommitUpdateData(getElement, y, i);
+                this.CommitUpdateData(getElement, y * computed_Ratio, i);
                 PDF_Pages.append(getElement);
                 break;
             } else {
@@ -49,6 +55,9 @@ export default {
     // PDF페이지중에 어디에 속해있는지를 파악하고 해당 PDF에 오브젝트를 집어넣습니다. 단 오브젝트를 읽어서 배치하는 과정에서만 적용됩니다.
     // 여기에서 page값을 저장할수 있도록 하는 로직을 추가해야합니다.
     append_Into_PDFPage_For_ReadingObject(getData) {
+        //let drawerDiv = document.getElementById("drawer"); 
+        //let computed_Object_Style = window.getComputedStyle(drawerDiv);
+        //let computed_Ratio = parseInt(computed_Object_Style.width, 10) / store.state.PDFScreenInfo.OriginalWidth[0];
         let getElement = document.getElementById(getData.htmlID);
         getElement.style.display = "flex";
         for (let i = 1; i <= store.state.PDFScreenInfo.PDFPageInfo; i++) {
@@ -65,9 +74,12 @@ export default {
     //페이지에 들어간 오브젝트의 정보를 업데이트 해주는 함수입니다.
     //오브젝트의 x, y, 페이지값을 업데이트 합니다. 
     CommitUpdateData(getElement, y, i) {
+        let drawerDiv = document.getElementById("drawer"); 
+        let computed_Div_Style = window.getComputedStyle(drawerDiv);
+        let computed_Ratio = store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
         let computed_Object_Style = window.getComputedStyle(getElement);
         if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
-            store.commit("SET_SHORTTEXT_X", parseInt(computed_Object_Style.left, 10));
+            store.commit("SET_SHORTTEXT_X", parseInt(computed_Object_Style.left, 10) * computed_Ratio);
             store.commit("SET_SHORTTEXT_Y", parseInt(y));
             store.commit("SET_SHORTTEXT_PAGE", parseInt(i));
             store.commit(

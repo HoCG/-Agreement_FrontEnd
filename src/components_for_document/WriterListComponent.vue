@@ -18,13 +18,12 @@
                     다운로드
                 </div>
                 <div class="list-header-etc">
-                    
                 </div>      
             </div>
             <WriterListElementComponent
-            v-for="project in this.$store.state.UsersDocument.DocumentArr"
-            :key="project.id"
-            :project="project"
+                v-for="project in this.$store.state.UsersDocument.DocumentArr"
+                :key="project.id"
+                :project="project"
             />
         </div>
     </div>

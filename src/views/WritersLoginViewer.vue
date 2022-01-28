@@ -6,7 +6,8 @@
                 id="login-InputPassword"
                 placeholder="학생이름"
                 v-model="writer.name"
-                type="text"/>
+                type="text"
+                @keyup.enter="goWritingPage"/>
             <p class="login-MessageForm">{{this.Message}}</p>
             <button @click="goWritingPage" class="login-Btn">작성시작</button>
         </div>

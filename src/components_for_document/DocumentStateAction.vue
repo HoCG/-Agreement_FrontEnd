@@ -17,7 +17,7 @@
             <input
                 type="text"
                 v-bind:id="'copyArea'+DocumentInfo.name"
-                v-bind:value="'https://agreement-33254.web.app/WriterLoginPage/'+DocumentInfo.name"
+                v-bind:value="testIP+'/WriterLoginPage/'+DocumentInfo.name"
                 style="display: none;"/>
             <!-- http://172.30.1.37:8080/ >> 집 네트워크-->
             <svg
@@ -44,7 +44,10 @@
 
         },
         data() {
-            return {IP: ""}
+            return {
+                IP: process.env.VUE_APP_NETWORK_URL,
+                testIP: "http://192.168.0.26:8080"
+            }
         },
         props: {
             DocumentInfo: Object
