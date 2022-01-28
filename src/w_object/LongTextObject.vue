@@ -1,6 +1,6 @@
 <template>
     <div class="LongTextObjectArea" v-bind:id="getLTData.htmlID">
-        <textarea v-model="getLTData.text" maxlength="50" style="width: 85%; height: 85%; resize: none;" cols="30" rows="5"></textarea>
+        <div class="longtext-area" style="width: 85%; height: 85%; max-height: 400px; overflow-y: auto; resize: none; text-align: left" contenteditable="true">{{getLTData.text}}</div>
     </div>
 </template>
 <script>
