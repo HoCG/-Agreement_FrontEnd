@@ -1,7 +1,7 @@
 import axios from "axios";
 
-function requestProject() {
-  return axios.get(`${process.env.VUE_APP_BASEURL}/api/projects`);
+function requestProject(page) {
+  return axios.get(`${process.env.VUE_APP_BASEURL}/api/projects?page=${page}`);
 }
 
 function requestProjectsWriter(projectName) {

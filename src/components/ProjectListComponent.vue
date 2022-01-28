@@ -17,6 +17,13 @@
             v-for="Document in this.$store.state.UsersDocument.DocumentArr"
             :key="Document.id"
             :document="Document"/>
+
+        <button 
+        @click="setPage(isNext = false)"
+        class="page-button">이전</button> 
+        <button 
+        @click="setPage(isNext = true)"
+        class="page-button">다음</button>
     </div>
 </template>
 
@@ -24,13 +31,39 @@
     import ProjectListElementComponent from './ProjectListElementComponent.vue'
     export default {
         data: () => {
-            return {menuDocument: {}}
+            return {
+                menuDocument: {},
+                page: 0,
+                totalPage: 0,
+            }
         },
         components: {
             ProjectListElementComponent
         },
         props: [],
+        mounted() {
+            this.$store.dispatch('REQUEST_PROJECT', 0);
+            console.log(this.$store.state.UsersDocument.projectTotalPage);
+        },
         methods: {
+            setPage(isNext){
+                if(isNext){
+                    this.totalPage = this.$store.state.UsersDocument.projectTotalPage;
+                    if(this.page < this.totalPage){
+                        this.$store.dispatch('REQUEST_PROJECT', this.page + 1);
+                        this.page +=1;
+                    }else{
+                        alert("마지막 페이지 입니다.");
+                    }
+                }else{
+                    if(this.page == 0){
+                        alert("첫번째 페이지 입니다.");
+                        return;
+                    }
+                    this.$store.dispatch('REQUEST_PROJECT', this.page - 1);
+                    this.page -=1;
+                }
+            },
             goEditScreen(Document) {
                 if (Document.State === 1) {
                     this
@@ -91,6 +124,21 @@
         }
         &-etc {
             min-width: 43px;
+        }
+    }
+
+    .page-button{
+        margin: 5px 5px 0 0;
+        float: left;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        background-color: #c2c2c2;
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        &:hover{
+            background-color: #838383;
         }
     }
 </style>

@@ -15,6 +15,7 @@ const state = {
   response: "",
   want_Document_Name: "",
   CheckResizeMode: false, //해당 문서내에 오브젝트 resize를 하고있는지 확인하기위한 변수
+  projectTotalPage: 0,
 };
 
 //사용되는 동작들
@@ -65,6 +66,10 @@ const mutations = {
       state.DocumentArr.push(DocumentElement);
     }
   },
+
+  setProjectTotalPage(state, totalPage) {
+    state.projectTotalPage = totalPage;
+  },
   FIND_DOCUMENT(state, ElementID) {
     state.Document = state.DocumentArr.find(
       (Document) => Document.htmlID === ElementID
@@ -94,11 +99,12 @@ const mutations = {
 
 //비동기 처리들.
 const actions = {
-  async REQUEST_PROJECT(context) {
+  async REQUEST_PROJECT(context, page) {
     try {
-      const response = await requestProject();
+      const response = await requestProject(page);
       console.log(response.data);
       context.commit("ADD_DOCUMENTS", response.data);
+      context.commit("setProjectTotalPage", response.data.total_page);
     } catch (e) {
       alert("불러오기 실패");
     }
