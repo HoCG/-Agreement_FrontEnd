@@ -51,6 +51,7 @@
             window.addEventListener('resize', this.resizeEvent, true)
         },
         beforeDestroy(){
+            this.$store.commit("SET_DOCUMENT_TITLE", "");
             window.removeEventListener('resize', this.resizeEvent)
         },
         data(){
@@ -174,9 +175,6 @@
                         .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
                 }
             }
-        },
-        beforeDestroy() {
-            this.$store.commit("SET_DOCUMENT_TITLE", "");
         }
     }
 </script>
