@@ -1,6 +1,6 @@
 <template >
     <div class="login-backGround">
-        <div class="login-Row">
+        <div v-if="checkState" class="login-Row">
             <input id="login-InputID" placeholder="학번" type="text" v-model="writer.schoolID"/>
             <input
                 id="login-InputPassword"
@@ -11,18 +11,37 @@
             <p class="login-MessageForm">{{this.Message}}</p>
             <button @click="goWritingPage" class="login-Btn">작성시작</button>
         </div>
+        <div class="login-stop-row" v-else>
+            <h3>공유되지 않은 문서입니다.</h3>
+        </div>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         computed: {
             writer() {
                 return this.$store.state.writer.currentWriter;
             }
         },
+        mounted(){
+            let self = this;
+            axios
+                .get(`${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.$route.params.document_name}`)
+                .then(function (response) {
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    if (error.response.status === 403) {
+                        self.checkState = false;
+                    } 
+                }
+            );
+        },
         data() {
-            return {validationErrors: [], Message: "", documentName: this.$route.params.document_name};
+            return {validationErrors: [], Message: "", documentName: this.$route.params.document_name, checkState: true};
         },
         methods: {
             goWritingPage() {
@@ -50,7 +69,7 @@
             },
             backStartPage() {
                 self.close();
-            }
+            }//http://192.168.0.26:8080/WriterLoginPage/15af8f81-91a0-4cda-bee8-4a108ac13dc2
         }
     };
 </script>
@@ -167,5 +186,18 @@
         top: 40%;
         background: #FFFFFF;
         border-radius: 15px;
+    }
+    .login-stop-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: absolute;
+        width: 303px;
+        height: 240px;
+        left: 40%;
+        top: 40%;
+        color: red;
     }
 </style>
