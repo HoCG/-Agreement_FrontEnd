@@ -80,6 +80,7 @@
         height: 100%;
         z-index: 4;
         position: fixed;
+        top: 150px;
         background-color: white;
     }
     .objectInfo {

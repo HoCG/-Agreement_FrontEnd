@@ -2,10 +2,10 @@
 <template>
     <div class="WriterHeader">
         <div class="navigation">
-            <button class="SaveEditPageButton" @click="pdfPrint()">
+            <button class="control-button" @click="pdfPrint()">
                 완료
             </button>
-            <button class="CloseEditPageButton">
+            <button class="control-button">
                 닫기
             </button>
         </div>
@@ -421,22 +421,17 @@
     .WritingAlert {
         display: none;
     }
-    .SaveEditPageButton {
+    .control-button {
         float: right;
         width: 82px;
         height: 48px;
-        /* gray_05 */
-        background: #767676;
-        border: 1px solid #000000;
-        box-sizing: border-box;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        margin: 7px 20px 0 0;
+        font-weight: bold;
+        color: #ffffff;
+
+
+        background: #767676;        
         border-radius: 5px;
-    }
-    .CloseEditPageButton {
-        width: 82px;
-        height: 48px;
-        float: right;
-        color: #C4C4C4;
     }
     .WriterHeader {
         width: 100%;
