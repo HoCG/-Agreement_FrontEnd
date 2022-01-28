@@ -2,27 +2,27 @@ import store from "../store/store";
 
 export default {
     myFunction(getData) {
-      /*
         let drawerDiv = document.getElementById("drawer");
         let computed_Div_Style = window.getComputedStyle(drawerDiv);
         let computed_Ratio = parseInt(computed_Div_Style.width, 10) / store
             .state
             .PDFScreenInfo
             .OriginalWidth[0];
-        */
         const ThisWindow = document.getElementById("drawer");
         const NewElementDiv = document.getElementById(getData.htmlID);
         //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
-        NewElementDiv.style.width = getData.width + "px";
-        NewElementDiv.style.height = getData.height + "px";
         NewElementDiv.style.left = getData.x + "px";
         NewElementDiv.style.top = getData.y + "px";
         // 데이터를 읽는형태인지, 새로 클릭하여 추가된 형태인지를 판단한 다음에 이를 알맞게 추가시켜줍니다. push_or_readCheck >>
         // true면 데이터를 넣는 형태, false면 데이터를 읽는 형태
         if (getData.push_or_readCheck === true) {
+            NewElementDiv.style.width = getData.width * computed_Ratio + "px";
+            NewElementDiv.style.height = getData.height * computed_Ratio + "px";
             this.makingFirstClickObject(getData.htmlID, getData);
             ThisWindow.append(NewElementDiv);
         } else {
+            NewElementDiv.style.width = getData.width + "px";
+            NewElementDiv.style.height = getData.height + "px";
             this.append_Into_PDFPage_For_ReadingObject(getData);
             this.makingDragEvent(document.getElementById(getData.htmlID), getData);
         }
