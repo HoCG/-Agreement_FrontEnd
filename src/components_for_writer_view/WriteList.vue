@@ -109,7 +109,9 @@
         position: relative;
         line-height: 88px;
     }
-    ul {
+    ul{
         list-style: none;
+        padding-left: 0px;
+        margin: 30px 0 0 40px;
     }
 </style>

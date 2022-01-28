@@ -40,7 +40,7 @@
         background-color: #F3F3F3;
     }
     .pdf-viewer-wrapper {
-        padding-top: 100px;
+        margin-top: 200px;
         margin-left: 10%;
         text-align: center;
         height: 100%;

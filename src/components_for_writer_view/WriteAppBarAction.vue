@@ -21,23 +21,25 @@
 </template>
 <script>
     export default {
-        mounted() {},
+        data: () => {
+            return {
+                writer: {},
+            }
+        },
+        mounted() {
+            this.writer = this.$store.state.writer.currentWriter;
+        },
         methods: {
             closeBtn() {
                 window.close();
             },
             documentSaveBtn() {
+                console.log(this.writer);
                 let a = document.createElement("a");
                 a.href = this.$store.state.PDFScreenInfo.file;
-                a.download = this
-                    .$store
-                    .state
-                    .PDFScreenInfo
-                    .PDFTitle
-                    .normalize('NFC'); //한글 분해현상 방지.
-                document
-                    .body
-                    .appendChild(a);
+                const fileName = `${this.$store.state.PDFScreenInfo.PDFTitle}_${this.writer.name}_${this.writer.schoolID}.pdf`;
+                a.download = fileName;
+                document.body.appendChild(a);
                 a.click();
                 a.remove();
             }
