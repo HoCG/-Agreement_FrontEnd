@@ -63,18 +63,14 @@
                 // How far the mouse has been moved
                 const dx = e.clientX - this.resizeX;
                 const dy = e.clientY - this.resizeY;
-                let drawerDiv = document.getElementById("drawer"); 
-                let computed_Div_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = this.$store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
-                // Adjust the dimension of element
                 Element.style.width = `${this.resizeW + dx}px`;
                 Element.style.height = `${this.resizeH + dy}px`;
                 this
                     .$store
-                    .commit("SET_LONGTEXT_WIDTH", parseInt(this.resizeW + dx) * computed_Ratio);
+                    .commit("SET_LONGTEXT_WIDTH", parseInt(this.resizeW + dx));
                 this
                     .$store
-                    .commit("SET_LONGTEXT_HEIGHT", parseInt(this.resizeH + dy) * computed_Ratio);
+                    .commit("SET_LONGTEXT_HEIGHT", parseInt(this.resizeH + dy));
                 this
                     .$store
                     .commit("FIND_AND_SETTING_W_H_LONGTEXT_OBJECT", this.getLTData.htmlID);

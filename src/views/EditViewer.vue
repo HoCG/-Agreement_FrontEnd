@@ -49,6 +49,9 @@
             );
             window.addEventListener('resize', this.resizeEvent, true)
         },
+        beforeDestroy(){
+            window.removeEventListener('resize', this.resizeEvent)
+        },
         data(){
             return{
                 numPages: 0,
@@ -114,7 +117,7 @@
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
                         this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
-                        this.$store.state.ShortTextObject.ShortText.title = TextObject.title;
+                        this.$store.state.ShortTextObject.ShortText.title = TextObject.name;
                         this.$store.state.ShortTextObject.ShortText.width = TextObject.width;
                         this.$store.state.ShortTextObject.ShortText.height = TextObject.height;
                         this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position;
@@ -126,7 +129,7 @@
                             .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
                     } else {
                         this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
-                        this.$store.state.LongTextObject.LongText.title = TextObject.title;
+                        this.$store.state.LongTextObject.LongText.title = TextObject.name;
                         this.$store.state.LongTextObject.LongText.width = TextObject.width;
                         this.$store.state.LongTextObject.LongText.height = TextObject.height;
                         this.$store.state.LongTextObject.LongText.x = TextObject.x_position;
@@ -143,7 +146,7 @@
                // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
                 for (let CheckBoxObject of project_object_checkboxes) {
                     this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
-                    this.$store.state.CheckBoxObject.CheckBox.title = CheckBoxObject.title;
+                    this.$store.state.CheckBoxObject.CheckBox.title = CheckBoxObject.name;
                     this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width;
                     this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height;
                     this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position;
@@ -158,7 +161,7 @@
             readSignObject(project_object_signs) {
                 for (let SignObject of project_object_signs) {
                     this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
-                    this.$store.state.SignObject.Sign.title = SignObject.title;
+                    this.$store.state.SignObject.Sign.title = SignObject.name;
                     this.$store.state.SignObject.Sign.width = SignObject.width;
                     this.$store.state.SignObject.Sign.height = SignObject.height;
                     this.$store.state.SignObject.Sign.x = SignObject.x_position;
