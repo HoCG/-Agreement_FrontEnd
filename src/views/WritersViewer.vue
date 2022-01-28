@@ -1,6 +1,8 @@
 <template>
     <v-card class="writer-main overflow-hidden">
-        <WriterHeader/>
+        <WriterHeader
+        :document-name="this.documentName"
+        />
         <WriteList/>
         <PDFViewer v-bind:numPages="this.numPages" v-bind:src="this.src"/>
         <ObjectBox/>

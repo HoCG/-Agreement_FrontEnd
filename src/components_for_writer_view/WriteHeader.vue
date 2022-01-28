@@ -5,7 +5,7 @@
             <button class="control-button" @click="pdfPrint()">
                 완료
             </button>
-            <button class="control-button">
+            <button class="control-button" @click="exit">
                 닫기
             </button>
         </div>
@@ -17,6 +17,7 @@
     import axios from "axios";
     import pdf from 'vue-pdf';
     export default {
+        props: ["document-name"],
         data() {
             return {
                 SendJsonFile: {
@@ -24,11 +25,16 @@
                     student_id: this.$store.state.writer.currentWriter.schoolID,
                     submittee_object_texts: [],
                     submittee_object_signs: [],
-                    submittee_object_checkboxes: []
+                    submittee_object_checkboxes: [],
+                    name: "",
                 }
             }
         },
         methods: {
+            exit() {
+                this.$router.push({path: `/WriterLoginPage/${this.documentName}`
+                                }).catch();
+            },
             pdfPrint() {
                 let self = this;
                 const dataURLtoFile = (dataurl, fileName) => {
