@@ -50,7 +50,8 @@ export default {
     components: { WriterListElementComponent },
 
     mounted() {
-            this.$store.dispatch('REQUEST_PROJECT', 0);
+        this.$store.commit("FORMAT_ALL_DOCUMENTS");
+        this.$store.dispatch('REQUEST_PROJECT', 0);
     },
 
     methods: {

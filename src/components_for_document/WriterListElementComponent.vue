@@ -5,7 +5,7 @@
           <div 
           @click="toggle"
           class="list-em-title">{{project.documentTitle}}</div>
-          <div class="list-em-count">{{project.documentWriter.length}}</div>
+          <div class="list-em-count">{{project.documentWritersCount}}</div>
           <div class="list-em-date">-</div>
           <div class="list-em-name">-</div>
           <div class="list-em-download">-</div>
