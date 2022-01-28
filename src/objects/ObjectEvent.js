@@ -66,7 +66,9 @@ export default {
             const PDF_Pages = document.getElementById("page" + String(i));
             PDF_Pages.style.position = "relative";
             if (getData.page === i) {
-                getElement.style.top = getData.y * computed_Ratio+ "px"; //이미 height를 제외하고 적용하는게 된 상태이니 y값을 그대로 넣어주도록 설정.
+                getElement.style.width = getData.width * computed_Ratio + "px"; //이미 height를 제외하고 적용하는게 된 상태이니 y값을 그대로 넣어주도록 설정.
+                getElement.style.height = getData.height * computed_Ratio + "px";
+                getElement.style.top = getData.y * computed_Ratio + "px"; //이미 height를 제외하고 적용하는게 된 상태이니 y값을 그대로 넣어주도록 설정.
                 getElement.style.left = getData.x * computed_Ratio + "px";
                 PDF_Pages.append(getElement);
                 break;

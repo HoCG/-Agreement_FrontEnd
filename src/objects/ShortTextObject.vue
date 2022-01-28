@@ -100,12 +100,15 @@
                 e.stopPropagation();
             },
             mouseMoveHandler(e) {
+                let drawerDiv = document.getElementById("drawer"); 
+                let computed_Object_Style = window.getComputedStyle(drawerDiv); 
+                let computed_Ratio = this.$store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Object_Style.width, 10) ;
                 let Element = document.getElementById(this.getSTData.htmlID);
                 // How far the mouse has been moved
                 const dx = e.clientX - this.resizeX;
                 // Adjust the dimension of element
                 Element.style.width = `${this.resizeW + dx}px`;
-                this.$store.commit("SET_SHORTTEXT_WIDTH", parseInt(this.resizeW + dx));
+                this.$store.commit("SET_SHORTTEXT_WIDTH", parseInt(this.resizeW + dx) * computed_Ratio);
                 this.$store.commit("FIND_AND_SETTING_W_SHORTTEXT_OBJECT", this.getSTData.htmlID);
                 e.stopPropagation();
             },
