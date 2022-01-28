@@ -25,8 +25,7 @@
                     student_id: this.$store.state.writer.currentWriter.schoolID,
                     submittee_object_texts: [],
                     submittee_object_signs: [],
-                    submittee_object_checkboxes: [],
-                    name: "",
+                    submittee_object_checkboxes: []
                 }
             }
         },
@@ -64,7 +63,7 @@
                     this.makeSignForm();
                     this.setCssNull();
                     html2canvas(document.getElementById("drawer")).then(function (canvas) {
-                        ///let drawerDiv = document.getElementById("drawer");
+                        //let drawerDiv = document.getElementById("drawer");
                         //let computed_drawerDiv_Style = window.getComputedStyle(drawerDiv);
                         let imgData = canvas.toDataURL('image/png');
                         let MinData = 4000;
@@ -150,6 +149,7 @@
                             [JSON.stringify(self.SendJsonFile)],
                             {type: 'application/json'}
                         );
+                        console.log(self.SendJsonFile);
                         let form = new FormData();
                         for (let count = 0; count < files.length; count++) {
                             let imageBlob = new Blob([files[count]], {type: 'image/png'});
