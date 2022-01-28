@@ -4,7 +4,9 @@
         <div class="submittee-em-count">-</div>
         <div class="submittee-em-date">{{this.date}}</div>
         <div class="submittee-em-name">{{writer.writer}}</div>
-        <div class="submittee-em-download">다운로드</div>
+        <div class="submittee-em-download"
+        @click="downloadSubmitteePdf"
+        >다운로드</div>
         <div class="submittee-em-etc"
             @click="ShowWriterDocument" >
             문서보기
@@ -13,6 +15,7 @@
 </template>
 
 <script>
+import {getSubmitteePdf} from "../apis/project_api";
 export default {
 
     data: () => {
@@ -24,11 +27,26 @@ export default {
     props: ["writer", "project-title"],
     methods: {
         ShowWriterDocument(){
+            console.log(this.writer);
             this.$store.commit("SET_CURRENT_WRITER", this.writer)
             this
                 .$router
                 .push({path: '/WritersPDF'})
                 .catch(() => {});
+        },
+        downloadSubmitteePdf(){
+            getSubmitteePdf(this.writer.name).then(response => {
+                console.log(this.writer);
+                const fileName = `${this.projectTitle}_${this.writer.writer}_${this.writer.student_id}_${this.date}.pdf`;
+
+                const downloadUrl = URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
+                const anchor = document.createElement('a');
+                anchor.href = downloadUrl;
+                anchor.setAttribute("download", fileName);
+                document.body.appendChild(anchor);
+                anchor.click();
+                anchor.remove();
+            });
         }
     },
     mounted() {
@@ -70,6 +88,9 @@ export default {
         }
         &-download{
             min-width: 120px;
+            &:hover{
+                cursor: pointer;
+            }
         }
         &-etc{
             min-width: 80px;

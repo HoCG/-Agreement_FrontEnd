@@ -1,7 +1,7 @@
 <template>
     <div>
         <ol
-            style="width:100%;"
+            style="width:100%; height: 40px; line-height: 40px; font-weight: bold"
             v-for="Object in ObjectArr"
             :key="Object.id">
             {{

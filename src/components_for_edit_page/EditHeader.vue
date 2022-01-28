@@ -54,8 +54,15 @@
             LongTextSVG,
             EditAction,
         },
+        mounted() {
+            this.$store.commit("leaveObject");
+        }
+        ,
         methods: {
             makeObject(objectID, event) {
+                if(this.$store.state.object.isObjectHangOnMouse) return;
+
+                this.$store.commit("takeObject");
                 //forTest
                 for (let i = 1; i <= this.$store.state.PDFScreenInfo.PDFPageInfo; i++) {
                     const PDF_Pages = document.getElementById("page" + String(i));
@@ -85,6 +92,9 @@
                         .$store
                         .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
                     console.log(this.$store.state.ShortTextObject.ShortTextArr)
+
+
+
                     this.STextObjectID++;
                 } else if (objectID === "LongTextObjectArea") {
                     this.$store.state.LongTextObject.LongText.htmlID = objectID;
@@ -130,13 +140,13 @@
 <style>
     .EditHeader {
         width: 100%;
-        height: 15%;
+        height: 88px;
         position: fixed;
         background-color: white;
         z-index: 5;
         left: 0;
         right: 0;
-        top: 50px;
+        top: 64px;
     }
     .navigation {
         position: relative;

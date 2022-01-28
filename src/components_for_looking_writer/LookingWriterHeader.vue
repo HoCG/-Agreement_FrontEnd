@@ -39,9 +39,16 @@
                         let file = URL.createObjectURL(
                             new Blob([response.data], {type: 'application/pdf'})
                         );
+                        const pdfTitle = self.$store.state.PDFScreenInfo.PDFTitle.split('.')[0];
+                        const writer = self.$store.state.writer.currentWriter;
+                        const dateArr = writer.Date.split("T");
+                        const date = dateArr[0] + " " + dateArr[1];
+                        console.log(writer);
+                        let fileName = `${pdfTitle}_${writer.writer}_${writer.StudentID}_${date}.pdf`
+                        
                         let a = document.createElement("a");
                         a.href = file;
-                        a.download = self.$store.state.PDFScreenInfo.PDFTitle.normalize('NFC'); //한글 분해현상 방지.
+                        a.download = fileName; //한글 분해현상 방지.
                         document
                             .body
                             .appendChild(a);

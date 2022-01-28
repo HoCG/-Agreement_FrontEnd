@@ -30,6 +30,9 @@ const mutations = {
     state.currentWriter = makeDocument(getWriter);
     console.log(state.currentWriter);
   },
+  removeCurrentWriter() {
+    state.currentWriter = {};
+  },
   LOGOUT_WITH_TOKEN_INVALIDE(state) {
     resetToken(state);
     if (this.$router.currentRoute.name !== "boards") {
@@ -56,10 +59,10 @@ function initWriter() {
 
 const makeDocument = (Document) => {
   return {
-    writer: Document.student_name,
+    writer: Document.writer,
     name: Document.name,
-    StudentID: Document.student_id,
-    Date: Document.reg_date,
+    StudentID: Document.id,
+    Date: Document.date,
   };
 };
 
