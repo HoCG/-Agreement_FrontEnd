@@ -64,8 +64,13 @@
             let canvas = document.getElementById('drawCanvas');
             // canvas.setAttribute("width",
             // parseInt(this.$store.state.DialogData.ImageWidth) + "px")
-            canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) + "px";
-            canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) + "px";
+            let makedWidth = 0;
+            while(makedWidth < 300){
+                makedWidth = makedWidth + this.$store.state.DialogData.ImageWidth;
+            }
+            let point = makedWidth / this.$store.state.DialogData.ImageWidth;
+            canvas.style.width = makedWidth + "px";
+            canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) * point + "px";
             this.InitEvent(canvas);
         },
         methods: {
@@ -154,13 +159,20 @@
                 // 이표현말고 아래 setAtt canvas.style.width =
                 // parseInt(this.$store.state.DialogData.ImageWidth) + "px"; canvas.style.height
                 // = parseInt(this.$store.state.DialogData.ImageHeight) + "px";
+                let makedWidth = 0;
+                let makedHeight = 0;
+                while(makedWidth < 300){
+                    makedWidth = makedWidth + this.$store.state.DialogData.ImageWidth;
+                }
+                let point = makedWidth / this.$store.state.DialogData.ImageWidth;
+                makedHeight = parseInt(this.$store.state.DialogData.ImageHeight) * point;
                 canvas.setAttribute(
                     "width",
-                    parseInt(this.$store.state.DialogData.ImageWidth) + "px"
+                    makedWidth + "px"
                 );
                 canvas.setAttribute(
                     "height",
-                    parseInt(this.$store.state.DialogData.ImageHeight) + "px"
+                    makedHeight + "px"
                 );
                 if (!canvas) {
                     alert("캔버스 객체를 찾을 수 없음");
@@ -192,8 +204,12 @@
                 let myImage = document.getElementById(String(ImageID));
                 let canvas = document.getElementById('drawCanvas');
                 let ImgText = document.getElementById("SignObjectAreaText" + ImageID);
+                canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) * 2 + "px";
+                canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) * 2 + "px";
                 myImage.src = canvas.toDataURL();
                 myImage.style.zIndex = 4;
+                myImage.style.width = this.$store.state.DialogData.ImageWidth + "px";
+                myImage.style.height = this.$store.state.DialogData.ImageHeight + "px";
                 //myImage.style.border = "2px";
                 myImage.style.borderColor = "black";
                 myImage.style.borderRadius = "8px";

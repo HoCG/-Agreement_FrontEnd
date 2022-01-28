@@ -20,10 +20,10 @@
                 <div class="list-header-etc">
                 </div>      
             </div>
-            <WriterListElementComponent
-                v-for="project in this.$store.state.UsersDocument.DocumentArr"
-                :key="project.id"
-                :project="project"
+            <writer-list-element-component
+            v-for="project in this.$store.state.UsersDocument.DocumentArr"
+            :key="project.id"
+            :project="project"
             />
         </div>
     </div>

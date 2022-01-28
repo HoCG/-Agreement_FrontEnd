@@ -203,7 +203,42 @@
                             });
                     });
                 } else {
-                    this.$store.commit("OPEN_ALERT", "서명을 모두 입력해주세요!")
+                    this.$store.commit("OPEN_ALERT", "서명을 모두 입력해주세요!");
+                }
+            },
+            setPDFsForm(){
+                let drawerDiv = document.getElementById("drawer");
+                drawerDiv.style.width = 900 + "px";
+                let computed_Object_Style = window.getComputedStyle(drawerDiv);
+                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this.$store.state.PDFScreenInfo.OriginalWidth[0];
+                //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
+                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
+                    const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
+                    NewElementDiv.style.width = ShortTextObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = ShortTextObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = ShortTextObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = ShortTextObject.y * computed_Ratio + "px";
+                }
+                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
+                    const NewElementDiv = document.getElementById(LongTextObject.htmlID);
+                    NewElementDiv.style.width = LongTextObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = LongTextObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = LongTextObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = LongTextObject.y * computed_Ratio + "px";
+                }
+                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
+                    const NewElementDiv = document.getElementById(CheckBoxObject.htmlID);
+                    NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + "px";
+                }
+                for (let SignObject of this.$store.state.SignObject.SignArr) {
+                    const NewElementDiv = document.getElementById(SignObject.htmlID);
+                    NewElementDiv.style.width = SignObject.width * computed_Ratio + "px";
+                    NewElementDiv.style.height = SignObject.height * computed_Ratio + "px";
+                    NewElementDiv.style.left = SignObject.x * computed_Ratio + "px";
+                    NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
                 }
             },
             setCssNull() {
