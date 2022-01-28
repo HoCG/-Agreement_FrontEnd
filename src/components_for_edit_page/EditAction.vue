@@ -166,7 +166,7 @@
             makeSignForm() {
                 let drawerDiv = document.getElementById("drawer");
                 let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = this.$store.state.PDFScreenInfo.OriginalWidth[0]/parseInt(computed_Object_Style.width, 10);
+                let computed_Ratio = this.$store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 for (let SignObject of this.$store.state.SignObject.SignArr) {
                     let project_object_sign = {
                         name: "",

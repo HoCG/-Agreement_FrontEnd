@@ -19,7 +19,12 @@ const mutations = {
     },
     //이벤트를 추가하는 과정.
     ADD_SIGN_OBJECT(state, getSign) {
-        getSign = makeObject(state, getSign);
+        if(getSign.push_or_readCheck){
+            getSign = makeObject(state, getSign);
+        }
+        else{
+            getSign = readObject(state, getSign);
+        }
         state
             .SignArr
             .push(getSign);
@@ -72,6 +77,26 @@ const makeObject = (state, Object) => {
         htmlID: Object.htmlID + checkOverlapID,
         id: checkOverlapID,
         title: Object.title + checkOverlapID,
+        width: Object.width,
+        height: Object.height,
+        x: Object.x,
+        y: Object.y,
+        page: Object.page,
+        push_or_readCheck: Object.push_or_readCheck
+    }
+};
+
+const readObject = (state, Object) => {        
+    let checkOverlapID = 1;
+    while (
+        state.SignArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
+    ) {
+        checkOverlapID++;
+    }
+    return {
+        htmlID: Object.htmlID + checkOverlapID,
+        id: checkOverlapID,
+        title: Object.title,
         width: Object.width,
         height: Object.height,
         x: Object.x,

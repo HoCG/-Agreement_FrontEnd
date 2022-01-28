@@ -23,7 +23,12 @@ const mutations = {
     },
     //이벤트를 추가하는 과정.
     ADD_SHORTTEXT_OBJECT(state, getShortText) {
-        getShortText = makeObject(state, getShortText);
+        if(getShortText.push_or_readCheck){
+            getShortText = makeObject(state, getShortText);
+        }
+        else{
+            getShortText = readObject(state, getShortText);
+        }
         state
             .ShortTextArr
             .push(getShortText);
@@ -60,6 +65,27 @@ const mutations = {
 
 //비동기 처리들.
 const actions = {};
+
+const readObject = (state, Object) => {        
+    let checkOverlapID = 1;
+    while (
+        state.ShortTextArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
+    ) {
+        checkOverlapID++;
+    }
+    return {
+        htmlID: Object.htmlID + checkOverlapID,
+        id: checkOverlapID,
+        title: Object.title,
+        width: Object.width,
+        height: Object.height,
+        text: Object.text,
+        x: Object.x,
+        y: Object.y,
+        page: Object.page,
+        push_or_readCheck: Object.push_or_readCheck
+    }
+};
 
 const makeObject = (state, Object) => {        
     let checkOverlapID = 1;

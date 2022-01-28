@@ -17,7 +17,12 @@ const mutations = {
     },
     //이벤트를 추가하는 과정.
     ADD_CHECKBOX_OBJECT(state, getCheckBox) {
-        getCheckBox = makeObject(state, getCheckBox);
+        if(getCheckBox.push_or_readCheck){
+            getCheckBox = makeObject(state, getCheckBox);
+        }
+        else{
+            getCheckBox = readObject(state, getCheckBox);
+        }
         state
             .CheckBoxArr
             .push(getCheckBox);
@@ -66,6 +71,29 @@ const makeObject = (state, Object) => {
         htmlID: Object.htmlID + checkOverlapID, //오브젝트 Html id값 정보
         id: checkOverlapID, //고유 id값
         title: Object.title + checkOverlapID, //오브젝트 제목
+        width: Object.width, //오브젝트 가로값
+        height: Object.height, //오브젝트 세로값
+        x: Object.x, //오브젝트 x좌표
+        y: Object.y, //오브젝트 y좌표
+        page: Object.page, //오브젝트 page위치정보
+        checked: Object.checked,
+        push_or_readCheck: Object.push_or_readCheck //true면 데이터를 넣는 형태, false면 데이터를 읽는 형태
+    }
+};
+
+const readObject = (state, Object) => {        
+    let checkOverlapID = 1;
+    if(state.CheckBoxArr.length !== 0){
+        while (
+            state.CheckBoxArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
+        ) {
+            checkOverlapID++;
+        }
+    }
+    return {
+        htmlID: Object.htmlID + checkOverlapID, //오브젝트 Html id값 정보
+        id: checkOverlapID, //고유 id값
+        title: Object.title, //오브젝트 제목
         width: Object.width, //오브젝트 가로값
         height: Object.height, //오브젝트 세로값
         x: Object.x, //오브젝트 x좌표
