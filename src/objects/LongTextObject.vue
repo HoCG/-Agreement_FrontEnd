@@ -115,7 +115,8 @@
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
     .LongTextObjectArea {
         align-items: center;
-        box-shadow: 5px 5px 5px;
+        border: 1px solid black;
+        /* box-shadow: 5px 5px 5px; */
         font-weight: 800;
         display: none;
         font-size: large;
