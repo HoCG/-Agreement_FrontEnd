@@ -24,7 +24,12 @@ const mutations = {
     },
     //이벤트를 추가하는 과정.
     ADD_LONGTEXT_OBJECT(state, getLongText) {
-        getLongText = makeObject(state, getLongText);
+        if(getLongText.push_or_readCheck){
+            getLongText = makeObject(state, getLongText);
+        }
+        else{
+            getLongText = readObject(state, getLongText);
+        }
         state
             .LongTextArr
             .push(getLongText);
@@ -79,12 +84,35 @@ const makeObject = (state, Object) => {
         state.LongTextArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
     ) {
         checkOverlapID++;
+        }
     }
-}
     return {
         htmlID: Object.htmlID + checkOverlapID,
         id: checkOverlapID,
         title: Object.title + checkOverlapID,
+        width: Object.width,
+        height: Object.height,
+        text: Object.text,
+        x: Object.x,
+        y: Object.y,
+        page: Object.page, //오브젝트 page위치정보
+        push_or_readCheck: Object.push_or_readCheck
+    }
+};
+
+const readObject = (state, Object) => {        
+    let checkOverlapID = 1;
+    if(state.LongTextArr.length !== 0){
+    while (
+        state.LongTextArr.map(e => e.id).includes(parseInt(checkOverlapID)) === true
+    ) {
+        checkOverlapID++;
+        }
+    }
+    return {
+        htmlID: Object.htmlID + checkOverlapID,
+        id: checkOverlapID,
+        title: Object.title,
         width: Object.width,
         height: Object.height,
         text: Object.text,
