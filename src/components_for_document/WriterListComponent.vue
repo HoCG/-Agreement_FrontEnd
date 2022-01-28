@@ -26,13 +26,15 @@
             :project="project"
             />
 
-            <button 
-            @click="setPage(isNext = false)"
-            class="page-button">이전</button> 
-            <button 
-            @click="setPage(isNext = true)"
-            class="page-button">다음</button>
+            <div class="button-wrapper">
+                <button 
+                @click="setPage(isNext = false)"
+                class="page-button">이전</button> 
+                <button 
+                @click="setPage(isNext = true)"
+                class="page-button">다음</button>
             </div>
+        </div>
     </div>
 </template>
 
@@ -111,18 +113,22 @@ export default {
         }
     }
 
-    .page-button{
-        margin: 5px 5px 0 0;
-        float: left;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        background-color: #c2c2c2;
-        font-weight: bold;
-        color: white;
-        border-radius: 5px;
-        &:hover{
-            background-color: #838383;
-        }
+    .button-wrapper{
+        height: 60px;
+
+        .page-button{
+            margin: 5px 5px 0 0;
+            float: left;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: #c2c2c2;
+            font-weight: bold;
+            color: white;
+            border-radius: 5px;
+            &:hover{
+                background-color: #838383;
+            }
+        }   
     }
 </style>
