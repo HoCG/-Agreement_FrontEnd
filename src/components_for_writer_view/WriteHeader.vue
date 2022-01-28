@@ -440,7 +440,7 @@
     }
     .WriterHeader {
         width: 100%;
-        height: 15%;
+        height: 100px;
         position: fixed;
         background-color: white;
         z-index: 10;

@@ -1,20 +1,22 @@
 <template >
-    <div class="login-backGround">
-        <div v-if="state" class="login-Row">
-            <input class="login-input" placeholder="학번" type="text" v-model="writer.schoolID"/>
-            <input
-                class="login-input"
-                placeholder="학생이름"
-                v-model="writer.name"
-                type="text"
-                @keyup.enter="goWritingPage"/>
-            <div class="message">
-                {{this.Message}}
+    <div>
+        <div class="login-backGround">
+            <div v-if="state == 2" class="login-Row">
+                <input class="login-input" placeholder="학번" type="text" v-model="writer.schoolID"/>
+                <input
+                    class="login-input"
+                    placeholder="학생이름"
+                    v-model="writer.name"
+                    type="text"
+                    @keyup.enter="goWritingPage"/>
+                <div class="message">
+                    {{this.Message}}
+                </div>
+                <button @click="goWritingPage" class="login-Btn">작성시작</button>
             </div>
-            <button @click="goWritingPage" class="login-Btn">작성시작</button>
-        </div>
-        <div class="login-stop-row" v-else>
-            <h3>공유되지 않은 문서입니다.</h3>
+            <div class="login-stop-row" v-else>
+                <h3>공유되지 않은 문서입니다.</h3>
+            </div>
         </div>
     </div>
 </template>
@@ -33,12 +35,11 @@
                 .get(`${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.$route.params.document_name}`)
                 .then(function (response) {
                     console.log(response.data);
+                    self.state = response.data.state;
+                    self.$store.commit("SET_DOCUMENT_TITLE", response.data.title);
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    if (error.response.status === 403) {
-                        self.checkState = false;
-                    } 
+                    self.state = 0;
                 }
             );
         },
@@ -132,8 +133,8 @@
         position: absolute;
         width: 303px;
         height: 240px;
-        left: 40%;
-        top: 40%;
+        left: calc(50% - 151px);
+        top: calc(50% - 120px);
         background: #FFFFFF;
         border-radius: 15px;
     }
@@ -146,8 +147,8 @@
         position: absolute;
         width: 303px;
         height: 240px;
-        left: 40%;
-        top: 40%;
-        color: red;
+        left: calc(50% - 150px);
+        top: calc(50% - 120px);
+        color: rgb(113, 113, 113);
     }
 </style>
