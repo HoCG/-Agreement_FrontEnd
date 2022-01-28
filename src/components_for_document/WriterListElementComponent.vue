@@ -34,6 +34,10 @@ export default {
         "project"
     ],
 
+    mounted() {
+        this.$store.dispatch('REQUEST_PROJECT_WRITER', this.project.name)
+    },
+
     data: () => {
         return {
             toggleOn: false,
@@ -46,10 +50,6 @@ export default {
         }
 
     },
-
-    mounted() {
-        console.log(this.project);
-    }
 }
 </script>
 
