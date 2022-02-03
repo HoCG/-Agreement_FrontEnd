@@ -1,6 +1,9 @@
 <template>
     <div class="ShortTextObjectArea" v-bind:id="getSTData.htmlID">
-        <input style="width: 100%" v-model="getSTData.text"/>
+        <input v-bind:id="'shorttext-area ' + this.getSTData.htmlID" 
+        style="width: 85%;" 
+        v-bind:maxlength="textLimit" 
+        v-model="getSTData.text"/>
     </div>
 </template>
 <script>
@@ -9,8 +12,18 @@
         props: {
             getSTData: Object
         },
+        data(){
+            return{
+                textLimit: 0
+            }
+        },
         mounted() {
             ObjectEvent.myFunction(this.getSTData);
+            let tBox = document.getElementById('shorttext-area ' + this.getSTData.htmlID);
+            let computedTextBoxStyle = window.getComputedStyle(tBox);
+            let textArea = parseInt(computedTextBoxStyle.width, 10)
+            let font = 20;
+            this.textLimit = textArea / font;
         }
     }
 </script>
