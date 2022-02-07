@@ -9,9 +9,9 @@
                     <li>
                         <div style="width:100%; height: 28px;">
                             <ShortTextSVG style="float: left; margin-right: 10px" height="15%"/>
-                            <div style="float: left">({{this.$store.state.ShortTextObject.ShortTextArr.length}})</div>
+                            <div style="float: left">({{ShortTextArr.length}})</div>
                         </div>
-                        <ObjectListItem v-bind:ObjectArr="this.$store.state.ShortTextObject.ShortTextArr"/>
+                        <ObjectListItem v-bind:ObjectArr="ShortTextArr"/>
                     </li>
                     <br/>
                     <br/>
@@ -19,9 +19,9 @@
                     <li>
                         <div style="width:100%; height: 28px;">
                             <LongTextSVG style="float: left; margin-right: 10px" height="15%"/>
-                            <div style="float: left">({{this.$store.state.LongTextObject.LongTextArr.length}})</div>
+                            <div style="float: left">({{LongTextArr.length}})</div>
                         </div>
-                        <ObjectListItem v-bind:ObjectArr="this.$store.state.LongTextObject.LongTextArr"/>
+                        <ObjectListItem v-bind:ObjectArr="LongTextArr"/>
                     </li>
                     <br/>
                     <br/>
@@ -29,9 +29,9 @@
                     <li>
                         <div style="width:100%; height: 28px;">
                             <CheckBoxSVG style="float: left; margin-right: 10px" height="15%"/>
-                            <div style="float: left">({{this.$store.state.CheckBoxObject.CheckBoxArr.length}})</div>
+                            <div style="float: left">({{CheckBoxArr.length}})</div>
                         </div>
-                        <ObjectListItem v-bind:ObjectArr="this.$store.state.CheckBoxObject.CheckBoxArr"/>
+                        <ObjectListItem v-bind:ObjectArr="CheckBoxArr"/>
                     </li>
                     <br/>
                     <br/>
@@ -39,9 +39,9 @@
                     <li>
                         <div style="width:100%; height: 28px;">
                             <SignSVG style="float: left; margin-right: 10px" height="15%"/>
-                            <div style="float: left">({{this.$store.state.SignObject.SignArr.length}})</div>
+                            <div style="float: left">({{SignArr.length}})</div>
                         </div>
-                        <ObjectListItem v-bind:ObjectArr="this.$store.state.SignObject.SignArr"/>
+                        <ObjectListItem v-bind:ObjectArr="SignArr"/>
                     </li>
                 </ul>
             </div>
@@ -61,6 +61,20 @@
             CheckBoxSVG,
             SignSVG,
             ObjectListItem
+        },
+        computed: {
+            ShortTextArr(){
+                return this.$store.state.ShortTextObject.ShortTextArr;
+            },
+            LongTextArr(){
+                return this.$store.state.LongTextObject.LongTextArr;
+            },
+            CheckBoxArr(){
+                return this.$store.state.CheckBoxObject.CheckBoxArr;
+            },
+            SignArr(){
+                return this.$store.state.SignObject.SignArr;
+            }
         }
     }
 </script>

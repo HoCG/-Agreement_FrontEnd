@@ -16,6 +16,7 @@
     import jsPDF from "jspdf";
     import axios from "axios";
     import pdf from 'vue-pdf';
+    import DataProcess from '../DataProcess'
     export default {
         props: ["document-name"],
         data() {
@@ -27,6 +28,26 @@
                     submittee_object_signs: [],
                     submittee_object_checkboxes: []
                 }
+            }
+        },
+        computed: {
+            OriginalWidth(){
+                return this.$store.state.PDFScreenInfo.OriginalWidth;
+            },
+            PDFTitle(){
+                return this.$store.state.PDFScreenInfo.PDFTitle;
+            },
+            ShortTextArr(){
+                return this.$store.state.ShortTextObject.ShortTextArr;
+            },
+            LongTextArr(){
+                return this.$store.state.LongTextObject.LongTextArr;
+            },
+            CheckBoxArr(){
+                return this.$store.state.CheckBoxObject.CheckBoxArr;
+            },
+            SignArr(){
+                return this.$store.state.SignObject.SignArr;
             }
         },
         methods: {
@@ -68,8 +89,8 @@
                         let imgData = canvas.toDataURL('image/png');
                         let MinData = 4000;
                         let MinPage = 0;
-                        for (let j = 0; j < self.$store.state.PDFScreenInfo.OriginalWidth.length; j++) {
-                            if (self.$store.state.PDFScreenInfo.OriginalWidth[j] < MinData) {
+                        for (let j = 0; j < self.OriginalWidth.length; j++) {
+                            if (self.OriginalWidth[j] < MinData) {
                                 MinData = self
                                     .$store
                                     .state
@@ -81,14 +102,8 @@
                         let DefaultPage = document.getElementById('page' + MinPage);
                         let computed_DefaultPage_Style = window.getComputedStyle(DefaultPage);
                         let imgWidth = self
-                            .$store
-                            .state
-                            .PDFScreenInfo
                             .OriginalWidth[MinPage - 1];
                         let computed_Ratio = self
-                            .$store
-                            .state
-                            .PDFScreenInfo
                             .OriginalWidth[MinPage - 1] / parseInt(computed_DefaultPage_Style.width, 10);
                         let position = 0;
                         let doc = new jsPDF('p', 'px', [
@@ -99,14 +114,14 @@
                             let currentPage = document.getElementById('page' + i);
                             let computed_Page_Style = window.getComputedStyle(currentPage);
                             let pageHeight = parseInt(computed_Page_Style.height, 10) * computed_Ratio;
-                            if (self.$store.state.PDFScreenInfo.OriginalWidth[i - 1] < pageHeight * 1.41) {
+                            if (self.OriginalWidth[i - 1] < pageHeight * 1.41) {
                                 if (i === 1) {
                                     doc.addImage(
                                         imgData,
                                         'PNG',
                                         0,
                                         position,
-                                        self.$store.state.PDFScreenInfo.OriginalWidth[i - 1],
+                                        self.OriginalWidth[i - 1],
                                         pageHeight
                                     );
                                 } else {
@@ -115,7 +130,7 @@
                                         'PNG',
                                         0,
                                         position,
-                                        self.$store.state.PDFScreenInfo.OriginalWidth[i - 1],
+                                        self.OriginalWidth[i - 1],
                                         pageHeight
                                     );
                                     doc.addPage();
@@ -127,7 +142,7 @@
                                         'PNG',
                                         -90,
                                         position,
-                                        self.$store.state.PDFScreenInfo.OriginalWidth[i - 1],
+                                        self.OriginalWidth[i - 1],
                                         pageHeight
                                     );
                                 } else {
@@ -136,7 +151,7 @@
                                         'PNG',
                                         -90,
                                         position,
-                                        self.$store.state.PDFScreenInfo.OriginalWidth[i - 1],
+                                        self.OriginalWidth[i - 1],
                                         pageHeight
                                     );
                                     doc.addPage();
@@ -286,33 +301,11 @@
                     .state
                     .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
-                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
-                    let submittee_object_checkbox = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24,
-                        checked: false
-                    }
-                    submittee_object_checkbox.name = CheckBoxObject.title;
-                    submittee_object_checkbox.x_position = CheckBoxObject.x * computed_Ratio;
-                    submittee_object_checkbox.y_position = CheckBoxObject.y * computed_Ratio;
-                    submittee_object_checkbox.width = CheckBoxObject.width * computed_Ratio;
-                    submittee_object_checkbox.height = CheckBoxObject.height * computed_Ratio;
-                    submittee_object_checkbox.rotate = 0;
-                    submittee_object_checkbox.page = CheckBoxObject.page;
-                    submittee_object_checkbox.type = "DEFAULT";
-                    submittee_object_checkbox.checked = CheckBoxObject.checked;
+                for (let CheckBoxObject of this.CheckBoxArr) {
                     this
                         .SendJsonFile
                         .submittee_object_checkboxes
-                        .push(submittee_object_checkbox);
+                        .push(DataProcess.makeCheckBox(CheckBoxObject, computed_Ratio));
                 }
             },
             makeTextForm() {
@@ -323,61 +316,17 @@
                     .state
                     .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
-                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
-                    let submittee_object_text = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24,
-                        content: ""
-                    };
-                    submittee_object_text.name = ShortTextObject.title;
-                    submittee_object_text.x_position = ShortTextObject.x * computed_Ratio;
-                    submittee_object_text.y_position = ShortTextObject.y * computed_Ratio;
-                    submittee_object_text.width = ShortTextObject.width * computed_Ratio;
-                    submittee_object_text.height = ShortTextObject.height * computed_Ratio;
-                    submittee_object_text.rotate = 0;
-                    submittee_object_text.page = ShortTextObject.page;
-                    submittee_object_text.type = "SHORT_TEXT";
-                    submittee_object_text.content = ShortTextObject.text;
+                for (let ShortTextObject of this.ShortTextArr) {
                     this
                         .SendJsonFile
                         .submittee_object_texts
-                        .push(submittee_object_text);
+                        .push(DataProcess.makeShortText(ShortTextObject, computed_Ratio));
                 }
-                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
-                    let submittee_object_text = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24,
-                        content: ""
-                    };
-                    submittee_object_text.name = LongTextObject.title;
-                    submittee_object_text.x_position = LongTextObject.x * computed_Ratio;
-                    submittee_object_text.y_position = LongTextObject.y * computed_Ratio;
-                    submittee_object_text.width = LongTextObject.width * computed_Ratio;
-                    submittee_object_text.height = LongTextObject.height * computed_Ratio;
-                    submittee_object_text.rotate = 0;
-                    submittee_object_text.page = LongTextObject.page;
-                    submittee_object_text.type = "LONG_TEXT";
-                    submittee_object_text.content = LongTextObject.text;
+                for (let LongTextObject of this.LongTextArr) {
                     this
                         .SendJsonFile
                         .submittee_object_texts
-                        .push(submittee_object_text);
+                        .push(DataProcess.makeLongText(LongTextObject, computed_Ratio));
                 }
             },
             makeSignForm() {
@@ -388,69 +337,11 @@
                     .state
                     .PDFScreenInfo
                     .OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
-                for (let SignObject of this.$store.state.SignObject.SignArr) {
-                    let submittee_object_sign = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24
-                    }
-                    submittee_object_sign.name = SignObject.title;
-                    submittee_object_sign.x_position = SignObject.x * computed_Ratio;
-                    submittee_object_sign.y_position = SignObject.y * computed_Ratio;
-                    submittee_object_sign.width = SignObject.width * computed_Ratio;
-                    submittee_object_sign.height = SignObject.height * computed_Ratio;
-                    submittee_object_sign.rotate = 0;
-                    submittee_object_sign.page = SignObject.page;
-                    submittee_object_sign.type = "DEFAULT";
+                for (let SignObject of this.SignArr) {
                     this
                         .SendJsonFile
                         .submittee_object_signs
-                        .push(submittee_object_sign);
-                }
-            },
-            resizeEvent() {
-                let drawerDiv = document.getElementById("drawer");
-                let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
-                    .$store
-                    .state
-                    .PDFScreenInfo
-                    .OriginalWidth[0];
-                //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
-                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
-                    const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
-                    NewElementDiv.style.width = ShortTextObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = ShortTextObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = ShortTextObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = ShortTextObject.y * computed_Ratio + "px";
-                }
-                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
-                    const NewElementDiv = document.getElementById(LongTextObject.htmlID);
-                    NewElementDiv.style.width = LongTextObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = LongTextObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = LongTextObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = LongTextObject.y * computed_Ratio + "px";
-                }
-                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
-                    const NewElementDiv = document.getElementById(CheckBoxObject.htmlID);
-                    NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + "px";
-                }
-                for (let SignObject of this.$store.state.SignObject.SignArr) {
-                    const NewElementDiv = document.getElementById(SignObject.htmlID);
-                    NewElementDiv.style.width = SignObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = SignObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = SignObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
+                        .push(DataProcess.makeSign(SignObject, computed_Ratio));
                 }
             }
         }

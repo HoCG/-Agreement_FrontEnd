@@ -17,20 +17,28 @@
             return {
             }
         },
+        computed: {
+            currentWriter(){
+                return this.$store.state.writer.currentWriter;
+            },
+            PDFTitle(){
+                return this.$store.state.PDFScreenInfo.PDFTitle;
+            }
+        },
         methods: {
             //PDF 다운을 돕는 함수입니다.
             pdfPrint() {
                 let self = this;
                 axios
                     .get(
-                        `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}/pdf`, {responseType: "blob"}
+                        `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.currentWriter.name}/pdf`, {responseType: "blob"}
                     )
                     .then(function (response) {
                         let file = URL.createObjectURL(
                             new Blob([response.data], {type: 'application/pdf'})
                         );
-                        const pdfTitle = self.$store.state.PDFScreenInfo.PDFTitle.split('.')[0];
-                        const writer = self.$store.state.writer.currentWriter;
+                        const pdfTitle = self.PDFTitle.split('.')[0];
+                        const writer = self.currentWriter;
                         const dateArr = writer.Date.split("T");
                         const date = dateArr[0] + " " + dateArr[1];
                         console.log(writer);

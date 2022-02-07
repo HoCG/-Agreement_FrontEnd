@@ -10,6 +10,7 @@
 </template>
 <script>
     import axios from "axios";
+import DataProcess from '../DataProcess';
     export default {
         data() {
             return {
@@ -18,6 +19,23 @@
                     project_object_signs: [],
                     project_object_checkboxes: []
                 }
+            }
+        },
+        computed: {
+            ShortTextArr(){
+                return this.$store.state.ShortTextObject.ShortTextArr;
+            },
+            LongTextArr(){
+                return this.$store.state.LongTextObject.LongTextArr;
+            },
+            CheckBoxArr(){
+                return this.$store.state.CheckBoxObject.CheckBoxArr;
+            },
+            SignArr(){
+                return this.$store.state.SignObject.SignArr;
+            },
+            Document(){
+                return this.$store.state.UsersDocument.Document;
             }
         },
         methods: {
@@ -46,7 +64,7 @@
                 this.makeTextForm();
                 this.makeSignForm();
                 axios
-                    .post(`${process.env.VUE_APP_BASEURL}/api/projects/${this.$store.state.UsersDocument.Document.name}/objects`, JSON.stringify(this.SendJsonFile), {
+                    .post(`${process.env.VUE_APP_BASEURL}/api/projects/${this.Document.name}/objects`, JSON.stringify(this.SendJsonFile), {
                     headers: {
                         "Content-Type": `application/json`,
                         }
@@ -76,113 +94,33 @@
                     });
             },
             makeCheckBoxForm() {
-                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
-                    let project_object_checkbox = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24
-                    }
-                    project_object_checkbox.name = CheckBoxObject.title;
-                    project_object_checkbox.x_position = CheckBoxObject.x;
-                    project_object_checkbox.y_position = CheckBoxObject.y;
-                    project_object_checkbox.width = CheckBoxObject.width;
-                    project_object_checkbox.height = CheckBoxObject.height;
-                    project_object_checkbox.rotate = 0;
-                    project_object_checkbox.page = CheckBoxObject.page;
-                    project_object_checkbox.type = "DEFAULT";
+                for (let CheckBoxObject of this.CheckBoxArr) {
                     this
                         .SendJsonFile
                         .project_object_checkboxes
-                        .push(project_object_checkbox);
+                        .push(DataProcess.makeCheckBox(CheckBoxObject, 1));
                 }
             },
             makeTextForm() {
-                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
-                    let project_object_text = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24
-                    };
-                    project_object_text.name = ShortTextObject.title;
-                    project_object_text.x_position = ShortTextObject.x;
-                    project_object_text.y_position = ShortTextObject.y;
-                    project_object_text.width = ShortTextObject.width;
-                    project_object_text.height = ShortTextObject.height;
-                    project_object_text.rotate = 0;
-                    project_object_text.page = ShortTextObject.page;
-                    project_object_text.type = "SHORT_TEXT";
+                for (let ShortTextObject of this.ShortTextArr) {
                     this
                         .SendJsonFile
                         .project_object_texts
-                        .push(project_object_text);
+                        .push(DataProcess.makeShortText(ShortTextObject,1));
                 }
-                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
-                    let project_object_text = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24
-                    };
-                    project_object_text.name = LongTextObject.title;
-                    project_object_text.x_position = LongTextObject.x;
-                    project_object_text.y_position = LongTextObject.y;
-                    project_object_text.width = LongTextObject.width;
-                    project_object_text.height = LongTextObject.height;
-                    project_object_text.rotate = 0;
-                    project_object_text.page = LongTextObject.page;
-                    project_object_text.type = "LONG_TEXT";
+                for (let LongTextObject of this.LongTextArr) {
                     this
                         .SendJsonFile
                         .project_object_texts
-                        .push(project_object_text);
+                        .push(DataProcess.makeLongText(LongTextObject, 1));
                 }
             },
             makeSignForm() {
-                for (let SignObject of this.$store.state.SignObject.SignArr) {
-                    let project_object_sign = {
-                        name: "",
-                        x_position: 0,
-                        y_position: 0,
-                        width: 0,
-                        height: 0,
-                        rotate: 0,
-                        page: 0,
-                        type: "DEFAULT",
-                        color: "#000000",
-                        font_size: 24
-                    }
-                    project_object_sign.name = SignObject.title;
-                    project_object_sign.x_position = SignObject.x;
-                    project_object_sign.y_position = SignObject.y;
-                    project_object_sign.width = SignObject.width;
-                    project_object_sign.height = SignObject.height;
-                    project_object_sign.rotate = 0;
-                    project_object_sign.page = SignObject.page;
-                    project_object_sign.type = "DEFAULT";
+                for (let SignObject of this.SignArr) {
                     this
                         .SendJsonFile
                         .project_object_signs
-                        .push(project_object_sign);
+                        .push(DataProcess.makeSign(SignObject, 1));
                 }
             }
         }

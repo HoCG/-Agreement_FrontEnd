@@ -2,28 +2,28 @@
     <div>
         <div>
             <SignObject
-                v-for="SignObject in this.$store.state.SignObject.SignArr"
+                v-for="SignObject in SignArr"
                 :key="SignObject.id"
                 v-bind:getSOData="SignObject"
                 v-bind:id="SignObject.htmlID"/>
         </div>
         <div>
             <CheckBoxObject
-                v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr"
+                v-for="CheckBoxObject in CheckBoxArr"
                 :key="CheckBoxObject.id"
                 v-bind:getCBData="CheckBoxObject"
                 v-bind:id="CheckBoxObject.htmlID"/>
         </div>
         <div>
             <LongTextObject
-                v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr"
+                v-for="LTextObject in LongTextArr"
                 :key="LTextObject.id"
                 v-bind:getLTData="LTextObject"
                 v-bind:id="LTextObject.htmlID"/>
         </div>
         <div>
             <ShortTextObject
-                v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr"
+                v-for="STextObject in ShortTextArr"
                 :key="STextObject.id"
                 v-bind:getSTData="STextObject"
                 v-bind:id="STextObject.htmlID"/>
@@ -41,6 +41,20 @@
             CheckBoxObject,
             LongTextObject,
             ShortTextObject,
+        },
+        computed: {
+            ShortTextArr(){
+                return this.$store.state.ShortTextObject.ShortTextArr;
+            },
+            LongTextArr(){
+                return this.$store.state.LongTextObject.LongTextArr;
+            },
+            CheckBoxArr(){
+                return this.$store.state.CheckBoxObject.CheckBoxArr;
+            },
+            SignArr(){
+                return this.$store.state.SignObject.SignArr;
+            }
         }
     }
 </script>

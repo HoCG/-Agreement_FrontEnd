@@ -33,6 +33,11 @@
 </template>
 <script>
     export default {
+        computed: {
+            Document() {
+                return this.$store.state.UsersDocument.Document;
+            }
+        },
         methods: {
             onClick() {
                 this
@@ -70,19 +75,19 @@
                     .commit("SET_DOCUMENT_TITLE", files[0].name);
                 if (files[0].name.includes(".pdf")) { //파일이 pdf의 형태인지 확인.
                     //const src = await this.readFiles(files[0]) 새로들어온 pdf를 store에 저장 및 서버에 전송.
-                    this.$store.state.UsersDocument.Document.id = this
+                    this.Document.id = this
                         .$store
                         .state
                         .UsersDocument
                         .DocumentArr[0] + 1;
-                    this.$store.state.UsersDocument.Document.documentTitle = files[0].name;
-                    this.$store.state.UsersDocument.Document.Link = "";
-                    this.$store.state.UsersDocument.Document.src = files[0];
-                    this.$store.state.UsersDocument.Document.documentWritersCount = 0;
-                    this.$store.state.UsersDocument.Document.State = 1;
+                    this.Document.documentTitle = files[0].name;
+                    this.Document.Link = "";
+                    this.Document.src = files[0];
+                    this.Document.documentWritersCount = 0;
+                    this.Document.State = 1;
                     this
                         .$store
-                        .dispatch('POST_PROJECT', this.$store.state.UsersDocument.Document);
+                        .dispatch('POST_PROJECT', this.Document);
                 } else {
                     alert("pdf만 올릴수있습니다. 다시 시도해주세요.");
                 }

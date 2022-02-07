@@ -21,7 +21,7 @@
                 </div>      
             </div>
             <writer-list-element-component
-            v-for="project in this.$store.state.UsersDocument.DocumentArr"
+            v-for="project in DocumentArr"
             :key="project.id"
             :project="project"
             />
@@ -49,6 +49,15 @@ export default {
     },
     components: { WriterListElementComponent },
 
+    computed: {
+        DocumentArr(){
+            return this.$store.state.UsersDocument.DocumentArr
+        },
+        projectTotalPage(){
+            return this.$store.state.UsersDocument.projectTotalPage;
+        }
+    },
+
     mounted() {
         this.$store.commit("FORMAT_ALL_DOCUMENTS");
         this.$store.dispatch('REQUEST_PROJECT', 0);
@@ -57,7 +66,7 @@ export default {
     methods: {
         setPage(isNext){
                 if(isNext){
-                    this.totalPage = this.$store.state.UsersDocument.projectTotalPage;
+                    this.totalPage = this.projectTotalPage;
                     if(this.page < this.totalPage){
                         this.$store.dispatch('REQUEST_PROJECT', this.page + 1);
                         this.page +=1;

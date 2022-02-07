@@ -9,11 +9,11 @@
                 <li>
                     <div style="width:100%; height: 28px;">
                         <ShortTextSVG style="float: left" height="15%"/>
-                        <div style="float: left">({{this.$store.state.ShortTextObject.ShortTextArr.length}})</div>
+                        <div style="float: left">({{ShortTextArr.length}})</div>
                     </div>
                     <ol
                         style="width:100%;"
-                        v-for="STextObject in this.$store.state.ShortTextObject.ShortTextArr"
+                        v-for="STextObject in ShortTextArr"
                         :key="STextObject.id">
                         {{
                             STextObject.title
@@ -26,11 +26,11 @@
                 <li>
                     <div style="width:100%; height: 28px;">
                         <LongTextSVG style="float: left" height="15%"/>
-                        <div style="float: left">({{this.$store.state.LongTextObject.LongTextArr.length}})</div>
+                        <div style="float: left">({{LongTextArr.length}})</div>
                     </div>
                     <ol
                         style="width:100%;"
-                        v-for="LTextObject in this.$store.state.LongTextObject.LongTextArr"
+                        v-for="LTextObject in LongTextArr"
                         :key="LTextObject.id">
                         {{
                             LTextObject.title
@@ -43,10 +43,10 @@
                 <li>
                     <div style="width:100%; height: 28px;">
                         <CheckBoxSVG style="float: left" height="15%"/>
-                        <div style="float: left">({{this.$store.state.CheckBoxObject.CheckBoxArr.length}})</div>
+                        <div style="float: left">({{CheckBoxArr.length}})</div>
                     </div>
                     <ol
-                        v-for="CheckBoxObject in this.$store.state.CheckBoxObject.CheckBoxArr"
+                        v-for="CheckBoxObject in CheckBoxArr"
                         :key="CheckBoxObject.id">
                         {{
                             CheckBoxObject.title
@@ -59,10 +59,10 @@
                 <li>
                     <div style="width:100%; height: 28px;">
                         <SignSVG style="float: left" height="15%"/>
-                        <div style="float: left">({{this.$store.state.SignObject.SignArr.length}})</div>
+                        <div style="float: left">({{SignArr.length}})</div>
                     </div>
                     <ol
-                        v-for="SignObject in this.$store.state.SignObject.SignArr"
+                        v-for="SignObject in SignArr"
                         :key="SignObject.id">
                         {{
                             SignObject.title
@@ -84,6 +84,20 @@
             LongTextSVG,
             CheckBoxSVG,
             SignSVG
+        },
+        computed: {
+            ShortTextArr(){
+                return this.$store.state.ShortTextObject.ShortTextArr;
+            },
+            LongTextArr(){
+                return this.$store.state.LongTextObject.LongTextArr;
+            },
+            CheckBoxArr(){
+                return this.$store.state.CheckBoxObject.CheckBoxArr;
+            },
+            SignArr(){
+                return this.$store.state.SignObject.SignArr;
+            }
         }
     }
 </script>

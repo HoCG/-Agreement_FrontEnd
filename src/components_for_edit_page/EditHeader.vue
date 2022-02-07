@@ -47,6 +47,20 @@
                 SignObjectID: 1
             }
         },
+        computed:{
+            ShortText(){
+                return this.$store.state.ShortTextObject.ShortText;
+            },
+            LongText(){
+                return this.$store.state.LongTextObject.LongText;
+            },
+            CheckBox(){
+                return this.$store.state.CheckBoxObject.CheckBox;
+            },
+            Sign(){
+                return this.$store.state.SignObject.Sign;
+            }
+        },
         components: {
             CheckBoxSVG,
             SignSVG,
@@ -84,53 +98,53 @@
                 let computed_Object_Style = window.getComputedStyle(drawerDiv); 
                 let computed_Ratio = this.$store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
                 if (objectID === "ShortTextObjectArea") {
-                    this.$store.state.ShortTextObject.ShortText.htmlID = objectID;
-                    this.$store.state.ShortTextObject.ShortText.title = "짧은 글_";
-                    this.$store.state.ShortTextObject.ShortText.width = 100 * computed_Ratio;
-                    this.$store.state.ShortTextObject.ShortText.height = 30 * computed_Ratio;
-                    this.$store.state.ShortTextObject.ShortText.x = x;
-                    this.$store.state.ShortTextObject.ShortText.y = y;
-                    this.$store.state.ShortTextObject.ShortText.push_or_readCheck = true;
+                    this.ShortText.htmlID = objectID;
+                    this.ShortText.title = "짧은 글_";
+                    this.ShortText.width = 100 * computed_Ratio;
+                    this.ShortText.height = 30 * computed_Ratio;
+                    this.ShortText.x = x;
+                    this.ShortText.y = y;
+                    this.ShortText.push_or_readCheck = true;
                     this
                         .$store
-                        .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
-                    console.log(this.$store.state.ShortTextObject.ShortTextArr);
+                        .commit("ADD_SHORTTEXT_OBJECT", this.ShortText);
+                    //console.log(this.$store.state.ShortTextObject.ShortTextArr);
                     this.STextObjectID++;
                 } else if (objectID === "LongTextObjectArea") {
-                    this.$store.state.LongTextObject.LongText.htmlID = objectID;
-                    this.$store.state.LongTextObject.LongText.title = "긴 글_";
-                    this.$store.state.LongTextObject.LongText.width = 100 * computed_Ratio;
-                    this.$store.state.LongTextObject.LongText.height = 100 * computed_Ratio;
-                    this.$store.state.LongTextObject.LongText.x = x;
-                    this.$store.state.LongTextObject.LongText.y = y;
-                    this.$store.state.LongTextObject.LongText.push_or_readCheck = true;
+                    this.LongText.htmlID = objectID;
+                    this.LongText.title = "긴 글_";
+                    this.LongText.width = 100 * computed_Ratio;
+                    this.LongText.height = 100 * computed_Ratio;
+                    this.LongText.x = x;
+                    this.LongText.y = y;
+                    this.LongText.push_or_readCheck = true;
                     this
                         .$store
-                        .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
+                        .commit("ADD_LONGTEXT_OBJECT", this.LongText);
                     this.LTextObjectID++;
                 } else if (objectID === "CheckBoxObjectArea") {
-                    this.$store.state.CheckBoxObject.CheckBox.htmlID = objectID;
-                    this.$store.state.CheckBoxObject.CheckBox.title = "체크박스_";
-                    this.$store.state.CheckBoxObject.CheckBox.width = 30 * computed_Ratio;
-                    this.$store.state.CheckBoxObject.CheckBox.height = 30 * computed_Ratio;
-                    this.$store.state.CheckBoxObject.CheckBox.x = x;
-                    this.$store.state.CheckBoxObject.CheckBox.y = y;
-                    this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = true;
+                    this.CheckBox.htmlID = objectID;
+                    this.CheckBox.title = "체크박스_";
+                    this.CheckBox.width = 30 * computed_Ratio;
+                    this.CheckBox.height = 30 * computed_Ratio;
+                    this.CheckBox.x = x;
+                    this.CheckBox.y = y;
+                    this.CheckBox.push_or_readCheck = true;
                     this
                         .$store
-                        .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
+                        .commit("ADD_CHECKBOX_OBJECT", this.CheckBox);
                     this.CheckBoxObjectID++;
                 } else if (objectID === "SignObjectArea") {
-                    this.$store.state.SignObject.Sign.htmlID = objectID;
-                    this.$store.state.SignObject.Sign.title = "사인_";
-                    this.$store.state.SignObject.Sign.width = 100 * computed_Ratio;
-                    this.$store.state.SignObject.Sign.height = 100 * computed_Ratio;
-                    this.$store.state.SignObject.Sign.x = x;
-                    this.$store.state.SignObject.Sign.y = y;
-                    this.$store.state.SignObject.Sign.push_or_readCheck = true;
+                    this.Sign.htmlID = objectID;
+                    this.Sign.title = "사인_";
+                    this.Sign.width = 100 * computed_Ratio;
+                    this.Sign.height = 100 * computed_Ratio;
+                    this.Sign.x = x;
+                    this.Sign.y = y;
+                    this.Sign.push_or_readCheck = true;
                     this
                         .$store
-                        .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
+                        .commit("ADD_SIGN_OBJECT", this.Sign);
                     this.SignObjectID++;
                 }
             }

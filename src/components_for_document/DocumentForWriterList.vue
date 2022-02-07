@@ -9,8 +9,13 @@
         components: {
             WriterListComponent
         },
+        computed: {
+            DocumentArr(){
+                return this.$store.state.UsersDocument.DocumentArr;
+            }
+        },
         mounted(){
-            for(let Document of this.$store.state.UsersDocument.DocumentArr){
+            for(let Document of this.DocumentArr){
                 this.$store.commit("FORMAT_ALL_WRITERS", Document.name);
                 this.$store.dispatch("REQUEST_PROJECT_WRITER", Document.name);
             }

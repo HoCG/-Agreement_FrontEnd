@@ -11,6 +11,7 @@
     import EditObjectList from "../components_for_edit_page/EditObjectList.vue"
     import ObjectBox from "../objects/ObjectBox.vue"
     import PDFViewer from "../components/PDFViewer.vue"
+    import DataProcess from "../DataProcess"
     import axios from "axios";
     import pdf from 'vue-pdf';
     export default {
@@ -41,18 +42,18 @@
                                 .$store
                                 .commit("SET_PDF_FILE_PAGE_INFO", self.numPages);
                             self.saveOriginalWidth(response.data);
-                            self.readAllObject(response.data);
+                            DataProcess.readAllObject(response.data);
                         });
                 })
                 .catch(function (error) {
                     console.log(error);
                 }
             );
-            window.addEventListener('resize', this.resizeEvent, true)
+            window.addEventListener('resize', DataProcess.resizeEvent, true)
         },
         beforeDestroy(){
             this.$store.commit("SET_DOCUMENT_TITLE", "");
-            window.removeEventListener('resize', this.resizeEvent)
+            window.removeEventListener('resize', DataProcess.resizeEvent)
         },
         data(){
             return{
@@ -61,120 +62,14 @@
             }
         },
         methods: {
-            resizeEvent() {
-                let drawerDiv = document.getElementById("drawer");
-                let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = parseInt(computed_Object_Style.width, 10) / this
-                    .$store
-                    .state
-                    .PDFScreenInfo
-                    .OriginalWidth[0];
-                //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
-                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
-                    const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
-                    NewElementDiv.style.width = ShortTextObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = ShortTextObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = ShortTextObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = ShortTextObject.y * computed_Ratio + "px";
-                }
-                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
-                    const NewElementDiv = document.getElementById(LongTextObject.htmlID);
-                    NewElementDiv.style.width = LongTextObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = LongTextObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = LongTextObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = LongTextObject.y * computed_Ratio + "px";
-                }
-                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
-                    const NewElementDiv = document.getElementById(CheckBoxObject.htmlID);
-                    NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + "px";
-                }
-                for (let SignObject of this.$store.state.SignObject.SignArr) {
-                    const NewElementDiv = document.getElementById(SignObject.htmlID);
-                    NewElementDiv.style.width = SignObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = SignObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = SignObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
-                }
-            },
              //서버에서 넘겨준 PDF의 원래 가로값을 가지고와서 전역으로 사용할 수 있도록 돕는 함수입니다.
             saveOriginalWidth(responseData){
                 this.$store.commit("FORMAT_ORIGINAL_WIDTH"); //기존에 store에서 담고있을 원래 가로값을 초기화 시켜줍니다.
                 for(let OW of responseData.pdf.original_width){
                     this.$store.commit("SAVE_ORIGINAL_WIDTH", OW); //원래 가로값을 store에 저장합니다.
                 }
-            },
-            //서버를 통해 읽은 모든 데이터를 store에 저장합니다.
-            readAllObject(responseData) {
-                //가지고 온 데이터에서
-                this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
-                this.readCheckBoxObject(responseData.project_object_checkboxes); //체크박스만 따로 처리.
-                this.readSignObject(responseData.project_object_signs); //사인값만 따로 처리.
-            },
-            //아래 모든 함수들은 데이터를 저장하는 과정입니다.
-            readTextObject(project_object_texts) {
-                // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
-                for (let TextObject of project_object_texts) {
-                    if (TextObject.type === "SHORT_TEXT") {
-                        this.$store.state.ShortTextObject.ShortText.htmlID = "ShortTextObjectArea"
-                        this.$store.state.ShortTextObject.ShortText.title = TextObject.name;
-                        this.$store.state.ShortTextObject.ShortText.width = TextObject.width;
-                        this.$store.state.ShortTextObject.ShortText.height = TextObject.height;
-                        this.$store.state.ShortTextObject.ShortText.x = TextObject.x_position;
-                        this.$store.state.ShortTextObject.ShortText.y = TextObject.y_position;
-                        this.$store.state.ShortTextObject.ShortText.page = TextObject.page;
-                        this.$store.state.ShortTextObject.ShortText.push_or_readCheck = false;
-                        this
-                            .$store
-                            .commit("ADD_SHORTTEXT_OBJECT", this.$store.state.ShortTextObject.ShortText);
-                    } else {
-                        this.$store.state.LongTextObject.LongText.htmlID = "LongTextObjectArea"
-                        this.$store.state.LongTextObject.LongText.title = TextObject.name;
-                        this.$store.state.LongTextObject.LongText.width = TextObject.width;
-                        this.$store.state.LongTextObject.LongText.height = TextObject.height;
-                        this.$store.state.LongTextObject.LongText.x = TextObject.x_position;
-                        this.$store.state.LongTextObject.LongText.y = TextObject.y_position;
-                        this.$store.state.LongTextObject.LongText.page = TextObject.page;
-                        this.$store.state.LongTextObject.LongText.push_or_readCheck = false;
-                        this
-                            .$store
-                            .commit("ADD_LONGTEXT_OBJECT", this.$store.state.LongTextObject.LongText);
-                    }
-                }
-            },
-            readCheckBoxObject(project_object_checkboxes) {
-               // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
-                for (let CheckBoxObject of project_object_checkboxes) {
-                    this.$store.state.CheckBoxObject.CheckBox.htmlID = "CheckBoxObjectArea"
-                    this.$store.state.CheckBoxObject.CheckBox.title = CheckBoxObject.name;
-                    this.$store.state.CheckBoxObject.CheckBox.width = CheckBoxObject.width;
-                    this.$store.state.CheckBoxObject.CheckBox.height = CheckBoxObject.height;
-                    this.$store.state.CheckBoxObject.CheckBox.x = CheckBoxObject.x_position;
-                    this.$store.state.CheckBoxObject.CheckBox.y = CheckBoxObject.y_position;
-                    this.$store.state.CheckBoxObject.CheckBox.page = CheckBoxObject.page;
-                    this.$store.state.CheckBoxObject.CheckBox.push_or_readCheck = false;
-                    this
-                        .$store
-                        .commit("ADD_CHECKBOX_OBJECT", this.$store.state.CheckBoxObject.CheckBox);
-                }
-            },
-            readSignObject(project_object_signs) {
-                for (let SignObject of project_object_signs) {
-                    this.$store.state.SignObject.Sign.htmlID = "SignObjectArea"
-                    this.$store.state.SignObject.Sign.title = SignObject.name;
-                    this.$store.state.SignObject.Sign.width = SignObject.width;
-                    this.$store.state.SignObject.Sign.height = SignObject.height;
-                    this.$store.state.SignObject.Sign.x = SignObject.x_position;
-                    this.$store.state.SignObject.Sign.y = SignObject.y_position;
-                    this.$store.state.SignObject.Sign.page = SignObject.page;
-                    this.$store.state.SignObject.Sign.push_or_readCheck = false;
-                    this
-                        .$store
-                        .commit("ADD_SIGN_OBJECT", this.$store.state.SignObject.Sign);
-                }
             }
+            //서버를 통해 읽은 모든 데이터를 store에 저장합니다.
         }
     }
 </script>

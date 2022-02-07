@@ -21,13 +21,13 @@
 </template>
 <script>
     export default {
-        data: () => {
-            return {
-                writer: {},
+        computed:{
+            writer(){
+                return this.$store.state.writer.currentWriter;
+            },
+            PDFTitle(){
+                return this.$store.state.PDFScreenInfo.PDFTitle;
             }
-        },
-        mounted() {
-            this.writer = this.$store.state.writer.currentWriter;
         },
         methods: {
             closeBtn() {
@@ -37,7 +37,7 @@
                 console.log(this.writer);
                 let a = document.createElement("a");
                 a.href = this.$store.state.PDFScreenInfo.file;
-                const fileName = `${this.$store.state.PDFScreenInfo.PDFTitle}_${this.writer.name}_${this.writer.schoolID}.pdf`;
+                const fileName = `${this.PDFTitle}_${this.writer.name}_${this.writer.schoolID}.pdf`;
                 a.download = fileName;
                 document.body.appendChild(a);
                 a.click();
