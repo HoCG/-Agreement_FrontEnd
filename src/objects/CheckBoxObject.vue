@@ -3,7 +3,7 @@
         <!-- <p id="textForm"> 체크박스{{getCBData.id}} </p> -->
         <svg
             v-bind:id="getCBData.htmlID+'DeleteBtn'+getCBData.id"
-            @mousedown="DeleteElement"
+            @mousedown="deleteElement"
             class="CheckBoxCloseBtn"
             width="20"
             height="20"
@@ -42,7 +42,7 @@
         },
         */  
         methods: {
-            DeleteElement(e){
+            deleteElement(e){
                 e.stopPropagation();
                 const Element = document.getElementById(this.getCBData.htmlID);
                 Element.remove();

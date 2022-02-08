@@ -1,19 +1,19 @@
 <template>
-    <div class="EditHeader">
+    <div class="edit-header">
         <div class="navigation">
-            <button @click="makeObject(STextObjectName , $event)" class="objectBtnStyle">
+            <button @click="makeObject(STextObjectName , $event)" class="object-btn-style">
                 <ShortTextSVG/>
                 <p>짧은 글</p>
             </button>
-            <button @click="makeObject(LTextObjectName, $event)" class="objectBtnStyle">
+            <button @click="makeObject(LTextObjectName, $event)" class="object-btn-style">
                 <LongTextSVG/>
                 <p>긴 글</p>
             </button>
-            <button @click="makeObject(CheckBoxObjectName, $event)" class="objectBtnStyle">
+            <button @click="makeObject(CheckBoxObjectName, $event)" class="object-btn-style">
                 <CheckBoxSVG/>
                 <p>체크박스</p>
             </button>
-            <button @click="makeObject(SignObjectName, $event)" class="objectBtnStyle">
+            <button @click="makeObject(SignObjectName, $event)" class="object-btn-style">
                 <SignSVG/>
                 <p>서명</p>
             </button>
@@ -152,7 +152,7 @@
     }
 </script>
 <style>
-    .EditHeader {
+    .edit-header {
         width: 100%;
         height: 88px;
         position: fixed;
@@ -168,7 +168,7 @@
         top: 25%;
         height: 60%;
     }
-    .objectBtnStyle {
+    .object-btn-style {
         margin-left: 2%;
         margin-right: 2%;
     }

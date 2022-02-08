@@ -1,10 +1,10 @@
 <template>
-    <div class="sideBar">
-        <div class="ShowObjectInfo">
-            <div class="objectInfo">
-                <h3 class="objectInfoText">오브젝트 리스트</h3>
+    <div class="sidebar">
+        <div class="object-list">
+            <div class="object-list-box">
+                <h3 class="object-list-box-text">오브젝트 리스트</h3>
             </div>
-            <div class="objectList">
+            <div>
                 <ul>
                     <li>
                         <div style="width:100%; height: 28px;">
@@ -84,12 +84,12 @@
         padding-left: 0px;
         margin: 30px 0 0 40px;
     }
-    .ShowObjectInfo {
+    .object-list {
         width: 100%;
         height: calc(100% - 150px);
         overflow-y: auto;
     }
-    .sideBar {
+    .sidebar {
         width: 280px;
         height: 100%;
         z-index: 4;
@@ -97,7 +97,7 @@
         top: 150px;
         background-color: white;
     }
-    .objectInfo {
+    .object-list-box {
         position: relative;
         align-items: center;
         text-align: center;
@@ -106,7 +106,7 @@
         background-color: #767676;
         color: white;
     }
-    .objectInfoText {
+    .object-list-box-text {
         position: relative;
         line-height: 88px;
     }

@@ -1,9 +1,9 @@
 <template>
-    <div class="DocumentMenu" >
-        <button class="MenuBtn" @click="CopyDocument">복사</button>
-        <button class="MenuBtn" @click="DeleteDocument">삭제</button>
-        <button class="MenuBtn" v-if="menuDocument.State===3" @click="ReShareMode">다시공유</button>
-        <button class="MenuBtn" v-else-if="menuDocument.State===2" @click="StopShareMode">공유중단</button>
+    <div class="document-menu" >
+        <button class="menu-btn" @click="CopyDocument">복사</button>
+        <button class="menu-btn" @click="DeleteDocument">삭제</button>
+        <button class="menu-btn" v-if="menuDocument.State===3" @click="ReShareMode">다시공유</button>
+        <button class="menu-btn" v-else-if="menuDocument.State===2" @click="StopShareMode">공유중단</button>
     </div>
 </template>
 <script>
@@ -41,10 +41,10 @@
     }
 </script>
 <style>
-    .MenuBtn {
+    .menu-btn {
         width: 100%;
     }
-    .DocumentMenu {
+    .document-menu {
         position: absolute;
         right: 0px;
         background-color: white;

@@ -1,10 +1,10 @@
 <!--AppBar에 위치하여(네비게이션 상단에 있는 Bar) PDF다운로드와 페이지 종료를 돕는 vue파일입니다.-->
 <template>
-    <div class="WriteOverForm">
+    <div class="write-over-form">
         <button @click="closeBtn()">
-            <h3 class="closeText">닫기</h3>
+            <h3 class="close-text">닫기</h3>
         </button>
-        <button @click="documentSaveBtn()">
+        <button @click="saveDocumentBtn()">
             <svg
                 width="108"
                 height="40"
@@ -33,7 +33,7 @@
             closeBtn() {
                 window.close();
             },
-            documentSaveBtn() {
+            saveDocumentBtn() {
                 console.log(this.writer);
                 let a = document.createElement("a");
                 a.href = this.$store.state.PDFScreenInfo.file;
@@ -47,11 +47,11 @@
     }
 </script>
 <style>
-    .WriteOverForm {
+    .write-over-form {
         align-items: center;
         display: inline-flex;
     }
-    .closeText {
+    .close-text {
         width: 150px;
         height: 30px;
     }

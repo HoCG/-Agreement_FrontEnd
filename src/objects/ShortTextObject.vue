@@ -4,7 +4,7 @@
             짧은 글{{getSTData.id}}
         </p>
         <svg
-            @mousedown="DeleteElement"
+            @mousedown="deleteElement"
             v-bind:id="getSTData.htmlID+'DeleteBtn'+getSTData.id"
             class="ShortTextCloseBtn"
             width="20"
@@ -77,7 +77,7 @@
         },
         */
         methods: {
-            DeleteElement(e) {
+            deleteElement(e) {
                 const Element = document.getElementById(this.getSTData.htmlID);
                 Element.remove();
                 this

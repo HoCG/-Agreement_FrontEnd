@@ -125,6 +125,7 @@
                         .commit("SAVE_ORIGINAL_WIDTH", OW);
                 }
             },
+            //readAllObject와는 다르게 한번만 선언되어 사용되는 함수이기에 여기에 따로 DataProcess에 담지는 않음.
             pushAllObject(responseData) {
                 //가지고 온 데이터에서
                 this.pushTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
@@ -206,7 +207,7 @@
         position: relative;
         height: 100%;
     }
-    .sideBar {
+    .sidebar {
         top: 20%;
         width: 280px;
         height: 100%;

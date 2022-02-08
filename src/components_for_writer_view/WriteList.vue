@@ -1,10 +1,10 @@
 <!--작성자가 작성해야하는 오브젝트의 정보를 SideBar의 형태로 만들어서 보여주는 vue파일입니다.-->
 <template>
-    <div class="sideBar">
-        <div class="objectInfo">
-            <h3 class="objectInfoText">오브젝트 리스트</h3>
+    <div class="sidebar">
+        <div class="object-list-box">
+            <h3 class="object-list-box-text">오브젝트 리스트</h3>
         </div>
-        <div class="objectList">
+        <div class="object-list">
             <ul>
                 <li>
                     <div style="width:100%; height: 28px;">
@@ -102,7 +102,7 @@
     }
 </script>
 <style scoped>
-    .sideBar {
+    .sidebar {
         width: 280px;
         height: 100%;
         z-index: 4;
@@ -110,7 +110,7 @@
         top: 150px;
         background-color: white;
     }
-    .objectInfo {
+    .object-list-box {
         position: relative;
         align-items: center;
         text-align: center;
@@ -119,7 +119,7 @@
         background-color: #767676;
         color: white;
     }
-    .objectInfoText {
+    .object-list-box-text {
         position: relative;
         line-height: 88px;
     }

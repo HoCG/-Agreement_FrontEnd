@@ -1,8 +1,8 @@
 <!--네비게이션 바에 위치하여 오브젝트의 axios처리와 페이지닫기를 도와주는 vue파일입니다.-->
 <template>
-    <div class="WriterHeader">
+    <div class="writer-header">
         <div class="navigation">
-            <button class="control-button" @click="pdfPrint()">
+            <button class="control-button" @click="printPDF()">
                 완료
             </button>
             <button class="control-button" @click="exit">
@@ -55,7 +55,7 @@
                 this.$router.push({path: `/WriterLoginPage/${this.documentName}`
                                 }).catch();
             },
-            pdfPrint() {
+            printPDF() {
                 let self = this;
                 const dataURLtoFile = (dataurl, fileName) => {
                     let arr = dataurl.split(','),
@@ -220,43 +220,6 @@
                     this.$store.commit("OPEN_ALERT", "서명을 모두 입력해주세요!");
                 }
             },
-            /*
-            setPDFsForm(){
-                let drawerDiv = document.getElementById("drawer");
-                drawerDiv.style.width = 1100 + "px";
-                //let computed_Object_Style = window.getComputedStyle(drawerDiv);
-                let computed_Ratio = 1100 / this.$store.state.PDFScreenInfo.OriginalWidth[0];
-                //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
-                for (let ShortTextObject of this.$store.state.ShortTextObject.ShortTextArr) {
-                    const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
-                    NewElementDiv.style.width = ShortTextObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = ShortTextObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = ShortTextObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = ShortTextObject.y * computed_Ratio + "px";
-                }
-                for (let LongTextObject of this.$store.state.LongTextObject.LongTextArr) {
-                    const NewElementDiv = document.getElementById(LongTextObject.htmlID);
-                    NewElementDiv.style.width = LongTextObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = LongTextObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = LongTextObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = LongTextObject.y * computed_Ratio + "px";
-                }
-                for (let CheckBoxObject of this.$store.state.CheckBoxObject.CheckBoxArr) {
-                    const NewElementDiv = document.getElementById(CheckBoxObject.htmlID);
-                    NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + 150 + "px";
-                }
-                for (let SignObject of this.$store.state.SignObject.SignArr) {
-                    const NewElementDiv = document.getElementById(SignObject.htmlID);
-                    NewElementDiv.style.width = SignObject.width * computed_Ratio + "px";
-                    NewElementDiv.style.height = SignObject.height * computed_Ratio + "px";
-                    NewElementDiv.style.left = SignObject.x * computed_Ratio + "px";
-                    NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
-                }
-            },
-            */
             setCssNull() {
                 //this.setPDFsForm();
                 let LongTextElements = document.getElementsByClassName("LongTextObjectArea");
@@ -348,9 +311,6 @@
     }
 </script>
 <style>
-    .WritingAlert {
-        display: none;
-    }
     .control-button {
         float: right;
         width: 82px;
@@ -363,7 +323,7 @@
         background: #767676;        
         border-radius: 5px;
     }
-    .WriterHeader {
+    .writer-header {
         width: 100%;
         height: 100px;
         position: fixed;

@@ -79,7 +79,7 @@
         align-items: center;
         position: relative;
     }
-    .sideBar {
+    .sidebar {
         top: 152px;
         width: 280px;
         height: 100%;

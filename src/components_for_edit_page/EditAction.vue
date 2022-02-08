@@ -1,9 +1,9 @@
 <template>
-    <div class="EditActionDiv">
-        <button class="SaveEditPageButton" @click="SaveAllData">
+    <div class="edit-action-div">
+        <button class="save-edit-page-button" @click="saveAllData">
             완료
         </button>
-        <button class="CloseEditPageButton" @click="CloseEditPage">
+        <button class="close-edit-page-button" @click="closeEditPage">
             닫기
         </button>
     </div>
@@ -39,7 +39,7 @@ import DataProcess from '../DataProcess';
             }
         },
         methods: {
-            CloseEditPage() {
+            closeEditPage() {
                 this
                     .$store
                     .commit("FORMAT_ALL_CHECKBOX_OBJECTS");
@@ -59,7 +59,7 @@ import DataProcess from '../DataProcess';
                     }
                 ).catch();
             },
-            SaveAllData() {
+            saveAllData() {
                 this.makeCheckBoxForm();
                 this.makeTextForm();
                 this.makeSignForm();
@@ -106,7 +106,7 @@ import DataProcess from '../DataProcess';
                     this
                         .SendJsonFile
                         .project_object_texts
-                        .push(DataProcess.makeShortText(ShortTextObject,1));
+                        .push(DataProcess.makeShortText(ShortTextObject, 1));
                 }
                 for (let LongTextObject of this.LongTextArr) {
                     this
@@ -127,10 +127,10 @@ import DataProcess from '../DataProcess';
     }
 </script>
 <style>
-    .EditActionDiv {
+    .edit-action-div {
         float: right;
     }
-    .SaveEditPageButton {
+    .save-edit-page-button {
         float: right;
         width: 82px;
         height: 48px;
@@ -142,7 +142,7 @@ import DataProcess from '../DataProcess';
         border-radius: 5px;
         margin-right: 20px;
     }
-    .CloseEditPageButton {
+    .close-edit-page-button {
         width: 82px;
         height: 48px;
         float: right;

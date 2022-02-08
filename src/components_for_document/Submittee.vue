@@ -8,7 +8,7 @@
         @click="downloadSubmitteePdf"
         >다운로드</div>
         <div class="submittee-em-etc"
-            @click="ShowWriterDocument" >
+            @click="showWriterDocument" >
             문서보기
         </div>
     </div>
@@ -26,7 +26,7 @@ export default {
 
     props: ["writer", "project-title"],
     methods: {
-        ShowWriterDocument(){
+        showWriterDocument(){
             console.log(this.writer);
             this.$store.commit("SET_CURRENT_WRITER", this.writer)
             this

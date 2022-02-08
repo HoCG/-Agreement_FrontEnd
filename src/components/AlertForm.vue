@@ -4,8 +4,8 @@
         <v-dialog width="400" persistent v-model="alert">
             <v-card>
                 <v-spacer></v-spacer>
-                <div class="alertMargin ml-5 font-weight-light">
-                    <span class="alertMargin">
+                <div class="alert-margin ml-5 font-weight-light">
+                    <span class="alert-margin">
                         {{
                             this.$store.state.Alert.alertText
                         }}
@@ -46,7 +46,7 @@
     }
 </script>
 <style>
-    .alertMargin{
+    .alert-margin{
         padding-top: 5%;
     }
 </style>

@@ -1,10 +1,10 @@
 <template>
-    <div class="WriterHeader">
+    <div class="writer-header">
         <div class="navigation">
-            <button class="CloseEditPageButton" @click="pdfPrint">
+            <button class="close-edit-page-button" @click="printPDF">
                 다운로드
             </button>
-            <button class="CloseEditPageButton" @click="backPage">
+            <button class="close-edit-page-button" @click="backPage">
                 닫기
             </button>
         </div>
@@ -27,7 +27,7 @@
         },
         methods: {
             //PDF 다운을 돕는 함수입니다.
-            pdfPrint() {
+            printPDF() {
                 let self = this;
                 axios
                     .get(
@@ -65,15 +65,7 @@
     }
 </script>
 <style scoped>
-    .WritingAlert {
-        display: none;
-    }
-    .SaveEditPageButton {
-        height: 48px;
-        float: right;        
-        /* gray_05 */
-    }
-    .CloseEditPageButton {
+    .close-edit-page-button {
         width: 82px;
         height: 48px;
         float: right;
@@ -83,7 +75,7 @@
         border-radius: 10px;
         margin-top: 10px;
     }
-    .WriterHeader {
+    .writer-header {
         width: 100%;
         height: 100px;
         position: fixed;

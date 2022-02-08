@@ -1,9 +1,9 @@
 <template>
     <v-dialog width="500" persistent="persistent" v-model="signDialog">
-        <v-card class="SignViewLayout" width="500">
+        <v-card class="sign-view-layout" width="500">
             <svg
                 @click="close()"
-                class="CloseBtn"
+                class="close-btn"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -16,9 +16,9 @@
             </svg>
             <br/>
             <br/>
-            <canvas class="drawCanvas" id="drawCanvas"></canvas>
+            <canvas class="drawcanvas" id="drawcanvas"></canvas>
             <br/>
-            <button class="btnMargin btnSetting" @click="toDataURL()">
+            <button class="btn-margin btn-setting" @click="toDataURL()">
                 <svg
                     width="51"
                     height="33"
@@ -31,7 +31,7 @@
                         fill="#F3F3F3"/>
                 </svg>
             </button>
-            <button class="btnMargin btnSetting" @click="onClear()">
+            <button class="btn-margin btn-setting" @click="onClear()">
                 <svg
                     width="66"
                     height="33"
@@ -53,7 +53,7 @@
 <script>
     export default {
         data() {
-            return {canvas: document.getElementById('drawCanvas'), context: "", tool: ""}
+            return {canvas: document.getElementById('drawcanvas'), context: "", tool: ""}
         },
         computed: {
             signDialog() {
@@ -61,7 +61,7 @@
             }
         },
         updated() {
-            let canvas = document.getElementById('drawCanvas');
+            let canvas = document.getElementById('drawcanvas');
             // canvas.setAttribute("width",
             // parseInt(this.$store.state.DialogData.ImageWidth) + "px")
             let makedWidth = 0;
@@ -75,7 +75,7 @@
         },
         methods: {
             onClear() {
-                let canvas = document.getElementById('drawCanvas');
+                let canvas = document.getElementById('drawcanvas');
                 let context = canvas.getContext('2d');
                 context.save();
                 context.setTransform(1, 0, 0, 1, 0, 0);
@@ -93,7 +93,7 @@
                 } else if (ev.targetTouches[0] || ev.targetTouches[0].pageX == 0) { //핸드폰
                     let left = 0;
                     let top = 0;
-                    let elem = document.getElementById('drawCanvas');
+                    let elem = document.getElementById('drawcanvas');
 
                     while (elem) {
                         left = left + parseInt(elem.offsetLeft);
@@ -199,7 +199,7 @@
                 let ImageID = this.$store.state.DialogData.ImageID;
                 console.log(ImageID);
                 let myImage = document.getElementById(String(ImageID));
-                let canvas = document.getElementById('drawCanvas');
+                let canvas = document.getElementById('drawcanvas');
                 let ImgText = document.getElementById("SignObjectAreaText" + ImageID);
                 canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) * 2 + "px";
                 canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) * 2 + "px";
@@ -235,22 +235,22 @@
     }
 </script>
 <style scoped="scoped">
-    .CloseBtn {
+    .close-btn {
         cursor: pointer;
         right: 0;
         float: right;
     }
-    .btnSetting {
+    .btn-setting {
         color: lightskyblue;
     }
-    .SignViewLayout {
+    .sign-view-layout {
         height: 100%;
         text-align: center;
     }
-    .btnMargin {
+    .btn-margin {
         margin-right: 2%;
     }
-    .drawCanvas {
+    .drawcanvas {
         z-index: 2000;
         border-radius: 3%;
         position: relative;

@@ -94,7 +94,7 @@
     header {
         z-index: 3000 !important;
     }
-    .WriterHeader {
+    .writer-header {
         width: 100%;
         height: 15%;
         position: fixed;
@@ -116,7 +116,7 @@
         position: relative;
         height: 100%;
     }
-    .sideBar {
+    .sidebar {
         top: 20%;
         width: 15%;
         height: 100%;

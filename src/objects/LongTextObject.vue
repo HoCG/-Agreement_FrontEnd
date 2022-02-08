@@ -5,7 +5,7 @@
         </p>
         <svg
             v-bind:id="getLTData.htmlID+'DeleteBtn'+getLTData.id"
-            @mousedown="DeleteElement"
+            @mousedown="deleteElement"
             class="LongTextCloseBtn"
             width="20"
             height="20"
@@ -87,7 +87,7 @@
                 e.preventDefault();
                 this.$store.state.UsersDocument.CheckResizeMode = false;
             },
-            DeleteElement(e) {
+            deleteElement(e) {
                 const Element = document.getElementById(this.getLTData.htmlID);
                 Element.remove();
                 this

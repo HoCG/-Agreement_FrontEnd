@@ -7,7 +7,7 @@
             서명
         </p>
         <svg
-            @mousedown="DeleteElement"
+            @mousedown="deleteElement"
             v-bind:id="getSOData.htmlID+'DeleteBtn'+getSOData.id"
             class="CloseBtn"
             width="20"
@@ -38,7 +38,7 @@
             ObjectEvent.myFunction(this.getSOData)
         },
         methods: {
-            DeleteElement(e) {
+            deleteElement(e) {
                 const Element = document.getElementById(this.getSOData.htmlID);
                 Element.remove();
                 this.$store.commit("DELETE_SIGN_OBJECT", this.getSOData.htmlID);      

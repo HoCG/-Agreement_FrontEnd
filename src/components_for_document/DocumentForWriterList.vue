@@ -24,14 +24,14 @@
             downloadPDF(){
                 
             },
-            ShowWriterDocument(documentWriter){
+            showWriterDocument(documentWriter){
                 this.$store.commit("SET_CURRENT_WRITER", documentWriter)
                 this
                     .$router
                     .push({path: '/WritersPDF'})
                     .catch(() => {});
             },
-            ShowWritersDocumentList(Document) {
+            showWritersDocumentList(Document) {
                 let documentName = Document.name
                 let WritersList = document.getElementsByClassName(documentName);
                 for (let WL of WritersList) {
@@ -42,7 +42,7 @@
                 let getOpenBtn = document.getElementById('openBtn' + documentName);
                 getOpenBtn.style.display = "none";
             },
-            CloseWritersDocumentList(Document) {
+            closeWritersDocumentList(Document) {
                 let documentName = Document.name
                 let WritersList = document.getElementsByClassName(documentName);
                 for (let WL of WritersList) {

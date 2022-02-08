@@ -66,6 +66,8 @@ export default {
         submittee_object_checkbox.page = CheckBoxObject.page;
         submittee_object_checkbox.type = "DEFAULT";
         submittee_object_checkbox.checked = CheckBoxObject.checked;
+
+        return submittee_object_checkbox;
     },
     makeShortText(ShortTextObject, computed_Ratio){
         let submittee_object_text = {
@@ -90,6 +92,8 @@ export default {
         submittee_object_text.page = ShortTextObject.page;
         submittee_object_text.type = "SHORT_TEXT";
         submittee_object_text.content = ShortTextObject.text;
+
+        return submittee_object_text;
     },
     makeLongText(LongTextObject, computed_Ratio){
         let submittee_object_text = {
@@ -114,6 +118,8 @@ export default {
         submittee_object_text.page = LongTextObject.page;
         submittee_object_text.type = "LONG_TEXT";
         submittee_object_text.content = LongTextObject.text;
+
+        return submittee_object_text;
     },
     makeSign(SignObject, computed_Ratio) {
         let submittee_object_sign = {

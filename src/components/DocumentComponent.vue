@@ -2,10 +2,10 @@
 <template>
     <div id="container" class="container">
         <!--편집화면으로 넘어갈때-->
-        <div class="FileUploadArea">
+        <div class="file-upload-area">
             <div v-if="Show_UserDocumentList">
                 <DocumentUploadView />
-                <div id="mainWrapper">
+                <div id="main-wrapper">
                     <ProjectListComponent />
                 </div>
             </div>
@@ -96,13 +96,7 @@
     }
 </script>
 <style lang="scss" scoped>
-    .TitleAndItemsUl {
-        border: 2px solid #767676;
-    }
-    .ItemsUl {
-        border: 1px solid #DADADA;
-    }
-    .FileUploadArea {
+    .file-upload-area {
         float: right;
         left: 200px;
         text-align: center;
@@ -170,13 +164,6 @@
             flex: none;
         }
     }
-    .pdfViewer {
-        margin-top: 200px;
-        margin-left: 10%;
-        text-align: center;
-        height: 100%;
-        width: 80%;
-    }
     #drawer {
         position: relative;
         align-items: center;
@@ -192,7 +179,7 @@
         margin: 0;
     }
 
-    #mainWrapper {
+    #main-wrapper {
         // padding-right: 50px;
         min-width: 1000px;
         margin-top: 20px;
