@@ -40,9 +40,6 @@
 </template>
 <script>
     export default {
-        mounted() {
-
-        },
         data() {
             return {
                 // IP: process.env.VUE_APP_NETWORK_URL,

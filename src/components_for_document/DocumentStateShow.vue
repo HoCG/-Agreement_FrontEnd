@@ -4,17 +4,17 @@
         <div 
         v-if="StateInfo===1"
         class="state-default wait">
-        대기
+            대기
         </div>
         <div 
         v-if="StateInfo===2"
         class="state-default share">
-        공유
+            공유
         </div>
         <div 
         v-if="StateInfo===3"
         class="state-default stop">
-        중단
+            중단
         </div>
     </div>
 </template>

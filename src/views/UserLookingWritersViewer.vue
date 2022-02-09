@@ -7,9 +7,9 @@
 </template>
 <script>
     import pdf from 'vue-pdf';
-    import axios from "axios";
     import WriteList from '../components_for_writer_view/WriteList.vue';
     import LookingWriterHeader from '../components_for_looking_writer/LookingWriterHeader.vue';
+    import {getSubmitteePdf, getSubmitteeProject} from '../apis/project_api'
     import PDFViewer from "../components/PDFViewer.vue"
     import DataProcess from "../DataProcess"
     export default {
@@ -32,10 +32,7 @@
                 .$store
                 .commit("FORMAT_ALL_SIGN_OBJECTS");
             let self = this;
-            axios
-                .get(
-                    `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}/pdf`,{responseType: "blob"}
-                )
+            getSubmitteePdf(this.$store.state.writer.currentWriter.name)
                 .then(function (response) {
                     console.log(response.data);
                     let file = URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
@@ -55,10 +52,7 @@
                 .catch(function (error) {
                 console.log(error);
             });
-            axios
-                .get(
-                    `${process.env.VUE_APP_BASEURL}/api/projects/submittees/${self.$store.state.writer.currentWriter.name}`
-                )
+            getSubmitteeProject(this.$store.state.writer.currentWriter.name)
                 .then(function (response) {
                     self
                         .$store

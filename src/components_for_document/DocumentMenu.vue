@@ -1,9 +1,9 @@
 <template>
     <div class="document-menu" >
-        <button class="menu-btn" @click="CopyDocument">복사</button>
-        <button class="menu-btn" @click="DeleteDocument">삭제</button>
-        <button class="menu-btn" v-if="menuDocument.State===3" @click="ReShareMode">다시공유</button>
-        <button class="menu-btn" v-else-if="menuDocument.State===2" @click="StopShareMode">공유중단</button>
+        <button class="menu-btn" @click="copyDocument">복사</button>
+        <button class="menu-btn" @click="deleteDocument">삭제</button>
+        <button class="menu-btn" v-if="menuDocument.State===3" @click="reShareMode">다시공유</button>
+        <button class="menu-btn" v-else-if="menuDocument.State===2" @click="stopShareMode">공유중단</button>
     </div>
 </template>
 <script>
@@ -16,25 +16,25 @@
             console.log(this.menuDocument)
         },
         methods: {
-            DisPlayOut(){
+            disPlayOut(){
                 let Menu = document.getElementById("DocumentMenu");
                 Menu.style.display = "none"
                 this.$emit('toggle', false);
             },
-            ReShareMode(){
+            reShareMode(){
                 this.menuDocument.State = 2;              
                 this.$store.dispatch('STATE_CHANGE', this.menuDocument);
                 this.$emit('toggle', false);
             },
-            StopShareMode(){
+            stopShareMode(){
                 this.menuDocument.State = 3;              
                 this.$store.dispatch('STATE_CHANGE', this.menuDocument);
                 this.$emit('toggle', false);
             },
-            DeleteDocument(){
+            deleteDocument(){
 
             },
-            CopyDocument(){
+            copyDocument(){
 
             }
         }

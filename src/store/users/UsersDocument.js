@@ -3,7 +3,7 @@
 import {
   requestProject,
   postProject,
-  requestProjectsWriter,
+  requestProjectSubmittees,
   changeStateProject,
   requestProjectInfo,
 } from "../../apis/project_api";
@@ -133,7 +133,7 @@ const actions = {
   },
   async REQUEST_PROJECT_WRITER(context, DocumentName) {
     try {
-      const response = await requestProjectsWriter(DocumentName);
+      const response = await requestProjectSubmittees(DocumentName);
       context.commit("WANT_DOCUMENT_NAME_SETTING", DocumentName);
       context.commit("WRITER_INPUT", response.data.submittees);
       return response;

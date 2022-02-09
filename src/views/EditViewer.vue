@@ -7,12 +7,12 @@
         <ObjectBox/><!--오브젝트 생성부분--></div>
 </template>
 <script>
-    import EditHeader from "../components_for_edit_page/EditHeader.vue"
-    import EditObjectList from "../components_for_edit_page/EditObjectList.vue"
-    import ObjectBox from "../objects/ObjectBox.vue"
-    import PDFViewer from "../components/PDFViewer.vue"
-    import DataProcess from "../DataProcess"
-    import axios from "axios";
+    import EditHeader from "../components_for_edit_page/EditHeader.vue";
+    import EditObjectList from "../components_for_edit_page/EditObjectList.vue";
+    import ObjectBox from "../objects/ObjectBox.vue";
+    import PDFViewer from "../components/PDFViewer.vue";
+    import DataProcess from "../DataProcess";
+    import {requestProjectInfo} from "../apis/project_api";
     import pdf from 'vue-pdf';
     export default {
         components: {
@@ -23,10 +23,8 @@
         },
         mounted() {
             this.$store.commit("SET_DOCUMENT_TITLE", this.$route.query.getDocumentData.documentTitle);
-            console.log(this.$route.query.getDocumentData)
             let self = this;
-            axios
-                .get(`${process.env.VUE_APP_BASEURL}/api/projects/${self.$route.query.getDocumentData.name}`)
+            requestProjectInfo(this.$route.query.getDocumentData.name)
                 .then(function (response) {
                     console.log(response.data);
                     self.src = pdf.createLoadingTask(

@@ -14,7 +14,7 @@
 <script>
     import html2canvas from "html2canvas";
     import jsPDF from "jspdf";
-    import axios from "axios";
+    import {postSubmitteeProject} from "../apis/project_api";
     import pdf from 'vue-pdf';
     import DataProcess from '../DataProcess'
     export default {
@@ -215,19 +215,7 @@
             },
             postProject(form) {
                 let self = this;
-                axios
-                    .post(
-                        `${process.env.VUE_APP_BASEURL}/api/submittees/projects/${self.$route.params.document_name}`,
-                        form,
-                        {
-                            responseType: "blob"
-                        },
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data; boundary=" + form._boundary + ";"
-                            }
-                        }
-                    )
+                postSubmitteeProject(this.$route.params.document_name, form)
                     //제대로 보내졌다면 서버로 부터 받은 PDF를 사용자에게 보여줘야 하므로 response로 받은 데이터를 store에 저장한다.
                     .then(function (response) {
                         let file = URL.createObjectURL(

@@ -12,12 +12,12 @@
     import WriterHeader from "../components_for_writer_view/WriteHeader.vue"
     import pdf from 'vue-pdf';
     import SignDialog from '../components/SignDialog.vue';
-    import axios from "axios";
     import ObjectBox from '../w_object/ObjectBox.vue';
     import WriteList from '../components_for_edit_page/EditObjectList.vue';
     import PDFViewer from '../components/PDFViewer.vue'
     import AlertForm from '../components/AlertForm.vue';
     import DataProcess from '../DataProcess'
+    import {getSubmittee} from "../apis/writer_api";
     export default {
         mounted() {
             this
@@ -33,10 +33,7 @@
                 .$store
                 .commit("FORMAT_ALL_SIGN_OBJECTS");
             let self = this;
-            axios
-                .get(
-                    `${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.documentName}`
-                )
+            getSubmittee(this.documentName)
                 .then(function (response) {
                     console.log(response.data);
                     self.src = pdf.createLoadingTask(

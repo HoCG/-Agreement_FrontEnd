@@ -9,8 +9,8 @@
     </div>
 </template>
 <script>
-    import axios from "axios";
-import DataProcess from '../DataProcess';
+    import {updateProjectInfo} from '../apis/project_api'
+    import DataProcess from '../DataProcess';
     export default {
         data() {
             return {
@@ -63,12 +63,7 @@ import DataProcess from '../DataProcess';
                 this.makeCheckBoxForm();
                 this.makeTextForm();
                 this.makeSignForm();
-                axios
-                    .post(`${process.env.VUE_APP_BASEURL}/api/projects/${this.Document.name}/objects`, JSON.stringify(this.SendJsonFile), {
-                    headers: {
-                        "Content-Type": `application/json`,
-                        }
-                    })
+                updateProjectInfo(this.Document.name, JSON.stringify(this.SendJsonFile))
                     .then(function (response) {
                         console.log(response.data);
                     })

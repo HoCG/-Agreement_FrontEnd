@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import {getSubmittee} from '../apis/writer_api'
     export default {
         computed: {
             writer() {
@@ -31,8 +31,7 @@
         },
         mounted(){
             let self = this;
-            axios
-                .get(`${process.env.VUE_APP_BASEURL}/api/submittees/projects/${this.$route.params.document_name}`)
+            getSubmittee(this.$route.params.document_name)
                 .then(function (response) {
                     console.log(response.data);
                     self.state = response.data.state;

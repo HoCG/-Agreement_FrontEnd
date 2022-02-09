@@ -21,9 +21,6 @@
             }
         },
         methods: {
-            downloadPDF(){
-                
-            },
             showWriterDocument(documentWriter){
                 this.$store.commit("SET_CURRENT_WRITER", documentWriter)
                 this
