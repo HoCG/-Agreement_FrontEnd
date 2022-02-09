@@ -135,7 +135,7 @@
             pushTextObject(project_object_texts) {
                 for (let TextObject of project_object_texts) {
                     if (TextObject.type === "SHORT_TEXT") {
-                        this.ShortText.htmlID = "ShortTextObjectArea"
+                        this.ShortText.htmlID = "short-text-object-area"
                         this.ShortText.title = "짧은 글_"
                         this.ShortText.width = TextObject.width;
                         this.ShortText.height = TextObject.height;
@@ -147,7 +147,7 @@
                             .$store
                             .commit("ADD_SHORTTEXT_OBJECT", this.ShortText);
                     } else {
-                        this.LongText.htmlID = "LongTextObjectArea"
+                        this.LongText.htmlID = "long-text-object-area"
                         this.LongText.title = "긴 글_"
                         this.LongText.width = TextObject.width;
                         this.LongText.height = TextObject.height;
@@ -163,7 +163,7 @@
             },
             pushCheckBoxObject(project_object_checkboxes) {
                 for (let CheckBoxObject of project_object_checkboxes) {
-                    this.CheckBox.htmlID = "CheckBoxObjectArea"
+                    this.CheckBox.htmlID = "checkbox-object-area"
                     this.CheckBox.title = "체크박스_"
                     this.CheckBox.width = CheckBoxObject.width;
                     this.CheckBox.height = CheckBoxObject.height;
@@ -178,7 +178,7 @@
             },
             pushSignObject(project_object_signs) {
                 for (let SignObject of project_object_signs) {
-                    this.Sign.htmlID = "SignObjectArea"
+                    this.Sign.htmlID = "sign-object-area"
                     this.Sign.title = "사인_"
                     this.Sign.width = SignObject.width;
                     this.Sign.height = SignObject.height;

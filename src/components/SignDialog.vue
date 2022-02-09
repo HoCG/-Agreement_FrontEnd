@@ -200,7 +200,7 @@
                 console.log(ImageID);
                 let myImage = document.getElementById(String(ImageID));
                 let canvas = document.getElementById('drawcanvas');
-                let ImgText = document.getElementById("SignObjectAreaText" + ImageID);
+                let ImgText = document.getElementById("sign-object-area-text " + ImageID);
                 canvas.style.width = parseInt(this.$store.state.DialogData.ImageWidth) * 2 + "px";
                 canvas.style.height = parseInt(this.$store.state.DialogData.ImageHeight) * 2 + "px";
                 myImage.src = canvas.toDataURL();

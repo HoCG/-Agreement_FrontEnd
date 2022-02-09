@@ -1,6 +1,6 @@
 <template>
-    <div class="ShortTextObjectArea" v-bind:id="getSTData.htmlID">
-        <input v-bind:id="'shorttext-area ' + this.getSTData.htmlID" 
+    <div class="short-text-object-area" v-bind:id="getSTData.htmlID">
+        <input v-bind:id="'short-text-area ' + this.getSTData.htmlID" 
         style="width: 85%;" 
         v-bind:maxlength="textLimit" 
         v-model="getSTData.text"/>
@@ -29,7 +29,7 @@
 </script>
 <style>
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
-    .ShortTextObjectArea {
+    .short-text-object-area {
         align-items: center;
         /* box-shadow: 5px 5px 5px; */
         font-weight: 800;

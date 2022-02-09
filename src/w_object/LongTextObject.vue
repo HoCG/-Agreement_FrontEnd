@@ -1,7 +1,7 @@
 <template>
-    <div class="LongTextObjectArea" v-bind:id="getLTData.htmlID">
+    <div class="long-text-object-area" v-bind:id="getLTData.htmlID">
         <div
-            class="longtext-area"
+            class="long-text-area"
             v-bind:id="'longtext-area '+getLTData.htmlID"
             style="width: 85%; height: 85%; ime-mode:auto; resize: none; text-align: left"
             contenteditable="true"
@@ -85,7 +85,7 @@
 </script>
 <style>
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
-    .LongTextObjectArea {
+    .long-text-object-area {
         align-items: center;
         /* box-shadow: 5px 5px 5px; */
         font-weight: 800;
@@ -97,7 +97,7 @@
         background-color: #DADADA;
         position: absolute;
     }
-    .longtext-area {
+    .long-text-area {
         overflow-y: hidden;
         resize: none;
     }

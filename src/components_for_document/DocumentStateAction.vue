@@ -60,6 +60,7 @@
                     .dispatch('STATE_CHANGE', this.DocumentInfo);
             },
             LinkShare() {
+                //누르면 링크 공유
                 let url = document.getElementById('copyArea' + this.DocumentInfo.name);
                 url.style.display = 'block'; // 숨겨둔 input 태그 block처리
                 url.select(); // 복사할 text 블럭

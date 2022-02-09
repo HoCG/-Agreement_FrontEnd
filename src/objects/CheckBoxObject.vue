@@ -1,10 +1,9 @@
 <template>
-    <div class="CheckBoxObjectArea">
-        <!-- <p id="textForm"> 체크박스{{getCBData.id}} </p> -->
+    <div class="checkbox-object-area">
         <svg
             v-bind:id="getCBData.htmlID+'DeleteBtn'+getCBData.id"
             @mousedown="deleteElement"
-            class="CheckBoxCloseBtn"
+            class="checkbox-close-btn"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -52,14 +51,14 @@
     }
 </script>
 <style>
-    .CheckBoxCloseBtn {
+    .checkbox-close-btn {
         display: none;
         bottom: 70%;
         left: 70%;
         position: absolute;
     }
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
-    .CheckBoxObjectArea {
+    .checkbox-object-area {
         align-items: center;
         border: 1px solid black;
         /* box-shadow: 5px 5px 5px; */
@@ -73,12 +72,5 @@
         position: absolute;
         width: 30px;
         height: 30px;
-    }
-    #textForm {
-        z-index: 10;
-        width: 100px;
-        height: 25px;
-        bottom: 100%;
-        position: absolute;
     }
 </style>

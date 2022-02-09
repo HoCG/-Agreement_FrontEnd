@@ -38,7 +38,6 @@ export default {
             getSubmitteePdf(this.writer.name).then(response => {
                 console.log(this.writer);
                 const fileName = `${this.projectTitle}_${this.writer.writer}_${this.writer.student_id}_${this.date}.pdf`;
-
                 const downloadUrl = URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
                 const anchor = document.createElement('a');
                 anchor.href = downloadUrl;

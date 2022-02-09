@@ -1,9 +1,9 @@
 <template>
-    <div class="SignObjectArea">
-        <p id="textForm">
+    <div class="sign-object-area">
+        <p id="text-form">
             사인{{getSOData.id}}
         </p>
-        <p id="SignText">
+        <p id="sign-text">
             서명
         </p>
         <svg
@@ -94,14 +94,14 @@
         left: 90%;
         position: absolute;
     }
-    #textForm {
+    #text-form {
         z-index: 10;
         width: 100%;
         height: 25px;
         bottom: 100%;
         position: absolute;
     }
-    #SignText{
+    #sign-text{
         -ms-user-select: none;
         -moz-user-select: -moz-none;
         -khtml-user-select: none;
@@ -109,7 +109,7 @@
         user-select: none;
     }
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
-    .SignObjectArea {
+    .sign-object-area {
         align-items: center;
         border: 1px solid black;
         /* box-shadow: 5px 5px 5px; */

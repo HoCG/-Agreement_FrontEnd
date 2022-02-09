@@ -84,7 +84,7 @@ export default {
             .PDFScreenInfo
             .OriginalWidth[0] / parseInt(computed_Div_Style.width, 10);
         let computed_Object_Style = window.getComputedStyle(getElement);
-        if (getElement.getAttribute("id").includes("ShortTextObjectArea")) {
+        if (getElement.getAttribute("id").includes("short-text-object-area")) {
             store.commit(
                 "SET_SHORTTEXT_X",
                 parseInt(computed_Object_Style.left, 10) * computed_Ratio
@@ -95,7 +95,7 @@ export default {
                 "FIND_AND_SETTING_X_Y_PAGE_SHORTTEXT_OBJECT",
                 getElement.getAttribute("id")
             );
-        } else if (getElement.getAttribute("id").includes("LongTextObjectArea")) {
+        } else if (getElement.getAttribute("id").includes("long-text-object-area")) {
             store.commit("SET_LONGTEXT_X", parseInt(computed_Object_Style.left, 10) * computed_Ratio);
             store.commit("SET_LONGTEXT_Y", parseInt(y) * computed_Ratio);
             store.commit("SET_LONGTEXT_PAGE", parseInt(i));
@@ -103,7 +103,7 @@ export default {
                 "FIND_AND_SETTING_X_Y_PAGE_LONGTEXT_OBJECT",
                 getElement.getAttribute("id")
             );
-        } else if (getElement.getAttribute("id").includes("CheckBoxObjectArea")) {
+        } else if (getElement.getAttribute("id").includes("checkbox-object-area")) {
             store.commit("SET_CHECKBOX_X", parseInt(computed_Object_Style.left, 10) * computed_Ratio);
             store.commit("SET_CHECKBOX_Y", parseInt(y) * computed_Ratio);
             store.commit("SET_CHECKBOX_PAGE", parseInt(i));
@@ -111,7 +111,7 @@ export default {
                 "FIND_AND_SETTING_X_Y_PAGE_CHECKBOX_OBJECT",
                 getElement.getAttribute("id")
             );
-        } else if (getElement.getAttribute("id").includes("SignObjectArea")) {
+        } else if (getElement.getAttribute("id").includes("sign-object-area")) {
             store.commit("SET_SIGN_X", parseInt(computed_Object_Style.left, 10) * computed_Ratio);
             store.commit("SET_SIGN_Y", parseInt(y) * computed_Ratio);
             store.commit("SET_SIGN_PAGE", parseInt(i));

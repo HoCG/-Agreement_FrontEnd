@@ -15,32 +15,32 @@ export default {
             .OriginalWidth[0];
         //데이터값에 저장되어있는 width, height, left, top값을 모두 적용시켜줍니다.
         for (let ShortTextObject of ShortTextArr) {
-            const NewElementDiv = document.getElementById(ShortTextObject.htmlID);
-            NewElementDiv.style.width = ShortTextObject.width * computed_Ratio + "px";
-            NewElementDiv.style.height = ShortTextObject.height * computed_Ratio + "px";
-            NewElementDiv.style.left = ShortTextObject.x * computed_Ratio + "px";
-            NewElementDiv.style.top = ShortTextObject.y * computed_Ratio + "px";
+            const wantResizingObject = document.getElementById(ShortTextObject.htmlID);
+            wantResizingObject.style.width = ShortTextObject.width * computed_Ratio + "px";
+            wantResizingObject.style.height = ShortTextObject.height * computed_Ratio + "px";
+            wantResizingObject.style.left = ShortTextObject.x * computed_Ratio + "px";
+            wantResizingObject.style.top = ShortTextObject.y * computed_Ratio + "px";
         }
         for (let LongTextObject of LongTextArr) {
-            const NewElementDiv = document.getElementById(LongTextObject.htmlID);
-            NewElementDiv.style.width = LongTextObject.width * computed_Ratio + "px";
-            NewElementDiv.style.height = LongTextObject.height * computed_Ratio + "px";
-            NewElementDiv.style.left = LongTextObject.x * computed_Ratio + "px";
-            NewElementDiv.style.top = LongTextObject.y * computed_Ratio + "px";
+            const wantResizingObject = document.getElementById(LongTextObject.htmlID);
+            wantResizingObject.style.width = LongTextObject.width * computed_Ratio + "px";
+            wantResizingObject.style.height = LongTextObject.height * computed_Ratio + "px";
+            wantResizingObject.style.left = LongTextObject.x * computed_Ratio + "px";
+            wantResizingObject.style.top = LongTextObject.y * computed_Ratio + "px";
         }
         for (let CheckBoxObject of CheckBoxArr) {
-            const NewElementDiv = document.getElementById(CheckBoxObject.htmlID);
-            NewElementDiv.style.width = CheckBoxObject.width * computed_Ratio + "px";
-            NewElementDiv.style.height = CheckBoxObject.height * computed_Ratio + "px";
-            NewElementDiv.style.left = CheckBoxObject.x * computed_Ratio + "px";
-            NewElementDiv.style.top = CheckBoxObject.y * computed_Ratio + "px";
+            const wantResizingObject = document.getElementById(CheckBoxObject.htmlID);
+            wantResizingObject.style.width = CheckBoxObject.width * computed_Ratio + "px";
+            wantResizingObject.style.height = CheckBoxObject.height * computed_Ratio + "px";
+            wantResizingObject.style.left = CheckBoxObject.x * computed_Ratio + "px";
+            wantResizingObject.style.top = CheckBoxObject.y * computed_Ratio + "px";
         }
         for (let SignObject of SignArr) {
-            const NewElementDiv = document.getElementById(SignObject.htmlID);
-            NewElementDiv.style.width = SignObject.width * computed_Ratio + "px";
-            NewElementDiv.style.height = SignObject.height * computed_Ratio + "px";
-            NewElementDiv.style.left = SignObject.x * computed_Ratio + "px";
-            NewElementDiv.style.top = SignObject.y * computed_Ratio + "px";
+            const wantResizingObject = document.getElementById(SignObject.htmlID);
+            wantResizingObject.style.width = SignObject.width * computed_Ratio + "px";
+            wantResizingObject.style.height = SignObject.height * computed_Ratio + "px";
+            wantResizingObject.style.left = SignObject.x * computed_Ratio + "px";
+            wantResizingObject.style.top = SignObject.y * computed_Ratio + "px";
         }
     },
     makeCheckBox(CheckBoxObject, computed_Ratio) {
@@ -146,7 +146,6 @@ export default {
         return submittee_object_sign
     },
     readAllObject(responseData) {
-        console.log("run")
         //가지고 온 데이터에서
         this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
         this.readCheckBoxObject(responseData.project_object_checkboxes); //체크박스만 따로 처리.
@@ -160,7 +159,7 @@ export default {
         // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
         for (let TextObject of project_object_texts) {
             if (TextObject.type === "SHORT_TEXT") {
-                ShortText.htmlID = "ShortTextObjectArea"
+                ShortText.htmlID = "short-text-object-area"
                 ShortText.title = TextObject.name;
                 ShortText.width = TextObject.width;
                 ShortText.height = TextObject.height;
@@ -172,7 +171,7 @@ export default {
                 store
                     .commit("ADD_SHORTTEXT_OBJECT", ShortText);
             } else {
-                LongText.htmlID = "LongTextObjectArea"
+                LongText.htmlID = "long-text-object-area"
                 LongText.title = TextObject.name;
                 LongText.width = TextObject.width;
                 LongText.height = TextObject.height;
@@ -189,7 +188,7 @@ export default {
         const CheckBox = store.state.CheckBoxObject.CheckBox
        // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.
         for (let CheckBoxObject of project_object_checkboxes) {
-            CheckBox.htmlID = "CheckBoxObjectArea"
+            CheckBox.htmlID = "checkbox-object-area"
             CheckBox.title = CheckBoxObject.name;
             CheckBox.width = CheckBoxObject.width;
             CheckBox.height = CheckBoxObject.height;
@@ -204,7 +203,7 @@ export default {
     readSignObject(project_object_signs) {
         const Sign = store.state.SignObject.Sign
         for (let SignObject of project_object_signs) {
-            Sign.htmlID = "SignObjectArea"
+            Sign.htmlID = "sign-object-area"
             Sign.title = SignObject.name;
             Sign.width = SignObject.width;
             Sign.height = SignObject.height;

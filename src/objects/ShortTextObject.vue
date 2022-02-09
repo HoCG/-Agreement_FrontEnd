@@ -1,6 +1,6 @@
 <template>
-    <div class="ShortTextObjectArea">
-        <p id="textForm">
+    <div class="short-text-object-area">
+        <p id="text-form">
             짧은 글{{getSTData.id}}
         </p>
         <svg
@@ -144,7 +144,7 @@
         position: absolute;
     }
     /*로딩이 된 이후에 오브젝트가 들어갈수 있도록 초기 설정은 none으로 둔다.*/
-    .ShortTextObjectArea {
+    .short-text-object-area {
         align-items: center;
         border: 1px solid black;
         /* box-shadow: 5px 5px 5px; */
@@ -159,7 +159,7 @@
         width: 100px;
         height: 30px;
     }
-    #textForm {
+    #text-form {
         z-index: 10;
         width: 100%;
         height: 25px;

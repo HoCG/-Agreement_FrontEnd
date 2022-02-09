@@ -31,19 +31,19 @@
         data(){
             return{
                 //짧은글
-                STextObjectName: "ShortTextObjectArea",
+                STextObjectName: "short-text-object-area",
                 STextObjectID: 1,
 
                 //긴글
-                LTextObjectName: "LongTextObjectArea",
+                LTextObjectName: "long-text-object-area",
                 LTextObjectID: 1,
 
                 //체크박스
-                CheckBoxObjectName: "CheckBoxObjectArea",
+                CheckBoxObjectName: "checkbox-object-area",
                 CheckBoxObjectID: 1,
 
                 //싸인
-                SignObjectName: "SignObjectArea",
+                SignObjectName: "sign-object-area",
                 SignObjectID: 1
             }
         },
@@ -92,12 +92,13 @@
                 let offsetY = event.pageY - parseInt(computedheaderStyle.height, 10);
                 this.pushObjectInArray(objectID, offsetX, offsetY);
             },
-            //배열에 데이터를 넣는 과정.
+            //배열에 데이터를 넣는 과정. 새로운 오브젝트를 넣는다.
+            //x, y의 값은 그대로여도 상관이 없지만 width height는 비율에 맞게 줄거나 커져야하므로 computed_Ratio를 곱해준다.
             pushObjectInArray(objectID, x, y) {
                 let drawerDiv = document.getElementById("drawer"); 
                 let computed_Object_Style = window.getComputedStyle(drawerDiv); 
                 let computed_Ratio = this.$store.state.PDFScreenInfo.OriginalWidth[0] / parseInt(computed_Object_Style.width, 10);
-                if (objectID === "ShortTextObjectArea") {
+                if (objectID === "short-text-object-area") {
                     this.ShortText.htmlID = objectID;
                     this.ShortText.title = "짧은 글_";
                     this.ShortText.width = 100 * computed_Ratio;
@@ -108,9 +109,8 @@
                     this
                         .$store
                         .commit("ADD_SHORTTEXT_OBJECT", this.ShortText);
-                    //console.log(this.$store.state.ShortTextObject.ShortTextArr);
                     this.STextObjectID++;
-                } else if (objectID === "LongTextObjectArea") {
+                } else if (objectID === "long-text-object-area") {
                     this.LongText.htmlID = objectID;
                     this.LongText.title = "긴 글_";
                     this.LongText.width = 100 * computed_Ratio;
@@ -122,7 +122,7 @@
                         .$store
                         .commit("ADD_LONGTEXT_OBJECT", this.LongText);
                     this.LTextObjectID++;
-                } else if (objectID === "CheckBoxObjectArea") {
+                } else if (objectID === "checkbox-object-area") {
                     this.CheckBox.htmlID = objectID;
                     this.CheckBox.title = "체크박스_";
                     this.CheckBox.width = 30 * computed_Ratio;
@@ -134,7 +134,7 @@
                         .$store
                         .commit("ADD_CHECKBOX_OBJECT", this.CheckBox);
                     this.CheckBoxObjectID++;
-                } else if (objectID === "SignObjectArea") {
+                } else if (objectID === "sign-object-area") {
                     this.Sign.htmlID = objectID;
                     this.Sign.title = "사인_";
                     this.Sign.width = 100 * computed_Ratio;
