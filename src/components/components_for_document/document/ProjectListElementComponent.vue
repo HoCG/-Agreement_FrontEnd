@@ -37,10 +37,10 @@
 </template>
 
 <script>
-    import DocumentMenu from '../components_for_document/DocumentMenu.vue';
-    import DocumentStateAction from '../components_for_document/DocumentStateAction.vue';
-    import DocumentStateShow from '../components_for_document/DocumentStateShow.vue';
-    import DotsBtn from '../svgs/DotsSVG.vue';
+    import DocumentMenu from './DocumentMenu.vue';
+    import DocumentStateAction from './DocumentStateAction.vue';
+    import DocumentStateShow from './DocumentStateShow.vue';
+    import DotsBtn from '../../../svgs/DotsSVG.vue';
 
     export default {
         components: {

@@ -7,9 +7,9 @@
         <ObjectBox/><!--오브젝트 생성부분--></div>
 </template>
 <script>
-    import EditHeader from "../components_for_edit_page/EditHeader.vue";
-    import EditObjectList from "../components_for_edit_page/EditObjectList.vue";
-    import ObjectBox from "../objects/ObjectBox.vue";
+    import EditHeader from "../components/components_for_edit_page/EditHeader.vue";
+    import EditObjectList from "../components/components_for_edit_page/EditObjectList.vue";
+    import ObjectBox from "../objects/e_objects/ObjectBox.vue";
     import PDFViewer from "../components/PDFViewer.vue";
     import DataProcess from "../DataProcess";
     import {requestProjectInfo} from "../apis/project_api";

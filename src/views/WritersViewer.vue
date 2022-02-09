@@ -9,13 +9,13 @@
     </v-card>
 </template>
 <script>
-    import WriterHeader from "../components_for_writer_view/WriteHeader.vue"
+    import WriterHeader from "../components/components_for_writer_view/WriteHeader.vue"
     import pdf from 'vue-pdf';
-    import SignDialog from '../components/SignDialog.vue';
-    import ObjectBox from '../w_object/ObjectBox.vue';
-    import WriteList from '../components_for_edit_page/EditObjectList.vue';
+    import SignDialog from '../components/dialog/SignDialog.vue';
+    import ObjectBox from '../objects/w_objects/ObjectBox.vue';
+    import WriteList from '../components/components_for_edit_page/EditObjectList.vue';
     import PDFViewer from '../components/PDFViewer.vue'
-    import AlertForm from '../components/AlertForm.vue';
+    import AlertForm from '../components/dialog/AlertForm.vue';
     import DataProcess from '../DataProcess'
     import {getSubmittee} from "../apis/writer_api";
     export default {

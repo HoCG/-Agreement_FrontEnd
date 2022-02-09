@@ -16,10 +16,10 @@
     </div>
 </template>
 <script>
-    import DocumentForWriterList from '../components_for_document/DocumentForWriterList.vue';
+    import DocumentForWriterList from './writerlist/DocumentForWriterList.vue';
     
-    import DocumentUploadView from '../components_for_document/DocumentUploadView.vue';
-    import ProjectListComponent from './ProjectListComponent.vue';
+    import DocumentUploadView from './document/DocumentUploadView.vue';
+    import ProjectListComponent from './document/ProjectListComponent.vue';
     export default {
         mounted() {
             this

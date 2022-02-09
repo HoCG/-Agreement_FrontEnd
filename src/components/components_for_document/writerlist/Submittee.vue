@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {getSubmitteePdf} from "../apis/project_api";
+import {getSubmitteePdf} from "../../../apis/project_api";
 export default {
 
     data: () => {

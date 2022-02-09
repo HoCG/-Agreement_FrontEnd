@@ -9,8 +9,8 @@
     </div>
 </template>
 <script>
-    import {updateProjectInfo} from '../apis/project_api'
-    import DataProcess from '../DataProcess';
+    import {updateProjectInfo} from '../../apis/project_api'
+    import DataProcess from '../../DataProcess';
     export default {
         data() {
             return {

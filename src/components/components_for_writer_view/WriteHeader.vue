@@ -14,9 +14,9 @@
 <script>
     import html2canvas from "html2canvas";
     import jsPDF from "jspdf";
-    import {postSubmitteeProject} from "../apis/project_api";
+    import {postSubmitteeProject} from "../../apis/project_api";
     import pdf from 'vue-pdf';
-    import DataProcess from '../DataProcess'
+    import DataProcess from '../../DataProcess'
     export default {
         props: ["document-name"],
         data() {

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import Alert from "../components/AlertForm.vue";
+    import Alert from "../components/dialog/AlertForm.vue";
     export default {
         mounted() {
         },

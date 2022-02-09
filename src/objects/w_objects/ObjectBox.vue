@@ -31,10 +31,10 @@
     </div>
 </template>
 <script>
-    import SignObject from '../w_object/SignObject.vue'
-    import CheckBoxObject from '../w_object/CheckBoxObject.vue'
-    import LongTextObject from '../w_object/LongTextObject.vue'
-    import ShortTextObject from '../w_object/ShortTextObject.vue'
+    import SignObject from '../w_objects/SignObject.vue'
+    import CheckBoxObject from '../w_objects/CheckBoxObject.vue'
+    import LongTextObject from '../w_objects/LongTextObject.vue'
+    import ShortTextObject from '../w_objects/ShortTextObject.vue'
     export default {
         components: {
             SignObject,

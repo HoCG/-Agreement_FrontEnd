@@ -7,8 +7,8 @@
     </v-card>
 </template>
 <script>
-    import DocumentComponent from '../components/DocumentComponent.vue';
-    import DocumentInfoSideBar from '../components_for_document/DocumentInfoSideBar.vue';
+    import DocumentComponent from '../components/components_for_document/DocumentComponent.vue';
+    import DocumentInfoSideBar from '../components/components_for_document/document/DocumentInfoSideBar.vue';
     export default {
         components: {
             DocumentInfoSideBar,

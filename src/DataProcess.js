@@ -146,14 +146,22 @@ export default {
         return submittee_object_sign
     },
     readAllObject(responseData) {
+        console.log(responseData);
         //가지고 온 데이터에서
         this.readTextObject(responseData.project_object_texts); //텍스트들만 따로 처리.
         this.readCheckBoxObject(responseData.project_object_checkboxes); //체크박스만 따로 처리.
         this.readSignObject(responseData.project_object_signs); //사인값만 따로 처리.
     },
+    readAllSubmitteeObject(responseData) {
+        console.log(responseData);
+        //가지고 온 데이터에서
+        this.readTextObject(responseData.submittee_object_texts); //텍스트들만 따로 처리.
+        this.readCheckBoxObject(responseData.submittee_object_checkboxes); //체크박스만 따로 처리.
+        this.readSignObject(responseData.submittee_object_signs); //사인값만 따로 처리.
+    },
     //아래 모든 함수들은 데이터를 저장하는 과정입니다.
     readTextObject(project_object_texts) {
-        console.log("run")
+        console.log(project_object_texts);
         const ShortText = store.state.ShortTextObject.ShortText;
         const LongText = store.state.LongTextObject.LongText;
         // 현재 div의 가로값 / 서버에서 전달받은 원래 가로값.

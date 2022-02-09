@@ -7,8 +7,8 @@
 </template>
 <script>
     import pdf from 'vue-pdf';
-    import WriteList from '../components_for_writer_view/WriteList.vue';
-    import LookingWriterHeader from '../components_for_looking_writer/LookingWriterHeader.vue';
+    import WriteList from '../components/components_for_writer_view/WriteList.vue';
+    import LookingWriterHeader from '../components/components_for_looking_writer/LookingWriterHeader.vue';
     import {getSubmitteePdf, getSubmitteeProject} from '../apis/project_api'
     import PDFViewer from "../components/PDFViewer.vue"
     import DataProcess from "../DataProcess"
@@ -54,10 +54,11 @@
             });
             getSubmitteeProject(this.$store.state.writer.currentWriter.name)
                 .then(function (response) {
+                    console.log(response.data);
+                    DataProcess.readAllSubmitteeObject(response.data);
                     self
                         .$store
                         .commit("SET_DOCUMENT_TITLE", response.data.pdf.original_name);
-                    DataProcess.readAllObject(response.data);
                 })
                 .catch(function (error) {
                 console.log(error);

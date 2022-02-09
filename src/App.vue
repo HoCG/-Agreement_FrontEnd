@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import WriteAppBarAction from './components_for_writer_view/WriteAppBarAction'
+    import WriteAppBarAction from './components/components_for_writer_view/WriteAppBarAction'
     export default {
         name: 'App',
         components: {

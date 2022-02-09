@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-if="DocumentInfo.State===1" @click="ShareStart()">
+        <button v-if="DocumentInfo.State===1" @click="shareStart">
             <svg
                 width="80"
                 height="28"
@@ -13,7 +13,7 @@
                 <rect x="0.5" y="1" width="79" height="26" rx="13" stroke="#9F9F9F"/>
             </svg>
         </button>
-        <button v-else-if="DocumentInfo.State===2" @click="LinkShare()">
+        <button v-else-if="DocumentInfo.State===2" @click="linkShare">
             <input
                 type="text"
                 v-bind:id="'copyArea'+DocumentInfo.name"
@@ -50,13 +50,13 @@
             DocumentInfo: Object
         },
         methods: {
-            ShareStart() {
+            shareStart() {
                 this.DocumentInfo.State = 2;
                 this
                     .$store
                     .dispatch('STATE_CHANGE', this.DocumentInfo);
             },
-            LinkShare() {
+            linkShare() {
                 //누르면 링크 공유
                 let url = document.getElementById('copyArea' + this.DocumentInfo.name);
                 url.style.display = 'block'; // 숨겨둔 input 태그 block처리

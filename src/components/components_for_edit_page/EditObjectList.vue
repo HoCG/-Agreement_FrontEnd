@@ -49,10 +49,10 @@
     </div>
 </template>
 <script>
-    import ShortTextSVG from '../svgs/ShortTextSVG.vue';
-    import LongTextSVG from '../svgs/LongTextSVG.vue';
-    import CheckBoxSVG from '../svgs/CheckBoxSVG.vue';
-    import SignSVG from '../svgs/SignSVG.vue';
+    import ShortTextSVG from '../../svgs/ShortTextSVG.vue';
+    import LongTextSVG from '../../svgs/LongTextSVG.vue';
+    import CheckBoxSVG from '../../svgs/CheckBoxSVG.vue';
+    import SignSVG from '../../svgs/SignSVG.vue';
     import ObjectListItem from './ObjectListItem.vue'
     export default {
         components: {

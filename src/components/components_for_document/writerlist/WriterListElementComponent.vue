@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import ArrowButton from '../components/ArrowButton.vue';
+import ArrowButton from '../../../components/button/ArrowButton.vue';
 import Submittee from './Submittee.vue';
 export default {
   components: { Submittee, ArrowButton },
