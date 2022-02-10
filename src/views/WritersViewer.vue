@@ -19,7 +19,8 @@
     import DataProcess from '../DataProcess'
     import {getSubmittee} from "../apis/writer_api";
     export default {
-        mounted() {
+        async mounted() {
+            await this.$nextTick();
             this
                 .$store
                 .commit("FORMAT_ALL_CHECKBOX_OBJECTS");

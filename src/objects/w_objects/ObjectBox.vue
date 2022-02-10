@@ -2,31 +2,31 @@
     <div>
         <div>
             <SignObject
-                v-for="SignObject in SignArr"
-                :key="SignObject.id"
-                v-bind:getSOData="SignObject"
-                v-bind:id="SignObject.htmlID"/>
+            v-for="SignObject in SignArr"
+            :key="SignObject.id"
+            v-bind:getSOData="SignObject"
+            v-bind:id="SignObject.htmlID"/>
         </div>
         <div>
             <CheckBoxObject
-                v-for="CheckBoxObject in CheckBoxArr"
-                :key="CheckBoxObject.id"
-                v-bind:getCBData="CheckBoxObject"
-                v-bind:id="CheckBoxObject.htmlID"/>
+            v-for="CheckBoxObject in CheckBoxArr"
+            :key="CheckBoxObject.id"
+            v-bind:getCBData="CheckBoxObject"
+            v-bind:id="CheckBoxObject.htmlID"/>
         </div>
-        <div>
+        <dir>
             <LongTextObject
-                v-for="LTextObject in LongTextArr"
-                :key="LTextObject.id"
-                v-bind:getLTData="LTextObject"
-                v-bind:id="LTextObject.htmlID"/>
-        </div>
+            v-for="LTextObject in LongTextArr"
+            :key="LTextObject.id"
+            v-bind:getLTData="LTextObject"
+            v-bind:id="LTextObject.htmlID"/>
+        </dir>
         <div>
             <ShortTextObject
-                v-for="STextObject in ShortTextArr"
-                :key="STextObject.id"
-                v-bind:getSTData="STextObject"
-                v-bind:id="STextObject.htmlID"/>
+            v-for="STextObject in ShortTextArr"
+            :key="STextObject.id"
+            v-bind:getSTData="STextObject"
+            v-bind:id="STextObject.htmlID"/>
         </div>
     </div>
 </template>
@@ -40,19 +40,19 @@
             SignObject,
             CheckBoxObject,
             LongTextObject,
-            ShortTextObject,
+            ShortTextObject
         },
         computed: {
-            ShortTextArr(){
+            ShortTextArr() {
                 return this.$store.state.ShortTextObject.ShortTextArr;
             },
-            LongTextArr(){
+            LongTextArr() {
                 return this.$store.state.LongTextObject.LongTextArr;
             },
-            CheckBoxArr(){
+            CheckBoxArr() {
                 return this.$store.state.CheckBoxObject.CheckBoxArr;
             },
-            SignArr(){
+            SignArr() {
                 return this.$store.state.SignObject.SignArr;
             }
         }

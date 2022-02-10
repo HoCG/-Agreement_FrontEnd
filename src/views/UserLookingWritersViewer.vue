@@ -18,7 +18,8 @@
             LookingWriterHeader,
             PDFViewer
         },
-        mounted() {
+        async mounted() {
+            await this.$nextTick();
             this
                 .$store
                 .commit("FORMAT_ALL_CHECKBOX_OBJECTS");

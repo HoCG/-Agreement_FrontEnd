@@ -21,7 +21,8 @@
             EditHeader,
             PDFViewer
         },
-        mounted() {
+        async mounted() {
+            await this.$nextTick();
             this.$store.commit("SET_DOCUMENT_TITLE", this.$route.query.getDocumentData.documentTitle);
             let self = this;
             requestProjectInfo(this.$route.query.getDocumentData.name)
