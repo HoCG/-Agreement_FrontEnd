@@ -48,7 +48,7 @@
                     console.log(error);
                 }
             );
-            window.addEventListener('resize', DataProcess.resizeEvent, true)
+            window.addEventListener('resize', DataProcess.resizeEvent, true);
         },
         beforeDestroy(){
             this.$store.commit("SET_DOCUMENT_TITLE", "");

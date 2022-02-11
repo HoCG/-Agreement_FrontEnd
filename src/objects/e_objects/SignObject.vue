@@ -1,7 +1,7 @@
 <template>
     <div class="sign-object-area">
         <p id="text-form">
-            사인{{getSOData.id}}
+            {{s_text}}
         </p>
         <p id="sign-text">
             서명
@@ -32,10 +32,16 @@
             getSOData: Object
         },
         data() {
-            return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0}
+            return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0, s_text: ''}
         },
         mounted() {
-            ObjectEvent.myFunction(this.getSOData)
+            ObjectEvent.myFunction(this.getSOData);
+            if(this.getSOData.push_or_readCheck){
+                this.s_text = "사인_" + this.getSOData.id;
+            }
+            else{
+                this.s_text = this.getSOData.title;
+            }
         },
         methods: {
             deleteElement(e) {

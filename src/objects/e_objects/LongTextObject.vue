@@ -1,7 +1,7 @@
 <template>
     <div class="long-text-object-area">
         <p id="text-form">
-            긴 글{{getLTData.id}}
+            {{lt_text}}
         </p>
         <svg
             v-bind:id="getLTData.htmlID+'DeleteBtn'+getLTData.id"
@@ -29,11 +29,17 @@
             getLTData: Object
         },
         data() {
-            return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0}
+            return {resizeX: 0, resizeY: 0, resizeW: 0, resizeH: 0, lt_text: ''}
         },
 
         mounted() {
             ObjectEvent.myFunction(this.getLTData);
+            if(this.getLTData.push_or_readCheck){
+                this.lt_text = "긴 글_" + this.getLTData.id;
+            }
+            else{
+                this.lt_text = this.getLTData.title;
+            }
         },
         /*
         updated() {

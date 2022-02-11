@@ -24,6 +24,7 @@ const mutations = {
     },
     //이벤트를 추가하는 과정.
     ADD_LONGTEXT_OBJECT(state, getLongText) {
+        console.log(getLongText.push_or_readCheck);
         if(getLongText.push_or_readCheck){
             getLongText = makeObject(state, getLongText);
         }

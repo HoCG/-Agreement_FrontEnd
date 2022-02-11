@@ -101,7 +101,7 @@
         }
     }
 </script>
-<style scoped>
+<style lang="scss" scoped>
     .sidebar {
         width: 280px;
         height: 100%;
@@ -110,18 +110,19 @@
         top: 150px;
         background-color: white;
     }
-    .object-list-box {
+    .object-list{
         position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        height: 88px;
-        background-color: #767676;
-        color: white;
-    }
-    .object-list-box-text {
-        position: relative;
-        line-height: 88px;
+        &-box{
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            height: 88px;
+            background-color: #767676;
+            color: white;
+        }
+        &-text{
+            line-height: 88px;
+        }
     }
     ul{
         list-style: none;

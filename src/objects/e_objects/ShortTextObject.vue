@@ -1,7 +1,7 @@
 <template>
     <div class="short-text-object-area">
         <p id="text-form">
-            짧은 글{{getSTData.id}}
+            {{st_text}}
         </p>
         <svg
             @mousedown="deleteElement"
@@ -64,18 +64,17 @@
             getSTData: Object
         },
         data() {
-            return {resizeX: 0, resizeW: 0}
+            return {resizeX: 0, resizeW: 0, st_text: ''}
         },
         mounted() {
-            ObjectEvent.myFunction(this.getSTData)
-        },
-        /*
-        updated() {
-            if(document.getElementById("page" + 1)!==null){
-                ObjectEvent.myFunction(this.getSTData);
+            ObjectEvent.myFunction(this.getSTData);
+            if(this.getSTData.push_or_readCheck){
+                this.st_text = "짧은 글_" + this.getSTData.id;
+            }
+            else{
+                this.st_text = this.getSTData.title;
             }
         },
-        */
         methods: {
             deleteElement(e) {
                 const Element = document.getElementById(this.getSTData.htmlID);

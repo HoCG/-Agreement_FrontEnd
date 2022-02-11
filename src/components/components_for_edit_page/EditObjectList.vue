@@ -78,7 +78,7 @@
         }
     }
 </script>
-<style scoped>
+<style lang="scss" scoped>
     ul{
         list-style: none;
         padding-left: 0px;
@@ -88,6 +88,19 @@
         width: 100%;
         height: calc(100% - 150px);
         overflow-y: auto;
+        &-box{
+            position: relative;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            height: 88px;
+            background-color: #767676;
+            color: white;
+            &-text{
+                position: relative;
+                line-height: 88px;
+            }
+        }
     }
     .sidebar {
         width: 280px;
@@ -96,18 +109,5 @@
         position: fixed;
         top: 150px;
         background-color: white;
-    }
-    .object-list-box {
-        position: relative;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        height: 88px;
-        background-color: #767676;
-        color: white;
-    }
-    .object-list-box-text {
-        position: relative;
-        line-height: 88px;
     }
 </style>
