@@ -28,6 +28,14 @@
             v-bind:getSTData="STextObject"
             v-bind:id="STextObject.htmlID"/>
         </div>
+        <!--
+        <div>
+            <LongTextChecker
+            v-for="LTextObject in LongTextArr"
+            :key="LTextObject.id"
+            v-bind:getLTData="LTextObject"/>
+        </div>
+        -->
     </div>
 </template>
 <script>
@@ -35,12 +43,14 @@
     import CheckBoxObject from '../w_objects/CheckBoxObject.vue'
     import LongTextObject from '../w_objects/LongTextObject.vue'
     import ShortTextObject from '../w_objects/ShortTextObject.vue'
+    //import LongTextChecker from '../w_objects/LongTextChecker.vue'
     export default {
         components: {
             SignObject,
             CheckBoxObject,
             LongTextObject,
-            ShortTextObject
+            ShortTextObject,
+            //LongTextChecker
         },
         computed: {
             ShortTextArr() {

@@ -1,9 +1,9 @@
 <template>
     <div class="short-text-object-area" v-bind:id="getSTData.htmlID">
         <input v-bind:id="'short-text-area ' + this.getSTData.htmlID" 
-        style="width: 85%;" 
-        v-bind:maxlength="textLimit" 
-        v-model="getSTData.text"/>
+            style="width: 85%;" 
+            v-bind:maxlength="textLimit" 
+            v-model="getSTData.text"/>
     </div>
 </template>
 <script>
@@ -19,7 +19,7 @@
         },
         mounted() {
             ObjectEvent.myFunction(this.getSTData);
-            let tBox = document.getElementById('shorttext-area ' + this.getSTData.htmlID);
+            let tBox = document.getElementById('short-text-area ' + this.getSTData.htmlID);
             let computedTextBoxStyle = window.getComputedStyle(tBox);
             let textArea = parseInt(computedTextBoxStyle.width, 10)
             let font = 20;
